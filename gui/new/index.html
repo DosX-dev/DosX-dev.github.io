@@ -9,7 +9,8 @@
 <body>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('id') !== "") {
+        let Room = urlParams.get("id")
+        if (Room !== "" && Room !== null) {
             var SiteLoader = document.createElement('script');
 
 
@@ -19,11 +20,11 @@
                 "data-color=343638",
                 "data-dislikes=1",
                 "data-outlined=1",
-                `data-page-id=${urlParams.get('id')}`,
+                `data-page-id=${Room}`,
                 "data-dark=0"
             ].forEach(El => {
                 let Parse = El.split("=");
-                SiteLoader.setAttribute(Parse[0], Parse[1])
+                SiteLoader.setAttribute(Parse[0], Parse[1]);
             });
 
             document.body.appendChild(SiteLoader);
