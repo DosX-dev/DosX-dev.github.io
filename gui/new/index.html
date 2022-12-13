@@ -10,15 +10,23 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('id') !== "") {
-            document.body.innerHTML += `
-<script async src="https://comments.app/js/widget.js?3"
-        data-comments-app-website="DikOaSMs"
-        data-limit="30"
-        data-color="343638"
-        data-dislikes="1"
-        data-outlined="1"
-        data-page-id="${urlParams.get('id')}"
-        data-dark="0">
-    <\/script>`; }
+            var SiteLoader = document.createElement('script');
+
+
+            ["src=https://comments.app/js/widget.js?3",
+                "data-comments-app-website=\"DikOaSMs\"",
+                "data-limit=\"30\"",
+                "data-color=\"343638\"",
+                "data-dislikes=\"1\"",
+                "data-outlined=\"1\"",
+                `data-page-id=\"${urlParams.get('id')}\"`,
+                "data-dark=\"0\""
+            ].forEach(El => {
+                let Parse = El.split("=");
+                SiteLoader.setAttribute(Parse[0], Parse[1])
+            });
+
+            document.body.appendChild(SiteLoader);
+        }
     </script>
 </body>
