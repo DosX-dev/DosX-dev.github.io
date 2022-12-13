@@ -8,11 +8,11 @@
 </head>
 
 <body>
-    <h2 style="font-family: Calibri;">Private room "<span style="color: grey;" id="room-name"></span>"</h2>
+    <!-- <h2 style="font-family: Calibri;">Private room "<span style="color: grey;" id="room-name"></span>"</h2> -->
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         let Room = urlParams.get("id");
-        document.getElementById("room-name").innerHTML = Room;
+        // document.getElementById("room-name").innerHTML = Room;
         if (Room !== "" && Room !== null) {
             var SiteLoader = document.createElement('script');
 
