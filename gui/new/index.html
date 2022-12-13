@@ -6,6 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
 <body>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('id') == "test") {
+        alert('1');
+}
+</script>
 <script async src="https://comments.app/js/widget.js?3"
         data-comments-app-website="DikOaSMs"
         data-limit="50"
