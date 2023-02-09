@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <text>Loading... <noscript>Error!</noscript></text>
+    <script src="Import.js"></script>
+    <script>
+        try {
+            if (Import("isAvailable")) {
+                document.body.innerHTML = "Function \"<span style=\"color: darkorange;\">Import( ... )\</span>\" loaded!";
+            }
+        } catch (exc) {
+            document.body.innerHTML = `<span style=\"color: red;\">${exc}</span>`;
+        }
+    </script>
+</body>
+
+</html>
