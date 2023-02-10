@@ -1,1 +1,1 @@
-1.3.9|api|>>https://guest@kay-software.ru:443/server.txt
+|1.3.9|api|>>https://guest@kay-software.ru:443/server.txt|
