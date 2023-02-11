@@ -10,15 +10,15 @@
 Coded by DosX-dev [<a href="https://github.com/DosX-dev" target="_blank">https://github.com/DosX-dev</a>]
 OPEN THE DEVELOPER CONSOLE
 </pre>
-    <text>Loading... <noscript>Error!</noscript></text>
+    <text id="import">Loading... <noscript>Error!</noscript></text>
     <script src="Import.js"></script>
     <script>
         try {
             if (Import("isAvailable")) {
-                document.body.innerHTML = "Function \"<span style=\"color: darkorange;\">Import( ... )\</span>\" loaded!";
+                document.getElementById("import").innerHTML = "Function \"<span style=\"color: darkorange;\">Import( ... )\</span>\" loaded!";
             }
         } catch (exc) {
-            document.body.innerHTML = `<span style=\"color: red;\">${exc}</span>`;
+            document.getElementById("import").innerHTML = `<span style=\"color: red;\">${exc}</span>`;
         }
     </script>
 </body>
