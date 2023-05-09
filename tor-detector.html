@@ -11,8 +11,24 @@
 
 <body>
     <p>Tor detected: <span id="result"></span></p>
+    <p>Fingerfrints:</p>
+    <p id="1"></p>
+    <p id="2"></p>
+    <p id="3"></p>
+    <p id="4"></p>
+    <p id="5"></p>
+    <p id="6"></p>
+    <p id="7"></p>
 </body>
 <script>
+    document.getElementById("1").innerHTML = (window.matchMedia('(prefers-color-scheme: dark)').matches == false);
+    document.getElementById("2").innerHTML = (window.navigator.userAgent);
+    document.getElementById("3").innerHTML = (Intl.DateTimeFormat().resolvedOptions().timeZone);
+    document.getElementById("4").innerHTML = (window.navigator.doNotTrack);
+    document.getElementById("5").innerHTML = (navigator.requestMIDIAccess);
+    document.getElementById("6").innerHTML = (navigator.languages.length);
+    document.getElementById("7").innerHTML = (history.state == null);
+
     var out = document.getElementById("result");
     var _isTorDetected = isTorDetected();
     out.innerHTML = _isTorDetected;
@@ -25,10 +41,11 @@
             }
         } catch (error) {
             if (window.matchMedia('(prefers-color-scheme: dark)').matches == false &&
-                window.navigator.userAgent.includes("Firefox") &&
+                window.navigator.userAgent.includes("Gecko/20100101 Firefox/") &&
                 Intl.DateTimeFormat().resolvedOptions().timeZone == "UTC" &&
                 window.navigator.doNotTrack == "unspecified" &&
                 navigator.requestMIDIAccess == undefined &&
+                navigator.languages.length > 2 &&
                 history.state == null) return true
         }
 
