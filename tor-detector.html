@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Tor detected: <span id="result"></span></p>
+</body>
+<script>
+    var out = document.getElementById("result");
+    var _isTorDetected = isTorDetected();
+    out.innerHTML = _isTorDetected;
+    out.style = _isTorDetected ? "color: green;" : "color: red;"
+
+    function isTorDetected() {
+        try {
+            if (chrome) {
+                return false;
+            }
+        } catch (error) {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches == false &&
+                window.navigator.userAgent.includes("Gecko/20100101 Firefox/") &&
+                Intl.DateTimeFormat().resolvedOptions().timeZone == "UTC" &&
+                window.navigator.doNotTrack == "unspecified" &&
+                navigator.requestMIDIAccess == undefined &&
+                navigator.languages.length > 2 &&
+                history.state == null) return true
+        }
+
+        return false;
+    }
+</script>
+
+</html>
