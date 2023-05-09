@@ -25,11 +25,10 @@
             }
         } catch (error) {
             if (window.matchMedia('(prefers-color-scheme: dark)').matches == false &&
-                window.navigator.userAgent.includes("Gecko/20100101 Firefox/") &&
+                window.navigator.userAgent.includes("Firefox") &&
                 Intl.DateTimeFormat().resolvedOptions().timeZone == "UTC" &&
                 window.navigator.doNotTrack == "unspecified" &&
                 navigator.requestMIDIAccess == undefined &&
-                navigator.languages.length > 2 &&
                 history.state == null) return true
         }
 
