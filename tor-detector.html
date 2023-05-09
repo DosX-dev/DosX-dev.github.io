@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <p>Tor detected: <span id="result"></span></p>
+    <p>Tor detected: <span id="result"><noscript>ENABLE JAVASCRIPT</noscript></span></p>
 </body>
 <script>
     var out = document.getElementById("result");
@@ -19,20 +19,8 @@
     out.style = _isTorDetected ? "color: green;" : "color: red;"
 
     function isTorDetected() {
-        try {
-            if (chrome) {
-                return false;
-            }
-        } catch (error) {
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches == false &&
-                window.navigator.userAgent.includes("Firefox") &&
-                Intl.DateTimeFormat().resolvedOptions().timeZone == "UTC" &&
-                window.navigator.doNotTrack == "unspecified" &&
-                navigator.requestMIDIAccess == undefined &&
-                history.state == null) return true
-        }
-
-        return false;
+        return (!window.matchMedia('(prefers-color-scheme:dark)').matches &&
+            typeof chrome !== "object" && !navigator.requestMIDIAccess);
     }
 </script>
 
