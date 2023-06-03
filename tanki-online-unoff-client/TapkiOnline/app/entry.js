@@ -32,8 +32,8 @@ function getRandomNumber(min, max) { return Math.floor(Math.random() * (max - mi
 function getRandomArrayElement(arr) { return arr[getRandomNumber(0, arr.length - 1)]; }
 function getMainDomain(url) { return url.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0].split('.').slice(-2).join('.'); }
 
-const root = document.location.href.split("/")[3];
-const mainServer = root == '/play', testServer = root == '/browser-public';
+const root = document.location.href.split("/")[3],
+    mainServer = root == 'play', testServer = root == 'browser-public';
 
 if (getMainDomain(document.domain) == 'tankionline.com' &&
     (mainServer || testServer)) {
