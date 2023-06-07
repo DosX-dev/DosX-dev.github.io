@@ -4,6 +4,7 @@
 <head>
     <title>app</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
 
     <style>
         body {
@@ -99,14 +100,15 @@
 <body>
     <div id="app" class="container">
         <div id="console">
-            <p>DosX portfolio: type 'help' for continue</p>
+            <p>Coded by <a target="_blank" href="https://github.com/DosX-dev">DosX</a></p>
         </div>
         <div class="prompt">
-            <span>> </span><input type="text" id="commandInput" spellcheck="false" placeholder="help">
+            <span>> </span><input type="text" autocapitalize="off" id="commandInput" spellcheck="false"
+                placeholder="help">
         </div>
     </div>
 
-    <script> // сиськи
+    <script>
 
         Object.entries({
             "app-default-config": "0",
@@ -155,9 +157,6 @@
                         currentCommandIndex = commandHistory.length;
                         commandInput.value = '';
                     }
-
-                    // down
-
                     break;
                 default:
                     break;
