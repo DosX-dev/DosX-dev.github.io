@@ -103,8 +103,8 @@
             <div class="out log">Coded by <a target="_blank" href="https://github.com/DosX-dev">DosX</a></div>
         </div>
         <div class="prompt">
-            <span>> </span><input type="text" autocapitalize="off" autocorrect="off" id="commandInput"
-                spellcheck="false" placeholder="help">
+            <span>> </span><input type="text" autocapitalize="off" autocomplete="off" autocorrect="off"
+                id="commandInput" spellcheck="false" placeholder="help">
         </div>
     </div>
 
@@ -200,11 +200,29 @@
                     consoleDiv.appendChild(outStd);
                 }
 
+                function error(text) {
+                    out(`<span class="error">${text}</span>`);
+                    let lastCommands = document.getElementsByClassName("command"),
+                        lastCommand = lastCommands[lastCommands.length - 1];
+                    lastCommand.style = 'color: rgba(255, 79, 79);';
+                    lastCommand.innerHTML += '<span style="color: gray;"> (!)</span>';
+                }
+
                 const commandArgs = command.trim().split(' ');
+
+                console.log = (text) => { out(text) }
+                console.info = (text) => { out(text) }
+                console.warn = (text) => { out(text) }
+                console.error = (text) => { out(text) }
+
 
                 switch (commandArgs[0]) {
                     case 'help':
-                        out(`help; clear; exit; echo; link;`);
+                        out(`help - show this message
+clear - clear console text
+exit - exit from the application
+echo [html] - format and write text in console
+js [code] - execute JavaScript`);
                         break;
 
                     case 'clear':
@@ -227,18 +245,26 @@
                         out(textToOut);
                         break;
 
-                    case 'link':
-                        out('<a href="#">Test URL!</a>');
+                    case 'js':
+                        let codeToExec = '';
+                        for (let i = 1; i < commandArgs.length; i++) {
+                            codeToExec += commandArgs[i] + ' ';
+                        }
+                        if (codeToExec.trim() == '') {
+                            error('Empty source!');
+                        } else {
+                            try {
+                                out(`<span style="color: gray;">> ${eval(codeToExec)}<span>`);
+                            } catch (exc) {
+                                error(`[VM]: ${exc}`);
+                            }
+                        }
                         break;
 
                     case '': break;
 
                     default:
-                        out(`<span class="error">Command or packet \'<u>${commandArgs[0]}</u>\' not found!</span>`);
-                        let lastCommands = document.getElementsByClassName("command"),
-                            lastCommand = lastCommands[lastCommands.length - 1];
-                        lastCommand.style = 'color: rgba(255, 79, 79);';
-                        lastCommand.innerHTML += '<span style="color: gray;"> (!)</span>';
+                        error(`Command or packet \'<u>${commandArgs[0]}</u>\' not found!`);
                 }
 
                 window.scrollTo(0, document.body.scrollHeight);
