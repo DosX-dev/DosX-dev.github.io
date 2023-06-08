@@ -217,14 +217,14 @@ function setDefaultPromptValue(name, defaultValue) {
 
 commandInput.addEventListener("keydown", (event) => {
     switch (event.keyCode) {
-        case 13: // если нажата клавиша Enter
+        case 13: // Enter
             let command = commandInput.value;
             if (command.trim() !== '') {
                 commandHistory.push(command);
             }
             currentCommandIndex = commandHistory.length;
             break;
-        case 38: // если нажата клавиша вверх
+        case 38: // Up
             if (currentCommandIndex > 0) {
                 currentCommandIndex--;
                 commandInput.value = commandHistory[currentCommandIndex];
@@ -233,7 +233,7 @@ commandInput.addEventListener("keydown", (event) => {
                 commandInput.selectionStart = commandInput.selectionEnd = commandInput.value.length;
             }, 10);
             break;
-        case 40: // если нажата клавиша вниз
+        case 40: // Down
             if (currentCommandIndex < commandHistory.length - 1) {
                 currentCommandIndex++;
                 commandInput.value = commandHistory[currentCommandIndex];
