@@ -1,0 +1,86 @@
+body {
+    background-color: black;
+    cursor: default;
+    color: white;
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+    zoom: 100%;
+}
+
+ ::-webkit-scrollbar {
+    width: 10px;
+}
+
+ ::-webkit-scrollbar-track {
+    background-color: #000;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background-color: #fff;
+}
+
+ ::selection {
+    background-color: white;
+    color: black;
+}
+
+#console {
+    overflow-y: auto;
+    word-wrap: break-word;
+}
+
+input[type="text"] {
+    cursor: default;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-family: monospace;
+    font-size: inherit;
+    width: 90%;
+    outline: none;
+    caret-color: lime;
+    caret-color: white;
+}
+
+input .container {
+    margin-left: 10px;
+}
+
+input,
+.prompt {
+    user-select: none;
+}
+
+.command {
+    white-space: pre-wrap;
+}
+
+.first {
+    font-style: italic;
+}
+
+.log {
+    margin: 10px;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+.error {
+    border-radius: 4px;
+    background-color: rgb(116, 0, 0);
+    color: white;
+    height: 100%;
+}
+
+a {
+    background-color: rgb(43, 100, 255);
+    color: white;
+    text-decoration-line: none;
+    border-bottom: 1px dotted;
+}
+
+a:hover {
+    background-color: white;
+    color: rgb(57, 43, 255);
+}
