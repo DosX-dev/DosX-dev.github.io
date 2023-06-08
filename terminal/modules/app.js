@@ -34,7 +34,6 @@ function fingerprint() {
         'WebSockets Supported': isWebSocketsSupported(),
         'Battery API Supported': isBatteryAPISupported(),
         'WebVR API Supported': isWebVRAPIAvailable(),
-        'WebXR API Supported': isWebXRAPIAvailable(),
         'AudioContext Max Channels': getMaxAudioContextChannels()
     };
 
