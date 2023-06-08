@@ -10,8 +10,7 @@ var commandHistory = [],
     currentCommandIndex = -1;
 
 function replaceTagsWithEntities(text) {
-    var replacedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    return replacedText;
+    return replacedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function fingerprint() {
@@ -122,8 +121,9 @@ function pushCommand(command, displayCommand = true) {
 
     function out(text) {
         let outStd = document.createElement('div');
-        outStd.classList.add('out');
-        outStd.classList.add('log');
+        ['out', 'log'].forEach(outClass => {
+            outStd.classList.add(outClass);
+        });
         outStd.innerHTML = text;
         consoleDiv.appendChild(outStd);
     }
@@ -138,11 +138,10 @@ function pushCommand(command, displayCommand = true) {
 
     const commandArgs = command.trim().split(' ');
 
-    console.log = (text) => { out(text) }
-    console.info = (text) => { out(text) }
-    console.warn = (text) => { out(text) }
-    console.error = (text) => { error(text) }
-    console.clear = () => { pushCommand("clear") }
+    console.error = error;
+    console.log = console.info = console.warn = out;
+    console.clear = () => pushCommand("clear");
+
 
     switch (commandArgs[0]) {
         case 'help':
