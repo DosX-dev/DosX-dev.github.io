@@ -88,10 +88,14 @@ function isWebVRAPIAvailable() { return 'getVRDisplays' in navigator ? 'Supporte
 function isWebXRAPIAvailable() { return 'xr' in navigator ? 'Supported' : 'Not supported'; }
 
 function getMaxAudioContextChannels() {
-    var audioContext = new(window.AudioContext || window.webkitAudioContext)(),
-        maxChannels = audioContext.destination.maxChannelCount;
-    audioContext.close();
-    return maxChannels;
+    try {
+        var audioContext = new(window.AudioContext || window.webkitAudioContext)(),
+            maxChannels = audioContext.destination.maxChannelCount;
+        audioContext.close();
+        return maxChannels;
+    } catch (exc) {
+        return 'N/A'
+    }
 }
 
 function wrapFirstWord(sentence) {
