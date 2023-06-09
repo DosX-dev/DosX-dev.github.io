@@ -152,7 +152,7 @@ function pushCommand(command, displayCommand = true) {
     if (displayCommand) {
         commandInput.placeholder = '';
         output.classList.add('out');
-        output.innerHTML = '> <span class="command">' + wrapFirstWord(replaceTagsWithEntities(command)) + '</span>';
+        output.innerHTML = '<span class="pointer">> </span><span class="command">' + wrapFirstWord(replaceTagsWithEntities(command)) + '</span>';
         consoleDiv.appendChild(output);
     }
 
@@ -224,13 +224,16 @@ exit - exit from the application
             switch (commandArgs[1]) {
                 case 'dark':
                 case 'default':
-                    visual.installTheme('styles/default.css');
+                    visual.installTheme('styles/themes/default.css');
                     break;
                 case 'light':
-                    visual.installTheme('styles/light.css');
+                    visual.installTheme('styles/themes/light.css');
                     break;
                 case 'cherry':
-                    visual.installTheme('styles/cherry.css');
+                    visual.installTheme('styles/themes/cherry.css');
+                    break;
+                case 'hacker':
+                    visual.installTheme('styles/themes/hacker.css');
                     break;
                 default:
                     isSeccuss = false;
@@ -255,7 +258,7 @@ Example: theme dark`);
                 error('Empty source!');
             } else {
                 try {
-                    out(`<span style="color: gray;">< ${eval(codeToExec)}<span>`);
+                    out(`<span style="color: gray;"><span class="pointer">< </span>${eval(codeToExec)}<span>`);
                 } catch (exc) {
                     error(`[VM]: ${exc}`);
                 }
