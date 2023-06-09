@@ -35,3 +35,7 @@ a:hover {
     background-color: white;
     color: rgb(255, 0, 191);
 }
+
+.pointer {
+    color: white;
+}
