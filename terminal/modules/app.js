@@ -284,7 +284,7 @@ Example: theme dark`);
                     out(dataString);
                 })
                 .catch(error => {
-                    error('API error');
+                    error('No API access');
                 });
             break;
 
