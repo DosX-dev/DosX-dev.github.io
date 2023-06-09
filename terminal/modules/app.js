@@ -273,6 +273,10 @@ Example: theme dark`);
             }
             break;
 
+        case 'python':
+            out('Do not embarrass yourself.');
+            break;
+
         case '':
             break;
 
