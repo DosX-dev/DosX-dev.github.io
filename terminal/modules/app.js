@@ -229,11 +229,15 @@ exit - exit from the application
                 case 'light':
                     visual.installTheme('styles/light.css');
                     break;
+                case 'cherry':
+                    visual.installTheme('styles/cherry.css');
+                    break;
                 default:
                     isSeccuss = false;
                     out(`Themes:
  * dark (default)
  * light
+ * cherry
 
 Example: theme dark`);
             }
