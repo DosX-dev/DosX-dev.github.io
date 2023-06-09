@@ -1,0 +1,60 @@
+body {
+    cursor: default;
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+    zoom: 100%;
+    transition: background-color 0.6s, color 0.6s;
+}
+
+input .container {
+    margin-left: 10px;
+}
+
+input,
+.prompt {
+    user-select: none;
+}
+
+.command {
+    white-space: pre-wrap;
+}
+
+.first {
+    font-style: italic;
+}
+
+.log {
+    margin: 10px;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+#console {
+    overflow-y: auto;
+    word-wrap: break-word;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+input[type="text"] {
+    cursor: default;
+    background-color: transparent;
+    border: none;
+    font-family: monospace;
+    font-size: inherit;
+    width: 90%;
+    outline: none;
+}
+
+.error {
+    border-radius: 4px;
+    height: 100%;
+}
+
+a {
+    text-decoration-line: none;
+    border-bottom: 1px dotted;
+}
