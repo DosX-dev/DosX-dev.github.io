@@ -50,6 +50,25 @@ function setFocus() {
     }
 }
 
+async function getIpInfo() {
+    try {
+        const response = await fetch('https://freeipapi.com/api/json', {
+            method: 'GET'
+        });
+
+        const data = await response.json();
+
+        const processedData = Object.entries(data)
+            .map(([key, value]) => `<b>${key}</b>: ${value}`)
+            .join('\n');
+
+        return processedData;
+    } catch (error) {
+        console.error('Error: ', error);
+        return null;
+    }
+}
+
 function fingerprint() {
     var fingerprintData = {
         'User Agent': navigator.userAgent,
@@ -197,6 +216,7 @@ theme [name] - change theme
 echo [html] - format and write text in console
 js [code] - execute JavaScript
 fingerprint - get client information
+myip - get info about my IP
 clear - clear console
 exit - exit from the application
 `);
@@ -257,6 +277,17 @@ Example: theme dark`);
             }
             break;
 
+        case 'myip':
+            out('Requesting from "freeipapi.com"...');
+            getIpInfo()
+                .then(dataString => {
+                    out(dataString);
+                })
+                .catch(error => {
+                    error('API error');
+                });
+            break;
+
         case 'js':
             let codeToExec = '';
             for (let i = 1; i < commandArgs.length; i++) {
@@ -302,24 +333,23 @@ function setDefaultPromptValue(name, defaultValue) {
 commandInput.addEventListener("keydown", (event) => {
     switch (event.keyCode) {
         case 13: // Enter
-            let command = commandInput.value;
-            if (command.trim() !== '') {
-                if (command !== commandHistory[commandHistory.length - 1]) { // if not last
+            let command = commandInput.value.trim();
+            if (command !== '') {
+                if (commandHistory.length === 0 || command !== commandHistory[commandHistory.length - 1]) {
                     commandHistory.push(command);
-                    currentCommandIndex = commandHistory.length;
                 }
+                currentCommandIndex = commandHistory.length;
             }
             break;
         case 38: // Up
+            event.preventDefault(); // Предотвращаем перемещение курсора в начало поля ввода
             if (currentCommandIndex > 0) {
                 currentCommandIndex--;
                 commandInput.value = commandHistory[currentCommandIndex];
             }
-            setTimeout(() => {
-                commandInput.selectionStart = commandInput.selectionEnd = commandInput.value.length;
-            }, 1);
             break;
         case 40: // Down
+            event.preventDefault(); // Предотвращаем перемещение курсора в конец поля ввода
             if (currentCommandIndex < commandHistory.length - 1) {
                 currentCommandIndex++;
                 commandInput.value = commandHistory[currentCommandIndex];
@@ -332,6 +362,7 @@ commandInput.addEventListener("keydown", (event) => {
             break;
     }
 });
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
