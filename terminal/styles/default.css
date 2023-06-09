@@ -18,15 +18,12 @@ body {
 
 input[type="text"] {
     color: white;
-    caret-color: lime;
     caret-color: white;
 }
 
 .error {
-    border-radius: 4px;
     background-color: rgb(116, 0, 0);
     color: white;
-    height: 100%;
 }
 
 .help-args {
