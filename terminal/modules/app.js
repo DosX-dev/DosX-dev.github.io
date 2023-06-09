@@ -4,15 +4,16 @@ const visual = {
         localStorage.setItem('console-theme', theme);
     },
     setTheme(theme) {
-        const link = document.getElementById('theme-link');
+        const linkId = 'theme-link',
+            link = document.getElementById(linkId);
 
         if (link) {
             link.href = theme;
         } else {
             const newLink = document.createElement('link');
+            newLink.id = linkId;
             newLink.rel = 'stylesheet';
             newLink.href = theme;
-            newLink.id = 'theme-link';
             document.head.appendChild(newLink);
         }
     },
