@@ -50,9 +50,9 @@ function setFocus() {
     }
 }
 
-async function getIpInfo() {
+async function getIpInfo(ip = '') {
     try {
-        const response = await fetch('https://freeipapi.com/api/json', {
+        const response = await fetch('https://freeipapi.com/api/json/' + ip, {
             method: 'GET'
         });
 
@@ -214,9 +214,9 @@ function pushCommand(command, displayCommand = true) {
 clear - clear console
 theme [name] - change theme
 echo [html] - format and write text in console
-js [code] - execute JavaScript
+ipinfo [ip] - get info about IP (no domains support)
 fingerprint - get client information
-myip - get info about my IP
+js [code] - execute JavaScript
 clear - clear console
 exit - exit from the application
 `);
@@ -277,9 +277,9 @@ Example: theme dark`);
             }
             break;
 
-        case 'myip':
+        case 'ipinfo':
             out('Requesting from "freeipapi.com"...');
-            getIpInfo()
+            getIpInfo(commandArgs[1])
                 .then(dataString => {
                     out(dataString);
                 })
