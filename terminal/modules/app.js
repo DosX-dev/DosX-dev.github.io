@@ -22,7 +22,7 @@ const visual = {
         if (theme) {
             visual.setTheme(theme);
         } else {
-            visual.installTheme('styles/themes/default.css')
+            visual.installTheme('styles/themes/default.css');
         }
     }
 }
@@ -42,6 +42,12 @@ var commandHistory = [],
 
 function replaceTagsWithEntities(text) {
     return replacedText = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function setFocus() {
+    if (window.getSelection().toString() == '' && commandInput !== document.activeElement) {
+        commandInput.focus();
+    }
 }
 
 function fingerprint() {
@@ -332,7 +338,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 setInterval(() => {
-    if (window.getSelection().toString() == '' && commandInput !== document.activeElement) {
-        commandInput.focus();
-    }
-}, 250);
+    setFocus()
+}, 500);
