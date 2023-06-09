@@ -300,9 +300,11 @@ commandInput.addEventListener("keydown", (event) => {
         case 13: // Enter
             let command = commandInput.value;
             if (command.trim() !== '') {
-                commandHistory.push(command);
+                if (command !== commandHistory[commandHistory.length - 1]) { // if not last
+                    commandHistory.push(command);
+                    currentCommandIndex = commandHistory.length;
+                }
             }
-            currentCommandIndex = commandHistory.length;
             break;
         case 38: // Up
             if (currentCommandIndex > 0) {
@@ -311,7 +313,7 @@ commandInput.addEventListener("keydown", (event) => {
             }
             setTimeout(() => {
                 commandInput.selectionStart = commandInput.selectionEnd = commandInput.value.length;
-            }, 10);
+            }, 1);
             break;
         case 40: // Down
             if (currentCommandIndex < commandHistory.length - 1) {
@@ -326,6 +328,7 @@ commandInput.addEventListener("keydown", (event) => {
             break;
     }
 });
+
 
 document.addEventListener('DOMContentLoaded', () => {
     commandInput.addEventListener('keypress', function(event) {
