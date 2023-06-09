@@ -21,7 +21,7 @@ const visual = {
         if (theme) {
             visual.setTheme(theme);
         } else {
-            visual.installTheme('styles/default.css')
+            visual.installTheme('styles/theme/default.css')
         }
     }
 }
