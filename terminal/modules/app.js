@@ -108,6 +108,18 @@ function wrapFirstWord(sentence) {
     return words.join(' ');
 }
 
+function autoScroll() {
+    var scrollThreshold = 0.9,
+        windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+        scrollPosition = (document.documentElement.scrollHeight || document.body.scrollHeight) - windowHeight;
+
+    if (window.pageYOffset > scrollThreshold * scrollPosition) {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+}
+
+window.addEventListener('resize', autoScroll);
+
 function pushCommand(command, displayCommand = true) {
     var consoleDiv = document.getElementById('console'),
         output = document.createElement('div');
@@ -125,6 +137,7 @@ function pushCommand(command, displayCommand = true) {
         });
         outStd.innerHTML = text;
         consoleDiv.appendChild(outStd);
+        autoScroll();
     }
 
     function error(text) {
@@ -133,6 +146,7 @@ function pushCommand(command, displayCommand = true) {
             lastCommand = lastCommands[lastCommands.length - 1];
         lastCommand.style = 'color: rgba(255, 79, 79);';
         lastCommand.innerHTML += '<span style="color: gray;"> (!)</span>';
+        autoScroll();
     }
 
     const commandArgs = command.trim().split(' ');
@@ -198,8 +212,7 @@ fingerprint - get client information`);
         default:
             error(`Command or packet \'<u>${commandArgs[0]}</u>\' not found!`);
     }
-
-    window.scrollTo(0, document.body.scrollHeight);
+    autoScroll();
 }
 
 pushCommand('echo Coded by <a target="_blank" href="https://github.com/DosX-dev">DosX</a>', false);
