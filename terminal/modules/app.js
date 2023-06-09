@@ -241,6 +241,7 @@ exit - exit from the application
  * dark (default)
  * light
  * cherry
+ * hacker
 
 Example: theme dark`);
             }
