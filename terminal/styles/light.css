@@ -1,7 +1,7 @@
 body {
-    background-color: black;
+    background-color: white;
     cursor: default;
-    color: white;
+    color: black;
     font-family: monospace;
     margin: 0;
     padding: 0;
@@ -22,8 +22,8 @@ body {
 }
 
  ::selection {
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
 }
 
 #console {
@@ -35,13 +35,13 @@ input[type="text"] {
     cursor: default;
     background-color: transparent;
     border: none;
-    color: white;
+    color: black;
     font-family: monospace;
     font-size: inherit;
     width: 90%;
     outline: none;
     caret-color: lime;
-    caret-color: white;
+    caret-color: black;
 }
 
 input .container {
@@ -79,13 +79,13 @@ input,
 }
 
 a {
-    background-color: rgb(43, 100, 255);
+    background-color: rgb(0, 63, 238);
     color: white;
     text-decoration-line: none;
     border-bottom: 1px dotted;
 }
 
 a:hover {
-    background-color: white;
-    color: rgb(57, 43, 255);
+    background-color: rgb(0, 0, 0);
+    color: white;
 }

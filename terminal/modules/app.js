@@ -1,3 +1,33 @@
+const visual = {
+    installTheme(theme) {
+        visual.setTheme(theme);
+        localStorage.setItem('console-theme', theme);
+    },
+    setTheme(theme) {
+        const link = document.getElementById('theme-link');
+
+        if (link) {
+            link.href = theme;
+        } else {
+            const newLink = document.createElement('link');
+            newLink.rel = 'stylesheet';
+            newLink.href = theme;
+            newLink.id = 'theme-link';
+            document.head.appendChild(newLink);
+        }
+    },
+    loadTheme() {
+        const theme = localStorage.getItem('console-theme');
+        if (theme) {
+            visual.setTheme(theme);
+        } else {
+            visual.installTheme('styles/default.css')
+        }
+    }
+}
+
+visual.loadTheme();
+
 Object.entries({
     "app-default-config": "0",
     "app-prompt": navigator.userAgent
@@ -108,17 +138,13 @@ function wrapFirstWord(sentence) {
     return words.join(' ');
 }
 
+window.onerror = function(message, source, lineno, colno, error) {
+    console.error(`[APP]: ${error}`);
+};
+
 function autoScroll() {
-    var scrollThreshold = 0.9,
-        windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
-        scrollPosition = (document.documentElement.scrollHeight || document.body.scrollHeight) - windowHeight;
-
-    if (window.pageYOffset > scrollThreshold * scrollPosition) {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
+    window.scrollTo(0, document.body.scrollHeight);
 }
-
-window.addEventListener('resize', autoScroll);
 
 function pushCommand(command, displayCommand = true) {
     var consoleDiv = document.getElementById('console'),
@@ -159,11 +185,14 @@ function pushCommand(command, displayCommand = true) {
     switch (commandArgs[0]) {
         case 'help':
             out(`help - show this message
-clear - clear console text
-exit - exit from the application
+clear - clear console
+theme [name] - change theme
 echo [html] - format and write text in console
 js [code] - execute JavaScript
-fingerprint - get client information`);
+fingerprint - get client information
+clear - clear console
+exit - exit from the application
+`);
             break;
 
         case 'clear':
@@ -188,6 +217,29 @@ fingerprint - get client information`);
 
         case 'fingerprint':
             out(fingerprint());
+            break;
+
+        case 'theme':
+            let isSeccuss = true;
+            switch (commandArgs[1]) {
+                case 'dark':
+                case 'default':
+                    visual.installTheme('styles/default.css');
+                    break;
+                case 'light':
+                    visual.installTheme('styles/light.css');
+                    break;
+                default:
+                    isSeccuss = false;
+                    out(`Themes:
+ * dark (default)
+ * light
+
+Example: theme dark`);
+            }
+            if (isSeccuss) {
+                out(`Theme installed: ${commandArgs[1]}`);
+            }
             break;
 
         case 'js':
@@ -262,10 +314,9 @@ commandInput.addEventListener("keydown", (event) => {
 
 document.addEventListener('DOMContentLoaded', () => {
     commandInput.addEventListener('keypress', function(event) {
-        if (event.keyCode === 13) {
+        if (event.keyCode === 13) { // Enter
             event.preventDefault();
-            var command = commandInput.value.trim();
-            pushCommand(command);
+            pushCommand(commandInput.value.trim());
             commandInput.value = '';
         }
     });
