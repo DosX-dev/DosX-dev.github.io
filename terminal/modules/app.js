@@ -22,7 +22,7 @@ const visual = {
         if (theme) {
             visual.setTheme(theme);
         } else {
-            visual.installTheme('styles/themes/default.css');
+            visual.installTheme('styles/themes/dark.css');
         }
     }
 }
@@ -51,7 +51,6 @@ function setFocus() {
 }
 
 async function getIpInfo(ip = '') {
-    try {
         const response = await fetch('https://freeipapi.com/api/json/' + ip, {
             method: 'GET'
         });
@@ -63,10 +62,6 @@ async function getIpInfo(ip = '') {
             .join('\n');
 
         return processedData;
-    } catch (error) {
-        console.error('Error: ', error);
-        return null;
-    }
 }
 
 function fingerprint() {
@@ -178,7 +173,7 @@ function pushCommand(command, displayCommand = true) {
     if (displayCommand) {
         commandInput.placeholder = '';
         output.classList.add('out');
-        output.innerHTML = '<span class="pointer">> </span><span class="command">' + wrapFirstWord(replaceTagsWithEntities(command)) + '</span>';
+        output.innerHTML = '<span class="pointer">&gt; </span><span class="command">' + wrapFirstWord(replaceTagsWithEntities(command)) + '</span>';
         consoleDiv.appendChild(output);
     }
 
@@ -251,7 +246,7 @@ exit - exit from the application
             switch (commandArgs[1]) {
                 case 'dark':
                 case 'default':
-                    visual.installTheme('styles/themes/default.css');
+                    visual.installTheme('styles/themes/dark.css');
                     break;
                 case 'light':
                     visual.installTheme('styles/themes/light.css');
@@ -297,7 +292,7 @@ Example: theme dark`);
                 error('Empty source!');
             } else {
                 try {
-                    out(`<span style="color: gray;"><span class="pointer">< </span>${eval(codeToExec)}<span>`);
+                    out(`<span style="color: gray;"><span class="pointer">&lt; </span>${eval(codeToExec)}<span>`);
                 } catch (exc) {
                     error(`[VM]: ${exc}`);
                 }
