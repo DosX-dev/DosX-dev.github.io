@@ -39,3 +39,15 @@ a:hover {
 .pointer {
     color: white;
 }
+
+#context-menu {
+    background: #1b1a1a;
+}
+
+#context-menu .item {
+    color: #eee;
+}
+
+#context-menu .item:hover {
+    background: #4e004e;
+}

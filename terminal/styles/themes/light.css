@@ -32,9 +32,21 @@ a {
 }
 
 a:hover {
-    background-color: black;
+    background-color: rgb(0, 0, 0);
 }
 
 .pointer {
     color: black;
+}
+
+#context-menu {
+    background: #eee;
+}
+
+#context-menu .item {
+    color: #000000;
+}
+
+#context-menu .item:hover {
+    background: #a8a8a8;
 }

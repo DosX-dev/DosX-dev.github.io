@@ -1,4 +1,10 @@
 const visual = {
+    themes: {
+        dark: 'styles/themes/dark.css',
+        light: 'styles/themes/light.css',
+        cherry: 'styles/themes/cherry.css',
+        hacker: 'styles/themes/hacker.css'
+    },
     installTheme(theme) {
         visual.setTheme(theme);
         localStorage.setItem('console-theme', theme);
@@ -22,12 +28,15 @@ const visual = {
         if (theme) {
             visual.setTheme(theme);
         } else {
-            visual.installTheme('styles/themes/dark.css');
+            const preferredTheme = window.matchMedia &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches ? visual.themes.dark : visual.themes.light;
+            visual.installTheme(preferredTheme);
         }
     }
 }
 
 visual.loadTheme();
+document.getElementById('version-info').innerText = `version ${config.version}`;
 
 Object.entries({
     "app-default-config": "0",
@@ -51,100 +60,17 @@ function setFocus() {
 }
 
 async function getIpInfo(ip = '') {
-        const response = await fetch('https://freeipapi.com/api/json/' + ip, {
-            method: 'GET'
-        });
+    const response = await fetch('https://freeipapi.com/api/json/' + ip, {
+        method: 'GET'
+    });
 
-        const data = await response.json();
+    const data = await response.json();
 
-        const processedData = Object.entries(data)
-            .map(([key, value]) => `<b>${key}</b>: ${value}`)
-            .join('\n');
-
-        return processedData;
-}
-
-function fingerprint() {
-    var fingerprintData = {
-        'User Agent': navigator.userAgent,
-        'Browser Language': navigator.language,
-        'Cookies Enabled': navigator.cookieEnabled,
-        'Screen Resolution': screen.width + 'x' + screen.height,
-        'Available Screen Resolution': screen.availWidth + 'x' + screen.availHeight,
-        'Color Depth': screen.colorDepth,
-        'Timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
-        'Local Storage Enabled': typeof Storage !== 'undefined',
-        'Session Storage Enabled': typeof sessionStorage !== 'undefined',
-        'Do Not Track': Boolean(navigator.doNotTrack),
-        'Plugins': Array.from(navigator.plugins).map(plugin => plugin.name).join(', '),
-        'WebGL Vendor': getWebGLVendor(),
-        'WebGL Renderer': getWebGLRenderer(),
-        'WebGL Version': getWebGLVersion(),
-        'Web Audio API': isWebAudioAPISupported(),
-        'MIDI API': isMIDIAPIAvailable(),
-        'WebSockets Supported': isWebSocketsSupported(),
-        'Battery API Supported': isBatteryAPISupported(),
-        'WebVR API Supported': isWebVRAPIAvailable(),
-        'AudioContext Max Channels': getMaxAudioContextChannels()
-    };
-
-    var fingerprintString = Object.entries(fingerprintData)
-        .map(entry => `<b>${entry[0]}</b>` + ': ' + entry[1])
+    const processedData = Object.entries(data)
+        .map(([key, value]) => `<b>${key}</b>: ${value}`)
         .join('\n');
 
-    return fingerprintString;
-}
-
-function getWebGLVendor() {
-    var canvas = document.createElement('canvas'),
-        gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    if (gl && gl.getExtension('WEBGL_debug_renderer_info')) {
-        return gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_VENDOR_WEBGL);
-    }
-    return 'N/A';
-}
-
-function getWebGLRenderer() {
-    var canvas = document.createElement('canvas'),
-        gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    if (gl && gl.getExtension('WEBGL_debug_renderer_info')) {
-        return gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL);
-    }
-    return 'N/A';
-}
-
-function getWebGLVersion() {
-    var canvas = document.createElement('canvas'),
-        gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-    if (gl) {
-        return gl.getParameter(gl.VERSION);
-    }
-    return 'N/A';
-}
-
-function isWebAudioAPISupported() {
-    return typeof window.AudioContext !== 'undefined' || typeof window.webkitAudioContext !== 'undefined';
-}
-
-function isMIDIAPIAvailable() { return typeof navigator.requestMIDIAccess !== 'undefined'; }
-
-function isWebSocketsSupported() { return 'WebSocket' in window ? 'Supported' : 'Not supported'; }
-
-function isBatteryAPISupported() { return navigator.getBattery ? 'Supported' : 'Not supported'; }
-
-function isWebVRAPIAvailable() { return 'getVRDisplays' in navigator ? 'Supported' : 'Not supported'; }
-
-function isWebXRAPIAvailable() { return 'xr' in navigator ? 'Supported' : 'Not supported'; }
-
-function getMaxAudioContextChannels() {
-    try {
-        var audioContext = new(window.AudioContext || window.webkitAudioContext)(),
-            maxChannels = audioContext.destination.maxChannelCount;
-        audioContext.close();
-        return maxChannels;
-    } catch (exc) {
-        return 'N/A'
-    }
+    return processedData + '\n<b>apiUsed</b>: freeipapi.com';
 }
 
 function wrapFirstWord(sentence) {
@@ -160,7 +86,7 @@ function wrapFirstWord(sentence) {
 }
 
 window.onerror = function(message, source, lineno, colno, error) {
-    console.error(`[APP]: ${error}`);
+    console.error(`[APP]: ${message}`);
 };
 
 function autoScroll() {
@@ -196,30 +122,32 @@ function pushCommand(command, displayCommand = true) {
         autoScroll();
     }
 
-    const commandArgs = command.trim().split(' ');
 
     console.error = error;
     console.log = console.info = console.warn = out;
     console.clear = () => pushCommand("clear");
 
+    const commandArgs = command.trim().split(' ');
 
     switch (commandArgs[0]) {
         case 'help':
-            out(`help - show this message
-clear - clear console
-theme [name] - change theme
-echo [html] - format and write text in console
-ipinfo [ip] - get info about IP (no domains support)
-fingerprint - get client information
-js [code] - execute JavaScript
-clear - clear console
-exit - exit from the application
+            out(`<span class="insert-cmd">help</span> - show this message
+<span class="insert-cmd">clear</span> - clear console
+<span class="insert-cmd">theme</span> [name] - change theme
+<span class="insert-cmd">echo</span> [html] - format and write text in console
+<span class="insert-cmd">ipinfo</span> [ip] - get info about IP (no domains support)
+<span class="insert-cmd">fingerprint</span> - get client information
+<span class="insert-cmd">js</span> [code] - execute JavaScript
+<span class="insert-cmd">clear</span> - clear console
+
+<span class="insert-cmd">reboot</span> - refresh the application
+<span class="insert-cmd">exit</span> - exit from the application
 `);
             break;
 
         case 'clear':
             consoleDiv.innerText = '';
-            out("Console cleared.");
+            out("<i>Console cleared.</i>");
             break;
 
         case 'exit':
@@ -245,17 +173,16 @@ exit - exit from the application
             let isSeccuss = true;
             switch (commandArgs[1]) {
                 case 'dark':
-                case 'default':
-                    visual.installTheme('styles/themes/dark.css');
+                    visual.installTheme(visual.themes.dark);
                     break;
                 case 'light':
-                    visual.installTheme('styles/themes/light.css');
+                    visual.installTheme(visual.themes.light);
                     break;
                 case 'cherry':
-                    visual.installTheme('styles/themes/cherry.css');
+                    visual.installTheme(visual.themes.cherry);
                     break;
                 case 'hacker':
-                    visual.installTheme('styles/themes/hacker.css');
+                    visual.installTheme(visual.themes.hacker);
                     break;
                 default:
                     isSeccuss = false;
@@ -265,7 +192,7 @@ exit - exit from the application
  * cherry
  * hacker
 
-Example: theme dark`);
+Example: <span class="insert-cmd">theme dark</span>`);
             }
             if (isSeccuss) {
                 out(`Theme installed: ${commandArgs[1]}`);
@@ -273,7 +200,7 @@ Example: theme dark`);
             break;
 
         case 'ipinfo':
-            out('Requesting from "freeipapi.com"...');
+            out('Requesting...');
             getIpInfo(commandArgs[1])
                 .then(dataString => {
                     out(dataString);
@@ -297,6 +224,19 @@ Example: theme dark`);
                     error(`[VM]: ${exc}`);
                 }
             }
+            break;
+
+        case 'about':
+            out(` OS:       ${version.os}
+ Kernel:   ${version.kernel}
+ Shell:    ${version.shell}`);
+            break;
+
+        case 'reboot':
+            out('Rebooting...');
+            setTimeout(() => {
+                location.reload();
+            }, 300);
             break;
 
         case 'python':
@@ -373,3 +313,9 @@ document.addEventListener('DOMContentLoaded', () => {
 setInterval(() => {
     setFocus()
 }, 500);
+
+document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('insert-cmd')) {
+        commandInput.value = event.target.textContent;
+    }
+});
