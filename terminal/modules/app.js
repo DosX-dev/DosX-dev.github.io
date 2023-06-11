@@ -139,8 +139,8 @@ function pushCommand(command, displayCommand = true) {
 <span class="insert-cmd">js</span> [code] - execute JavaScript
 <span class="insert-cmd">clear</span> - clear console
 
-<span class="insert-cimage.pngmd">about</span> - get info about application
-<span class="insert-cimage.pngmd">reboot</span> - restart the application
+<span class="insert-cmd">about</span> - get info about application
+<span class="insert-cmd">reboot</span> - restart the application
 <span class="insert-cmd">exit</span> - exit from the application
 `);
             break;
