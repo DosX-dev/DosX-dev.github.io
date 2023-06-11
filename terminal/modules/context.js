@@ -63,7 +63,7 @@ scope.addEventListener("contextmenu", (event) => {
     });
 });
 
-scope.addEventListener("click", (e) => {
+scope.addEventListener("click", (event) => {
     // ? close the menu if the user clicks outside of it
     if (e.target.offsetParent != contextMenu) {
         contextMenu.classList.remove("visible");
@@ -73,7 +73,7 @@ scope.addEventListener("click", (e) => {
 const items = document.getElementsByClassName("item");
 
 Array.from(items).forEach(item => {
-    item.addEventListener("click", (e) => {
+    item.addEventListener("click", (event) => {
         contextMenu.classList.remove('visible');
     });
 });
