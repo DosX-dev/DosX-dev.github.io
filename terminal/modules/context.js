@@ -65,7 +65,7 @@ scope.addEventListener("contextmenu", (event) => {
 
 scope.addEventListener("click", (event) => {
     // ? close the menu if the user clicks outside of it
-    if (e.target.offsetParent != contextMenu) {
+    if (event.target.offsetParent != contextMenu) {
         contextMenu.classList.remove("visible");
     }
 });
