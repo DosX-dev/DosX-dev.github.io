@@ -239,7 +239,7 @@ Example: <span class="insert-cmd">theme dark</span>`);
             }, 300);
             break;
 
-        case 'python':
+        case 'python': // Yes, I hate python
             error('Do not embarrass yourself.');
             break;
 
