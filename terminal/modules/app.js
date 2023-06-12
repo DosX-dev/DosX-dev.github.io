@@ -349,40 +349,32 @@ function setDefaultPromptValue(name, defaultValue) {
     }
 }
 
-const MAX_HISTORY_LENGTH = 150; // Maximum length of command history
-
-// Load history from localStorage
+// load history form localStorage
 const storedHistory = localStorage.getItem("history");
 if (storedHistory) {
     commandHistory = JSON.parse(storedHistory);
-    currentCommandIndex = commandHistory.length - 1;
+    currentCommandIndex = commandHistory.length;
 }
 
 commandInput.addEventListener("keydown", (event) => {
     switch (event.keyCode) {
         case 13: // Enter
             let command = commandInput.value.trim();
-            if (command !== "") {
-                if (
-                    commandHistory.length === 0 ||
-                    command !== commandHistory[commandHistory.length - 1]
-                ) {
+            if (command !== '') {
+                if (commandHistory.length === 0 || command !== commandHistory[commandHistory.length - 1]) {
                     commandHistory.push(command);
-                    currentCommandIndex = commandHistory.length - 1;
                 }
+                currentCommandIndex = commandHistory.length;
 
-                // Save history to localStorage
+                // save history in localStorage
                 localStorage.setItem("history", JSON.stringify(commandHistory));
             }
             break;
         case 38: // Up
             event.preventDefault();
-            if (currentCommandIndex >= 0) {
-                commandInput.value = commandHistory[currentCommandIndex];
+            if (currentCommandIndex > 0) {
                 currentCommandIndex--;
-                if (currentCommandIndex < 0) {
-                    currentCommandIndex = 0;
-                }
+                commandInput.value = commandHistory[currentCommandIndex];
             }
             break;
         case 40: // Down
@@ -392,22 +384,11 @@ commandInput.addEventListener("keydown", (event) => {
                 commandInput.value = commandHistory[currentCommandIndex];
             } else {
                 currentCommandIndex = commandHistory.length;
-                commandInput.value = "";
+                commandInput.value = '';
             }
             break;
         default:
             break;
-    }
-
-    // Check if history exceeds the maximum length
-    if (commandHistory.length > MAX_HISTORY_LENGTH) {
-        // Remove previous elements to keep only the last MAX_HISTORY_LENGTH elements
-        const startIndex = commandHistory.length - MAX_HISTORY_LENGTH;
-        commandHistory = commandHistory.slice(startIndex);
-        currentCommandIndex -= startIndex;
-
-        // Save the updated history to localStorage
-        localStorage.setItem("history", JSON.stringify(commandHistory));
     }
 });
 
