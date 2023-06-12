@@ -144,11 +144,12 @@ function pushCommand(command, displayCommand = true, sudo = false) {
 <span class="insert-cmd">theme</span> [name] - change theme
 <span class="insert-cmd">echo</span> [html] - format and write text in console
 <span class="insert-cmd">ipinfo</span> [ip] - get info about IP (no domains support)
+<span class="insert-cmd">history</span> - get a log of commands entered
 <span class="insert-cmd">fingerprint</span> - get client information
 <span class="insert-cmd">clear</span> - clear console
 
-<span class="insert-cmd">about</span> - get info about application
 <span class="insert-cmd">sudo [command]</span> - execute command as root
+<span class="insert-cmd">about</span> - get info about application
 <span class="insert-cmd">reboot</span> - restart the application
 <span class="insert-cmd">exit</span> - exit from the application
 
@@ -314,7 +315,7 @@ Usage: <span class="insert-cmd">theme dark</span>`);
                 commandToExecute += commandArgs[i] + ' ';
             }
             if (commandToExecute.trim() == '') {
-                out(`Usage: sudo {command}`)
+                out(`Usage: sudo [command]`)
             }
             pushCommand(commandToExecute, false, true);
             break;
