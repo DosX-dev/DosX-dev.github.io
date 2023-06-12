@@ -157,10 +157,14 @@ function pushCommand(command, displayCommand = true, sudo = false) {
 `);
             break;
 
+
+
         case 'clear':
             consoleDiv.innerText = '';
             out("<i>Console cleared.</i>");
             break;
+
+
 
         case 'exit':
             out('Goodbye!');
@@ -168,6 +172,8 @@ function pushCommand(command, displayCommand = true, sudo = false) {
                 window.location.href = 'about:blank';
             }, 300);
             break;
+
+
 
         case 'echo':
             let textToOut = '';
@@ -177,16 +183,42 @@ function pushCommand(command, displayCommand = true, sudo = false) {
             out(textToOut);
             break;
 
+
+
         case 'fingerprint':
             out(fingerprint());
             break;
+
+
 
         case 'factory-reset':
             executeAsRoot(() => {
                 localStorage.clear();
                 out(`All data of '${document.domain}' erased`);
-            })
+            });
             break;
+
+
+
+        case 'history':
+            switch (commandArgs[1]) {
+                case 'clear':
+                    clearCommandHistory();
+                    out('Command history cleared.');
+                    break;
+                case 'list':
+                    out(getCommandHistory());
+                    break;
+                default:
+                    out(`Arguments:
+ * list (get history as numbered list)
+ * clear (clear history)
+
+Usage: <span class="insert-cmd">history list</span>`)
+            }
+            break;
+
+
 
         case 'theme':
             let isSeccuss = true;
@@ -218,6 +250,8 @@ Usage: <span class="insert-cmd">theme dark</span>`);
             }
             break;
 
+
+
         case 'ipinfo':
             out('Requesting...');
             getIpInfo(commandArgs[1])
@@ -228,6 +262,8 @@ Usage: <span class="insert-cmd">theme dark</span>`);
                     error('No API access');
                 });
             break;
+
+
 
         case 'js':
             executeAsRoot(() => {
@@ -245,14 +281,17 @@ Usage: <span class="insert-cmd">theme dark</span>`);
                     }
                 }
             });
-
             break;
+
+
 
         case 'about':
             out(` OS:       ${version.os}
  Kernel:   ${version.kernel}
  Shell:    ${version.shell}`);
             break;
+
+
 
         case 'reboot':
             out('Rebooting...');
@@ -261,9 +300,13 @@ Usage: <span class="insert-cmd">theme dark</span>`);
             }, 300);
             break;
 
+
+
         case 'su':
             error(`You can only use '<span class="insert-cmd">sudo</span>'`);
             break;
+
+
 
         case 'sudo':
             let commandToExecute = '';
@@ -277,13 +320,16 @@ Usage: <span class="insert-cmd">theme dark</span>`);
             break;
 
 
+
+
         case 'python': // Yes, I hate python
             error('Do not embarrass yourself.');
             break;
 
+
+
         case '':
             break;
-
         default:
             error(`Command or packet \'<u>${commandArgs[0]}</u>\' not found!`);
     }
@@ -303,40 +349,78 @@ function setDefaultPromptValue(name, defaultValue) {
     }
 }
 
+const MAX_HISTORY_LENGTH = 150; // Maximum length of command history
+
+// Load history from localStorage
+const storedHistory = localStorage.getItem("history");
+if (storedHistory) {
+    commandHistory = JSON.parse(storedHistory);
+    currentCommandIndex = commandHistory.length - 1;
+}
+
 commandInput.addEventListener("keydown", (event) => {
     switch (event.keyCode) {
         case 13: // Enter
             let command = commandInput.value.trim();
-            if (command !== '') {
-                if (commandHistory.length === 0 || command !== commandHistory[commandHistory.length - 1]) {
+            if (command !== "") {
+                if (
+                    commandHistory.length === 0 ||
+                    command !== commandHistory[commandHistory.length - 1]
+                ) {
                     commandHistory.push(command);
+                    currentCommandIndex = commandHistory.length - 1;
                 }
-                currentCommandIndex = commandHistory.length;
+
+                // Save history to localStorage
+                localStorage.setItem("history", JSON.stringify(commandHistory));
             }
             break;
         case 38: // Up
-            event.preventDefault(); // Предотвращаем перемещение курсора в начало поля ввода
-            if (currentCommandIndex > 0) {
-                currentCommandIndex--;
+            event.preventDefault();
+            if (currentCommandIndex >= 0) {
                 commandInput.value = commandHistory[currentCommandIndex];
+                currentCommandIndex--;
+                if (currentCommandIndex < 0) {
+                    currentCommandIndex = 0;
+                }
             }
             break;
         case 40: // Down
-            event.preventDefault(); // Предотвращаем перемещение курсора в конец поля ввода
+            event.preventDefault();
             if (currentCommandIndex < commandHistory.length - 1) {
                 currentCommandIndex++;
                 commandInput.value = commandHistory[currentCommandIndex];
             } else {
                 currentCommandIndex = commandHistory.length;
-                commandInput.value = '';
+                commandInput.value = "";
             }
             break;
         default:
             break;
     }
+
+    // Check if history exceeds the maximum length
+    if (commandHistory.length > MAX_HISTORY_LENGTH) {
+        // Remove previous elements to keep only the last MAX_HISTORY_LENGTH elements
+        const startIndex = commandHistory.length - MAX_HISTORY_LENGTH;
+        commandHistory = commandHistory.slice(startIndex);
+        currentCommandIndex -= startIndex;
+
+        // Save the updated history to localStorage
+        localStorage.setItem("history", JSON.stringify(commandHistory));
+    }
 });
 
 
+function getCommandHistory() {
+    return commandHistory.map((command, index) => `${index + 1}. <span class="insert-cmd">${command}</span>`).join("\n");
+}
+
+function clearCommandHistory() {
+    commandHistory = [];
+    currentCommandIndex = 0;
+    localStorage.removeItem("history");
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     commandInput.addEventListener('keypress', function(event) {
