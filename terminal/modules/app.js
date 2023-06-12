@@ -93,7 +93,7 @@ function autoScroll() {
     window.scrollTo(0, document.body.scrollHeight);
 }
 
-function pushCommand(command, displayCommand = true) {
+function pushCommand(command, displayCommand = true, sudo = false) {
     var consoleDiv = document.getElementById('console'),
         output = document.createElement('div');
     if (displayCommand) {
@@ -101,6 +101,15 @@ function pushCommand(command, displayCommand = true) {
         output.classList.add('out');
         output.innerHTML = '<span class="pointer">&gt; </span><span class="command">' + wrapFirstWord(replaceTagsWithEntities(command)) + '</span>';
         consoleDiv.appendChild(output);
+    }
+
+    function executeAsRoot(callback) {
+        if (sudo) {
+            callback();
+        } else {
+            error('You do not have permission to execute this command.');
+            out(`Try '<u><span class="insert-cmd">sudo ${command}</span></u>' (click to insert)`);
+        }
     }
 
     function out(text) {
@@ -136,12 +145,15 @@ function pushCommand(command, displayCommand = true) {
 <span class="insert-cmd">echo</span> [html] - format and write text in console
 <span class="insert-cmd">ipinfo</span> [ip] - get info about IP (no domains support)
 <span class="insert-cmd">fingerprint</span> - get client information
-<span class="insert-cmd">js</span> [code] - execute JavaScript
 <span class="insert-cmd">clear</span> - clear console
 
 <span class="insert-cmd">about</span> - get info about application
+<span class="insert-cmd">sudo [command]</span> - execute command as root
 <span class="insert-cmd">reboot</span> - restart the application
 <span class="insert-cmd">exit</span> - exit from the application
+
+* <span class="insert-cmd">js</span> [code] - execute JavaScript (unsafe)
+* <span class="insert-cmd">factory-reset</span> [code] - reset all application data settings
 `);
             break;
 
@@ -169,6 +181,13 @@ function pushCommand(command, displayCommand = true) {
             out(fingerprint());
             break;
 
+        case 'factory-reset':
+            executeAsRoot(() => {
+                localStorage.clear();
+                out(`All data of '${document.domain}' erased`);
+            })
+            break;
+
         case 'theme':
             let isSeccuss = true;
             switch (commandArgs[1]) {
@@ -192,7 +211,7 @@ function pushCommand(command, displayCommand = true) {
  * cherry
  * hacker
 
-Example: <span class="insert-cmd">theme dark</span>`);
+Usage: <span class="insert-cmd">theme dark</span>`);
             }
             if (isSeccuss) {
                 out(`Theme installed: ${commandArgs[1]}`);
@@ -211,19 +230,22 @@ Example: <span class="insert-cmd">theme dark</span>`);
             break;
 
         case 'js':
-            let codeToExec = '';
-            for (let i = 1; i < commandArgs.length; i++) {
-                codeToExec += commandArgs[i] + ' ';
-            }
-            if (codeToExec.trim() == '') {
-                error('Empty source!');
-            } else {
-                try {
-                    out(`<span style="color: gray;"><span class="pointer">&lt; </span>${eval(codeToExec)}<span>`);
-                } catch (exc) {
-                    error(`[VM]: ${exc}`);
+            executeAsRoot(() => {
+                let codeToExec = '';
+                for (let i = 1; i < commandArgs.length; i++) {
+                    codeToExec += commandArgs[i] + ' ';
                 }
-            }
+                if (codeToExec.trim() == '') {
+                    error('Empty source!');
+                } else {
+                    try {
+                        out(`<span style="color: gray;"><span class="pointer">&lt; </span>${eval(codeToExec)}<span>`);
+                    } catch (exc) {
+                        error(`[VM]: ${exc}`);
+                    }
+                }
+            });
+
             break;
 
         case 'about':
@@ -238,6 +260,22 @@ Example: <span class="insert-cmd">theme dark</span>`);
                 location.reload();
             }, 300);
             break;
+
+        case 'su':
+            error(`You can only use '<span class="insert-cmd">sudo</span>'`);
+            break;
+
+        case 'sudo':
+            let commandToExecute = '';
+            for (let i = 1; i < commandArgs.length; i++) {
+                commandToExecute += commandArgs[i] + ' ';
+            }
+            if (commandToExecute.trim() == '') {
+                out(`Usage: sudo {command}`)
+            }
+            pushCommand(commandToExecute, false, true);
+            break;
+
 
         case 'python': // Yes, I hate python
             error('Do not embarrass yourself.');
