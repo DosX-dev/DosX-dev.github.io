@@ -153,7 +153,7 @@ function pushCommand(command, displayCommand = true, sudo = false) {
 <span class="insert-cmd">exit</span> - exit from the application
 
 * <span class="insert-cmd">js</span> [code] - execute JavaScript (unsafe)
-* <span class="insert-cmd">factory-reset</span> [code] - reset all application data settings
+* <span class="insert-cmd">factory-reset</span> - reset all application data settings
 `);
             break;
 
