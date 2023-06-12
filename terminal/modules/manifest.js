@@ -1,5 +1,5 @@
 const config = {
-        version: '3.20.19'
+        version: '3.20.23'
     },
     version = {
         os: 'terminal (client)',
