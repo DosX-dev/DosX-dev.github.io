@@ -19,7 +19,8 @@ function fingerprint() {
         'WebSockets Supported': isWebSocketsSupported(),
         'Battery API Supported': isBatteryAPISupported(),
         'WebVR API Supported': isWebVRAPIAvailable(),
-        'AudioContext Max Channels': getMaxAudioContextChannels()
+        'AudioContext Max Channels': getMaxAudioContextChannels(),
+        'Is Chromium based': isChromium()
     };
 
     var fingerprintString = Object.entries(fingerprintData)
@@ -72,3 +73,7 @@ function getMaxAudioContextChannels() {
         return 'N/A'
     }
 }
+
+function isChromium() { return typeof window.chrome == 'object'; }
+
+function isOpera() { return typeof window.opera == 'object'; }
