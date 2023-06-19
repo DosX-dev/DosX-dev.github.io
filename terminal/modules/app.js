@@ -197,7 +197,7 @@ function pushCommand(command, displayCommand = true, sudo = false) {
                 localStorage.clear();
                 out(`All data of '${document.domain}' erased`);
                 setTimeout(() => {
-                    pushCommand('reboot');
+                    pushCommand('reboot', false);
                 }, 750);
             });
             break;
