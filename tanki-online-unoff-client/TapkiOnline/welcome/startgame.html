@@ -52,12 +52,9 @@
                 if (width >= 100) {
                     clearInterval(interval);
                     progressText.innerHTML = "Вы не натурал! Доступ разрешён.";
-                    setInterval(() => {
-                        setTimeout(() => {
-                            location = "https://tankionline.com/play?x=" + (new Date());
-                        }, 700);
-                    }, 500);
-
+                    setTimeout(() => {
+                        location = "captcha.html";
+                    }, 700);
                 } else {
                     width++;
                     progressBar.style.width = width + "%";
