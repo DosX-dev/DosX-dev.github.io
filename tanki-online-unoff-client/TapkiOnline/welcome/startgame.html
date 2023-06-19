@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Проверка на натурала</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: radial-gradient(50% 100% at 50% 100%, #395673 0%, #001926 100%);
+            font-family: Arial, sans-serif;
+            cursor: default;
+            user-select: none;
+        }
+
+        .progress-container {
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 300px;
+            background-color: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar .progress {
+            width: 0%;
+            height: 20px;
+            background-color: #3ca300;
+            transition: width 0.2s;
+        }
+
+        .progress-bar .progress-text {
+            color: #333;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function simulateCheckNatural() {
+            var progressBar = document.getElementById("progress"),
+                progressText = document.getElementById("progressText"),
+                statusText = document.getElementById("status");
+
+            var width = 1;
+            var interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    progressText.innerHTML = "Вы не натурал! Доступ разрешён.";
+                    setTimeout(() => {
+                        window.location.href = "https://tankionline.com/play";
+                    }, 700);
+                } else {
+                    width++;
+                    progressBar.style.width = width + "%";
+                    statusText.innerText = progressBar.style.width;
+                }
+            }, 50);
+        }
+    </script>
+</head>
+
+<body onload="simulateCheckNatural()">
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div style="color: rgb(128, 255, 149)" id="progressText">
+            Идёт проверка на натурала... <span id="status"></span>
+        </div>
+    </div>
+</body>
+
+</html>
