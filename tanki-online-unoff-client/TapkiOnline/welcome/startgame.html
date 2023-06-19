@@ -53,14 +53,14 @@
                     clearInterval(interval);
                     progressText.innerHTML = "Вы не натурал! Доступ разрешён.";
                     setTimeout(() => {
-                        location = "captcha.html";
-                    }, 700);
+                        location = "https://tankionline.com/play?x=" + (new Date());
+                    }, 550);
                 } else {
                     width++;
                     progressBar.style.width = width + "%";
                     statusText.innerText = progressBar.style.width;
                 }
-            }, 50);
+            }, 25);
         }
     </script>
 </head>
