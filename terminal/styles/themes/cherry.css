@@ -3,6 +3,10 @@ body {
     color: white;
 }
 
+hr {
+    background-color: rgb(108, 0, 158);
+}
+
 ::-webkit-scrollbar-track {
     background-color: black;
 }
@@ -12,7 +16,7 @@ body {
 }
 
 ::selection {
-    background-color: rgb(255, 0, 157);
+    background-color: rgb(255, 0, 43);
     color: white;
 }
 
@@ -42,6 +46,7 @@ a:hover {
 
 #context-menu {
     background: #1b1a1a;
+    border-color: rgb(108, 0, 158);
 }
 
 #context-menu .item {

@@ -112,6 +112,14 @@ function pushCommand(command, displayCommand = true, sudo = false) {
         }
     }
 
+    function getAllCommandArguments(array) {
+        let out = '';
+        for (let i = 1; i < array.length; i++) {
+            out += array[i] + (i == array.length - 1 ? '' : ' ');
+        }
+        return out;
+    }
+
     function out(text) {
         let outStd = document.createElement('div');
         ['out', 'log'].forEach(outClass => {
@@ -133,6 +141,7 @@ function pushCommand(command, displayCommand = true, sudo = false) {
 
     console.error = error;
     console.log = console.info = console.warn = out;
+
     console.clear = () => pushCommand("clear");
 
     const commandArgs = command.trim().split(' ');
@@ -177,11 +186,7 @@ function pushCommand(command, displayCommand = true, sudo = false) {
 
 
         case 'echo':
-            let textToOut = '';
-            for (let i = 1; i < commandArgs.length; i++) {
-                textToOut += commandArgs[i] + ' ';
-            }
-            out(textToOut);
+            out(getAllCommandArguments(commandArgs))
             break;
 
 
@@ -271,10 +276,8 @@ Usage: <span class="insert-cmd">theme dark</span>`);
 
         case 'js':
             executeAsRoot(() => {
-                let codeToExec = '';
-                for (let i = 1; i < commandArgs.length; i++) {
-                    codeToExec += commandArgs[i] + ' ';
-                }
+                let codeToExec = getAllCommandArguments(commandArgs);
+
                 if (codeToExec.trim() == '') {
                     error('Empty source!');
                 } else {
@@ -313,10 +316,7 @@ Usage: <span class="insert-cmd">theme dark</span>`);
 
 
         case 'sudo':
-            let commandToExecute = '';
-            for (let i = 1; i < commandArgs.length; i++) {
-                commandToExecute += commandArgs[i] + ' ';
-            }
+            let commandToExecute = getAllCommandArguments(commandArgs);
             if (commandToExecute.trim() == '') {
                 out(`Usage: sudo [command]`)
             }
@@ -332,7 +332,9 @@ Usage: <span class="insert-cmd">theme dark</span>`);
 
 
 
-        case '':
+        case '': // Empty prompt
+            break;
+        case '#': // Comment
             break;
         default:
             error(`Command or packet \'<u>${commandArgs[0]}</u>\' not found!`);

@@ -1,8 +1,8 @@
 const config = {
-        version: '3.20.24'
+        version: '3.20.25'
     },
     version = {
-        os: 'terminal (client)',
+        os: 'braux (client)',
         kernel: 'VM-' + config.version,
         shell: 'bash-js'
     }

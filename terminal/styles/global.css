@@ -33,6 +33,11 @@ input,
     white-space: pre-wrap;
 }
 
+hr {
+    height: 1px;
+    border: none;
+}
+
 #console {
     overflow-y: auto;
     word-wrap: break-word;
@@ -69,6 +74,7 @@ a {
 }
 
 #context-menu {
+    border: 1px solid;
     position: fixed;
     z-index: 10000;
     width: 150px;
@@ -84,6 +90,7 @@ a {
 }
 
 #context-menu .item {
+    transition: background-color 0.3s, color 0.3s;
     padding: 8px 10px;
     font-size: 15px;
     cursor: pointer;
