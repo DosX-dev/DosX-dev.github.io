@@ -9,12 +9,10 @@
         body {
             margin: 0;
             padding: 0;
-
             background: radial-gradient(50% 100% at 50% 100%, #395673 0%, #001926 100%);
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100% 100%;
-
             font-family: Arial, sans-serif;
             cursor: default;
             user-select: none;
@@ -25,7 +23,6 @@
             -webkit-touch-callout: none;
             -ms-touch-action: none;
             touch-action: none;
-
         }
 
         a.no-drag {
@@ -89,7 +86,7 @@
         .main {
             background-repeat: no-repeat;
             background-size: cover;
-            background-image: url("./meme.jpg");
+            background-image: url("./main.jpg");
         }
     </style>
 </head>
@@ -97,11 +94,11 @@
 <body>
     <div class="greeting">
         <h1><span style="color: rgb(170, 170, 170)"><s>Tanki</s> Online</span><br>Tapki Online</h1>
-        <p>Модифицированный клиент разработан программистом DosX.<br>За любой помощью обращайся в Telegram!
-            (@DosX_Plus)</p>
+        <p>Модифицированный клиент разработан программистом DosX.<br>За любой помощью обращайся в Telegram! (@DosX_Plus)
+        </p>
     </div>
     <div class="container">
-        <a href="startgame.html">
+        <a href="https://tankionline.com/play">
             <div class="menuButton main">
                 <h2>ИГРАТЬ!</h2>
                 <p>Начните играть в Танки Онлайн с постоянными вылетами и сбоями прямо сейчас!</p>
@@ -129,8 +126,9 @@
                     event.preventDefault();
                 }
             }
-        }, { passive: false });
-
+        }, {
+            passive: false
+        });
     </script>
 </body>
 
