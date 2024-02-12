@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tapki Online</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(50% 100% at 50% 100%, #395673 0%, #001926 100%);
+            font-family: Arial, sans-serif;
+            cursor: default;
+        }
+        
+        a {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            cursor: pointer;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .greeting {
+            text-align: center;
+            color: white;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        
+        .button {
+            padding: 12px 24px;
+            background-color: #1d681f;
+            color: white;
+            font-size: 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #2a742e;
+        }
+        
+         ::selection {
+            user-select: none;
+        }
+    </style>
+    <script>
+        const gameUrl = "index_original.html";
+        const once = "birthday";
+        if (localStorage.getItem(once) == "false") {
+            startGame();
+        }
+
+        function _continue() {
+            localStorage.setItem(once, "false");
+            startGame();
+        }
+
+        function startGame() {
+            location = gameUrl;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="greeting">
+            <h1>Поздравление</h1>
+            <p>Михаил, с прошедшим Днём Рождения Вас!</p>
+
+            <a onclick="_continue()" class="button">СПАСИБО, И БОЛЬШЕ НЕ ПОКАЗЫВАТЬ</a>
+        </div>
+    </div>
+</body>
+
+</html>
