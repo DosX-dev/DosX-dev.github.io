@@ -5,17 +5,17 @@ if (window.location.hostname !== "") {
 setInterval(() => {
     console.clear();
     console.log("%cWhat are you looking here?", "background-color: red; color: white; font-size: 25px;");
-}, 350);
+}, 450);
 
-$(window).load(function () {
+$(window).load(function() {
     "use strict";
 
-    setTimeout(function () {
+    setTimeout(function() {
         $('#preloader').velocity({
 
             opacity: "0",
 
-            complete: function () {
+            complete: function() {
                 $("#loading").velocity("fadeOut", {
                     duration: 1000,
                     easing: [0.7, 0, 0.3, 1],
@@ -25,13 +25,13 @@ $(window).load(function () {
 
     }, 1000);
 
-    setTimeout(function () {
+    setTimeout(function() {
         $('.global-overlay').velocity({
 
-            translateX: "50%",
-            opacity: "1"
+                translateX: "50%",
+                opacity: "1"
 
-        },
+            },
 
             {
                 duration: 1000,
@@ -42,25 +42,25 @@ $(window).load(function () {
 
     }, 1000);
 
-    setTimeout(function () {
+    setTimeout(function() {
         $('#left-side').velocity({
 
-            opacity: "1",
+                opacity: "1",
 
-            complete: function () {
+                complete: function() {
 
-                setTimeout(function () {
-                    $('.text-intro').each(function (i) {
-                        (function (self) {
-                            setTimeout(function () {
-                                $(self).addClass('animated-middle fadeInUp').removeClass('opacity-0');
-                            }, (i * 150) + 150);
-                        })(this);
-                    });
-                }, 0);
-            }
+                    setTimeout(function() {
+                        $('.text-intro').each(function(i) {
+                            (function(self) {
+                                setTimeout(function() {
+                                    $(self).addClass('animated-middle fadeInUp').removeClass('opacity-0');
+                                }, (i * 150) + 150);
+                            })(this);
+                        });
+                    }, 0);
+                }
 
-        },
+            },
 
             {
                 duration: 1000,
@@ -71,19 +71,19 @@ $(window).load(function () {
 
 })
 
-$(document).ready(function () {
+$(document).ready(function() {
     "use strict";
 
     /* ------------------------------------- */
     /* 2. Action Buttons ................... */
     /* ------------------------------------- */
 
-    $('a#open-more-info').on("click", function () {
+    $('a#open-more-info').on("click", function() {
         $(".overlay").toggleClass("skew-part");
         $("#right-side").toggleClass("hide-right");
         $("#close-more-info").toggleClass("hide-close");
         $('.mCSB_scrollTools').toggleClass('mCSB_scrollTools-left');
-        setTimeout(function () {
+        setTimeout(function() {
             $("#mcs_container").mCustomScrollbar("scrollTo", "#right-side", {
                 scrollInertia: 500,
                 callbacks: false
@@ -91,12 +91,12 @@ $(document).ready(function () {
         }, 350);
     });
 
-    $('button#close-more-info').on("click", function () {
+    $('button#close-more-info').on("click", function() {
         $(".overlay").addClass("skew-part");
         $("#right-side").addClass("hide-right");
         $("#close-more-info").addClass("hide-close");
         $('.mCSB_scrollTools').removeClass('mCSB_scrollTools-left');
-        setTimeout(function () {
+        setTimeout(function() {
             $("#mcs_container").mCustomScrollbar("scrollTo", "#right-side", {
                 scrollInertia: 500,
                 callbacks: false
@@ -106,19 +106,19 @@ $(document).ready(function () {
 
     // Youtube Variant
 
-    $('.expand-player').on("click", function () {
+    $('.expand-player').on("click", function() {
 
         $('#left-side').velocity({
 
             opacity: "0",
 
-            complete: function () {
+            complete: function() {
                 $('.global-overlay').velocity({
 
-                    translateX: "-100%",
-                    opacity: "0",
+                        translateX: "-100%",
+                        opacity: "0",
 
-                },
+                    },
 
                     {
                         duration: 1000,
@@ -129,21 +129,21 @@ $(document).ready(function () {
         })
     });
 
-    $('.compress-player').on("click", function () {
+    $('.compress-player').on("click", function() {
 
         $('.global-overlay').velocity({
 
-            translateX: "100%",
-            opacity: "1",
+                translateX: "100%",
+                opacity: "1",
 
-        },
+            },
 
             {
                 duration: 1000,
                 easing: [0.7, 0, 0.3, 1],
                 delay: 0,
 
-                complete: function () {
+                complete: function() {
 
                     $('#left-side').velocity({
 
@@ -177,8 +177,8 @@ $(document).ready(function () {
 
     scrollbar();
 
-    var initPhotoSwipeFromDOM = function (gallerySelector) {
-        var parseThumbnailElements = function (el) {
+    var initPhotoSwipeFromDOM = function(gallerySelector) {
+        var parseThumbnailElements = function(el) {
             var thumbElements = el.childNodes,
                 numNodes = thumbElements.length,
                 items = [],
@@ -226,13 +226,13 @@ $(document).ready(function () {
             return el && (fn(el) ? el : closest(el.parentNode, fn));
         };
 
-        var onThumbnailsClick = function (e) {
+        var onThumbnailsClick = function(e) {
             e = e || window.event;
             e.preventDefault ? e.preventDefault() : e.returnValue = false;
 
             var eTarget = e.target || e.srcElement;
 
-            var clickedListItem = closest(eTarget, function (el) {
+            var clickedListItem = closest(eTarget, function(el) {
                 return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
             });
 
@@ -266,7 +266,7 @@ $(document).ready(function () {
             return false;
         };
 
-        var photoswipeParseHash = function () {
+        var photoswipeParseHash = function() {
             var hash = window.location.hash.substring(1),
                 params = {};
 
@@ -293,7 +293,7 @@ $(document).ready(function () {
             return params;
         };
 
-        var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
+        var openPhotoSwipe = function(index, galleryElement, disableAnimation, fromURL) {
             var pswpElement = document.querySelectorAll('.pswp')[0],
                 gallery,
                 options,
@@ -305,7 +305,7 @@ $(document).ready(function () {
 
                 galleryUID: galleryElement.getAttribute('data-pswp-uid'),
 
-                getThumbBoundsFn: function (index) {
+                getThumbBoundsFn: function(index) {
                     var thumbnail = items[index].el.getElementsByTagName('img')[0], // find thumbnail
                         pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
                         rect = thumbnail.getBoundingClientRect();
