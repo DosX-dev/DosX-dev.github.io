@@ -2,82 +2,78 @@
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Tapki Online</title>
+    <title>...</title>
     <style>
         body {
             margin: 0;
             padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             background: radial-gradient(50% 100% at 50% 100%, #395673 0%, #001926 100%);
             font-family: Arial, sans-serif;
             cursor: default;
-        }
-        
-        a {
-            -webkit-user-drag: none;
-            -khtml-user-drag: none;
-            -moz-user-drag: none;
-            -o-user-drag: none;
-            cursor: pointer;
-        }
-        
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        
-        .greeting {
-            text-align: center;
-            color: white;
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-        
-        .button {
-            padding: 12px 24px;
-            background-color: #1d681f;
-            color: white;
-            font-size: 18px;
-            border-radius: 7px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        
-        .button:hover {
-            background-color: #2a742e;
-        }
-        
-         ::selection {
             user-select: none;
+        }
+        
+        .progress-container {
+            text-align: center;
+        }
+        
+        .progress-bar {
+            width: 300px;
+            background-color: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar .progress {
+            width: 0%;
+            height: 20px;
+            background-color: #3ca300;
+            transition: width 0.2s;
+        }
+        
+        .progress-bar .progress-text {
+            color: #333;
+            text-align: center;
         }
     </style>
     <script>
-        const gameUrl = "index_original.html";
-        const once = "birthday";
-        if (localStorage.getItem(once) == "false") {
-            startGame();
-        }
+        function loading() {
+            var progressBar = document.getElementById("progress"),
+                progressText = document.getElementById("progressText"),
+                statusText = document.getElementById("status");
 
-        function _continue() {
-            localStorage.setItem(once, "false");
-            startGame();
-        }
-
-        function startGame() {
-            location = gameUrl;
+            var width = 1;
+            var interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    progressText.innerHTML = "Успешно! Открываем меню...";
+                    setInterval(() => {
+                        setTimeout(() => {
+                            location = "menu.html";
+                        }, 450);
+                    }, 150);
+                } else {
+                    width++;
+                    progressBar.style.width = width + "%";
+                    statusText.innerText = progressBar.style.width;
+                }
+            }, 10);
         }
     </script>
 </head>
 
-<body>
-    <div class="container">
-        <div class="greeting">
-            <h1>Поздравление</h1>
-            <p>Михаил, с прошедшим Днём Рождения Вас!</p>
-
-            <a onclick="_continue()" class="button">СПАСИБО, И БОЛЬШЕ НЕ ПОКАЗЫВАТЬ</a>
+<body onload="loading()">
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div style="color: rgb(128, 255, 149)" id="progressText">
+            Загрузка ресурсов Тапка... <span id="status"></span>
         </div>
     </div>
 </body>
