@@ -1,2 +1,1 @@
-# DosX-dev.github.io
-https://devs.cf/
+## https://dosx.su/
