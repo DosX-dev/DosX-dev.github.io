@@ -357,11 +357,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('no-animation');
 
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.classList.add(savedTheme + '-theme');
+            const savedTheme = localStorage.getItem('theme');
+            if (!savedTheme) {
+                const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const initialTheme = prefersDarkTheme ? 'dark' : 'light';
+                document.body.classList.add(initialTheme + '-theme');
+                localStorage.setItem('theme', initialTheme);
+            } else {
+                document.body.classList.add(savedTheme + '-theme');
+            }
 
             const themeToggle = document.querySelector('.theme-toggle');
-            // themeToggle.textContent = savedTheme.toUpperCase();
+            // themeToggle.textContent = savedTheme ? savedTheme.toUpperCase() : initialTheme.toUpperCase();
 
             setTimeout(() => {
                 document.body.classList.remove('no-animation');
