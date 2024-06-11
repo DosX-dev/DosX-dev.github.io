@@ -11,6 +11,49 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.light-theme {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        
+        body.light-theme .theme-toggle {
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            color: #000000;
+        }
+        
+        body.light-theme .block-container:hover {
+            background-color: #f0f0f0;
+            border-color: #888;
+        }
+        
+        body.dark-theme {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        
+        body.dark-theme .theme-toggle {
+            background-color: #333333;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+        }
+        
+        body.dark-theme .block-container:hover {
+            background-color: #333333;
+            border-color: #ffffff;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 20px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
         }
         
         .welcome-block {
@@ -54,11 +97,6 @@
             opacity: 1;
         }
         
-        .block-container:hover {
-            background-color: #f0f0f0;
-            border-color: #888;
-        }
-        
         .block-caption {
             margin-top: -20px;
         }
@@ -73,7 +111,6 @@
         
         .repo-info {
             font-size: 14px;
-            color: #333;
             margin-top: 10px;
             display: flex;
             align-items: center;
@@ -90,6 +127,7 @@
         
         .ava {
             border-radius: 50%;
+            border: 1px solid rgb(82, 82, 82);
         }
         
         @keyframes fadeInOut {
@@ -114,7 +152,7 @@
         }
         
          ::selection {
-            background: black;
+            background: transparent;
             color: white;
         }
         
@@ -142,10 +180,49 @@
         * {
             -webkit-tap-highlight-color: transparent;
         }
+        
+        body.light-theme svg,
+        body.light-theme img[src$=".svg"] {
+            filter: invert(0%);
+        }
+        
+        body.dark-theme svg,
+        body.dark-theme img[src$=".svg"] {
+            filter: invert(100%);
+        }
+        
+        body.light-theme hr,
+        body.light-theme .block-container {
+            border-color: #9c9c9c;
+        }
+        
+        body.dark-theme hr,
+        body.dark-theme .block-container {
+            border-color: #ffffff;
+        }
+        
+        body.light-theme {
+            background-color: #ffffff;
+            color: #000000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.dark-theme {
+            background-color: #121212;
+            color: #ffffff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .no-animation.light-theme,
+        .no-animation.dark-theme {
+            transition: none;
+        }
     </style>
 </head>
 
-<body>
+<body class="light-theme">
+
+    <div class="theme-toggle" onclick="toggleTheme()"><img src="res/lamp.svg" width="16" height="16" /></div>
 
     <div class="welcome-block">
         <img src="res/ava.png" class="ava" width="200" height="200" />
@@ -275,6 +352,35 @@
 
         document.addEventListener('DOMContentLoaded', loadRepositories);
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('no-animation');
+
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.classList.add(savedTheme + '-theme');
+
+            const themeToggle = document.querySelector('.theme-toggle');
+            // themeToggle.textContent = savedTheme.toUpperCase();
+
+            setTimeout(() => {
+                document.body.classList.remove('no-animation');
+            }, 100);
+        });
+
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.body.classList.remove(currentTheme + '-theme');
+            document.body.classList.add(newTheme + '-theme');
+            localStorage.setItem('theme', newTheme);
+
+            // const themeToggle = document.querySelector('.theme-toggle');
+            // themeToggle.textContent = newTheme.toUpperCase();
+        }
+    </script>
+
 </body>
 
 </html>
