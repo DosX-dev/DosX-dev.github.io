@@ -117,6 +117,21 @@
             background: black;
             color: white;
         }
+        
+        .text {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            font-size: 18px;
+        }
+        
+        a {
+            color: #0084ff;
+            text-decoration: none;
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
     </style>
 </head>
 
@@ -128,9 +143,27 @@
         <p>If bugs are the engine of progress, then I'm a very progressive programmer.</p>
     </div>
     <hr>
+    <div class="text">
+        <h3>About me</h3>
+        <p>For a long time I was engaged in the development of conventional software for Windows. At the moment, I've expanded my skills and am already developing websites, desktop programs, server software and various protections for them. <b>I love my job! <img src="res/heart.svg" width="16" height="16" /></b>            You can view my portfolio below and take a first-hand look at each of the publicly released projects.</p>
+        <div>
+            <img src="res/mail.svg" width="16" height="16" /> Email:
+            <a href="mailto:%s" id="mail"></a>
+            <br>
+            <img src="res/telegram.svg" width="16" height="16" /> Telegram: <a href="https://t.me/DosX_dev">@DosX_dev</a>
+            <br>
+            <img src="res/github.svg" width="16" height="16" /> GitHub: <a href="https://github.com/DosX-dev">@DosX-dev</a>
+        </div>
 
+        <h3>My respositories and projects</h3>
+    </div>
     <div id="loading" class="loading">Please wait... Loading...</div>
     <div id="repositories"></div>
+
+    <script>
+        var getMailLabel = document.getElementById('mail');
+        getMailLabel.innerHTML = 'collab' + '@' + 'kay-software.ru';
+    </script>
 
     <script>
         const API_URL = 'https://api.github.com/users/DosX-dev/repos';
