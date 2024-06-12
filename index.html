@@ -300,7 +300,15 @@
                 blockContainer.onclick = () => handleClick(repo.html_url);
 
                 const title = document.createElement('h2');
-                title.innerHTML = repo.name + (reposCounter === 1 ? '<img src="res/crown.svg" width="30" height="20" />' : '');
+
+                const repoDescLower = repo.description.toLowerCase();
+                title.innerHTML = repo.name +
+                    (repo.name.includes("-game") ? '<img src="res/game.svg" width="30" height="20" />' : '') +
+                    (repoDescLower.includes("malware") || repoDescLower.includes("bypass") ? '<img src="res/virus.svg" width="30" height="20" />' : '') +
+                    (repoDescLower.includes("example of") ? '<img src="res/learn.svg" width="30" height="20" />' : '') +
+                    (repoDescLower.includes("web-") || repoDescLower.includes("html") ? '<img src="res/web.svg" width="30" height="20" />' : '') +
+                    (repoDescLower.includes("protect") || repoDescLower.includes("obfuscat") ? '<img src="res/shield.svg" width="30" height="20" />' : '') +
+                    (reposCounter === 1 ? '<img src="res/crown.svg" width="30" height="20" />' : '');
 
                 const caption = document.createElement('p');
                 caption.className = 'block-caption';
