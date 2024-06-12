@@ -259,7 +259,7 @@
         const API_URL = 'https://api.github.com/users/DosX-dev/repos';
         const STORAGE_KEY = 'dosx_repos';
         const LAST_FETCH_KEY = 'dosx_last_fetch';
-        const ONE_DAY = 24 * 60 * 60 * 1000;
+        const CACHE_ACTUAL_TIME = 60 * 60 * 1000;
 
         async function fetchRepositories() {
             try {
@@ -336,7 +336,7 @@
             const lastFetch = localStorage.getItem(LAST_FETCH_KEY);
             const now = Date.now();
 
-            if (lastFetch && now - parseInt(lastFetch, 10) < ONE_DAY) {
+            if (lastFetch && now - parseInt(lastFetch, 10) < CACHE_ACTUAL_TIME) {
                 const cachedRepos = localStorage.getItem(STORAGE_KEY);
                 if (cachedRepos) {
                     displayRepositories(JSON.parse(cachedRepos));
