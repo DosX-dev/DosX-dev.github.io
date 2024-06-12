@@ -232,25 +232,25 @@
 
 <body class="light-theme">
 
-    <div class="theme-toggle" onclick="toggleTheme()"><img src="res/lamp.svg" width="16" height="16" /></div>
+    <div class="theme-toggle" onclick="toggleTheme()"><img src="res/lamp.svg" width="16" height="16"></div>
 
     <div class="welcome-block">
-        <img src="res/ava.png" class="ava" width="200" height="200" />
-        <h1>DosX<img src="res/verified.svg" width="26" height="26" /></h1>
+        <img src="res/ava.gif" class="ava" width="200" height="200">
+        <h1>DosX<img src="res/verified.svg" width="26" height="26"></h1>
         <p id="random-slogan" class="slogan"></p>
     </div>
     <hr>
     <div class="text">
         <h3>About me</h3>
-        <p>For a long time I was engaged in the development of conventional software for Windows. At the moment, I've expanded my skills and am already developing websites, desktop programs, server software and various protections for them. <b>I love my job! <img src="res/heart.svg" width="16" height="16" /></b>            You can view my portfolio below and take a first-hand look at each of the publicly released projects.</p>
+        <p>For a long time I was engaged in the development of conventional software for Windows. At the moment, I've expanded my skills and am already developing websites, desktop programs, server software and various protections for them. <b>I love my job! <img src="res/heart.svg" width="16" height="16"></b>            You can view my portfolio below and take a first-hand look at each of the publicly released projects.</p>
         <div>
-            <img src="res/mail.svg" width="16" height="16" /> Email:
+            <img src="res/mail.svg" width="16" height="16"> Email:
             <a href="" id="mail"></a>
             <br>
-            <img src="res/telegram.svg" width="16" height="16" /> Telegram:
+            <img src="res/telegram.svg" width="16" height="16"> Telegram:
             <a href="https://t.me/DosX_dev">@DosX_dev</a>
             <br>
-            <img src="res/github.svg" width="16" height="16" /> GitHub:
+            <img src="res/github.svg" width="16" height="16"> GitHub:
             <a href="https://github.com/DosX-dev">@DosX-dev</a>
         </div>
 
@@ -362,7 +362,7 @@
 
                 const repoInfo = document.createElement("p");
                 repoInfo.className = "repo-info";
-                repoInfo.innerHTML = `<img src="res/star.svg" width="15" height="15" /> <span class="star-count">${repo.stargazers_count}</span> <img src="res/fork.svg" width="15" height="15" /> <span class="fork-count">${repo.forks_count}</span>`;
+                repoInfo.innerHTML = `<img src="res/star.svg" width="15" height="15"> <span class="star-count">${repo.stargazers_count}</span> <img src="res/fork.svg" width="15" height="15"> <span class="fork-count">${repo.forks_count}</span>`;
 
                 blockContainer.appendChild(title);
                 blockContainer.appendChild(caption);
@@ -383,7 +383,7 @@
         }
 
         function getCategoryIcon(condition, iconName) {
-            return condition ? `<img src="res/${iconName}.svg" width="30" height="20" />` : "";
+            return condition ? `<img src="res/${iconName}.svg" width="30" height="20">` : "";
         }
 
         function handleClick(url) {
