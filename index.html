@@ -46,6 +46,31 @@
             border-color: #ffffff;
         }
         
+        body.light-theme svg,
+        body.light-theme img[src$=".svg"] {
+            filter: invert(0%);
+        }
+        
+        body.dark-theme svg,
+        body.dark-theme img[src$=".svg"] {
+            filter: invert(100%);
+        }
+        
+        body.light-theme hr,
+        body.light-theme .block-container {
+            border-color: #9c9c9c;
+        }
+        
+        body.dark-theme hr,
+        body.dark-theme .block-container {
+            border-color: #ffffff;
+        }
+        
+        .no-animation.light-theme,
+        .no-animation.dark-theme {
+            transition: none;
+        }
+        
         .theme-toggle {
             position: absolute;
             top: 10px;
@@ -85,8 +110,7 @@
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
+            padding: 0 20px;
             border-left: 1px solid #000;
             transition: background-color 0.3s, border-color 0.3s, opacity 0.3s ease-in-out;
             cursor: pointer;
@@ -148,7 +172,6 @@
             -khtml-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
-            user-select: none;
         }
         
          ::selection {
@@ -159,9 +182,7 @@
         .text {
             max-width: 1200px;
             margin: 0 auto;
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-top: 10px;
+            padding: 10px 20px;
             font-size: 18px;
         }
         
@@ -179,43 +200,6 @@
         
         * {
             -webkit-tap-highlight-color: transparent;
-        }
-        
-        body.light-theme svg,
-        body.light-theme img[src$=".svg"] {
-            filter: invert(0%);
-        }
-        
-        body.dark-theme svg,
-        body.dark-theme img[src$=".svg"] {
-            filter: invert(100%);
-        }
-        
-        body.light-theme hr,
-        body.light-theme .block-container {
-            border-color: #9c9c9c;
-        }
-        
-        body.dark-theme hr,
-        body.dark-theme .block-container {
-            border-color: #ffffff;
-        }
-        
-        body.light-theme {
-            background-color: #ffffff;
-            color: #000000;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        
-        body.dark-theme {
-            background-color: #121212;
-            color: #ffffff;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        
-        .no-animation.light-theme,
-        .no-animation.dark-theme {
-            transition: none;
         }
     </style>
 </head>
@@ -358,19 +342,14 @@
             document.body.classList.add('no-animation');
 
             const savedTheme = localStorage.getItem('theme');
+            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+            document.body.classList.add(`${initialTheme}-theme`);
             if (!savedTheme) {
-                const prefersDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const initialTheme = prefersDarkTheme ? 'dark' : 'light';
-                document.body.classList.add(initialTheme + '-theme');
                 localStorage.setItem('theme', initialTheme);
-            } else {
-                document.body.classList.add(savedTheme + '-theme');
             }
 
-            const themeToggle = document.querySelector('.theme-toggle');
-            // themeToggle.textContent = savedTheme ? savedTheme.toUpperCase() : initialTheme.toUpperCase();
-
-            setTimeout(() => {
+            setTimeout(() => { // removes animation class after 100ms
                 document.body.classList.remove('no-animation');
             }, 100);
         });
@@ -379,12 +358,8 @@
             const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-            document.body.classList.remove(currentTheme + '-theme');
-            document.body.classList.add(newTheme + '-theme');
+            document.body.classList.replace(`${currentTheme}-theme`, `${newTheme}-theme`);
             localStorage.setItem('theme', newTheme);
-
-            // const themeToggle = document.querySelector('.theme-toggle');
-            // themeToggle.textContent = newTheme.toUpperCase();
         }
     </script>
 
