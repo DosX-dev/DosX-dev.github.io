@@ -2,8 +2,15 @@
 <html lang="ru">
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <meta name="description" content="DosX -> Attack, Defend, Anticipate">
+    <meta name="keywords" content="DosX, programmer, software development, windows, web, protection, github, dosx-dev">
+    <meta name="author" content="DosX">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
 
     <title>~DosX</title>
 
@@ -127,7 +134,7 @@
         
         .ava {
             border-radius: 50%;
-            border: 1px solid rgb(82, 82, 82);
+            border: 1px solid #444444;
         }
         
         @keyframes fadeInOut {
@@ -200,18 +207,18 @@
         
         body.dark-theme hr,
         body.dark-theme .block-container {
-            border-color: #ffffff;
+            border-color: white;
         }
         
         body.light-theme {
-            background-color: #ffffff;
+            background-color: white;
             color: #000000;
             transition: background-color 0.3s, color 0.3s;
         }
         
         body.dark-theme {
             background-color: #121212;
-            color: #ffffff;
+            color: white;
             transition: background-color 0.3s, color 0.3s;
         }
         
@@ -229,7 +236,7 @@
     <div class="welcome-block">
         <img src="res/ava.png" class="ava" width="200" height="200" />
         <h1>DosX<img src="res/verified.svg" width="26" height="26" /></h1>
-        <p>If bugs are the engine of progress, then I'm a very progressive programmer.</p>
+        <p id="random-slogan" class="slogan"></p>
     </div>
     <hr>
     <div class="text">
@@ -252,15 +259,40 @@
     <div id="repositories"></div>
 
     <script>
-        var mailLabel = document.getElementById('mail');
-        mailLabel.innerHTML = 'collab' + '@' + 'kay-software.ru';
-        mailLabel.href = "mailto:" + mailLabel.innerText;
+        let mailLabel = document.getElementById('mail');
+        if (mailLabel) {
+            mailLabel.innerHTML = "collab" + "@" + "kay-software.ru";
+            mailLabel.href = "mailto:" + mailLabel.innerText;
+        }
+
+        let randomSloganLabel = document.getElementById('random-slogan');
+        if (randomSloganLabel) {
+            const slogans = [
+                "Hard work will help pass the time.",
+                "I'm #404 and distant like Jupiter.",
+                "Syntax errors build character.",
+                "Attack, Defend, Anticipate!",
+                "There is no spoon.",
+                "The cake is a lie.",
+            ];
+
+            const printEffect = (text, index) => {
+                if (index < text.length) {
+                    randomSloganLabel.innerText = text.substring(0, index + 1);
+                    setTimeout(() => {
+                        printEffect(text, index + 1);
+                    }, 30);
+                }
+            };
+
+            printEffect(slogans[Math.floor(Math.random() * slogans.length)], 0);
+        }
     </script>
 
     <script>
-        const API_URL = 'https://api.github.com/users/DosX-dev/repos';
-        const STORAGE_KEY = 'dosx_repos';
-        const LAST_FETCH_KEY = 'dosx_last_fetch';
+        const API_URL = "https://api.github.com/users/DosX-dev/repos";
+        const STORAGE_KEY = "dosx_repos";
+        const LAST_FETCH_KEY = "dosx_last_fetch";
         const CACHE_ACTUAL_TIME = 60 * 60 * 1000;
 
         async function fetchRepositories() {
@@ -271,10 +303,10 @@
                 localStorage.setItem(LAST_FETCH_KEY, Date.now().toString());
                 return repos;
             } catch (error) {
-                console.error('Error fetching repositories:', error);
-                const loadingLabel = document.getElementById('loading');
+                console.error("Error fetching repositories:", error);
+                const loadingLabel = document.getElementById("loading");
                 if (loadingLabel) {
-                    loadingLabel.innerText = 'Error loading repositories.';
+                    loadingLabel.innerText = "Error loading repositories.";
                 }
                 return null;
             }
@@ -282,7 +314,7 @@
 
 
         function displayRepositories(repos) {
-            const reposContainer = document.getElementById('repositories');
+            const reposContainer = document.getElementById("repositories");
 
             const nonForkRepos = repos.filter(repo => !repo.fork &&
                 repo.topics && repo.topics.length > 0 &&
@@ -294,33 +326,41 @@
             nonForkRepos.forEach((repo, index) => {
                 reposCounter++;
 
-                const block = document.createElement('div');
-                block.className = 'block';
+                const block = document.createElement("div");
+                block.className = "block";
 
-                const blockContainer = document.createElement('div');
-                blockContainer.className = 'block-container';
+                const blockContainer = document.createElement("div");
+                blockContainer.className = "block-container";
                 blockContainer.onclick = () => handleClick(repo.html_url);
 
                 const title = document.createElement('h2');
 
                 const repoDescLower = repo.description.toLowerCase();
                 title.innerHTML = repo.name +
-                    (repo.topics.includes("game") || repo.name.includes("game") ? '<img src="res/game.svg" width="30" height="20" />' : '') +
-                    (repo.topics.includes("malware") || repo.topics.includes("stub") || repoDescLower.includes("malware") || repoDescLower.includes("bypass") || repoDescLower.includes("virus") || repoDescLower.includes("spyware") || repoDescLower.includes("ransomware") || repoDescLower.includes("rootkit") || repoDescLower.includes("keylogger") || repoDescLower.includes("clipper") || repoDescLower.includes("crack") || repoDescLower.includes("backdoor") ? '<img src="res/virus.svg" width="30" height="20" />' : '') +
-                    (repo.topics.includes("example") || repo.topics.includes("learning") || repoDescLower.includes("example of") || repoDescLower.includes("learn") || repoDescLower.includes("study") || repoDescLower.includes("tutorial") ? '<img src="res/learn.svg" width="30" height="20" />' : '') +
-                    (repo.topics.includes("web") || repoDescLower.includes("web-") || repoDescLower.includes("html") || repoDescLower.includes("css") ? '<img src="res/web.svg" width="30" height="20" />' : '') +
-                    (repo.topics.includes("optimizer") || repoDescLower.includes("cleanup") || repoDescLower.includes("clean up") || repoDescLower.includes("optimization") || repoDescLower.includes("optimize ") ? '<img src="res/leaf.svg" width="30" height="20" />' : '') +
-                    (repo.topics.includes("sorter") || repo.topics.includes("detector") || repo.topics.includes("scanner") || repoDescLower.includes("sort") || repoDescLower.includes(" collection") || repoDescLower.includes("database") ? '<img src="res/database.svg" width="30" height="20" />' : '') +
-                    (repo.topics.includes("protection") || repoDescLower.includes("protect") || repoDescLower.includes("obfuscat") ? '<img src="res/shield.svg" width="30" height="20" />' : '') +
-                    (repo.topics.includes("library") ? '<img src="res/sdk.svg" width="30" height="20" />' : '') +
-                    (reposCounter === 1 ? '<img src="res/crown.svg" width="30" height="20" />' : '');
+                    getCategoryIcon(repo.topics.includes("game") || repo.name.includes("game"),
+                        "game") +
+                    getCategoryIcon(repo.topics.includes("malware") || repo.topics.includes("stub") || repoDescLower.includes("malware") || repoDescLower.includes("bypass") || repoDescLower.includes("virus") || repoDescLower.includes("spyware") || repoDescLower.includes("ransomware") || repoDescLower.includes("rootkit") || repoDescLower.includes("keylogger") || repoDescLower.includes("clipper") || repoDescLower.includes("crack") || repoDescLower.includes("backdoor"),
+                        "virus") +
+                    getCategoryIcon(repo.topics.includes("example") || repo.topics.includes("learning") || repoDescLower.includes("example of") || repoDescLower.includes("learn") || repoDescLower.includes("study") || repoDescLower.includes("tutorial"),
+                        "learn") +
+                    getCategoryIcon(repo.topics.includes("web") || repoDescLower.includes("web-") || repoDescLower.includes("html") || repoDescLower.includes("css"),
+                        "web") +
+                    getCategoryIcon(repo.topics.includes("optimizer") || repoDescLower.includes("cleanup") || repoDescLower.includes("clean up") || repoDescLower.includes("optimization") || repoDescLower.includes("optimize "),
+                        "leaf") +
+                    getCategoryIcon(repo.topics.includes("sorter") || repo.topics.includes("detector") || repo.topics.includes("scanner") || repoDescLower.includes("sort") || repoDescLower.includes(" collection") || repoDescLower.includes("database"),
+                        "database") +
+                    getCategoryIcon(repo.topics.includes("protection") || repoDescLower.includes("protect") || repoDescLower.includes("obfuscat"),
+                        "shield") +
+                    getCategoryIcon(repo.topics.includes("library"),
+                        "sdk") +
+                    getCategoryIcon(reposCounter === 1, "crown");
 
-                const caption = document.createElement('p');
-                caption.className = 'block-caption';
+                const caption = document.createElement("p");
+                caption.className = "block-caption";
                 caption.innerText = repo.description; // || 'No description available';
 
-                const repoInfo = document.createElement('p');
-                repoInfo.className = 'repo-info';
+                const repoInfo = document.createElement("p");
+                repoInfo.className = "repo-info";
                 repoInfo.innerHTML = `<img src="res/star.svg" width="15" height="15" /> <span class="star-count">${repo.stargazers_count}</span> <img src="res/fork.svg" width="15" height="15" /> <span class="fork-count">${repo.forks_count}</span>`;
 
                 blockContainer.appendChild(title);
@@ -330,20 +370,23 @@
                 reposContainer.appendChild(block);
 
                 setTimeout(() => {
-                    blockContainer.classList.add('visible');
+                    blockContainer.classList.add("visible");
                 }, index * 70);
 
-                var loadingLabel = document.getElementById('loading');
+                var loadingLabel = document.getElementById("loading");
 
                 if (loadingLabel) {
-                    loadingLabel.style.display = 'none';
+                    loadingLabel.style.display = "none";
                 }
             });
         }
 
+        function getCategoryIcon(condition, iconName) {
+            return condition ? `<img src="res/${iconName}.svg" width="30" height="20" />` : "";
+        }
 
         function handleClick(url) {
-            window.open(url, '_blank');
+            window.open(url, "_blank");
         }
 
         async function loadRepositories() {
@@ -364,32 +407,32 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', loadRepositories);
+        document.addEventListener("DOMContentLoaded", loadRepositories);
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('no-animation');
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("no-animation");
 
-            const savedTheme = localStorage.getItem('theme');
-            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            const savedTheme = localStorage.getItem("theme");
+            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");
 
             document.body.classList.add(`${initialTheme}-theme`);
             if (!savedTheme) {
-                localStorage.setItem('theme', initialTheme);
+                localStorage.setItem("theme", initialTheme);
             }
 
             setTimeout(() => { // removes animation class after 100ms
-                document.body.classList.remove('no-animation');
+                document.body.classList.remove("no-animation");
             }, 100);
         });
 
         function toggleTheme() {
-            const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            const currentTheme = document.body.classList.contains('dark-theme') ? "dark" : "light";
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
 
             document.body.classList.replace(`${currentTheme}-theme`, `${newTheme}-theme`);
-            localStorage.setItem('theme', newTheme);
+            localStorage.setItem("theme", newTheme);
         }
     </script>
 
