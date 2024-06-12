@@ -184,11 +184,13 @@
         body.light-theme svg,
         body.light-theme img[src$=".svg"] {
             filter: invert(0%);
+            transition: filter 0.3s, color 0.3s;
         }
         
         body.dark-theme svg,
         body.dark-theme img[src$=".svg"] {
             filter: invert(100%);
+            transition: filter 0.3s, color 0.3s;
         }
         
         body.light-theme hr,
@@ -338,6 +340,7 @@
                 }
             });
         }
+
 
         function handleClick(url) {
             window.open(url, '_blank');
