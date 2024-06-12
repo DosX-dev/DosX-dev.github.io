@@ -303,11 +303,14 @@
 
                 const repoDescLower = repo.description.toLowerCase();
                 title.innerHTML = repo.name +
-                    (repo.name.includes("-game") ? '<img src="res/game.svg" width="30" height="20" />' : '') +
-                    (repoDescLower.includes("malware") || repoDescLower.includes("bypass") ? '<img src="res/virus.svg" width="30" height="20" />' : '') +
-                    (repoDescLower.includes("example of") ? '<img src="res/learn.svg" width="30" height="20" />' : '') +
-                    (repoDescLower.includes("web-") || repoDescLower.includes("html") ? '<img src="res/web.svg" width="30" height="20" />' : '') +
-                    (repoDescLower.includes("protect") || repoDescLower.includes("obfuscat") ? '<img src="res/shield.svg" width="30" height="20" />' : '') +
+                    (repo.topics.includes("game") || repo.name.includes("game") ? '<img src="res/game.svg" width="30" height="20" />' : '') +
+                    (repo.topics.includes("malware") || repo.topics.includes("stub") || repoDescLower.includes("malware") || repoDescLower.includes("bypass") || repoDescLower.includes("virus") || repoDescLower.includes("spyware") || repoDescLower.includes("ransomware") || repoDescLower.includes("rootkit") || repoDescLower.includes("keylogger") || repoDescLower.includes("clipper") || repoDescLower.includes("crack") || repoDescLower.includes("backdoor") ? '<img src="res/virus.svg" width="30" height="20" />' : '') +
+                    (repo.topics.includes("example") || repo.topics.includes("learning") || repoDescLower.includes("example of") || repoDescLower.includes("learn") || repoDescLower.includes("study") || repoDescLower.includes("tutorial") ? '<img src="res/learn.svg" width="30" height="20" />' : '') +
+                    (repo.topics.includes("web") || repoDescLower.includes("web-") || repoDescLower.includes("html") || repoDescLower.includes("css") ? '<img src="res/web.svg" width="30" height="20" />' : '') +
+                    (repo.topics.includes("optimizer") || repoDescLower.includes("cleanup") || repoDescLower.includes("clean up") || repoDescLower.includes("optimization") || repoDescLower.includes("optimize ") ? '<img src="res/leaf.svg" width="30" height="20" />' : '') +
+                    (repo.topics.includes("sorter") || repo.topics.includes("detector") || repo.topics.includes("scanner") || repoDescLower.includes("sort") || repoDescLower.includes(" collection") || repoDescLower.includes("database") ? '<img src="res/database.svg" width="30" height="20" />' : '') +
+                    (repo.topics.includes("protection") || repoDescLower.includes("protect") || repoDescLower.includes("obfuscat") ? '<img src="res/shield.svg" width="30" height="20" />' : '') +
+                    (repo.topics.includes("library") ? '<img src="res/sdk.svg" width="30" height="20" />' : '') +
                     (reposCounter === 1 ? '<img src="res/crown.svg" width="30" height="20" />' : '');
 
                 const caption = document.createElement('p');
