@@ -260,6 +260,8 @@
     <div id="repositories"></div>
 
     <script>
+        console.log("Hello! :)");
+
         let mailLabel = document.getElementById('mail');
         if (mailLabel) {
             mailLabel.innerHTML = "collab" + "@" + "kay-software.ru";
@@ -344,6 +346,8 @@
             let reposCounter = 0;
             nonForkRepos.forEach((repo, index) => {
                 reposCounter++;
+
+                console.log(`Repo #${reposCounter}: ${repo.name}`);
 
                 const block = document.createElement("div");
                 block.className = "block";
