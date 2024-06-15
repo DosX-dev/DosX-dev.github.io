@@ -16,7 +16,9 @@
     <title>~DosX</title>
 
     <style>
+        html,
         body {
+            height: 100%;
             margin: 0;
             font-family: Arial, sans-serif;
             transition: background-color 0.3s, color 0.3s;
@@ -233,12 +235,6 @@
             text-align: center;
             padding: 3px 0;
             margin-top: 30px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        
-        body.light-theme .footer {
             background-color: #f0f0f0;
             border-top: 1px solid #e4e3e3;
             color: #363636;
@@ -249,41 +245,56 @@
             border-top: 1px solid #646464;
             color: #b6b6b6;
         }
+        /* Добавляем Flexbox */
+        
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .content {
+            flex: 1;
+        }
     </style>
 </head>
 
 <body class="light-theme">
+    <div class="wrapper">
+        <div class="content">
+            <div class="theme-toggle" onclick="toggleTheme()"><img src="res/lamp.svg" width="16" height="16"></div>
 
-    <div class="theme-toggle" onclick="toggleTheme()"><img src="res/lamp.svg" width="16" height="16"></div>
+            <div class="welcome-block">
+                <img src="res/ava.gif" class="ava" width="200" height="200">
+                <h1>DosX<img src="res/verified.svg" width="26" height="26"></h1>
+                <p id="random-slogan" class="slogan"></p>
+            </div>
+            <hr>
+            <div class="text">
+                <h3>About me</h3>
+                <p>For a long time I was engaged in the development of conventional software for Windows. At the moment, I've expanded my skills and am already developing websites, desktop programs, server software and various protections for them. <b>I love my job! <img src="res/heart.svg" width="16" height="16"></b>                    You can view my portfolio below and take a first-hand look at each of the publicly released projects.</p>
+                <div>
+                    <img src="res/mail.svg" width="16" height="16"> Email:
+                    <a href="" id="mail"></a>
+                    <br>
+                    <img src="res/telegram.svg" width="16" height="16"> Telegram:
+                    <a href="https://t.me/DosX_dev">@DosX_dev</a>
+                    <br>
+                    <img src="res/github.svg" width="16" height="16"> GitHub:
+                    <a href="https://github.com/DosX-dev">@DosX-dev</a>
+                </div>
 
-    <div class="welcome-block">
-        <img src="res/ava.gif" class="ava" width="200" height="200">
-        <h1>DosX<img src="res/verified.svg" width="26" height="26"></h1>
-        <p id="random-slogan" class="slogan"></p>
-    </div>
-    <hr>
-    <div class="text">
-        <h3>About me</h3>
-        <p>For a long time I was engaged in the development of conventional software for Windows. At the moment, I've expanded my skills and am already developing websites, desktop programs, server software and various protections for them. <b>I love my job! <img src="res/heart.svg" width="16" height="16"></b>            You can view my portfolio below and take a first-hand look at each of the publicly released projects.</p>
-        <div>
-            <img src="res/mail.svg" width="16" height="16"> Email:
-            <a href="" id="mail"></a>
-            <br>
-            <img src="res/telegram.svg" width="16" height="16"> Telegram:
-            <a href="https://t.me/DosX_dev">@DosX_dev</a>
-            <br>
-            <img src="res/github.svg" width="16" height="16"> GitHub:
-            <a href="https://github.com/DosX-dev">@DosX-dev</a>
+                <h3>My respositories and projects</h3>
+            </div>
+            <div id="loading" class="loading">Please wait... Loading...</div>
+            <div id="repositories"></div>
         </div>
 
-        <h3>My respositories and projects</h3>
+        <footer class="footer">
+            <p>&copy; DosX, <span id="year"></span>. All rights reserved. The information on this site is provided «as is» and is for informational purposes only.</p>
+        </footer>
     </div>
-    <div id="loading" class="loading">Please wait... Loading...</div>
-    <div id="repositories"></div>
-
-    <footer class="footer">
-        <p>&copy; DosX, <span id="year"></span>. All rights reserved. The information on this site is provided «as is» and is for informational purposes only.</p>
-    </footer>
+    </div>
 
     <script>
         console.log("Hello! :)");
@@ -321,9 +332,7 @@
         if (yearLabel) {
             yearLabel.innerText = new Date().getFullYear();
         }
-    </script>
 
-    <script>
         const API_URL = "https://api.github.com/users/DosX-dev/repos";
         const STORAGE_KEY = "dosx_repos";
         const LAST_FETCH_KEY = "dosx_last_fetch";
@@ -362,8 +371,6 @@
                 return null;
             }
         }
-
-
 
         function displayRepositories(repos) {
             const reposContainer = document.getElementById("repositories");
@@ -462,9 +469,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", loadRepositories);
-    </script>
 
-    <script>
         document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add("no-animation");
 
