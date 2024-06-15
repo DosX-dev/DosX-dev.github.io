@@ -227,6 +227,25 @@
         .no-animation.dark-theme {
             transition: none;
         }
+        
+        .footer {
+            font-size: 12px;
+            text-align: center;
+            padding: 3px 0;
+            margin-top: 30px;
+        }
+        
+        body.light-theme .footer {
+            background-color: #f0f0f0;
+            border-top: 1px solid #e4e3e3;
+            color: #363636;
+        }
+        
+        body.dark-theme .footer {
+            background-color: #1f1f1f;
+            border-top: 1px solid #646464;
+            color: #b6b6b6;
+        }
     </style>
 </head>
 
@@ -259,6 +278,10 @@
     <div id="loading" class="loading">Please wait... Loading...</div>
     <div id="repositories"></div>
 
+    <footer class="footer">
+        <p>&copy; DosX, <span id="year"></span>. All rights reserved. The information on this site is provided «as is» and is for informational purposes only.</p>
+    </footer>
+
     <script>
         console.log("Hello! :)");
 
@@ -289,6 +312,11 @@
             };
 
             printEffect(slogans[Math.floor(Math.random() * slogans.length)], 0);
+        }
+
+        let yearLabel = document.getElementById('year');
+        if (yearLabel) {
+            yearLabel.innerText = new Date().getFullYear();
         }
     </script>
 
