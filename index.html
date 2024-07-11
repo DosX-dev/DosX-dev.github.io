@@ -303,7 +303,6 @@
         if (yearLabel) {
             yearLabel.innerText = new Date().getFullYear();
         }
-        document.addEventListener("DOMContentLoaded", loadRepositories);
         document.addEventListener("DOMContentLoaded", () => {
             document.body.classList.add("no-animation");
             const savedTheme = localStorage.getItem("theme");
