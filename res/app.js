@@ -3,7 +3,9 @@ const STORAGE_KEY = "dosx_repos";
 const LAST_FETCH_KEY = "dosx_last_fetch";
 const PER_PAGE = 100;
 const CACHE_ACTUAL_TIME = 60 * 60 * 1000;
+
 async function fetchRepositories() {
+
     let allRepos = [];
     let page = 1;
     let loadingLabel = document.getElementById("loading");
