@@ -281,6 +281,19 @@
     </div>
     <script>
         console.log("Hello! :)");
+        document.addEventListener("DOMContentLoaded", loadRepositories);
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("no-animation");
+            const savedTheme = localStorage.getItem("theme");
+            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");
+            document.body.classList.add(`${initialTheme}-theme`);
+            if (!savedTheme) {
+                localStorage.setItem("theme", initialTheme);
+            }
+            setTimeout(() => { // removes animation class after 100ms
+                document.body.classList.remove("no-animation");
+            }, 100);
+        });
 
         function toggleTheme() {
             const currentTheme = document.body.classList.contains('dark-theme') ? "dark" : "light";
@@ -401,19 +414,6 @@
                 displayRepositories(repos);
             }
         }
-        document.addEventListener("DOMContentLoaded", loadRepositories);
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add("no-animation");
-            const savedTheme = localStorage.getItem("theme");
-            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");
-            document.body.classList.add(`${initialTheme}-theme`);
-            if (!savedTheme) {
-                localStorage.setItem("theme", initialTheme);
-            }
-            setTimeout(() => { // removes animation class after 100ms
-                document.body.classList.remove("no-animation");
-            }, 100);
-        });
 
         function toggleTheme() {
             const currentTheme = document.body.classList.contains('dark-theme') ? "dark" : "light";
