@@ -281,6 +281,23 @@
     </div>
     <script>
         console.log("Hello! :)");
+        document.body.classList.add("no-animation");
+        const savedTheme = localStorage.getItem("theme");
+        const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");
+        document.body.classList.add(`${initialTheme}-theme`);
+        if (!savedTheme) {
+            localStorage.setItem("theme", initialTheme);
+        }
+        setTimeout(() => { // removes animation class after 100ms
+            document.body.classList.remove("no-animation");
+        }, 100);
+
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('dark-theme') ? "dark" : "light";
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            document.body.classList.replace(`${currentTheme}-theme`, `${newTheme}-theme`);
+            localStorage.setItem("theme", newTheme);
+        }
         let mailLabel = document.getElementById('mail');
         if (mailLabel) {
             mailLabel.innerHTML = "collab" + "@" + "kay-software.ru";
@@ -302,25 +319,6 @@
         let yearLabel = document.getElementById('year');
         if (yearLabel) {
             yearLabel.innerText = new Date().getFullYear();
-        }
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add("no-animation");
-            const savedTheme = localStorage.getItem("theme");
-            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");
-            document.body.classList.add(`${initialTheme}-theme`);
-            if (!savedTheme) {
-                localStorage.setItem("theme", initialTheme);
-            }
-            setTimeout(() => { // removes animation class after 100ms
-                document.body.classList.remove("no-animation");
-            }, 100);
-        });
-
-        function toggleTheme() {
-            const currentTheme = document.body.classList.contains('dark-theme') ? "dark" : "light";
-            const newTheme = currentTheme === "dark" ? "light" : "dark";
-            document.body.classList.replace(`${currentTheme}-theme`, `${newTheme}-theme`);
-            localStorage.setItem("theme", newTheme);
         }
     </script>
     <script src="res/app.js"></script>
