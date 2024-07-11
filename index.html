@@ -279,28 +279,9 @@
             <p>&copy; DosX, <span id="year"></span>. All rights reserved. The information on this site is provided «as is» and is for informational purposes only.</p>
         </footer>
     </div>
+    </div>
     <script>
         console.log("Hello! :)");
-        document.addEventListener("DOMContentLoaded", loadRepositories);
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.classList.add("no-animation");
-            const savedTheme = localStorage.getItem("theme");
-            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");
-            document.body.classList.add(`${initialTheme}-theme`);
-            if (!savedTheme) {
-                localStorage.setItem("theme", initialTheme);
-            }
-            setTimeout(() => { // removes animation class after 100ms
-                document.body.classList.remove("no-animation");
-            }, 100);
-        });
-
-        function toggleTheme() {
-            const currentTheme = document.body.classList.contains('dark-theme') ? "dark" : "light";
-            const newTheme = currentTheme === "dark" ? "light" : "dark";
-            document.body.classList.replace(`${currentTheme}-theme`, `${newTheme}-theme`);
-            localStorage.setItem("theme", newTheme);
-        }
         let mailLabel = document.getElementById('mail');
         if (mailLabel) {
             mailLabel.innerHTML = "collab" + "@" + "kay-software.ru";
@@ -414,6 +395,19 @@
                 displayRepositories(repos);
             }
         }
+        document.addEventListener("DOMContentLoaded", loadRepositories);
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("no-animation");
+            const savedTheme = localStorage.getItem("theme");
+            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");
+            document.body.classList.add(`${initialTheme}-theme`);
+            if (!savedTheme) {
+                localStorage.setItem("theme", initialTheme);
+            }
+            setTimeout(() => { // removes animation class after 100ms
+                document.body.classList.remove("no-animation");
+            }, 100);
+        });
 
         function toggleTheme() {
             const currentTheme = document.body.classList.contains('dark-theme') ? "dark" : "light";
