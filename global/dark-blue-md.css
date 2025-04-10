@@ -18,7 +18,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-     :root {
+    :root {
         --text-color: #f8f9fa;
         --light-text: #adb5bd;
         --bg-color: #212529;
@@ -45,13 +45,12 @@ body {
     cursor: default;
 }
 
- ::selection {
+::selection {
     color: #ffffff;
     background-color: rgb(80, 8, 214);
 }
 
-
-/* Типография */
+/* Typography */
 
 h1,
 h2,
@@ -80,15 +79,12 @@ h2 {
 h3 {
     font-size: 1.5rem;
 }
-
 h4 {
     font-size: 1.3rem;
 }
-
 h5 {
     font-size: 1.1rem;
 }
-
 h6 {
     font-size: 1rem;
     color: var(--light-text);
@@ -109,8 +105,7 @@ a:hover {
     text-decoration: underline;
 }
 
-
-/* Списки */
+/* Lists */
 
 ul,
 ol {
@@ -124,13 +119,11 @@ li {
 ul li {
     list-style-type: disc;
 }
-
 ol li {
     list-style-type: decimal;
 }
 
-
-/* Цитаты */
+/* Blockquotes */
 
 blockquote {
     border-left: 4px solid var(--primary-color);
@@ -144,8 +137,7 @@ blockquote p {
     margin: 0;
 }
 
-
-/* Код */
+/* Code */
 
 pre {
     background-color: var(--light-bg);
@@ -170,8 +162,7 @@ pre code {
     border-radius: 0;
 }
 
-
-/* Изображения */
+/* Images */
 
 img {
     max-width: 100%;
@@ -181,8 +172,7 @@ img {
     box-shadow: var(--box-shadow);
 }
 
-
-/* Таблицы */
+/* Tables */
 
 table {
     width: 100%;
@@ -214,8 +204,7 @@ tr:hover {
     background-color: rgba(67, 97, 238, 0.1);
 }
 
-
-/* Горизонтальная линия */
+/* Horizontal line */
 
 hr {
     border: none;
@@ -224,8 +213,7 @@ hr {
     margin: 2rem 0;
 }
 
-
-/* Кнопки (для элементов, которые могут быть в Markdown) */
+/* Buttons */
 
 button,
 .button {
@@ -248,10 +236,9 @@ button:hover,
     transform: translateY(-2px);
 }
 
+/* Forms */
 
-/* Формы (если есть в Markdown) */
-
-input,
+input:not([type="checkbox"]):not([type="radio"]),
 textarea,
 select {
     width: 100%;
@@ -271,8 +258,7 @@ select:focus {
     box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
 }
 
-
-/* Уведомления и подсветка */
+/* Notes */
 
 .note {
     padding: 1rem;
@@ -297,8 +283,7 @@ select:focus {
     border-left-color: var(--danger-color);
 }
 
-
-/* Адаптивность */
+/* Responsive */
 
 @media (max-width: 768px) {
     body {
