@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Star</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="starGradient">
+            <stop stop-color="#FBBF24" offset="0%"></stop>
+            <stop stop-color="#F59E0B" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M10,1.67 L12.575,6.9 L18.3325,7.725 C18.7369,7.78533 18.9044,8.295 18.6119,8.5775 L14.5,12.5775 L15.45,18.3275 C15.5191,18.7319 15.0744,19.0425 14.7094,18.85 L10,16.4 L5.2906,18.85 C4.92563,19.0425 4.48094,18.7319 4.55,18.3275 L5.5,12.5775 L1.38813,8.5775 C1.09562,8.295 1.26313,7.78533 1.6675,7.725 L7.425,6.9 L10,1.67 Z" fill="url(#starGradient)" fill-rule="nonzero"></path>
+    </g>
+</svg>
