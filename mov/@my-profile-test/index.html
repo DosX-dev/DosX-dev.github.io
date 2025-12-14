@@ -132,10 +132,8 @@
 
     <script>
         if (typeof window.TelegramWebview !== "undefined") {
-            // block test button
             var startTestBtn = document.getElementsByClassName("content-card")[0];
 
-            // hide button
             startTestBtn.innerHTML = "<h1>Внимание!</h1><p>Этот тест не работает внутри Telegram. Пожалуйста, откройте его в обычном браузере.</p>";
         }
     </script>
