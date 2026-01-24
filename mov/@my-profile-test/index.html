@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Психологический тест | mov eax, 4</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Баннер -->
+        <div class="banner">
+            <img src="banner.png" alt="mov eax, 4" class="banner-image" onerror="this.style.display='none'">
+        </div>
+
+        <!-- Экран ввода никнейма -->
+        <div id="welcome-screen" class="screen active">
+            <div class="content-card">
+                <h1>Психологический профиль</h1>
+                <p class="subtitle">В конце Вам будет выдан именной сертификат и рекомендации</p>
+                <div class="input-group">
+                    <label for="telegram-nick">Ваш Telegram никнейм</label>
+                    <input type="text" id="telegram-nick" placeholder="@username" maxlength="33">
+                </div>
+                <button class="btn-primary" id="start-test-btn">Начать тест</button>
+            </div>
+        </div>
+
+        <!-- Экран теста -->
+        <div id="test-screen" class="screen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="question-counter">
+                <span id="current-question">1</span> / <span id="total-questions">40</span>
+            </div>
+
+            <div class="content-card question-card">
+                <h2 id="question-text" class="question-text"></h2>
+                <div id="answers-container" class="answers-container"></div>
+            </div>
+        </div>
+
+        <!-- Экран результатов -->
+        <div id="results-screen" class="screen">
+            <div class="content-card results-card">
+                <div id="certificate">
+                    <div class="certificate-header">
+                        <h1>Результаты теста</h1>
+                        <p class="cert-username" id="cert-username"></p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Аналитические способности</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="analytical-bar"></div>
+                            </div>
+                            <div class="stat-value" id="analytical-value">0%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Терпеливость</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="patient-bar"></div>
+                            </div>
+                            <div class="stat-value" id="patient-value">0%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Сообразительность</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="intelligent-bar"></div>
+                            </div>
+                            <div class="stat-value" id="intelligent-value">0%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Креативность</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="creative-bar"></div>
+                            </div>
+                            <div class="stat-value" id="creative-value">0%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Стрессоустойчивость</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="stress-bar"></div>
+                            </div>
+                            <div class="stat-value" id="stress-value">0%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Коммуникация</div>
+                            <div class="stat-bar">
+                                <div class="stat-fill" id="communication-bar"></div>
+                            </div>
+                            <div class="stat-value" id="communication-value">0%</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-description">
+                        <h3>Ваш профиль</h3>
+                        <p id="profile-text"></p>
+                    </div>
+
+                    <div class="recommendations">
+                        <h3>Рекомендации для вас</h3>
+                        <ul id="recommendations-list"></ul>
+                    </div>
+
+                    <div class="weaknesses">
+                        <h3>Возможные слабые стороны</h3>
+                        <ul id="weaknesses-list"></ul>
+                    </div>
+
+                    <div class="certificate-section">
+                        <p class="date" id="test-date"></p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-primary" id="download-cert-btn">Скачать сертификат</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (typeof window.TelegramWebview !== "undefined") {
+            var startTestBtn = document.getElementsByClassName("content-card")[0];
+
+            startTestBtn.innerHTML = "<h1>Внимание!</h1><p>Этот тест не работает внутри Telegram. Пожалуйста, откройте его в обычном браузере.</p>";
+        }
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

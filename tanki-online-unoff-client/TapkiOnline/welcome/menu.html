@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanki Online</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(50% 100% at 50% 100%, #395673 0%, #001926 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            font-family: Arial, sans-serif;
+            cursor: default;
+            user-select: none;
+        }
+
+        a {
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+            -ms-touch-action: none;
+            touch-action: none;
+        }
+
+        a.no-drag {
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+            -ms-touch-action: none;
+            touch-action: none;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 70px;
+        }
+
+        .container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .menuButton {
+            float: left;
+            margin-right: 20px;
+            background-color: #405dff28;
+            border-radius: 17px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            width: 200pt;
+            height: 200pt;
+            color: #fff;
+        }
+
+        .menuButton:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .menuButton h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .greeting {
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .main {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url("./main.png");
+        }
+    </style>
+</head>
+
+<body>
+    <div class="greeting">
+        <h1><span style="color: rgb(170, 170, 170)"><s>Tanki</s> Online</span><br>Tapki Online</h1>
+        <p>Модифицированный клиент разработан программистом DosX.<br>За любой помощью обращайся в Telegram! (@DosX_Plus)
+        </p>
+    </div>
+    <div class="container">
+        <a href="https://tankionline.com/play">
+            <div class="menuButton main">
+                <h2>ИГРАТЬ!</h2>
+                <p>Начните играть в Танки Онлайн с постоянными вылетами и сбоями прямо сейчас!</p>
+            </div>
+        </a>
+        <a href="https://test.tankionline.com">
+            <div class="menuButton test">
+                <h2>Тестовый сервер</h2>
+                <p>Танки Онлайн без правил. Выдаётся сразу высокое звание и накрученный баланс. Разрешено делать всё,
+                    что душе угодно!</p>
+                <p style="color: rgb(255, 173, 173);">(Аккаунты и весь прогресс переодически обнуляются)</p>
+            </div>
+        </a>
+    </div>
+    <p style="text-align: center; color: rgba(255, 255, 255, 0.699);">Это меню доступно только при открытии клиента.</p>
+
+    <script>
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('wheel', function (event) {
+            {
+                if (event.ctrlKey === true) {
+                    event.preventDefault();
+                }
+            }
+        }, {
+            passive: false
+        });
+    </script>
+</body>
+
+</html>

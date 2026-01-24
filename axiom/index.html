@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Axiom Terminal</title>
+    <link rel="stylesheet" href="application_data/webui/app.styles.css">
+</head>
+<body>
+    <div id="terminal-container">
+        <div id="terminal-header">
+            <span class="terminal-title">Axiom Terminal v1.0.0</span>
+            <span class="terminal-status" id="system-status">Booting...</span>
+        </div>
+        <div id="terminal-output"></div>
+        <div id="terminal-input-line">
+            <span id="terminal-prompt">root@axiom:~$</span>
+            <input type="text" 
+                   id="terminal-input" 
+                   autocomplete="off" 
+                   autocorrect="off"
+                   autocapitalize="off"
+                   spellcheck="false" 
+                   autofocus
+                   inputmode="text">
+        </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div id="axiom-context-menu">
+        <div class="context-menu-item" data-action="copy">Copy</div>
+        <div class="context-menu-item" data-action="paste">Paste</div>
+        <div class="context-menu-separator"></div>
+        <div class="context-menu-item" data-action="reboot">Reboot</div>
+    </div>
+
+    <!-- System Core -->
+    <script src="application_data/system/kernel/core/bootmgr.js"></script>
+    <script src="application_data/system/kernel/environment.js"></script>
+    <script src="application_data/system/kernel/virtualcpu.js"></script>
+    <script src="application_data/system/kernel/virtualcpu.interruptions.js"></script>
+    
+    <!-- File System I/O -->
+    <script src="application_data/system/kernel/fsio/fs.input.js"></script>
+    <script src="application_data/system/kernel/fsio/fs.output.js"></script>
+    <script src="application_data/system/kernel/fsio/fs.compression.js"></script>
+    
+    <!-- Virtual Machine -->
+    <script src="application_data/system/vm/emulator.js"></script>
+    <script src="application_data/system/vm/emulator.instructions.js"></script>
+    <script src="application_data/system/vm/container.js"></script>
+    <script src="application_data/system/vm/container.memguard.js"></script>
+    
+    <!-- UI Apps -->
+    <script src="application_data/system/uiapps/core.ui-notepad.js"></script>
+    
+    <!-- Application Manifest -->
+    <script src="application_data/webui/app.manifest.js"></script>
+</body>
+</html>

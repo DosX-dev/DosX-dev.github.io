@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="DosX Portfolio - Software Developer & Security Specialist">
+    <meta name="description" content="DosX → Attack, Defend, Anticipate - Software developer specializing in Windows applications, web development, server solutions, and security protections. View my portfolio of public projects.">
+    <meta name="keywords" content="DosX, programmer, software development, windows applications, web development, server software, protection, github, dosx-dev, security specialist, portfolio, developer, repository">
+    <meta name="author" content="DosX">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#4361ee">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dosx.su/">
+    <meta property="og:title" content="DosX Portfolio - Software Developer & Security Specialist">
+    <meta property="og:description" content="Software developer specializing in Windows applications, web development, server solutions, and security protections. View my portfolio of public projects.">
+    <meta property="og:image" content="res/ava.gif">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://dosx.su/">
+    <meta property="twitter:title" content="DosX Portfolio - Software Developer & Security Specialist">
+    <meta property="twitter:description" content="Software developer specializing in Windows applications, web development, server solutions, and security protections. View my portfolio of public projects.">
+    <meta property="twitter:image" content="res/ava.gif">
+
+    <link rel="canonical" href="https://dosx.su/">
+
+    <title>DosX • Developer Portfolio | Windows, Web, Server & Security Solutions</title>
+
+    <link rel="icon" type="image/png" href="res/favicon.png">
+    <link rel="stylesheet" href="app.modern.css">
+    <link rel="stylesheet" href="app.modern.fingerprint.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+
+    <!-- JSON-LD structured data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "DosX",
+      "url": "https://dosx.su",
+      "image": "res/ava.gif",
+      "sameAs": [
+        "https://github.com/dosx-dev",
+        "https://t.me/DosX_dev"
+      ],
+      "jobTitle": "Software Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Independent"
+      },
+      "description": "Software developer specializing in Windows applications, web development, server solutions, and security protections.",
+      "knowsAbout": [
+        "GUI Applications",
+        "CLI Programs",
+        "Software Libraries",
+        "Software Protection",
+        "PE Signature Analysis",
+        "Web Development"
+      ],
+      "email": "collab@kay-software.ru"
+    }
+    </script>
+</head>
+
+<body class="light-mode">
+    <div id="warning-popup" class="warning-popup hidden" role="alert" aria-live="polite">
+        <div class="warning-content">
+            <div class="warning-icon">⚠️</div>
+            <p>В связи с абсурдной политикой Роскомнадзора <b>доступ к этому сайту для россиян может стать невозможным</b>. Сохраните мои контактные данные на этот случай.</p>
+            <button id="close-warning" class="close-warning" aria-label="Close warning">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <header>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <div class="toggle-icon">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3V4M12 20V21M4 12H3M21 12H20M6.31 6.31L5.6 5.6M18.4 18.4L17.69 17.69M6.31 17.69L5.6 18.4M18.4 5.6L17.69 6.31M17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero slant-after" style="height: 100vh; min-height: 100vh; max-height: 100vh;">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="profile-container">
+                        <div class="profile-image">
+                            <img src="res/ava.gif" alt="DosX Avatar" class="avatar">
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="name">DosX <span class="verified-badge" title="Verified">
+                                <svg width="20px" height="20px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="verified-icon">
+                                    <path d="M9,16.17 L4.83,12 L3.41,13.41 L9,19 L21,7 L19.59,5.59 L9,16.17 Z" fill="#4361ee" class="verified-path" />
+                                </svg>
+                            </span></h1>
+                        <p id="random-slogan" class="slogan"></p>
+                        <div class="about-bio">
+                            <p>For a long time I was engaged in the development of conventional software for Windows. At the moment, I've expanded my skills and am already developing websites, desktop programs, server software and various protections for them. <b>I love my job! <img src="res/heart-new.svg" class="inline-icon" alt="Heart"></b></p>
+                            <p>You can view my portfolio below and take a first-hand look at each of the publicly released projects.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator" onclick="document.querySelector('.contact').scrollIntoView({behavior: 'smooth'})" style="position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); cursor: pointer; z-index: 10;">
+                <svg width="30" height="20" viewBox="0 0 30 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="scroll-arrow-svg">
+                    <path d="M2 2L15 18L28 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </section>
+
+        <section class="expertise slant-before slant-after">
+            <div class="container">
+                <h2 class="section-title">Expertise Areas</h2>
+                <div class="expertise-grid">
+                    <div class="expertise-row top-row">
+                        <div class="expertise-box">
+                            <div class="expertise-icon">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxyZWN0IHg9IjIiIHk9IjMiIHdpZHRoPSIyMCIgaGVpZ2h0PSIxNCIgcng9IjIiIHJ5PSIyIj48L3JlY3Q+PGxpbmUgeDE9IjgiIHkxPSIyMSIgeDI9IjE2IiB5Mj0iMjEiPjwvbGluZT48bGluZSB4MT0iMTIiIHkxPSIxNyIgeDI9IjEyIiB5Mj0iMjEiPjwvbGluZT48L3N2Zz4=" alt="GUI Applications" />
+                            </div>
+                            <h3>GUI Applications</h3>
+                            <p>Interactive applications with intuitive interface and minimalist design</p>
+                        </div>
+
+                        <div class="expertise-box">
+                            <div class="expertise-icon">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwb2x5bGluZSBwb2ludHM9IjE2IDE4IDIyIDEyIDE2IDYiPjwvcG9seWxpbmU+PHBvbHlsaW5lIHBvaW50cz0iOCA2IDIgMTIgOCAxOCI+PC9wb2x5bGluZT48L3N2Zz4=" alt="CLI Programs" />
+                            </div>
+                            <h3>CLI Programs</h3>
+                            <p>Console utilities with structured output and beautiful color schemes</p>
+                        </div>
+
+                        <div class="expertise-box">
+                            <div class="expertise-icon">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0yIDNoNmE0IDQgMCAwIDEgNCA0djE0YTMgMyAwIDAgMC0zLTNIMnoiPjwvcGF0aD48cGF0aCBkPSJNMjIgM2gtNmE0IDQgMCAwIDAtNCA0djE0YTMgMyAwIDAgMSAzLTNoN3oiPjwvcGF0aD48L3N2Zz4=" alt="Libraries for Developers" />
+                            </div>
+                            <h3>Libraries for Developers</h3>
+                            <p>Helpful libraries for system programming, web development and UIs</p>
+                        </div>
+                    </div>
+
+                    <div class="expertise-row bottom-row">
+                        <div class="expertise-box">
+                            <div class="expertise-icon">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxyZWN0IHg9IjMiIHk9IjExIiB3aWR0aD0iMTgiIGhlaWdodD0iMTEiIHJ4PSIyIiByeT0iMiI+PC9yZWN0PjxwYXRoIGQ9Ik03IDExVjdhNSA1IDAgMCAxIDEwIDB2NCI+PC9wYXRoPjwvc3ZnPg==" alt="Software Protection" />
+                            </div>
+                            <h3>Software Protection</h3>
+                            <p>Website protection and DRM solutions for intellectual property</p>
+                        </div>
+
+                        <div class="expertise-box">
+                            <div class="expertise-icon">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik0xNCAySDZhMiAyIDAgMCAwLTIgMnYxNmEyIDIgMCAwIDAgMiAyaDEyYTIgMiAwIDAgMCAyLTJWOHoiPjwvcGF0aD48cG9seWxpbmUgcG9pbnRzPSIxNCAyIDE0IDggMjAgOCI+PC9wb2x5bGluZT48bGluZSB4MT0iMTYiIHkxPSIxMyIgeDI9IjgiIHkyPSIxMyI+PC9saW5lPjxsaW5lIHgxPSIxNiIgeTE9IjE3IiB4Mj0iOCIgeTI9IjE3Ij48L2xpbmU+PHBvbHlsaW5lIHBvaW50cz0iMTAgOSA5IDkgOCA5Ij48L3BvbHlsaW5lPjwvc3ZnPg==" alt="PE Signature Analysis" />
+                            </div>
+                            <h3>PE Signature Analysis</h3>
+                            <p>Heuristic analyzers for identifying protection mechanisms</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact slant-before slant-after">
+            <div class="container">
+                <h2 class="section-title">Contact Me</h2>
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <img src="res/mail-new.svg" alt="Email">
+                        </div>
+                        <div class="contact-info">
+                            <h3>Email</h3>
+                            <a href="" id="mail" class="contact-link"></a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <img src="res/telegram-new.svg" alt="Telegram">
+                        </div>
+                        <div class="contact-info">
+                            <h3>Telegram</h3>
+                            <a href="https://t.me/DosX_dev" class="contact-link">@DosX_dev</a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <img src="res/github-new.svg" alt="GitHub" class="light-only">
+                            <img src="res/github-light.svg" alt="GitHub" class="dark-only">
+                        </div>
+                        <div class="contact-info">
+                            <h3>GitHub</h3>
+                            <a href="https://github.com/DosX-dev" class="contact-link">@DosX-dev</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects slant-before">
+            <div class="container">
+                <h2 class="section-title">Projects & Repositories</h2>
+
+                <div class="filters-container">
+                    <div class="search-container">
+                        <input type="text" id="search-input" class="search-input" placeholder="Search repositories...">
+                    </div>
+                    <div class="sort-container" style="border: 1px solid rgba(100, 130, 200, 0.3); background-color: transparent; box-shadow: none; border-radius: 8px;">
+                        <label style="font-weight: 600;">Sort by:</label>
+                        <div class="custom-select">
+                            <div class="select-selected" id="sort-selected">Stars (high to low)</div>
+                            <div class="select-items select-hide">
+                                <div data-value="stars" class="select-option select-active">Stars (high to low)</div>
+                                <div data-value="stars-asc" class="select-option">Stars (low to high)</div>
+                                <div data-value="forks" class="select-option">Forks (high to low)</div>
+                                <div data-value="forks-asc" class="select-option">Forks (low to high)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-filters">
+                        <button class="category-filter active" data-category="all" style="font-weight: 800 !important;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 6H21M8 12H21M8 18H21M3 6H3.01M3 12H3.01M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            All
+                        </button>
+                        <button class="category-filter" data-category="game" style="font-weight: 800 !important;">
+                            <img src="res/game-new.svg" alt="Game" class="category-icon">
+                            Games
+                        </button>
+                        <button class="category-filter" data-category="malware" style="font-weight: 800 !important;">
+                            <img src="res/virus-new.svg" alt="Security" class="category-icon">
+                            Security
+                        </button>
+                        <button class="category-filter" data-category="web" style="font-weight: 800 !important;">
+                            <img src="res/web-new.svg" alt="Web" class="category-icon">
+                            Web
+                        </button>
+                        <button class="category-filter" data-category="learning" style="font-weight: 800 !important;">
+                            <img src="res/learn-new.svg" alt="Learning" class="category-icon">
+                            Learning
+                        </button>
+                        <button class="category-filter" data-category="optimizer" style="font-weight: 800 !important;">
+                            <img src="res/leaf-new.svg" alt="Optimizers" class="category-icon">
+                            Optimizers
+                        </button>
+                        <button class="category-filter" data-category="database" style="font-weight: 800 !important;">
+                            <img src="res/database-new.svg" alt="Data Tools" class="category-icon">
+                            Data Tools
+                        </button>
+                        <button class="category-filter" data-category="protection" style="font-weight: 800 !important;">
+                            <img src="res/shield-new.svg" alt="Protections" class="category-icon">
+                            Protections
+                        </button>
+                        <button class="category-filter" data-category="library" style="font-weight: 800 !important;">
+                            <img src="res/sdk-new.svg" alt="Libraries" class="category-icon">
+                            Libraries
+                        </button>
+                    </div>
+                </div>
+
+                <div id="loading" class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Loading repositories...</p>
+                </div>
+                <div id="repositories" class="projects-grid"></div>
+            </div>
+        </section>
+
+        <section class="fingerprint-section">
+            <div class="container">
+                <h2 class="section-title">It's You</h2>
+                <div class="fingerprint-container">
+                    <div class="fingerprint-header">
+                        <div class="fingerprint-title">
+                            <img src="res/windows-icon.svg" alt="Windows" class="windows-icon">
+                            C:\fingerprint.exe
+                        </div>
+                        <div class="window-controls">
+                            <span class="window-control minimize"></span>
+                            <span class="window-control maximize"></span>
+                            <span class="window-control close"></span>
+                        </div>
+                    </div>
+                    <div class="fingerprint-window">
+                        <div class="fingerprint-toolbar">
+                            <div class="toolbar-button active">Overview</div>
+                            <div class="toolbar-button">Browser</div>
+                            <div class="toolbar-button">System</div>
+                        </div>
+                        <div class="fingerprint-content">
+                            <div id="fingerprint-output">
+                                <div class="loading-scanner">
+                                    <div class="scanner-animation"></div>
+                                    <div class="scanner-text">Scanning your device...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; DosX, <span id="year"></span>. All rights reserved. The information on this site is provided «as is» and is for informational purposes only.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script src="app.fingerprint.js"></script>
+</body>
+
+</html>

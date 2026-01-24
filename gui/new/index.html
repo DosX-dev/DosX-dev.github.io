@@ -1,0 +1,38 @@
+<!doctype html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>DEVS.CF</title>
+    <link rel="canonical" href="https://devs.cf/gui/new/">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <!-- <h2 style="font-family: Calibri;">Private room "<span style="color: grey;" id="room-name"></span>"</h2> -->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let Room = urlParams.get("id");
+        // document.getElementById("room-name").innerHTML = Room;
+        if (Room !== "" && Room !== null) {
+            var SiteLoader = document.createElement('script');
+
+
+            ["src=https://comments.app/js/widget.js?3",
+                "data-comments-app-website=DikOaSMs",
+                "data-limit=30",
+                "data-color=343638",
+                "data-dislikes=1",
+                "data-outlined=1",
+                `data-page-id=${Room}`,
+                "data-dark=0"
+            ].forEach(El => {
+                let Parse = El.split("=");
+                SiteLoader.setAttribute(Parse[0], Parse[1]);
+            });
+
+            document.body.appendChild(SiteLoader);
+        } else {
+            document.write("Invalid data.");
+        }
+    </script>
+</body>
