@@ -1199,6 +1199,74 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* ─────────── iPhone 4/5 (320–360px) ─────────── */
+        @media (max-width: 375px) {
+            section {
+                padding: 4rem 5vw;
+            }
+
+            .hero-name {
+                font-size: clamp(2.2rem, 9vw, 2.8rem);
+            }
+
+            .hero-title {
+                font-size: 1rem;
+                letter-spacing: .04em;
+            }
+
+            .hero-desc {
+                font-size: .88rem;
+                line-height: 1.7;
+            }
+
+            .hero-stats {
+                gap: 1.2rem;
+                flex-wrap: wrap;
+            }
+
+            .stat-val {
+                font-size: 2rem;
+            }
+
+            .stat-label {
+                font-size: .72rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: .8rem;
+            }
+
+            .btn-primary {
+                padding: .8rem 1.6rem;
+                font-size: .8rem;
+            }
+
+            .btn-ghost {
+                font-size: .78rem;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: clamp(2rem, 9vw, 2.6rem);
+            }
+
+            .hero-right .hero-img-wrap,
+            .hero-right .photo-circle-wrap {
+                width: 130px;
+                height: 130px;
+            }
+
+            .about-quote {
+                padding: 1.2rem 1.2rem 1.2rem 2rem;
+                font-size: .88rem;
+            }
+        }
     </style>
 </head>
 

@@ -207,8 +207,6 @@ function loadSite(index) {
 
 const PHONE_FORMATS = [
     {
-        // iOS 15-16: iPhone 12/13/14 series, iPhone 16e
-        // Источник: ios-resolution.com — CSS viewport 390 × 844
         id: 'std', label: 'Стандарт', sub: '390 × 844', w: 390, h: 844, devices: [
             { b: 'A', c: '#98989d', name: 'iPhone 14', maker: 'Apple' },
             { b: 'A', c: '#98989d', name: 'iPhone 13 / 13 Pro', maker: 'Apple' },
@@ -217,7 +215,6 @@ const PHONE_FORMATS = [
         ]
     },
     {
-        // iPhone SE 2nd/3rd gen, iPhone 7/8 — CSS viewport 375 × 667
         id: 'compact', label: 'Компакт', sub: '375 × 667', w: 375, h: 667, devices: [
             { b: 'A', c: '#98989d', name: 'iPhone SE 3 gen', maker: 'Apple' },
             { b: 'A', c: '#98989d', name: 'iPhone SE 2 gen', maker: 'Apple' },
@@ -226,8 +223,6 @@ const PHONE_FORMATS = [
         ]
     },
     {
-        // iPhone 15/15 Pro/16/14 Pro — CSS viewport 393 × 852 (DPR 3×)
-        // ВНИМАНИЕ: iPhone 17 имеет 402×874, он в другой группе
         id: 'pro', label: 'Pro', sub: '393 × 852', w: 393, h: 852, devices: [
             { b: 'A', c: '#98989d', name: 'iPhone 16', maker: 'Apple' },
             { b: 'A', c: '#98989d', name: 'iPhone 15 / 15 Pro', maker: 'Apple' },
@@ -235,8 +230,6 @@ const PHONE_FORMATS = [
         ]
     },
     {
-        // iPhone 14 Plus / 13 Pro Max / 12 Pro Max — CSS viewport 428 × 926 (DPR 3×)
-        // iPhone 15/16 Plus и новые Pro Max — уже 430×932
         id: 'max', label: 'Plus / Max', sub: '428 × 926', w: 428, h: 926, devices: [
             { b: 'A', c: '#98989d', name: 'iPhone 14 Plus', maker: 'Apple' },
             { b: 'A', c: '#98989d', name: 'iPhone 13 Pro Max', maker: 'Apple' },
@@ -244,8 +237,6 @@ const PHONE_FORMATS = [
         ]
     },
     {
-        // Android-флагманы с DPR ~2.625: 1080×2400 → 412×914-919 CSS
-        // Google Pixel 7/8: 412×915; Nothing Phone 2/2a/3: 412×914-919
         id: 'tall', label: 'Tall', sub: '412 × 915', w: 412, h: 915, devices: [
             { b: 'G', c: '#4285f4', name: 'Pixel 7 / 8', maker: 'Google' },
             { b: 'N', c: '#d4d4d4', name: 'Phone 3', maker: 'Nothing' },
@@ -254,7 +245,6 @@ const PHONE_FORMATS = [
         ]
     },
     {
-        // Стандартный Android-viewport: 1080×2340 / DPR 3 → 360×780-800
         id: 'mid', label: 'Android Mid', sub: '360 × 800', w: 360, h: 800, devices: [
             { b: 'S', c: '#1428a0', name: 'Galaxy S22 / S24', maker: 'Samsung' },
             { b: 'S', c: '#1428a0', name: 'Galaxy A54 / A55', maker: 'Samsung' },

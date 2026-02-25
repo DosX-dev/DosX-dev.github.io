@@ -1764,12 +1764,12 @@
         }
 
         #lightbox img {
-            max-width: 90vw;
-            max-height: 88vh;
+            width: min(88vw, 720px);
+            height: min(82vh, 540px);
             object-fit: contain;
             border-radius: 12px;
             transform: scale(0.9);
-            transition: transform 0.4s var(--transition);
+            transition: transform 0.4s ease;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(232, 96, 122, 0.2);
         }
 
@@ -2475,9 +2475,11 @@
         const lb = document.getElementById('lightbox');
         const lbImg = document.getElementById('lightbox-img');
         const lbClose = document.getElementById('lightbox-close');
+        let lbClearTimer = null;
 
         document.querySelectorAll('.gallery-item').forEach(item => {
             item.addEventListener('click', () => {
+                if (lbClearTimer) { clearTimeout(lbClearTimer); lbClearTimer = null; }
                 lbImg.src = item.dataset.img;
                 lb.classList.add('open');
                 document.body.style.overflow = 'hidden';
@@ -2486,9 +2488,7 @@
         const closeLB = () => {
             lb.classList.remove('open');
             document.body.style.overflow = '';
-            setTimeout(() => {
-                lbImg.src = '';
-            }, 400);
+            lbClearTimer = setTimeout(() => { lbImg.src = ''; lbClearTimer = null; }, 400);
         };
         lbClose.addEventListener('click', closeLB);
         lb.addEventListener('click', e => {
