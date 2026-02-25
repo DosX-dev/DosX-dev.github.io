@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 
 <head>
@@ -1099,8 +1099,54 @@
             transition-delay: .3s;
         }
 
-        /* ─── RESPONSIVE ─── */
+        /* ══════ RESPONSIVE — полный каскад ══════ */
+
+        /* 1280px: широкий ноутбук */
+        @media (max-width: 1280px) {
+            .hero-left { padding: 5rem 3vw 3rem 6vw; }
+            .photo-circle-wrap { width: 300px; height: 300px; }
+            #about    { gap: 4rem; }
+            #contact  { gap: 4rem; }
+            .testimonials-grid { gap: 1.5rem; }
+        }
+
+        /* 1024px: iPad landscape / маленький ноутбук */
+        @media (max-width: 1024px) {
+            section { padding: 6rem 7vw; }
+
+            .hero-name {
+                font-size: clamp(3rem, 5vw, 4.6rem);
+            }
+
+            .photo-circle-wrap { width: 260px; height: 260px; }
+
+            .practice-header { gap: 2.5rem; }
+
+            .process-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+            }
+
+            .process-grid::before { display: none; }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            #about   { gap: 3.5rem; }
+            #contact { gap: 3.5rem; }
+
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: .6rem;
+            }
+        }
+
+        /* 900px: iPad portrait / большой телефон */
         @media (max-width: 900px) {
+            section { padding: 5.5rem 7vw; }
+
             #hero {
                 grid-template-columns: 1fr;
                 height: auto;
@@ -1116,11 +1162,10 @@
                 order: -1;
             }
 
-            /* Упрощённое фото на мобилке — ни колец, ни SVG, ни filter, ни анимаций */
             .hero-right .hero-img-wrap,
             .hero-right .photo-circle-wrap {
-                width: 180px;
-                height: 180px;
+                width: 190px;
+                height: 190px;
                 overflow: hidden;
                 border-radius: 50%;
                 will-change: transform;
@@ -1138,135 +1183,195 @@
             .hero-right .photo-ring-1,
             .hero-right .photo-ring-2,
             .hero-right .photo-ring-3,
-            .hero-right .photo-ring-4 {
-                display: none;
-            }
+            .hero-right .photo-ring-4 { display: none; }
 
-            /* SVG с точками компаса */
-            .hero-right .hero-img-wrap svg {
-                display: none;
-            }
+            .hero-right .hero-img-wrap svg { display: none; }
 
             .hero-left {
                 justify-content: flex-start;
                 padding: 0 6vw 3rem;
             }
 
-            #about {
-                grid-template-columns: 1fr;
-            }
+            #about { grid-template-columns: 1fr; gap: 3rem; }
 
             .practice-header {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
             }
 
-            .practice-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+            .practice-grid { grid-template-columns: 1fr 1fr; }
 
             .process-grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 2rem;
+                gap: 2.5rem;
             }
 
-            .process-grid::before {
-                display: none;
-            }
+            .process-grid::before { display: none; }
 
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-            }
+            .testimonials-grid { grid-template-columns: 1fr; }
 
-            #contact {
-                grid-template-columns: 1fr;
-            }
+            #contact { grid-template-columns: 1fr; gap: 3rem; }
 
-            .form-row {
-                grid-template-columns: 1fr;
-            }
+            .form-row { grid-template-columns: 1fr; }
 
-            nav .nav-links {
-                display: none;
+            nav .nav-links { display: none; }
+            nav .nav-cta   { display: none; }
+
+            footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: .6rem;
+                padding: 2rem 6vw;
             }
         }
 
+        /* 768px: средний телефон landscape */
+        @media (max-width: 768px) {
+            section { padding: 5rem 6vw; }
+
+            .hero-name { font-size: clamp(2.8rem, 8.5vw, 3.8rem); }
+            .hero-title { font-size: 1.1rem; }
+            .hero-stats { gap: 2rem; }
+            .testimonial-card { padding: 2rem 1.8rem; }
+            .process-step { padding: 0 1rem; }
+            .step-num { font-size: 2.4rem; }
+            .cert-card { padding: 1.4rem 1.6rem; }
+        }
+
+        /* 600px: телефон portrait */
         @media (max-width: 600px) {
-            section {
-                padding: 5rem 6vw;
-            }
+            section { padding: 4.5rem 5.5vw; }
 
-            .practice-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* ─────────── iPhone 4/5 (320–360px) ─────────── */
-        @media (max-width: 375px) {
-            section {
-                padding: 4rem 5vw;
-            }
-
-            .hero-name {
-                font-size: clamp(2.2rem, 9vw, 2.8rem);
-            }
-
-            .hero-title {
-                font-size: 1rem;
-                letter-spacing: .04em;
-            }
-
-            .hero-desc {
-                font-size: .88rem;
-                line-height: 1.7;
-            }
+            .hero-name { font-size: clamp(2.4rem, 8vw, 3.2rem); }
 
             .hero-stats {
-                gap: 1.2rem;
+                gap: 1.6rem;
                 flex-wrap: wrap;
             }
 
-            .stat-val {
-                font-size: 2rem;
+            .stat-val { font-size: 2.4rem; }
+
+            .practice-grid { grid-template-columns: 1fr; }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
             }
 
-            .stat-label {
-                font-size: .72rem;
+            .testimonials-grid { gap: 1.2rem; }
+
+            .section-title { font-size: clamp(2.2rem, 7vw, 3rem); }
+
+            footer {
+                padding: 2rem 5.5vw;
+                font-size: .82rem;
             }
+        }
+
+        /* 480px: маленький телефон */
+        @media (max-width: 480px) {
+            section { padding: 4rem 5vw; }
+            nav { padding: 0 5vw; }
+
+            .hero-name { font-size: clamp(2.2rem, 8vw, 2.8rem); }
+            .hero-desc { font-size: .95rem; }
 
             .hero-actions {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: .85rem;
+            }
+
+            .hero-stats { gap: 1.2rem; }
+            .stat-val { font-size: 2.1rem; }
+            .about-quote p { font-size: 1.1rem; }
+            .testimonial-text { font-size: 1.05rem; }
+
+            .process-step {
+                padding: 0;
+                text-align: left;
+            }
+
+            .step-num {
+                font-size: 2.2rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .step-num::after {
+                left: 0;
+                transform: none;
+            }
+
+            .contact-icon { width: 38px; height: 38px; }
+        }
+
+        /* 375px: iPhone 12 mini / SE */
+        @media (max-width: 375px) {
+            section { padding: 3.5rem 5vw; }
+
+            .hero-right .hero-img-wrap,
+            .hero-right .photo-circle-wrap { width: 140px; height: 140px; }
+
+            .hero-name { font-size: clamp(2rem, 9vw, 2.6rem); }
+            .hero-title { font-size: .95rem; letter-spacing: .04em; }
+            .hero-desc  { font-size: .88rem; line-height: 1.7; }
+            .hero-stats { gap: 1rem; }
+            .stat-val   { font-size: 1.9rem; }
+            .stat-label { font-size: .72rem; }
+
+            .btn-primary {
+                padding: .85rem 1.5rem;
+                font-size: .8rem;
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .btn-ghost { font-size: .8rem; }
+
+            .section-title { font-size: clamp(1.9rem, 9vw, 2.4rem); }
+
+            .about-quote { padding: 1rem 1rem 1rem 1.4rem; }
+            .about-quote p { font-size: 1rem; }
+
+            .testimonial-card { padding: 1.6rem 1.4rem; }
+            .testimonial-text { font-size: 1rem; }
+
+            .form-submit {
+                width: 100%;
+                justify-content: center;
+            }
+
+            footer { padding: 1.8rem 5vw; }
+        }
+
+        /* 320px: iPhone 4/5, очень узкие экраны */
+        @media (max-width: 320px) {
+            section { padding: 3rem 4.5vw; }
+
+            .hero-right .hero-img-wrap,
+            .hero-right .photo-circle-wrap { width: 110px; height: 110px; }
+
+            .hero-name  { font-size: 1.9rem; }
+            .hero-title { font-size: .88rem; }
+
+            .hero-stats {
+                flex-direction: column;
                 gap: .8rem;
             }
 
-            .btn-primary {
-                padding: .8rem 1.6rem;
-                font-size: .8rem;
-            }
+            .stat-val      { font-size: 1.7rem; }
+            .section-title { font-size: 1.8rem; }
+            .nav-logo      { font-size: 1.1rem; }
 
-            .btn-ghost {
-                font-size: .78rem;
-            }
-
-            .process-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title {
-                font-size: clamp(2rem, 9vw, 2.6rem);
-            }
-
-            .hero-right .hero-img-wrap,
-            .hero-right .photo-circle-wrap {
-                width: 130px;
-                height: 130px;
-            }
-
-            .about-quote {
-                padding: 1.2rem 1.2rem 1.2rem 2rem;
-                font-size: .88rem;
-            }
+            .cert-card      { padding: 1.2rem; }
+            .cert-name      { font-size: 1.05rem; }
+            .practice-card  { padding: 1.8rem 1.4rem; }
+            .practice-num   { font-size: 2.2rem; }
+            .contact-item-val { font-size: .95rem; }
         }
+
     </style>
 </head>
 
