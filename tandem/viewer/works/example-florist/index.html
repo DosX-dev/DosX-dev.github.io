@@ -660,8 +660,8 @@
 
         .reveal {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
+            transform: translateY(32px);
+            transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .reveal.visible {
@@ -671,8 +671,8 @@
 
         .reveal-left {
             opacity: 0;
-            transform: translateX(-40px);
-            transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
+            transform: translateX(-32px);
+            transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .reveal-left.visible {
@@ -682,8 +682,8 @@
 
         .reveal-right {
             opacity: 0;
-            transform: translateX(40px);
-            transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
+            transform: translateX(32px);
+            transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .reveal-right.visible {
@@ -935,7 +935,7 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.7s var(--transition), filter 0.7s;
+            transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1), filter 0.65s cubic-bezier(0.23, 1, 0.32, 1);
             min-height: 260px;
         }
 
@@ -965,16 +965,16 @@
             font-size: 1.1rem;
             font-weight: 700;
             color: #fff;
-            transform: translateY(12px);
-            transition: transform 0.4s var(--transition);
+            transform: translateY(10px);
+            transition: transform 0.38s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .gallery-overlay p {
             font-size: 0.78rem;
             color: var(--pink-light);
             margin-top: 0.3rem;
-            transform: translateY(12px);
-            transition: transform 0.4s 0.05s var(--transition);
+            transform: translateY(10px);
+            transition: transform 0.38s 0.05s cubic-bezier(0.23, 1, 0.32, 1);
             opacity: 0.85;
         }
 
