@@ -1,28 +1,29 @@
 ﻿
 // в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ CURSOR в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 // ──────────────── CURSOR ────────────────
-const cursor = document.getElementById('cursor');
+if (window.matchMedia('(pointer: fine)').matches) {
+    const cursor = document.getElementById('cursor');
 
+    document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        document.body.classList.remove('cursor-hidden');
+    });
 
-document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    document.body.classList.remove('cursor-hidden');
-});
+    // Скрываем при уходе мыши с окна
+    document.addEventListener('mouseleave', () => document.body.classList.add('cursor-hidden'));
+    document.addEventListener('mouseenter', () => document.body.classList.remove('cursor-hidden'));
 
-// Скрываем при уходе мыши с окна
-document.addEventListener('mouseleave', () => document.body.classList.add('cursor-hidden'));
-document.addEventListener('mouseenter', () => document.body.classList.remove('cursor-hidden'));
+    // Hover-состояние на всех интерактивных элементах
+    const hoverTargets = 'a, button, input, select, textarea, label, [role="button"], .price-card, .adv-row, .serv-card, .uc-card';
+    document.querySelectorAll(hoverTargets).forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
 
-// Hover-состояние на всех интерактивных элементах
-const hoverTargets = 'a, button, input, select, textarea, label, [role="button"], .price-card, .adv-row, .serv-card, .uc-card';
-document.querySelectorAll(hoverTargets).forEach(el => {
-    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-});
-
-document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
-document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
+    document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+    document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
+}
 
 // в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ NAVBAR SCROLL в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
 const navbar = document.getElementById('navbar');

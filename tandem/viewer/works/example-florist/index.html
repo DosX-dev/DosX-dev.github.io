@@ -91,6 +91,12 @@
             opacity: 0;
         }
 
+        @media (pointer: coarse) {
+            body { cursor: auto !important; }
+            *, *::before, *::after { cursor: auto !important; }
+            #cursor, #cursor-ring { display: none !important; }
+        }
+
         /* ──────────────────────────────────────────────
        CURSOR PETAL TRAIL
     ────────────────────────────────────────────── */
@@ -2368,65 +2374,67 @@
     <!-- ══════════════════════ JAVASCRIPT ══════════════════════ -->
     <script>
         // ─── Custom Cursor ───────────────────────────────────────
-        const cursor = document.getElementById('cursor');
-        const ring = document.getElementById('cursor-ring');
-        let mx = 0,
-            my = 0,
-            rx = 0,
-            ry = 0;
+        if (window.matchMedia('(pointer: fine)').matches) {
+            const cursor = document.getElementById('cursor');
+            const ring = document.getElementById('cursor-ring');
+            let mx = 0,
+                my = 0,
+                rx = 0,
+                ry = 0;
 
-        // ─── Cursor petal trail ──────────────────────────────────
-        let lastPetalX = 0, lastPetalY = 0;
-        const PETAL_DIST = 20;
+            // ─── Cursor petal trail ──────────────────────────────────
+            let lastPetalX = 0, lastPetalY = 0;
+            const PETAL_DIST = 20;
 
-        document.addEventListener('mousemove', e => {
-            mx = e.clientX;
-            my = e.clientY;
-            cursor.style.left = mx + 'px';
-            cursor.style.top = my + 'px';
+            document.addEventListener('mousemove', e => {
+                mx = e.clientX;
+                my = e.clientY;
+                cursor.style.left = mx + 'px';
+                cursor.style.top = my + 'px';
 
-            const dx = mx - lastPetalX, dy = my - lastPetalY;
-            if (dx * dx + dy * dy < PETAL_DIST * PETAL_DIST) return;
-            lastPetalX = mx;
-            lastPetalY = my;
+                const dx = mx - lastPetalX, dy = my - lastPetalY;
+                if (dx * dx + dy * dy < PETAL_DIST * PETAL_DIST) return;
+                lastPetalX = mx;
+                lastPetalY = my;
 
-            const p = document.createElement('div');
-            p.className = 'trail-petal';
-            const size = 4 + Math.random() * 6;
-            p.style.cssText = `
-                left: ${mx}px;
-                top: ${my}px;
-                width: ${size}px;
-                height: ${(size * 1.55).toFixed(1)}px;
-                background: hsl(${(340 + Math.random() * 28).toFixed(0)}deg 72% ${(68 + Math.random() * 14).toFixed(0)}%);
-                --r: ${(Math.random() * 360).toFixed(0)}deg;
-            `;
-            document.body.appendChild(p);
-            p.addEventListener('animationend', () => p.remove(), { once: true });
-        });
-
-        (function animRing() {
-            rx += (mx - rx) * 0.14;
-            ry += (my - ry) * 0.14;
-            ring.style.left = rx + 'px';
-            ring.style.top = ry + 'px';
-            requestAnimationFrame(animRing);
-        })();
-
-        document.querySelectorAll('a, button, .gallery-item, .service-card, .stat-card, .contact-link').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(2)';
-                ring.style.width = '56px';
-                ring.style.height = '56px';
-                ring.style.opacity = '0.3';
+                const p = document.createElement('div');
+                p.className = 'trail-petal';
+                const size = 4 + Math.random() * 6;
+                p.style.cssText = `
+                    left: ${mx}px;
+                    top: ${my}px;
+                    width: ${size}px;
+                    height: ${(size * 1.55).toFixed(1)}px;
+                    background: hsl(${(340 + Math.random() * 28).toFixed(0)}deg 72% ${(68 + Math.random() * 14).toFixed(0)}%);
+                    --r: ${(Math.random() * 360).toFixed(0)}deg;
+                `;
+                document.body.appendChild(p);
+                p.addEventListener('animationend', () => p.remove(), { once: true });
             });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                ring.style.width = '38px';
-                ring.style.height = '38px';
-                ring.style.opacity = '0.55';
+
+            (function animRing() {
+                rx += (mx - rx) * 0.14;
+                ry += (my - ry) * 0.14;
+                ring.style.left = rx + 'px';
+                ring.style.top = ry + 'px';
+                requestAnimationFrame(animRing);
+            })();
+
+            document.querySelectorAll('a, button, .gallery-item, .service-card, .stat-card, .contact-link').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+                    ring.style.width = '56px';
+                    ring.style.height = '56px';
+                    ring.style.opacity = '0.3';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                    ring.style.width = '38px';
+                    ring.style.height = '38px';
+                    ring.style.opacity = '0.55';
+                });
             });
-        });
+        }
 
         // ─── Scroll Progress ─────────────────────────────────────
         const prog = document.getElementById('scroll-progress');
@@ -2445,13 +2453,9 @@
         const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('visible');
-                }
+                if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
             });
-        }, {
-            threshold: 0.12
-        });
+        }, { threshold: 0.12 });
         revealEls.forEach(el => observer.observe(el));
 
         // ─── Floating Petals ─────────────────────────────────────

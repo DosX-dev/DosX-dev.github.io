@@ -1606,3 +1606,10 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* Отключаем кастомный курсор на тач-устройствах */
+@media (pointer: coarse) {
+    body { cursor: auto; }
+    *, *::before, *::after { cursor: auto !important; }
+    #cursor { display: none !important; }
+}

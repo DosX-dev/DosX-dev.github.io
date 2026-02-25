@@ -103,8 +103,11 @@ function init() {
         item.className = 'dropdown-item';
         item.dataset.idx = idx;
         item.innerHTML = `
-      <span class="di-title">${site.id > 0 ? site.id + '. ' : ''}${site.title}</span>
-      <span class="di-desc">${site.description}</span>
+      ${site.id > 0 ? `<span class="di-num">${site.id}</span>` : '<span class="di-num di-num--home"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>'}
+      <div class="di-text">
+        <span class="di-title">${site.title}</span>
+        <span class="di-desc">${site.description}</span>
+      </div>
     `;
         item.addEventListener('click', () => {
             closeDropdown();

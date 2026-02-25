@@ -2053,7 +2053,7 @@
     <script>
         /* nav scroll */
         const nav = document.getElementById('nav');
-        addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50), { passive: true });
+        window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
 
         /* burger */
         const burg = document.getElementById('burg');

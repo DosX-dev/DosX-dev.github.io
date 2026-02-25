@@ -2739,6 +2739,7 @@
                 W = cv.width = window.innerWidth;
                 H = cv.height = window.innerHeight;
                 ctx.textAlign = 'center';
+                bits.length = 0;
             });
             const bits = [];
             document.addEventListener('mousemove', e => {
@@ -2748,7 +2749,7 @@
                     y: e.clientY + (Math.random() - 0.5) * 6,
                     char: Math.random() > 0.5 ? '1' : '0',
                     life: 1,
-                    dy: -(Math.random() * 0.25 + 0.04),
+                    dy: -(Math.random() * 0.10 + 0.015),
                     dx: (Math.random() - 0.5) * 0.12,
                     size: 8 + Math.random() * 4,
                     col: Math.random() > 0.48 ? '#3b82f6' : '#22d3ee'
@@ -2758,7 +2759,7 @@
                 ctx.clearRect(0, 0, W, H);
                 for (let i = bits.length - 1; i >= 0; i--) {
                     const b = bits[i];
-                    b.life -= 0.016;
+                    b.life -= 0.007;
                     b.y += b.dy;
                     b.x += b.dx;
                     if (b.life <= 0) { bits.splice(i, 1); continue; }
