@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Евгений Демидов — Графический дизайнер</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ─── RESET & BASE ─── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #080808;
+            --bg2: #0e0e0e;
+            --bg3: #141414;
+            --text: #f0ede8;
+            --muted: #7a7570;
+            --border: rgba(255, 255, 255, 0.07);
+            --accent: #d4f542;
+            /* electric lime-yellow */
+            --accent2: #b8d82e;
+            --ff-head: 'Syne', sans-serif;
+            --ff-body: 'Inter', sans-serif;
+            --panel-h: 64px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--ff-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 99px;
+        }
+
+        ::selection { background: rgba(212, 245, 66, .45); color: #080808; }
+        ::-moz-selection { background: rgba(212, 245, 66, .45); color: #080808; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6vw;
+            height: 70px;
+            transition: background 0.4s, backdrop-filter 0.4s;
+        }
+
+        nav.scrolled {
+            background: rgba(8, 8, 8, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: var(--ff-head);
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .nav-logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            transition: color 0.25s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.55rem 1.4rem;
+            border-radius: 2px;
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        /* ─── HERO ─── */
+        #hero {
+            position: relative;
+            height: 100vh;
+            min-height: 700px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('background.jpg') center/cover no-repeat;
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg,
+                    rgba(8, 8, 8, 0.55) 0%,
+                    rgba(8, 8, 8, 0.2) 40%,
+                    rgba(8, 8, 8, 0.7) 75%,
+                    rgba(8, 8, 8, 0.97) 100%);
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            padding: 0 6vw 7rem;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: flex-end;
+            gap: 4rem;
+        }
+
+        .hero-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .hero-label::before {
+            content: '';
+            display: block;
+            width: 32px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .hero-name {
+            font-family: var(--ff-head);
+            font-size: clamp(3.5rem, 7vw, 7.5rem);
+            font-weight: 800;
+            line-height: 0.92;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+        }
+
+        .hero-name em {
+            font-style: normal;
+            display: block;
+            -webkit-text-stroke: 1px rgba(240, 237, 232, 0.35);
+            color: transparent;
+        }
+
+        .hero-scroll {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            padding-bottom: 0.4rem;
+        }
+
+        .hero-scroll span {
+            font-size: 0.68rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            writing-mode: vertical-rl;
+        }
+
+        .hero-scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scaleY(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1.15);
+            }
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 0.7rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .hero-tag {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.4rem 0.9rem;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            border-radius: 2px;
+        }
+
+        /* ─── секция-разделитель ─── */
+        .section-marquee {
+            overflow: hidden;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 0.9rem 0;
+            background: var(--bg2);
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 3rem;
+            animation: marquee 20s linear infinite;
+            width: max-content;
+        }
+
+        .marquee-track span {
+            font-family: var(--ff-head);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .marquee-track span.acc {
+            color: var(--accent);
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ─── ABOUT ─── */
+        #about {
+            padding: 9rem 6vw;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            align-items: center;
+        }
+
+        .about-photo-wrap {
+            position: relative;
+        }
+
+        .about-photo-frame {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .about-photo-frame img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            object-position: top;
+            filter: grayscale(15%) contrast(1.05);
+            transition: filter 0.5s;
+            display: block;
+        }
+
+        .about-photo-frame:hover img {
+            filter: grayscale(0%) contrast(1);
+        }
+
+        .about-photo-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(8, 8, 8, 0.5) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .about-photo-accent {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            border: 1px solid var(--accent);
+            border-radius: 2px;
+            z-index: -1;
+        }
+
+        .about-photo-num {
+            position: absolute;
+            top: 1.5rem;
+            left: -1.5rem;
+            font-family: var(--ff-head);
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            opacity: 0.12;
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .about-text {}
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .about-title {
+            font-family: var(--ff-head);
+            font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.8rem;
+        }
+
+        .about-title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .about-desc {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            max-width: 480px;
+        }
+
+        .about-desc+.about-desc {
+            margin-top: -1rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .about-stat-val {
+            font-family: var(--ff-head);
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            height: 2.4rem;
+            overflow: hidden;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .about-stat-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 0.4rem;
+        }
+
+        /* ─── SKILLS ─── */
+        #skills {
+            padding: 9rem 6vw;
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .skills-head {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            margin-bottom: 5rem;
+        }
+
+        .skills-title {
+            font-family: var(--ff-head);
+            font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+        }
+
+        .skills-desc {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--muted);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            border: 1px solid var(--border);
+        }
+
+        .skill-card {
+            padding: 2.5rem 2rem;
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
+            transition: background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card:nth-child(3n) {
+            border-right: none;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.4s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .skill-card:hover {
+            background: var(--bg3);
+        }
+
+        .skill-card:hover::before {
+            width: 100%;
+        }
+
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--bg);
+            transition: border-color 0.3s;
+        }
+
+        .skill-card:hover .skill-icon {
+            border-color: var(--accent);
+        }
+
+        .skill-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .skill-name {
+            font-family: var(--ff-head);
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.6rem;
+        }
+
+        .skill-desc {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        /* Уровень владения */
+        .skill-level {
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .skill-level-bar {
+            flex: 1;
+            height: 2px;
+            background: var(--border);
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .skill-level-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 99px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .skill-level-fill.animate {
+            transform: scaleX(1);
+        }
+
+        .skill-level-pct {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--accent);
+            min-width: 2.2rem;
+            text-align: right;
+        }
+
+        /* ─── PROCESS ─── */
+        #process {
+            padding: 9rem 6vw;
+        }
+
+        .process-head {
+            margin-bottom: 5rem;
+        }
+
+        .process-title {
+            font-family: var(--ff-head);
+            font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin-top: 1rem;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border: 1px solid var(--border);
+        }
+
+        .process-step {
+            padding: 2.5rem 2rem;
+            border-right: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+
+        .process-step:last-child {
+            border-right: none;
+        }
+
+        .process-step:hover {
+            background: var(--bg2);
+        }
+
+        .process-num {
+            font-family: var(--ff-head);
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent);
+            opacity: 0.12;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            transition: opacity 0.3s;
+        }
+
+        .process-step:hover .process-num {
+            opacity: 0.25;
+        }
+
+        .process-name {
+            font-family: var(--ff-head);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.02em;
+        }
+
+        .process-desc {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        /* ─── WORKS ─── */
+        #works {
+            padding: 9rem 6vw;
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+        }
+
+        .works-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 4rem;
+        }
+
+        .works-title {
+            font-family: var(--ff-head);
+            font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-top: 0.8rem;
+        }
+
+        .works-all {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 2px;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+
+        .works-all:hover {
+            opacity: 0.7;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .work-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+            background: var(--bg3);
+            aspect-ratio: 4/3;
+            cursor: default;
+        }
+
+        .work-card-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--bg3) 0%, #1a1a24 100%);
+            transition: transform 0.6s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .work-card:hover .work-card-bg {
+            transform: scale(1.04);
+        }
+
+        .work-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(8, 8, 8, 0.95) 0%, rgba(8, 8, 8, 0.1) 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .work-card:hover .work-card-overlay {
+            opacity: 1;
+        }
+
+        .work-card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 1.5rem;
+            transform: translateY(6px);
+            opacity: 0;
+            transition: transform 0.4s, opacity 0.4s;
+        }
+
+        .work-card:hover .work-card-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .work-card-cat {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.3rem;
+        }
+
+        .work-card-name {
+            font-family: var(--ff-head);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .work-card-mock {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .work-card-mock svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── Card 1: Брендинг «Кедр» — лого-сетка ── */
+        .wc1-grid {
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            transition: stroke-dashoffset 1.2s ease;
+        }
+
+        .wc1-mark {
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            transition: stroke-dashoffset 0.9s 0.4s ease;
+        }
+
+        .wc1-circle {
+            stroke-dasharray: 250;
+            stroke-dashoffset: 250;
+            transition: stroke-dashoffset 0.8s 0.9s ease;
+        }
+
+        .work-card:hover .wc1-grid {
+            stroke-dashoffset: 0;
+        }
+
+        .work-card:hover .wc1-mark {
+            stroke-dashoffset: 0;
+        }
+
+        .work-card:hover .wc1-circle {
+            stroke-dashoffset: 0;
+        }
+
+        /* ── Card 2: Neon City — мигание огней ── */
+        @keyframes neonFlicker {
+
+            0%,
+            100% {
+                opacity: .7;
+            }
+
+            8% {
+                opacity: .2;
+            }
+
+            10% {
+                opacity: .8;
+            }
+
+            30% {
+                opacity: .6;
+            }
+
+            50% {
+                opacity: .9;
+            }
+
+            76% {
+                opacity: .2;
+            }
+
+            79% {
+                opacity: .85;
+            }
+        }
+
+        @keyframes neonPulse {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 3px #d4f542);
+            }
+
+            50% {
+                filter: drop-shadow(0 0 10px #d4f542) drop-shadow(0 0 20px #d4f54288);
+            }
+        }
+
+        .wc2-sign {
+            animation: neonFlicker 4s infinite;
+        }
+
+        .wc2-glow {
+            animation: neonPulse 2.5s ease-in-out infinite;
+        }
+
+        .wc2-rain {
+            animation: wc2Rain 3s linear infinite;
+        }
+
+        @keyframes wc2Rain {
+            from {
+                transform: translateY(-40px);
+            }
+
+            to {
+                transform: translateY(40px);
+            }
+        }
+
+        /* ── Card 3: Dashboard — растущие бары ── */
+        .wc3-bar {
+            transform-box: fill-box;
+            transform-origin: bottom;
+            transform: scaleY(0);
+            transition: transform 0.7s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .wc3-bar:nth-child(1) {
+            transition-delay: .05s;
+        }
+
+        .wc3-bar:nth-child(2) {
+            transition-delay: .12s;
+        }
+
+        .wc3-bar:nth-child(3) {
+            transition-delay: .19s;
+        }
+
+        .wc3-bar:nth-child(4) {
+            transition-delay: .26s;
+        }
+
+        .wc3-bar:nth-child(5) {
+            transition-delay: .33s;
+        }
+
+        .wc3-bar:nth-child(6) {
+            transition-delay: .40s;
+        }
+
+        .wc3-bar:nth-child(7) {
+            transition-delay: .47s;
+        }
+
+        .work-card:hover .wc3-bar {
+            transform: scaleY(1);
+        }
+
+        .wc3-line {
+            stroke-dasharray: 400;
+            stroke-dashoffset: 400;
+            transition: stroke-dashoffset 1.2s 0.3s ease;
+        }
+
+        .work-card:hover .wc3-line {
+            stroke-dashoffset: 0;
+        }
+
+        @keyframes wc3Dot {
+
+            0%,
+            100% {
+                r: 3;
+                opacity: 1;
+            }
+
+            50% {
+                r: 5;
+                opacity: .6;
+            }
+        }
+
+        .wc3-dot {
+            animation: wc3Dot 1.8s ease-in-out infinite;
+        }
+
+        /* ── Card 4: Упаковка — плавающие коробки ── */
+        @keyframes wc4Float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes wc4FloatB {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-5px) translateX(3px);
+            }
+        }
+
+        .wc4-boxa {
+            animation: wc4Float 3s ease-in-out infinite;
+        }
+
+        .wc4-boxb {
+            animation: wc4FloatB 3.6s ease-in-out infinite;
+        }
+
+        .wc4-boxc {
+            animation: wc4Float 4.2s ease-in-out infinite reverse;
+        }
+
+        /* ── Card 5: PRISM — вращение и лучи ── */
+        @keyframes wc5Spin {
+            from {
+                transform: rotate(0deg) translateX(-50%) translateY(-50%);
+                transform-origin: 50% 50%;
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes wc5Rays {
+
+            0%,
+            100% {
+                opacity: .15;
+            }
+
+            50% {
+                opacity: .55;
+            }
+        }
+
+        @keyframes wc5PrismSpin {
+            from {
+                transform: rotate(0deg);
+                transform-box: fill-box;
+                transform-origin: center;
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .wc5-prism {
+            animation: wc5PrismSpin 12s linear infinite;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .wc5-ray {
+            animation: wc5Rays 2s ease-in-out infinite;
+        }
+
+        .wc5-ray:nth-child(2) {
+            animation-delay: .3s;
+        }
+
+        .wc5-ray:nth-child(3) {
+            animation-delay: .6s;
+        }
+
+        .wc5-ray:nth-child(4) {
+            animation-delay: .9s;
+        }
+
+        .wc5-ray:nth-child(5) {
+            animation-delay: 1.2s;
+        }
+
+        /* ── Card 6: Into the Void — портал и частицы ── */
+        @keyframes wc6Orbit {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes wc6OrbitR {
+            from {
+                transform: rotate(360deg);
+            }
+
+            to {
+                transform: rotate(0deg);
+            }
+        }
+
+        @keyframes wc6Pulse {
+
+            0%,
+            100% {
+                opacity: .12;
+                r: 60;
+            }
+
+            50% {
+                opacity: .28;
+                r: 66;
+            }
+        }
+
+        @keyframes wc6Spark {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: .8;
+            }
+        }
+
+        .wc6-ring1 {
+            animation: wc6Orbit 18s linear infinite;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .wc6-ring2 {
+            animation: wc6OrbitR 12s linear infinite;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .wc6-ring3 {
+            animation: wc6Orbit 8s linear infinite;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        .wc6-core {
+            animation: wc6Pulse 3s ease-in-out infinite;
+        }
+
+        .wc6-spark {
+            animation: wc6Spark 2s ease-in-out infinite;
+        }
+
+        .wc6-spark:nth-child(2) {
+            animation-delay: .4s;
+        }
+
+        .wc6-spark:nth-child(3) {
+            animation-delay: .8s;
+        }
+
+        .wc6-spark:nth-child(4) {
+            animation-delay: 1.2s;
+        }
+
+        .wc6-spark:nth-child(5) {
+            animation-delay: 1.6s;
+        }
+
+        /* Цветовые акценты карточек */
+        .work-card:nth-child(1) .work-card-bg {
+            background: linear-gradient(135deg, #0d0d1a 0%, #1a1a3a 100%);
+        }
+
+        .work-card:nth-child(2) .work-card-bg {
+            background: linear-gradient(135deg, #0d1a0d 0%, #1a3a1a 100%);
+        }
+
+        .work-card:nth-child(3) .work-card-bg {
+            background: linear-gradient(135deg, #1a0d0d 0%, #2a1010 100%);
+        }
+
+        .work-card:nth-child(4) .work-card-bg {
+            background: linear-gradient(135deg, #0d1a1a 0%, #0f2a2a 100%);
+        }
+
+        .work-card:nth-child(5) .work-card-bg {
+            background: linear-gradient(135deg, #1a1a0d 0%, #2a280a 100%);
+        }
+
+        .work-card:nth-child(6) .work-card-bg {
+            background: linear-gradient(135deg, #140d1a 0%, #22103a 100%);
+        }
+
+        /* ─── TOOLS ─── */
+        #tools {
+            padding: 7rem 6vw;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tools-title {
+            font-family: var(--ff-head);
+            font-size: clamp(2rem, 3.5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-top: 0.8rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tool-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.7rem 1.2rem;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--muted);
+            transition: border-color 0.25s, color 0.25s, background 0.25s;
+        }
+
+        .tool-badge:hover {
+            border-color: var(--accent);
+            color: var(--text);
+            background: rgba(212, 245, 66, 0.04);
+        }
+
+        .tool-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* ─── CONTACT ─── */
+        #contact {
+            padding: 9rem 6vw;
+            background: var(--bg);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            align-items: start;
+        }
+
+        .contact-left {}
+
+        .contact-title {
+            font-family: var(--ff-head);
+            font-size: clamp(2.5rem, 4vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.0;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-title em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .contact-desc {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--muted);
+            max-width: 380px;
+        }
+
+        .contact-links {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+            padding: 1rem 1.2rem;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            transition: border-color 0.25s, color 0.25s, background 0.25s;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--text);
+            background: rgba(212, 245, 66, 0.03);
+        }
+
+        .contact-link svg {
+            flex-shrink: 0;
+            opacity: 0.5;
+            transition: opacity 0.25s;
+        }
+
+        .contact-link:hover svg {
+            opacity: 1;
+        }
+
+        .contact-form {}
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 0.85rem 1rem;
+            color: var(--text);
+            font-family: var(--ff-body);
+            font-size: 0.9rem;
+            outline: none;
+            resize: none;
+            transition: border-color 0.25s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            height: 130px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: 2px;
+            font-family: var(--ff-head);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.25s, transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            padding: 2rem 6vw;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg2);
+        }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .footer-copy span {
+            color: var(--accent);
+        }
+
+        .footer-back {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            transition: color 0.2s;
+        }
+
+        .footer-back:hover {
+            color: var(--text);
+        }
+
+        /* ─── REVEAL ANIMATIONS ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s cubic-bezier(.4, 0, .2, 1), transform 0.8s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-28px);
+            transition: opacity 0.8s cubic-bezier(.4, 0, .2, 1), transform 0.8s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(28px);
+            transition: opacity 0.8s cubic-bezier(.4, 0, .2, 1), transform 0.8s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .d1 {
+            transition-delay: 0.1s;
+        }
+
+        .d2 {
+            transition-delay: 0.2s;
+        }
+
+        .d3 {
+            transition-delay: 0.3s;
+        }
+
+        .d4 {
+            transition-delay: 0.4s;
+        }
+
+        .d5 {
+            transition-delay: 0.5s;
+        }
+
+        .d6 {
+            transition-delay: 0.6s;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1024px) {
+            #about {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            #contact {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .skills-head {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .skill-card:nth-child(3n) {
+                border-right: 1px solid var(--border);
+            }
+
+            .skill-card:nth-child(2n) {
+                border-right: none;
+            }
+
+            .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-step {
+                border-bottom: 1px solid var(--border);
+            }
+
+            .process-step:nth-child(2n) {
+                border-right: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-scroll {
+                display: none;
+            }
+
+            .works-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 540px) {
+            .works-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-card {
+                border-right: none;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step {
+                border-right: none;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.75rem;
+            }
+
+            .about-stat-val {
+                font-size: 1.8rem;
+                height: 1.8rem;
+            }
+
+            .about-stat-label {
+                font-size: 0.62rem;
+                letter-spacing: 0.06em;
+            }
+
+            .about-photo-accent {
+                display: none;
+            }
+
+            .hero-name {
+                font-size: clamp(2.6rem, 7vw, 7.5rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ─── NAV ─── -->
+    <nav id="nav">
+        <a href="#hero" class="nav-logo">Е<span>.</span>Демидов</a>
+        <ul class="nav-links">
+            <li><a href="#about">Обо мне</a></li>
+            <li><a href="#skills">Навыки</a></li>
+            <li><a href="#works">Работы</a></li>
+            <li><a href="#process">Процесс</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">Заказать</a>
+    </nav>
+
+    <!-- ─── HERO ─── -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-inner">
+            <div>
+                <div class="hero-label">Графический дизайнер</div>
+                <h1 class="hero-name">
+                    Евгений<br>
+                    <em>Демидов</em>
+                </h1>
+                <div class="hero-tags">
+                    <span class="hero-tag">Photoshop</span>
+                    <span class="hero-tag">Illustrator</span>
+                    <span class="hero-tag">Motion</span>
+                    <span class="hero-tag">Брендинг</span>
+                    <span class="hero-tag">UI / Print</span>
+                </div>
+            </div>
+            <div class="hero-scroll">
+                <div class="hero-scroll-line"></div>
+                <span>Scroll</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── MARQUEE ─── -->
+    <div class="section-marquee">
+        <div class="marquee-track" id="marqueeTrack">
+            <span>Adobe Photoshop</span><span class="acc">✦</span>
+            <span>Illustrator</span><span class="acc">✦</span>
+            <span>After Effects</span><span class="acc">✦</span>
+            <span>Figma</span><span class="acc">✦</span>
+            <span>Брендинг</span><span class="acc">✦</span>
+            <span>Ретушь</span><span class="acc">✦</span>
+            <span>Типографика</span><span class="acc">✦</span>
+            <span>Motion Design</span><span class="acc">✦</span>
+            <span>Полиграфия</span><span class="acc">✦</span>
+            <span>Compositing</span><span class="acc">✦</span>
+            <!-- дублируем для бесконечного скролла -->
+            <span>Adobe Photoshop</span><span class="acc">✦</span>
+            <span>Illustrator</span><span class="acc">✦</span>
+            <span>After Effects</span><span class="acc">✦</span>
+            <span>Figma</span><span class="acc">✦</span>
+            <span>Брендинг</span><span class="acc">✦</span>
+            <span>Ретушь</span><span class="acc">✦</span>
+            <span>Типографика</span><span class="acc">✦</span>
+            <span>Motion Design</span><span class="acc">✦</span>
+            <span>Полиграфия</span><span class="acc">✦</span>
+            <span>Compositing</span><span class="acc">✦</span>
+        </div>
+    </div>
+
+    <!-- ─── ABOUT ─── -->
+    <section id="about">
+        <div class="about-photo-wrap reveal-left">
+            <div class="about-photo-frame">
+                <img src="me.jpg" alt="Евгений Демидов" loading="lazy">
+            </div>
+            <div class="about-photo-accent"></div>
+            <div class="about-photo-num">01</div>
+        </div>
+        <div class="about-text">
+            <div class="section-label reveal">Обо мне</div>
+            <h2 class="about-title reveal d1">
+                Визуальные решения,<br>которые <em>работают</em>
+            </h2>
+            <p class="about-desc reveal d2">
+                Более 8 лет я создаю визуальные идентичности для брендов, которые хотят выделяться.
+                Мой инструмент — Adobe Photoshop, который я освоил до мельчайших деталей: от
+                профессиональной ретуши и сложного композитинга до создания фотореалистичных
+                визуализаций с нуля.
+            </p>
+            <p class="about-desc reveal d3">
+                Я убеждён: хороший дизайн — это не про красоту, это про решение задачи.
+                Каждый пиксель, каждый шрифт, каждый цвет — осознанный выбор в пользу
+                результата клиента.
+            </p>
+            <div class="about-stats reveal d4">
+                <div>
+                    <div class="about-stat-val" data-count="8">0</div>
+                    <div class="about-stat-label">Лет опыта</div>
+                </div>
+                <div>
+                    <div class="about-stat-val" data-count="240">0</div>
+                    <div class="about-stat-label">Проектов</div>
+                </div>
+                <div>
+                    <div class="about-stat-val" data-count="98">0</div>
+                    <div class="about-stat-label">% клиентов снова</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── SKILLS ─── -->
+    <section id="skills">
+        <div class="skills-head">
+            <div>
+                <div class="section-label reveal">Экспертиза</div>
+                <h2 class="skills-title reveal d1">Инструменты<br>& навыки</h2>
+            </div>
+            <p class="skills-desc reveal d2">
+                Глубокое владение профессиональными инструментами позволяет реализовывать
+                идеи любой сложности — от логотипа до полного брендбука.
+            </p>
+        </div>
+        <div class="skills-grid">
+            <!-- Adobe Photoshop -->
+            <div class="skill-card reveal">
+                <div class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M8 16V8l3.5 5L15 8v8" />
+                        <path d="M15.5 13h-3" />
+                    </svg>
+                </div>
+                <div class="skill-name">Adobe Photoshop</div>
+                <div class="skill-desc">Профессиональная ретушь, цветокоррекция, сложный композитинг, создание фотореалистичных артов и манипуляций.</div>
+                <div class="skill-level">
+                    <div class="skill-level-bar">
+                        <div class="skill-level-fill" data-pct="0.97"></div>
+                    </div>
+                    <span class="skill-level-pct">97%</span>
+                </div>
+            </div>
+            <!-- Adobe Illustrator -->
+            <div class="skill-card reveal d1">
+                <div class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
+                        <path d="M12 2L2 19h20L12 2z" />
+                        <path d="M9 14h6" />
+                        <path d="M10.5 11l-1.5 3m6-3l-1.5 3" />
+                    </svg>
+                </div>
+                <div class="skill-name">Adobe Illustrator</div>
+                <div class="skill-desc">Разработка логотипов, векторных иллюстраций, фирменных стилей и инфографики — финальная точность до 0.01 px.</div>
+                <div class="skill-level">
+                    <div class="skill-level-bar">
+                        <div class="skill-level-fill" data-pct="0.93"></div>
+                    </div>
+                    <span class="skill-level-pct">93%</span>
+                </div>
+            </div>
+            <!-- After Effects -->
+            <div class="skill-card reveal d2">
+                <div class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M12 7v5l3 3" />
+                    </svg>
+                </div>
+                <div class="skill-name">After Effects</div>
+                <div class="skill-desc">Motion design: анимированные логотипы, интро/аутро, моушн-графика для социальных сетей и видеопроектов.</div>
+                <div class="skill-level">
+                    <div class="skill-level-bar">
+                        <div class="skill-level-fill" data-pct="0.85"></div>
+                    </div>
+                    <span class="skill-level-pct">85%</span>
+                </div>
+            </div>
+            <!-- Figma -->
+            <div class="skill-card reveal d3">
+                <div class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
+                        <rect x="5" y="2" width="14" height="8" rx="3" />
+                        <rect x="5" y="14" width="6" height="6" rx="2" />
+                        <circle cx="16" cy="17" r="3" />
+                        <path d="M5 10v4" />
+                    </svg>
+                </div>
+                <div class="skill-name">Figma</div>
+                <div class="skill-desc">UI-дизайн, продуктовые интерфейсы, дизайн-системы, прототипирование и collaborative-дизайн.</div>
+                <div class="skill-level">
+                    <div class="skill-level-bar">
+                        <div class="skill-level-fill" data-pct="0.88"></div>
+                    </div>
+                    <span class="skill-level-pct">88%</span>
+                </div>
+            </div>
+            <!-- Брендинг -->
+            <div class="skill-card reveal d4">
+                <div class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
+                        <path d="M12 2l2.5 7H21l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h6.5z" />
+                    </svg>
+                </div>
+                <div class="skill-name">Айдентика & брендинг</div>
+                <div class="skill-desc">Разработка полной визуальной идентичности: логотип, брендбук, палитра, типографика, шаблоны.</div>
+                <div class="skill-level">
+                    <div class="skill-level-bar">
+                        <div class="skill-level-fill" data-pct="0.95"></div>
+                    </div>
+                    <span class="skill-level-pct">95%</span>
+                </div>
+            </div>
+            <!-- Полиграфия -->
+            <div class="skill-card reveal d5">
+                <div class="skill-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--accent)">
+                        <rect x="4" y="3" width="16" height="18" rx="2" />
+                        <path d="M8 7h8M8 11h8M8 15h5" />
+                    </svg>
+                </div>
+                <div class="skill-name">Полиграфия</div>
+                <div class="skill-desc">Подготовка макетов к печати: CMYK, спуск полос, работа с типографиями. Визитки, буклеты, баннеры, упаковка.</div>
+                <div class="skill-level">
+                    <div class="skill-level-bar">
+                        <div class="skill-level-fill" data-pct="0.90"></div>
+                    </div>
+                    <span class="skill-level-pct">90%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── PROCESS ─── -->
+    <section id="process">
+        <div class="process-head">
+            <div class="section-label reveal">Как я работаю</div>
+            <h2 class="process-title reveal d1">Процесс от идеи<br>до результата</h2>
+        </div>
+        <div class="process-grid">
+            <div class="process-step reveal">
+                <div class="process-num">01</div>
+                <div class="process-name">Бриф & исследование</div>
+                <div class="process-desc">Детально изучаю задачу, аудиторию, конкурентов. Задаю правильные вопросы, чтобы получить чёткое техническое задание.</div>
+            </div>
+            <div class="process-step reveal d1">
+                <div class="process-num">02</div>
+                <div class="process-name">Концепция</div>
+                <div class="process-desc">Разрабатываю несколько концепции с аргументацией выбора. Использую mood boards и референсы для совместного согласования вектора.</div>
+            </div>
+            <div class="process-step reveal d2">
+                <div class="process-num">03</div>
+                <div class="process-name">Производство</div>
+                <div class="process-desc">Реализую утверждённую концепцию с детальной проработкой в Photoshop, Illustrator или After Effects. Максимальное качество каждого элемента.</div>
+            </div>
+            <div class="process-step reveal d3">
+                <div class="process-num">04</div>
+                <div class="process-name">Финал & сдача</div>
+                <div class="process-desc">Предоставляю все необходимые форматы файлов, исходники и подробный гайд по использованию. Поддержка после сдачи.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── WORKS ─── -->
+    <section id="works">
+        <div class="works-head">
+            <div>
+                <div class="section-label reveal">Портфолио</div>
+                <h2 class="works-title reveal d1">Избранные работы</h2>
+            </div>
+            <a href="#contact" class="works-all reveal">Обсудить проект →</a>
+        </div>
+        <div class="works-grid">
+
+            <!-- 1: Брендинг «Кедр» -->
+            <div class="work-card reveal">
+                <div class="work-card-bg"></div>
+                <div class="work-card-mock">
+                    <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                        <!-- фоновые направляющие сетки -->
+                        <line x1="200" y1="0" x2="200" y2="300" stroke="#d4f542" stroke-width="0.4" opacity=".1" />
+                        <line x1="0" y1="150" x2="400" y2="150" stroke="#d4f542" stroke-width="0.4" opacity=".1" />
+                        <circle cx="200" cy="150" r="120" stroke="#d4f542" stroke-width="0.4" opacity=".08" />
+                        <circle cx="200" cy="150" r="80" stroke="#d4f542" stroke-width="0.4" opacity=".08" />
+                        <!-- логотип-сетка (рисуется при hover) -->
+                        <g>
+                            <!-- диагональные направляющие -->
+                            <line x1="120" y1="60" x2="280" y2="240" class="wc1-grid" stroke="#d4f542" stroke-width="0.6" opacity=".25" />
+                            <line x1="280" y1="60" x2="120" y2="240" class="wc1-grid" stroke="#d4f542" stroke-width="0.6" opacity=".25" />
+                            <line x1="120" y1="60" x2="280" y2="60" class="wc1-grid" stroke="#d4f542" stroke-width="0.6" opacity=".25" />
+                            <line x1="120" y1="240" x2="280" y2="240" class="wc1-grid" stroke="#d4f542" stroke-width="0.6" opacity=".25" />
+                            <line x1="120" y1="60" x2="120" y2="240" class="wc1-grid" stroke="#d4f542" stroke-width="0.6" opacity=".25" />
+                            <line x1="280" y1="60" x2="280" y2="240" class="wc1-grid" stroke="#d4f542" stroke-width="0.6" opacity=".25" />
+                            <!-- окружности построения -->
+                            <circle cx="200" cy="150" r="80" class="wc1-circle" stroke="#d4f542" stroke-width="0.8" opacity=".4" />
+                            <circle cx="200" cy="150" r="56" class="wc1-circle" stroke="#d4f542" stroke-width="0.8" opacity=".3" stroke-dasharray="5 3" />
+                            <!-- символ кедра -->
+                            <path d="M200 80 L240 140 L220 140 L245 185 L222 185 L200 220 L178 185 L155 185 L180 140 L160 140 Z" stroke="#d4f542" stroke-width="1.5" fill="#d4f542" fill-opacity=".06" class="wc1-mark" />
+                            <!-- точки опорные -->
+                            <circle cx="200" cy="80" r="3" fill="#d4f542" class="wc1-circle" />
+                            <circle cx="240" cy="140" r="3" fill="#d4f542" class="wc1-circle" />
+                            <circle cx="160" cy="140" r="3" fill="#d4f542" class="wc1-circle" />
+                            <circle cx="200" cy="220" r="3" fill="#d4f542" class="wc1-circle" />
+                        </g>
+                        <!-- нижний лейбл -->
+                        <text x="200" y="280" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#d4f542" opacity=".3" letter-spacing="4">KEDR · BRAND IDENTITY</text>
+                    </svg>
+                </div>
+                <div class="work-card-overlay"></div>
+                <div class="work-card-info">
+                    <div class="work-card-cat">Брендинг</div>
+                    <div class="work-card-name">Фирменный стиль «Кедр»</div>
+                </div>
+            </div>
+
+            <!-- 2: Neon City -->
+            <div class="work-card reveal d1">
+                <div class="work-card-bg"></div>
+                <div class="work-card-mock">
+                    <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                        <!-- звёзды -->
+                        <circle cx="40" cy="20" r="1" fill="#d4f542" opacity=".5" />
+                        <circle cx="80" cy="35" r="1.2" fill="#d4f542" opacity=".3" />
+                        <circle cx="150" cy="15" r="0.8" fill="#d4f542" opacity=".6" />
+                        <circle cx="210" cy="28" r="1" fill="#d4f542" opacity=".4" />
+                        <circle cx="310" cy="12" r="1.2" fill="#d4f542" opacity=".5" />
+                        <circle cx="360" cy="40" r="0.8" fill="#d4f542" opacity=".3" />
+                        <circle cx="270" cy="22" r="1" fill="#d4f542" opacity=".4" />
+                        <circle cx="120" cy="45" r="0.6" fill="#d4f542" opacity=".25" />
+                        <!-- горизонт -->
+                        <rect x="0" y="210" width="400" height="90" fill="#0a0a12" opacity=".8" />
+                        <!-- отражение на воде -->
+                        <line x1="200" y1="220" x2="200" y2="300" stroke="#d4f542" stroke-width="1.5" opacity=".08" />
+                        <line x1="100" y1="225" x2="100" y2="300" stroke="#d4f542" stroke-width="0.8" opacity=".06" />
+                        <line x1="300" y1="225" x2="300" y2="300" stroke="#d4f542" stroke-width="0.8" opacity=".06" />
+                        <!-- City skyline -->
+                        <!-- здание 1 -->
+                        <rect x="20" y="120" width="38" height="120" fill="#111122" stroke="#d4f542" stroke-width="0.7" opacity="0.9" />
+                        <rect x="28" y="110" width="22" height="12" fill="#111122" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="24" y="135" width="6" height="8" fill="#d4f542" opacity=".12" />
+                        <rect x="34" y="135" width="6" height="8" fill="#d4f542" opacity=".18" />
+                        <rect x="44" y="135" width="6" height="8" fill="#d4f542" opacity=".08" />
+                        <!-- здание 2 -->
+                        <rect x="68" y="80" width="50" height="160" fill="#0e0e1e" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="76" y="70" width="34" height="12" fill="#0e0e1e" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="85" y="60" width="16" height="12" fill="#0e0e1e" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="72" y="95" width="7" height="10" fill="#d4f542" opacity=".15" class="wc2-sign" />
+                        <rect x="83" y="95" width="7" height="10" fill="#d4f542" opacity=".2" />
+                        <rect x="94" y="95" width="7" height="10" fill="#d4f542" opacity=".1" class="wc2-sign" />
+                        <rect x="105" y="95" width="7" height="10" fill="#d4f542" opacity=".18" />
+                        <rect x="72" y="115" width="7" height="10" fill="#d4f542" opacity=".1" />
+                        <rect x="83" y="115" width="7" height="10" fill="#d4f542" opacity=".22" class="wc2-sign" />
+                        <rect x="94" y="115" width="7" height="10" fill="#d4f542" opacity=".12" />
+                        <!-- здание 3 (центральное высокое) -->
+                        <rect x="128" y="40" width="60" height="200" fill="#0c0c1a" stroke="#d4f542" stroke-width="0.8" />
+                        <rect x="140" y="28" width="36" height="14" fill="#0c0c1a" stroke="#d4f542" stroke-width="0.8" />
+                        <rect x="150" y="16" width="16" height="14" fill="#0c0c1a" stroke="#d4f542" stroke-width="0.8" />
+                        <!-- neon вывеска -->
+                        <rect x="133" y="58" width="50" height="14" rx="2" stroke="#d4f542" stroke-width="1" fill="none" class="wc2-glow" />
+                        <text x="158" y="69" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#d4f542" class="wc2-sign" letter-spacing="2">NEON</text>
+                        <rect x="134" y="82" width="7" height="9" fill="#d4f542" opacity=".18" />
+                        <rect x="145" y="82" width="7" height="9" fill="#d4f542" opacity=".12" class="wc2-sign" />
+                        <rect x="156" y="82" width="7" height="9" fill="#d4f542" opacity=".2" />
+                        <rect x="167" y="82" width="7" height="9" fill="#d4f542" opacity=".14" class="wc2-sign" />
+                        <rect x="134" y="100" width="7" height="9" fill="#d4f542" opacity=".1" class="wc2-sign" />
+                        <rect x="145" y="100" width="7" height="9" fill="#d4f542" opacity=".2" />
+                        <rect x="156" y="100" width="7" height="9" fill="#d4f542" opacity=".16" class="wc2-sign" />
+                        <rect x="167" y="100" width="7" height="9" fill="#d4f542" opacity=".1" />
+                        <!-- огонёк на крыше -->
+                        <circle cx="158" cy="14" r="2.5" fill="#d4f542" class="wc2-glow" />
+                        <!-- здание 4 -->
+                        <rect x="198" y="100" width="44" height="140" fill="#111120" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="204" y="90" width="32" height="12" fill="#111120" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="202" y="115" width="6" height="8" fill="#d4f542" opacity=".14" class="wc2-sign" />
+                        <rect x="212" y="115" width="6" height="8" fill="#d4f542" opacity=".2" />
+                        <rect x="222" y="115" width="6" height="8" fill="#d4f542" opacity=".1" />
+                        <rect x="232" y="115" width="6" height="8" fill="#d4f542" opacity=".18" class="wc2-sign" />
+                        <!-- здание 5 -->
+                        <rect x="252" y="130" width="36" height="110" fill="#0d0d1c" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="258" y="120" width="24" height="12" fill="#0d0d1c" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="256" y="148" width="6" height="7" fill="#d4f542" opacity=".12" class="wc2-sign" />
+                        <rect x="266" y="148" width="6" height="7" fill="#d4f542" opacity=".2" />
+                        <rect x="276" y="148" width="6" height="7" fill="#d4f542" opacity=".1" />
+                        <!-- здание 6 -->
+                        <rect x="298" y="90" width="54" height="150" fill="#0e0e1f" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="308" y="78" width="34" height="14" fill="#0e0e1f" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="320" y="65" width="10" height="15" fill="#0e0e1f" stroke="#d4f542" stroke-width="0.7" />
+                        <rect x="302" y="108" width="7" height="9" fill="#d4f542" opacity=".16" />
+                        <rect x="313" y="108" width="7" height="9" fill="#d4f542" opacity=".1" class="wc2-sign" />
+                        <rect x="324" y="108" width="7" height="9" fill="#d4f542" opacity=".2" />
+                        <rect x="335" y="108" width="7" height="9" fill="#d4f542" opacity=".14" class="wc2-sign" />
+                        <rect x="346" y="108" width="7" height="9" fill="#d4f542" opacity=".08" />
+                        <!-- луна -->
+                        <circle cx="360" cy="55" r="14" fill="none" stroke="#d4f542" stroke-width="0.8" opacity=".5" />
+                        <circle cx="365" cy="50" r="12" fill="#0e0e1e" opacity=".95" />
+                    </svg>
+                </div>
+                <div class="work-card-overlay"></div>
+                <div class="work-card-info">
+                    <div class="work-card-cat">Иллюстрация / Photoshop</div>
+                    <div class="work-card-name">Постер Neon City</div>
+                </div>
+            </div>
+
+            <!-- 3: Dashboard TechApp -->
+            <div class="work-card reveal d2">
+                <div class="work-card-bg"></div>
+                <div class="work-card-mock">
+                    <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                        <!-- окно браузера -->
+                        <rect x="20" y="20" width="360" height="260" rx="6" fill="#0c0c18" stroke="#d4f542" stroke-width="0.8" opacity=".9" />
+                        <!-- тулбар -->
+                        <rect x="20" y="20" width="360" height="26" rx="6" fill="#131320" />
+                        <rect x="20" y="32" width="360" height="14" fill="#131320" />
+                        <circle cx="36" cy="33" r="4" fill="#d4f542" opacity=".25" />
+                        <circle cx="50" cy="33" r="4" fill="#d4f542" opacity=".15" />
+                        <circle cx="64" cy="33" r="4" fill="#d4f542" opacity=".08" />
+                        <rect x="80" y="27" width="180" height="12" rx="3" fill="#1a1a2e" />
+                        <!-- sidebar -->
+                        <rect x="20" y="46" width="54" height="234" fill="#0f0f1c" />
+                        <rect x="28" y="60" width="38" height="8" rx="2" fill="#d4f542" opacity=".18" />
+                        <rect x="28" y="76" width="38" height="8" rx="2" fill="#d4f542" opacity=".1" />
+                        <rect x="28" y="92" width="38" height="8" rx="2" fill="#d4f542" opacity=".1" />
+                        <rect x="28" y="108" width="38" height="8" rx="2" fill="#d4f542" opacity=".1" />
+                        <rect x="28" y="124" width="38" height="8" rx="2" fill="#d4f542" opacity=".1" />
+                        <!-- active menu item -->
+                        <rect x="20" y="74" width="4" height="12" fill="#d4f542" />
+                        <!-- main area -->
+                        <!-- KPI карточки -->
+                        <rect x="84" y="56" width="70" height="42" rx="3" fill="#151525" stroke="#d4f542" stroke-width="0.4" opacity="0.9" />
+                        <text x="119" y="73" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#d4f542" opacity=".8">2,4K</text>
+                        <text x="119" y="86" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#7a7570" letter-spacing="1">USERS</text>
+                        <rect x="162" y="56" width="70" height="42" rx="3" fill="#151525" stroke="#d4f542" stroke-width="0.4" opacity="0.9" />
+                        <text x="197" y="73" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#d4f542" opacity=".8">$18K</text>
+                        <text x="197" y="86" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#7a7570" letter-spacing="1">REVENUE</text>
+                        <rect x="240" y="56" width="70" height="42" rx="3" fill="#151525" stroke="#d4f542" stroke-width="0.4" opacity="0.9" />
+                        <text x="275" y="73" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#d4f542" opacity=".8">94%</text>
+                        <text x="275" y="86" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#7a7570" letter-spacing="1">UPTIME</text>
+                        <rect x="318" y="56" width="52" height="42" rx="3" fill="#151525" stroke="#d4f542" stroke-width="0.4" opacity="0.9" />
+                        <text x="344" y="73" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#d4f542" opacity=".8">↑7%</text>
+                        <text x="344" y="86" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#7a7570" letter-spacing="1">GROWTH</text>
+                        <!-- Bar chart -->
+                        <rect x="84" y="108" width="170" height="110" rx="3" fill="#111120" stroke="#d4f542" stroke-width="0.4" />
+                        <text x="92" y="122" font-family="sans-serif" font-size="7" fill="#7a7570" letter-spacing="2">ANALYTICS</text>
+                        <!-- базовая линия -->
+                        <line x1="96" y1="206" x2="246" y2="206" stroke="#d4f542" stroke-width="0.4" opacity=".3" />
+                        <!-- 7 баров с анимацией (transform-origin bottom) -->
+                        <rect class="wc3-bar" x="100" y="165" width="14" height="41" rx="1" fill="#d4f542" opacity=".45" />
+                        <rect class="wc3-bar" x="118" y="148" width="14" height="58" rx="1" fill="#d4f542" opacity=".6" />
+                        <rect class="wc3-bar" x="136" y="172" width="14" height="34" rx="1" fill="#d4f542" opacity=".4" />
+                        <rect class="wc3-bar" x="154" y="140" width="14" height="66" rx="1" fill="#d4f542" opacity=".75" />
+                        <rect class="wc3-bar" x="172" y="158" width="14" height="48" rx="1" fill="#d4f542" opacity=".5" />
+                        <rect class="wc3-bar" x="190" y="135" width="14" height="71" rx="1" fill="#d4f542" opacity=".85" />
+                        <rect class="wc3-bar" x="208" y="155" width="14" height="51" rx="1" fill="#d4f542" opacity=".55" />
+                        <rect class="wc3-bar" x="226" y="145" width="14" height="61" rx="1" fill="#d4f542" opacity=".65" />
+                        <!-- Line chart -->
+                        <rect x="262" y="108" width="108" height="110" rx="3" fill="#111120" stroke="#d4f542" stroke-width="0.4" />
+                        <text x="270" y="122" font-family="sans-serif" font-size="7" fill="#7a7570" letter-spacing="2">TREND</text>
+                        <path class="wc3-line" d="M270 196 L282 182 L296 188 L310 165 L324 170 L338 150 L352 158 L362 142" stroke="#d4f542" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M270 196 L282 182 L296 188 L310 165 L324 170 L338 150 L352 158 L362 142 L362 210 L270 210 Z" fill="#d4f542" opacity=".04" />
+                        <!-- dot на конце -->
+                        <circle class="wc3-dot" cx="362" cy="142" r="3" fill="#d4f542" />
+                        <!-- таблица -->
+                        <rect x="84" y="226" width="286" height="44" rx="3" fill="#111120" stroke="#d4f542" stroke-width="0.4" />
+                        <rect x="84" y="226" width="286" height="13" rx="3" fill="#191928" />
+                        <rect x="84" y="233" width="286" height="6" fill="#191928" />
+                        <rect x="92" y="229" width="40" height="4" rx="1" fill="#d4f542" opacity=".2" />
+                        <rect x="150" y="229" width="30" height="4" rx="1" fill="#d4f542" opacity=".15" />
+                        <rect x="92" y="246" width="40" height="3" rx="1" fill="#d4f542" opacity=".1" />
+                        <rect x="150" y="246" width="26" height="3" rx="1" fill="#d4f542" opacity=".08" />
+                        <rect x="92" y="254" width="34" height="3" rx="1" fill="#d4f542" opacity=".1" />
+                        <rect x="150" y="254" width="30" height="3" rx="1" fill="#d4f542" opacity=".12" />
+                    </svg>
+                </div>
+                <div class="work-card-overlay"></div>
+                <div class="work-card-info">
+                    <div class="work-card-cat">UI Design</div>
+                    <div class="work-card-name">Дашборд TechApp</div>
+                </div>
+            </div>
+
+            <!-- 4: Упаковка Organic -->
+            <div class="work-card reveal d3">
+                <div class="work-card-bg"></div>
+                <div class="work-card-mock">
+                    <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                        <defs>
+                            <linearGradient id="jarGrad" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#1a3d28" />
+                                <stop offset="55%" stop-color="#224d32" />
+                                <stop offset="100%" stop-color="#152d1e" />
+                            </linearGradient>
+                            <linearGradient id="jarGrad2" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#152d1e" />
+                                <stop offset="55%" stop-color="#1e4229" />
+                                <stop offset="100%" stop-color="#112418" />
+                            </linearGradient>
+                            <linearGradient id="lidGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#d4f542" stop-opacity="0.9" />
+                                <stop offset="100%" stop-color="#a8c234" stop-opacity="0.7" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- декоративная сетка фона -->
+                        <line x1="0" y1="240" x2="400" y2="240" stroke="#d4f542" stroke-width="0.3" opacity=".08"/>
+                        <line x1="0" y1="260" x2="400" y2="260" stroke="#d4f542" stroke-width="0.3" opacity=".05"/>
+
+                        <!-- ── БАНКА 1 (левая, средняя) ── -->
+                        <g class="wc4-boxb">
+                            <!-- тело банки -->
+                            <rect x="55" y="115" width="76" height="122" rx="4" fill="url(#jarGrad)" stroke="#d4f542" stroke-width="1"/>
+                            <!-- блик -->
+                            <rect x="65" y="120" width="8" height="112" rx="3" fill="#d4f542" opacity=".06"/>
+                            <!-- крышка -->
+                            <rect x="52" y="105" width="82" height="16" rx="3" fill="url(#lidGrad)"/>
+                            <!-- крышка верх -->
+                            <rect x="60" y="100" width="66" height="8" rx="2" fill="#d4f542" opacity=".5"/>
+                            <!-- лейбл зона -->
+                            <rect x="62" y="148" width="62" height="54" rx="2" fill="#d4f542" opacity=".07" stroke="#d4f542" stroke-width="0.5"/>
+                            <!-- листик -->
+                            <path d="M86,163 Q93,151 103,158 Q95,170 86,163Z" fill="#d4f542" opacity=".7"/>
+                            <!-- надпись -->
+                            <text x="93" y="187" text-anchor="middle" font-family="sans-serif" font-size="6.5" fill="#d4f542" opacity=".7" letter-spacing="2">ORGANIC</text>
+                            <text x="93" y="197" text-anchor="middle" font-family="sans-serif" font-size="5" fill="#d4f542" opacity=".4" letter-spacing="1">BODY CREAM</text>
+                            <!-- полоска декор -->
+                            <line x1="62" y1="210" x2="124" y2="210" stroke="#d4f542" stroke-width="0.5" opacity=".3"/>
+                        </g>
+
+                        <!-- ── ТЮБИК 2 (центральный, высокий) ── -->
+                        <g class="wc4-boxa">
+                            <!-- тело тюбика -->
+                            <rect x="160" y="60" width="80" height="180" rx="5" fill="url(#jarGrad)" stroke="#d4f542" stroke-width="1.2"/>
+                            <!-- блик -->
+                            <rect x="170" y="66" width="9" height="168" rx="3" fill="#d4f542" opacity=".07"/>
+                            <!-- горлышко -->
+                            <rect x="183" y="46" width="34" height="16" rx="3" fill="#1a3d28" stroke="#d4f542" stroke-width="0.8"/>
+                            <!-- крышка -->
+                            <rect x="187" y="36" width="26" height="14" rx="3" fill="url(#lidGrad)"/>
+                            <!-- верхушка крышки -->
+                            <rect x="191" y="30" width="18" height="8" rx="2" fill="#d4f542" opacity=".55"/>
+                            <!-- лейбл зона -->
+                            <rect x="168" y="100" width="64" height="80" rx="2" fill="#d4f542" opacity=".07" stroke="#d4f542" stroke-width="0.5"/>
+                            <!-- листик большой -->
+                            <path d="M189,116 Q200,96 214,108 Q203,126 189,116Z" fill="#d4f542" opacity=".75"/>
+                            <!-- текст -->
+                            <text x="200" y="148" text-anchor="middle" font-family="sans-serif" font-size="8" font-weight="bold" fill="#d4f542" opacity=".85" letter-spacing="3">ORGANIC</text>
+                            <line x1="172" y1="155" x2="228" y2="155" stroke="#d4f542" stroke-width="0.5" opacity=".3"/>
+                            <text x="200" y="166" text-anchor="middle" font-family="sans-serif" font-size="5.5" fill="#d4f542" opacity=".45" letter-spacing="1.5">FACE SERUM</text>
+                            <!-- нижний декор -->
+                            <line x1="170" y1="202" x2="230" y2="202" stroke="#d4f542" stroke-width="0.4" opacity=".2"/>
+                            <line x1="176" y1="208" x2="224" y2="208" stroke="#d4f542" stroke-width="0.4" opacity=".15"/>
+                        </g>
+
+                        <!-- ── БАНКА 3 (правая, маленькая круглая) ── -->
+                        <g class="wc4-boxc">
+                            <!-- тело -->
+                            <rect x="268" y="148" width="68" height="88" rx="6" fill="url(#jarGrad2)" stroke="#d4f542" stroke-width="1"/>
+                            <!-- блик -->
+                            <rect x="277" y="154" width="7" height="76" rx="3" fill="#d4f542" opacity=".06"/>
+                            <!-- крышка широкая -->
+                            <rect x="264" y="136" width="76" height="16" rx="4" fill="url(#lidGrad)"/>
+                            <!-- крышка верх -->
+                            <rect x="270" y="130" width="64" height="10" rx="3" fill="#d4f542" opacity=".45"/>
+                            <!-- лейбл -->
+                            <rect x="276" y="168" width="52" height="44" rx="2" fill="#d4f542" opacity=".07" stroke="#d4f542" stroke-width="0.5"/>
+                            <!-- листик -->
+                            <path d="M293,180 Q300,170 309,176 Q302,186 293,180Z" fill="#d4f542" opacity=".65"/>
+                            <text x="302" y="200" text-anchor="middle" font-family="sans-serif" font-size="6" fill="#d4f542" opacity=".65" letter-spacing="1.5">ORGANIC</text>
+                            <text x="302" y="209" text-anchor="middle" font-family="sans-serif" font-size="4.5" fill="#d4f542" opacity=".35" letter-spacing="1">EYE CREAM</text>
+                        </g>
+
+                        <!-- тень общая -->
+                        <ellipse cx="200" cy="252" rx="140" ry="10" fill="#000" opacity=".3"/>
+                        <text x="200" y="282" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#d4f542" opacity=".2" letter-spacing="4">ORGANIC SERIES · PACKAGING</text>
+                    </svg>
+                </div>
+                <div class="work-card-overlay"></div>
+                <div class="work-card-info">
+                    <div class="work-card-cat">Упаковка</div>
+                    <div class="work-card-name">Серия упаковки «Organic»</div>
+                </div>
+            </div>
+
+            <!-- 5: Лого PRISM -->
+            <div class="work-card reveal d4">
+                <div class="work-card-bg"></div>
+                <div class="work-card-mock">
+                    <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                        <!-- фоновые круги -->
+                        <circle cx="200" cy="150" r="120" stroke="#d4f542" stroke-width="0.3" opacity=".07" />
+                        <circle cx="200" cy="150" r="90" stroke="#d4f542" stroke-width="0.3" opacity=".05" stroke-dasharray="8 4" />
+
+                        <!-- лучи света (за призмой) -->
+                        <g class="wc5-ray">
+                            <line x1="200" y1="150" x2="340" y2="100" stroke="#d4f542" stroke-width="1.5" opacity=".3" />
+                            <line x1="200" y1="150" x2="350" y2="130" stroke="#d4f542" stroke-width="0.8" opacity=".2" />
+                        </g>
+                        <g class="wc5-ray">
+                            <line x1="200" y1="150" x2="345" y2="160" stroke="#7fff00" stroke-width="1.2" opacity=".25" />
+                        </g>
+                        <g class="wc5-ray">
+                            <line x1="200" y1="150" x2="338" y2="190" stroke="#00ffcc" stroke-width="1" opacity=".2" />
+                        </g>
+                        <g class="wc5-ray">
+                            <line x1="200" y1="150" x2="325" y2="218" stroke="#00cfff" stroke-width="1" opacity=".18" />
+                        </g>
+                        <g class="wc5-ray">
+                            <line x1="200" y1="150" x2="305" y2="240" stroke="#8080ff" stroke-width="0.8" opacity=".15" />
+                        </g>
+
+                        <!-- входящий луч -->
+                        <line x1="50" y1="150" x2="200" y2="150" stroke="#d4f542" stroke-width="1.5" opacity=".5" />
+                        <line x1="40" y1="148" x2="200" y2="148" stroke="#d4f542" stroke-width="0.5" opacity=".2" />
+                        <line x1="40" y1="152" x2="200" y2="152" stroke="#d4f542" stroke-width="0.5" opacity=".2" />
+
+                        <!-- призма -->
+                        <g class="wc5-prism">
+                            <!-- грани с заливкой -->
+                            <path d="M200 60 L280 200 L120 200 Z" fill="#d4f542" fill-opacity=".04" stroke="#d4f542" stroke-width="1.5" stroke-linejoin="round" />
+                            <!-- внутренние линии преломления -->
+                            <line x1="200" y1="60" x2="200" y2="200" stroke="#d4f542" stroke-width="0.6" opacity=".2" />
+                            <line x1="200" y1="150" x2="280" y2="200" stroke="#d4f542" stroke-width="0.6" opacity=".15" />
+                            <!-- блик -->
+                            <path d="M200 60 L215 85 L195 80 Z" fill="#d4f542" opacity=".25" />
+                        </g>
+
+                        <!-- точка входа луча -->
+                        <circle cx="200" cy="150" r="4" fill="#d4f542" opacity=".6" />
+                        <circle cx="200" cy="150" r="8" stroke="#d4f542" stroke-width="0.8" opacity=".25" />
+
+                        <!-- лейбл -->
+                        <text x="200" y="268" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="900" fill="#d4f542" opacity=".12" letter-spacing="14">PRISM</text>
+                        <text x="200" y="285" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#d4f542" opacity=".25" letter-spacing="5">MOTION · IDENTITY</text>
+                    </svg>
+                </div>
+                <div class="work-card-overlay"></div>
+                <div class="work-card-info">
+                    <div class="work-card-cat">Motion Design</div>
+                    <div class="work-card-name">Анимационное лого PRISM</div>
+                </div>
+            </div>
+
+            <!-- 6: Into the Void -->
+            <div class="work-card reveal d5">
+                <div class="work-card-bg"></div>
+                <div class="work-card-mock">
+                    <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                        <!-- звёзды случайные -->
+                        <circle cx="30" cy="25" r="0.8" fill="#d4f542" opacity=".5" />
+                        <circle cx="70" cy="50" r="1" fill="#d4f542" opacity=".3" />
+                        <circle cx="130" cy="18" r="0.7" fill="#d4f542" opacity=".6" />
+                        <circle cx="220" cy="35" r="1" fill="#d4f542" opacity=".35" />
+                        <circle cx="300" cy="20" r="0.8" fill="#d4f542" opacity=".45" />
+                        <circle cx="375" cy="55" r="1" fill="#d4f542" opacity=".3" />
+                        <circle cx="380" cy="120" r="0.7" fill="#d4f542" opacity=".4" />
+                        <circle cx="350" cy="240" r="0.8" fill="#d4f542" opacity=".25" />
+                        <circle cx="20" cy="200" r="0.9" fill="#d4f542" opacity=".4" />
+                        <circle cx="60" cy="260" r="0.7" fill="#d4f542" opacity=".3" />
+                        <circle cx="170" cy="270" r="1" fill="#d4f542" opacity=".2" />
+                        <circle cx="340" cy="280" r="0.8" fill="#d4f542" opacity=".35" />
+
+                        <!-- Внешние орбиты -->
+                        <ellipse class="wc6-ring1" cx="200" cy="150" rx="130" ry="40" stroke="#d4f542" stroke-width="0.6" opacity=".15" stroke-dasharray="12 6" />
+                        <ellipse class="wc6-ring2" cx="200" cy="150" rx="100" ry="30" stroke="#d4f542" stroke-width="0.5" opacity=".2" stroke-dasharray="8 4" />
+                        <ellipse class="wc6-ring3" cx="200" cy="150" rx="70" ry="22" stroke="#d4f542" stroke-width="0.5" opacity=".25" stroke-dasharray="5 3" />
+
+                        <!-- Портал (ядро) -->
+                        <circle class="wc6-core" cx="200" cy="150" r="60" stroke="#d4f542" stroke-width="0.8" opacity=".15" />
+                        <circle cx="200" cy="150" r="44" fill="url(#voidGrad)" stroke="#d4f542" stroke-width="1" opacity=".7" />
+                        <circle cx="200" cy="150" r="28" fill="#040408" stroke="#d4f542" stroke-width="0.8" opacity=".8" />
+                        <circle cx="200" cy="150" r="14" fill="#d4f542" opacity=".08" />
+                        <circle cx="200" cy="150" r="5" fill="#d4f542" opacity=".4" />
+
+                        <!-- Точки на орбите -->
+                        <circle class="wc6-spark" cx="330" cy="150" r="4" fill="#d4f542" />
+                        <circle class="wc6-spark" cx="200" cy="110" r="3" fill="#d4f542" />
+                        <circle class="wc6-spark" cx="100" cy="162" r="3.5" fill="#d4f542" />
+                        <circle class="wc6-spark" cx="240" cy="178" r="2.5" fill="#d4f542" />
+                        <circle class="wc6-spark" cx="175" cy="124" r="2" fill="#d4f542" />
+
+                        <!-- Расходящиеся лучи из центра -->
+                        <line x1="200" y1="150" x2="200" y2="50" stroke="#d4f542" stroke-width="0.5" opacity=".1" />
+                        <line x1="200" y1="150" x2="200" y2="250" stroke="#d4f542" stroke-width="0.5" opacity=".1" />
+                        <line x1="200" y1="150" x2="100" y2="150" stroke="#d4f542" stroke-width="0.5" opacity=".1" />
+                        <line x1="200" y1="150" x2="300" y2="150" stroke="#d4f542" stroke-width="0.5" opacity=".1" />
+                        <line x1="200" y1="150" x2="128" y2="78" stroke="#d4f542" stroke-width="0.5" opacity=".07" />
+                        <line x1="200" y1="150" x2="272" y2="78" stroke="#d4f542" stroke-width="0.5" opacity=".07" />
+                        <line x1="200" y1="150" x2="128" y2="222" stroke="#d4f542" stroke-width="0.5" opacity=".07" />
+                        <line x1="200" y1="150" x2="272" y2="222" stroke="#d4f542" stroke-width="0.5" opacity=".07" />
+
+                        <defs>
+                            <radialGradient id="voidGrad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#d4f542" stop-opacity="0.0" />
+                                <stop offset="70%" stop-color="#d4f542" stop-opacity="0.04" />
+                                <stop offset="100%" stop-color="#d4f542" stop-opacity="0.15" />
+                            </radialGradient>
+                        </defs>
+
+                        <text x="200" y="285" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#d4f542" opacity=".2" letter-spacing="5">INTO THE VOID · PHOTO MANIPULATION</text>
+                    </svg>
+                </div>
+                <div class="work-card-overlay"></div>
+                <div class="work-card-info">
+                    <div class="work-card-cat">Фотоманипуляция</div>
+                    <div class="work-card-name">Арт «Into the Void»</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ─── TOOLS ─── -->
+    <section id="tools">
+        <div class="section-label reveal">Стек</div>
+        <h2 class="tools-title reveal d1">Программы &<br>инструменты</h2>
+        <div class="tools-list reveal d2">
+            <span class="tool-badge"><span class="tool-dot"></span>Adobe Photoshop 2025</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Adobe Illustrator 2025</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Adobe After Effects</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Adobe InDesign</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Adobe Lightroom</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Figma</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Blender 3D</span>
+            <span class="tool-badge"><span class="tool-dot"></span>DaVinci Resolve</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Procreate</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Wacom Intuos Pro</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Pantone / CMYK</span>
+            <span class="tool-badge"><span class="tool-dot"></span>Grid Systems</span>
+        </div>
+    </section>
+
+    <!-- ─── CONTACT ─── -->
+    <section id="contact">
+        <div class="contact-left">
+            <div class="section-label reveal">Контакты</div>
+            <h2 class="contact-title reveal d1">Давайте создадим<br>что-то <em>крутое</em></h2>
+            <p class="contact-desc reveal d2">
+                Готов к новым проектам. Расскажите о вашей задаче — и я предложу решение,
+                которое точно попадёт в цель.
+            </p>
+            <div class="contact-links reveal d3">
+                <a href="mailto:tandemsites@example.com" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <rect x="2" y="4" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2" />
+                        <path d="M2 5l6 4.5L14 5" stroke="currentColor" stroke-width="1.2" />
+                    </svg>
+                    tandemsites@example.com
+                </a>
+                <a href="#" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M14 2L7.5 8.5M14 2L2 6.5l5.5 2M14 2l-3 11-3-4.5" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                    </svg>
+                    @demidov_design
+                </a>
+                <a href="#" class="contact-link">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M2 4h5c1.7 0 2.5 1 2.5 2.2C9.5 7.5 8.8 8 8 8.3c1 .2 2 .9 2 2.2C10 12 9 13 7 13H2V4z" stroke="currentColor" stroke-width="1.1" />
+                        <path d="M10 6h4M10.5 4.5h3M10 9.5c0-1.5 1-2 2-2s2 .5 2 2v.5h-4c0 .8.4 1.5 1.5 1.5.6 0 1-.2 1.2-.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                    </svg>
+                    behance.net/demidov
+                </a>
+            </div>
+        </div>
+        <form class="contact-form reveal-right" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Имя</label>
+                    <input type="text" placeholder="Алексей" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="hello@company.ru" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Тип проекта</label>
+                <input type="text" placeholder="Брендинг / Ретушь / UI...">
+            </div>
+            <div class="form-group">
+                <label>Сообщение</label>
+                <textarea placeholder="Расскажите о задаче, бюджете и сроках..." required></textarea>
+            </div>
+            <button class="btn-submit" type="submit" id="submitBtn">Отправить заявку</button>
+        </form>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+        <div class="footer-copy">© 2025 Евгений Демидов. <span>Сделано с ♥</span></div>
+        <a href="#hero" class="footer-back">Наверх ↑</a>
+    </footer>
+
+    <!-- ══════════════════════ JS ══════════════════════ -->
+    <script>
+        // ─── Nav scroll ───────────────────────────────────
+        const navEl = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            navEl.classList.toggle('scrolled', window.scrollY > 60);
+        }, { passive: true });
+
+        // ─── Reveal ───────────────────────────────────────
+        const revealObs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
+
+        // ─── Счётчики ─────────────────────────────────────
+        function animCount(el, target, suffix) {
+            const dur = 1600;
+            const start = performance.now();
+            (function step(now) {
+                const t = Math.min((now - start) / dur, 1);
+                const ease = 1 - Math.pow(1 - t, 3);
+                el.textContent = Math.round(ease * target) + suffix;
+                if (t < 1) requestAnimationFrame(step);
+            })(performance.now());
+        }
+        const countObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                const el = e.target;
+                const val = parseInt(el.dataset.count);
+                const suffix = el.parentElement.querySelector('.about-stat-label')
+                    .textContent.includes('%') ? '%' : '+';
+                animCount(el, val, suffix);
+                countObs.unobserve(el);
+            });
+        }, { threshold: 0.5 });
+        document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+
+        // ─── Skill bars ───────────────────────────────────
+        const barObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (!e.isIntersecting) return;
+                e.target.querySelectorAll('.skill-level-fill').forEach(fill => {
+                    const pct = parseFloat(fill.dataset.pct);
+                    fill.style.setProperty('--pct', pct);
+                    fill.style.transform = `scaleX(${pct})`;
+                    fill.classList.add('animate');
+                });
+                barObs.unobserve(e.target);
+            });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.skill-card').forEach(card => barObs.observe(card));
+
+        // ─── Form submit ──────────────────────────────────
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = 'Отправлено ✓';
+            btn.style.background = '#4aaf6c';
+            btn.disabled = true;
+        }
+    </script>
+</body>
+
+</html>

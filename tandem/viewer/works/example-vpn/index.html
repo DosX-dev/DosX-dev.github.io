@@ -1,0 +1,2781 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArcVPN — Невидим для провайдера</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ─── RESET ──────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --bg: #04060a;
+            --bg1: #080c14;
+            --bg2: #0c1220;
+            --card: rgba(255, 255, 255, .028);
+            --card2: rgba(255, 255, 255, .048);
+            --line: rgba(255, 255, 255, .07);
+            --line2: rgba(255, 255, 255, .13);
+            --blue: #2563eb;
+            --blue2: #3b82f6;
+            --blue3: #60a5fa;
+            --cyan: #22d3ee;
+            --green: #34d399;
+            --red: #f87171;
+            --amber: #fbbf24;
+            --w90: rgba(255, 255, 255, .9);
+            --w60: rgba(255, 255, 255, .6);
+            --w35: rgba(255, 255, 255, .35);
+            --w18: rgba(255, 255, 255, .18);
+            --w08: rgba(255, 255, 255, .08);
+            --ease: cubic-bezier(.4, 0, .2, 1);
+            --out: cubic-bezier(0, 0, .2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--w90);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            line-height: 1
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer
+        }
+
+        svg {
+            display: block;
+            flex-shrink: 0
+        }
+
+        ::-webkit-scrollbar {
+            width: 3px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg)
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--line2);
+            border-radius: 2px
+        }
+
+        /* ─── SELECTION ─── */
+        ::selection {
+            background: rgba(37, 99, 235, .45);
+            color: #fff;
+        }
+
+        ::-moz-selection {
+            background: rgba(37, 99, 235, .45);
+            color: #fff;
+        }
+
+        /* ─── NOISE OVERLAY ──────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: .028;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 200px 200px;
+        }
+
+        /* ─── NAV ────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            height: 60px;
+            padding: 0 44px;
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        nav::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: transparent;
+            transition: background .4s;
+        }
+
+        nav.scrolled::after {
+            background: var(--line)
+        }
+
+        nav.scrolled {
+            background: rgba(4, 6, 10, .82);
+            backdrop-filter: blur(16px) saturate(130%)
+        }
+
+        .nav-logo {
+            font-size: 1.05rem;
+            font-weight: 900;
+            letter-spacing: -.05em;
+            color: var(--w90);
+            margin-right: 44px;
+            flex-shrink: 0;
+        }
+
+        .nav-logo span {
+            color: var(--blue2)
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            flex: 1
+        }
+
+        .nav-links a {
+            padding: 6px 12px;
+            font-size: .82rem;
+            font-weight: 500;
+            color: var(--w35);
+            border-radius: 6px;
+            transition: color .15s, background .15s;
+        }
+
+        .nav-links a:hover {
+            color: var(--w90);
+            background: var(--w08)
+        }
+
+        .nav-r {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0
+        }
+
+        .btn-n-ghost {
+            padding: 7px 15px;
+            border-radius: 7px;
+            border: 1px solid var(--line);
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--w60);
+            transition: border-color .15s, color .15s;
+        }
+
+        .btn-n-ghost:hover {
+            border-color: var(--line2);
+            color: var(--w90)
+        }
+
+        .btn-n {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 16px;
+            border-radius: 7px;
+            background: var(--blue);
+            color: #fff;
+            font-size: .8rem;
+            font-weight: 700;
+            transition: background .15s, transform .15s, box-shadow .2s;
+            box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+        }
+
+        .btn-n:hover {
+            background: var(--blue2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, .4)
+        }
+
+        .nav-burger {
+            display: none;
+            flex-direction: column;
+            gap: 4.5px;
+            background: none;
+            border: none;
+            padding: 4px;
+            margin-left: 12px
+        }
+
+        .nav-burger span {
+            width: 20px;
+            height: 1.5px;
+            background: var(--w60);
+            border-radius: 1px;
+            transition: .2s
+        }
+
+        .mob-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            z-index: 850;
+            padding: 10px 16px 20px;
+            background: rgba(4, 6, 10, .96);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .mob-menu.open {
+            display: flex;
+            flex-direction: column;
+            gap: 0
+        }
+
+        .mob-menu a {
+            padding: 13px 8px;
+            font-size: .9rem;
+            font-weight: 600;
+            color: var(--w60);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .mob-menu a:last-child {
+            border: 0;
+            padding-bottom: 0
+        }
+
+        /* ─── HERO ───────────────────────────────── */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 44px 100px;
+            overflow: hidden;
+        }
+
+        /* single clean glow */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse 60% 55% at 50% 40%,
+                    rgba(37, 99, 235, .16) 0%,
+                    rgba(37, 99, 235, .06) 35%,
+                    transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* grid */
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(var(--line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line) 1px, transparent 1px);
+            background-size: 64px 64px;
+            background-position: center center;
+            mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, rgba(0, 0, 0, .85) 0%, transparent 70%);
+            opacity: .55;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 80px;
+        }
+
+        /* ── left ── */
+        .h-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px 4px 6px;
+            border-radius: 99px;
+            border: 1px solid rgba(37, 99, 235, .3);
+            background: rgba(37, 99, 235, .08);
+            font-size: .66rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--blue3);
+            margin-bottom: 28px;
+        }
+
+        .h-tag-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--blue2);
+            animation: hpulse 2.2s ease-in-out infinite
+        }
+
+        @keyframes hpulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, .5)
+            }
+
+            50% {
+                box-shadow: 0 0 0 5px rgba(59, 130, 246, 0)
+            }
+        }
+
+        h1 {
+            font-size: clamp(3.2rem, 5.2vw, 5rem);
+            font-weight: 900;
+            line-height: 1.02;
+            letter-spacing: -.06em;
+            word-spacing: .12em;
+            color: #fff;
+            margin-bottom: 26px;
+        }
+
+        h1 em {
+            font-style: normal;
+            display: inline-block;
+            padding-bottom: .12em
+        }
+
+        h1 .c1 {
+            background: linear-gradient(125deg, var(--blue3) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-p {
+            font-size: 1.05rem;
+            line-height: 1.78;
+            color: var(--w35);
+            max-width: 450px;
+            margin-bottom: 38px;
+        }
+
+        .hero-p b {
+            color: var(--w60);
+            font-weight: 600
+        }
+
+        .h-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 44px
+        }
+
+        .btn-prim {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 26px;
+            border-radius: 9px;
+            background: var(--blue);
+            color: #fff;
+            font-size: .92rem;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, .35), inset 0 1px 0 rgba(255, 255, 255, .1);
+            transition: background .15s, transform .2s, box-shadow .2s;
+        }
+
+        .btn-prim:hover {
+            background: var(--blue2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(37, 99, 235, .5), inset 0 1px 0 rgba(255, 255, 255, .1)
+        }
+
+        .btn-sec {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 13px 24px;
+            border-radius: 9px;
+            border: 1px solid var(--line2);
+            color: var(--w60);
+            font-size: .92rem;
+            font-weight: 600;
+            transition: border-color .15s, color .15s, transform .2s;
+        }
+
+        .btn-sec:hover {
+            border-color: rgba(255, 255, 255, .26);
+            color: #fff;
+            transform: translateY(-2px)
+        }
+
+        .h-stats {
+            display: flex;
+            gap: 36px;
+            padding-top: 28px;
+            border-top: 1px solid var(--line)
+        }
+
+        .hs-n {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -.05em;
+            color: #fff;
+            line-height: 1
+        }
+
+        .hs-l {
+            margin-top: 5px;
+            font-size: .7rem;
+            color: var(--w35);
+            font-weight: 500
+        }
+
+        /* ── right: terminal widget ── */
+        .hero-widget {
+            background: var(--bg1);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 255, 255, .03);
+        }
+
+        .hw-topbar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(255, 255, 255, .015);
+        }
+
+        .hw-dots {
+            display: flex;
+            gap: 5px
+        }
+
+        .hw-d {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%
+        }
+
+        .hw-d1 {
+            background: #ff5f57
+        }
+
+        .hw-d2 {
+            background: #febc2e
+        }
+
+        .hw-d3 {
+            background: #28c840
+        }
+
+        .hw-title {
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--w18);
+            margin-left: 4px
+        }
+
+        .hw-status {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .65rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .hw-status::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: hpulse 1.6s ease-in-out infinite
+        }
+
+        /* network path viz */
+        .hw-net {
+            padding: 20px 18px 14px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .net-nodes {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0;
+            margin-bottom: 16px;
+            min-width: 340px;
+        }
+
+        .nn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0
+        }
+
+        .nn-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .nn-b {
+            background: rgba(37, 99, 235, .12);
+            border: 1px solid rgba(37, 99, 235, .25);
+            color: var(--blue3)
+        }
+
+        .nn-r {
+            background: rgba(248, 113, 113, .1);
+            border: 1px solid rgba(248, 113, 113, .22);
+            color: #f87171
+        }
+
+        .nn-g {
+            background: rgba(52, 211, 153, .1);
+            border: 1px solid rgba(52, 211, 153, .22);
+            color: var(--green)
+        }
+
+        .nn-c {
+            background: rgba(34, 211, 238, .08);
+            border: 1px solid rgba(34, 211, 238, .2);
+            color: var(--cyan)
+        }
+
+        .nn-lbl {
+            font-size: .6rem;
+            font-weight: 700;
+            color: var(--w18);
+            letter-spacing: .04em
+        }
+
+        .nn-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: 2px solid var(--bg1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nn-ok {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #059669;
+            border: 2px solid var(--bg1);
+            border-radius: 99px;
+            padding: 1px 4px;
+            font-size: .43rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: .04em;
+        }
+
+        /* connector */
+        .nconn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            position: relative;
+            min-width: 28px;
+        }
+
+        .nline {
+            width: 100%;
+            height: 1.5px;
+            border-radius: 1px;
+            position: relative;
+            overflow: visible
+        }
+
+        .nl-enc {
+            background: rgba(52, 211, 153, .25)
+        }
+
+        .nl-plain {
+            background: rgba(255, 255, 255, .07)
+        }
+
+        .nl-cut {
+            background: rgba(248, 113, 113, .2)
+        }
+
+        /* animated flow dot */
+        .ndot {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            will-change: left;
+        }
+
+        .nd-g {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: flowdot 1.6s linear infinite
+        }
+
+        .nd-g2 {
+            background: var(--green);
+            box-shadow: 0 0 6px var(--green);
+            animation: flowdot 1.6s linear infinite;
+            animation-delay: .7s;
+            opacity: .55
+        }
+
+        .nd-w {
+            background: rgba(255, 255, 255, .4);
+            animation: flowdot 2s linear infinite
+        }
+
+        @keyframes flowdot {
+            from {
+                left: -4px
+            }
+
+            to {
+                left: calc(100% + 4px)
+            }
+        }
+
+        .nconn-tag {
+            font-size: .5rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            white-space: nowrap
+        }
+
+        /* metrics row */
+        .hw-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--line);
+            border-top: 1px solid var(--line);
+        }
+
+        .hm {
+            background: var(--bg1);
+            padding: 14px 16px
+        }
+
+        .hm-v {
+            font-size: 1.15rem;
+            font-weight: 900;
+            letter-spacing: -.04em;
+            color: #fff;
+            line-height: 1
+        }
+
+        .hm-v sup {
+            font-size: .6rem;
+            color: var(--blue3);
+            vertical-align: super;
+            margin-left: 1px
+        }
+
+        .hm-l {
+            font-size: .58rem;
+            color: var(--w18);
+            margin-top: 5px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase
+        }
+
+        /* log stream */
+        .hw-log {
+            padding: 14px 18px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: .65rem;
+            line-height: 1.9;
+            color: var(--w18);
+            border-top: 1px solid var(--line);
+            background: rgba(0, 0, 0, .25);
+            max-height: 110px;
+            overflow: hidden;
+        }
+
+        .hw-log .ok {
+            color: var(--green)
+        }
+
+        .hw-log .info {
+            color: var(--blue3)
+        }
+
+        .hw-log .warn {
+            color: var(--amber)
+        }
+
+        .hw-log .cur {
+            display: inline-block;
+            width: 7px;
+            height: 10px;
+            background: var(--blue2);
+            vertical-align: middle;
+            animation: cur .9s step-end infinite
+        }
+
+        @keyframes cur {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        /* ─── SERVICES ───────────────────────────── */
+        .services {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 26px 44px
+        }
+
+        .svc-inner {
+            max-width: 1120px;
+            margin: 0 auto
+        }
+
+        .svc-label {
+            text-align: center;
+            font-size: .62rem;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--w18);
+            margin-bottom: 18px
+        }
+
+        .svc-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center
+        }
+
+        .svc-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 14px 6px 7px;
+            border-radius: 99px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--w35);
+            transition: background .2s, border-color .2s, color .2s, transform .2s;
+        }
+
+        .svc-chip:hover {
+            background: var(--card2);
+            border-color: var(--line2);
+            color: var(--w90);
+            transform: translateY(-2px)
+        }
+
+        .svc-ico {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        /* ─── COMMON SECTION ─────────────────────── */
+        .sec {
+            padding: 120px 44px;
+            position: relative;
+            overflow: hidden
+        }
+
+        /* subtle dot grid for all sections */
+        .sec::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, .032) 1px, transparent 1px);
+            background-size: 32px 32px;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(0, 0, 0, .6) 0%, transparent 75%);
+        }
+
+        .sec-wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1
+        }
+
+        /* section bg strip */
+        .sec-glow {
+            position: absolute;
+            pointer-events: none;
+            background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(37, 99, 235, .09), transparent 60%);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 400px;
+            z-index: 0;
+        }
+
+        .sec-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: .62rem;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--blue3);
+            margin-bottom: 14px;
+        }
+
+        .sec-kicker::before {
+            content: '';
+            width: 18px;
+            height: 1.5px;
+            background: currentColor
+        }
+
+        h2 {
+            font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+            font-weight: 900;
+            letter-spacing: -.06em;
+            word-spacing: .12em;
+            line-height: 1.07;
+            color: #fff;
+            margin-bottom: 14px
+        }
+
+        h2 em {
+            font-style: normal;
+            display: inline-block;
+            padding-bottom: .1em
+        }
+
+        h2 .g {
+            background: linear-gradient(125deg, var(--blue3), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .sec-sub {
+            font-size: .96rem;
+            color: var(--w35);
+            line-height: 1.76;
+            max-width: 480px
+        }
+
+        .sec-head {
+            margin-bottom: 64px
+        }
+
+        /* ─── FEATURES ───────────────────────────── */
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px
+        }
+
+        /* outer wrapper has line borders */
+        .feat-grid-wrap {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .fc {
+            background: var(--bg);
+            padding: 32px;
+            border-right: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            overflow: hidden;
+            transition: background .25s;
+        }
+
+        .fc:nth-child(3n),
+        .fc:nth-child(3n+3) {
+            border-right: none
+        }
+
+        .fc:nth-last-child(-n+3) {
+            border-bottom: none
+        }
+
+        .fc::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(260px at var(--mx, 50%) var(--my, 50%), rgba(37, 99, 235, .07), transparent 55%);
+            opacity: 0;
+            transition: opacity .35s;
+            pointer-events: none;
+        }
+
+        .fc:hover::before {
+            opacity: 1
+        }
+
+        .fc:hover {
+            background: var(--bg1)
+        }
+
+        .fc-ico {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .fc:hover .fc-ico {
+            transform: scale(1.12) rotate(-6deg)
+        }
+
+        .ci-b {
+            background: rgba(37, 99, 235, .12);
+            color: var(--blue3)
+        }
+
+        .ci-c {
+            background: rgba(34, 211, 238, .1);
+            color: var(--cyan)
+        }
+
+        .ci-g {
+            background: rgba(52, 211, 153, .09);
+            color: var(--green)
+        }
+
+        .ci-p {
+            background: rgba(139, 92, 246, .1);
+            color: #a78bfa
+        }
+
+        .ci-a {
+            background: rgba(251, 191, 36, .09);
+            color: #fbbf24
+        }
+
+        .ci-r {
+            background: rgba(248, 113, 113, .09);
+            color: #f87171
+        }
+
+        .fc-name {
+            font-size: .92rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 9px;
+            letter-spacing: -.025em
+        }
+
+        .fc-desc {
+            font-size: .82rem;
+            color: var(--w35);
+            line-height: 1.7
+        }
+
+        /* ─── HOW IT WORKS ────────────────────────── */
+        .sec-dark {
+            background: var(--bg1);
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            position: relative;
+        }
+
+        /* dot grid + corner accent for dark sections */
+        .sec-dark::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, .028) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+
+        .sec-dark::after {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(ellipse 55% 55% at 60% 40%,
+                    rgba(37, 99, 235, .11) 0%,
+                    rgba(34, 211, 238, .05) 45%,
+                    transparent 70%);
+        }
+
+        .hiw-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center
+        }
+
+        /* path diagram */
+        .path-card {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .path-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(300px at var(--mx, 50%) var(--my, 50%), rgba(52, 211, 153, .06), transparent 55%);
+            opacity: 0;
+            transition: opacity .35s;
+            pointer-events: none
+        }
+
+        .path-card:hover::before {
+            opacity: 1
+        }
+
+        .path-lbl {
+            font-size: .58rem;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--w18);
+            text-align: center;
+            margin-bottom: 22px
+        }
+
+        .path-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0
+        }
+
+        .pn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            flex-shrink: 0
+        }
+
+        .pn-b {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative
+        }
+
+        .pn-l {
+            font-size: .58rem;
+            font-weight: 700;
+            color: var(--w18);
+            text-align: center;
+            max-width: 50px;
+            line-height: 1.3
+        }
+
+        .pc {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            position: relative;
+            min-width: 0
+        }
+
+        .pl {
+            width: 100%;
+            height: 1.5px;
+            border-radius: 1px;
+            position: relative;
+            overflow: visible
+        }
+
+        .pl-g {
+            background: rgba(52, 211, 153, .3)
+        }
+
+        .pl-b {
+            background: var(--line)
+        }
+
+        .pl-r {
+            background: rgba(248, 113, 113, .22);
+            background: repeating-linear-gradient(90deg, rgba(248, 113, 113, .3) 0, rgba(248, 113, 113, .3) 4px, transparent 4px, transparent 8px)
+        }
+
+        .pdot {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            will-change: left
+        }
+
+        .pd-g {
+            background: var(--green);
+            box-shadow: 0 0 7px var(--green);
+            animation: flowdot 1.5s linear infinite
+        }
+
+        .pd-g2 {
+            background: var(--green);
+            box-shadow: 0 0 5px var(--green);
+            animation: flowdot 1.5s linear infinite;
+            animation-delay: .65s;
+            opacity: .5
+        }
+
+        .pt {
+            font-size: .5rem;
+            font-weight: 700;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            white-space: nowrap
+        }
+
+        .pt-g {
+            color: rgba(52, 211, 153, .6)
+        }
+
+        .pt-r {
+            color: rgba(248, 113, 113, .5)
+        }
+
+        .path-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--line);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 22px;
+        }
+
+        .ps {
+            background: var(--bg1);
+            padding: 18px 14px;
+            text-align: center
+        }
+
+        .ps-v {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -.05em;
+            color: #fff;
+            line-height: 1
+        }
+
+        .ps-v em {
+            font-style: normal;
+            color: var(--blue3);
+            font-size: .85rem
+        }
+
+        .ps-l {
+            font-size: .62rem;
+            color: var(--w18);
+            margin-top: 5px;
+            font-weight: 600;
+            letter-spacing: .04em;
+            text-transform: uppercase
+        }
+
+        /* DPI table */
+        .dpi-table {
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative
+        }
+
+        .dpi-table::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(300px at var(--mx, 50%) var(--my, 50%), rgba(37, 99, 235, .06), transparent 55%);
+            opacity: 0;
+            transition: opacity .35s;
+            pointer-events: none
+        }
+
+        .dpi-table:hover::before {
+            opacity: 1
+        }
+
+        .dt-head {
+            display: grid;
+            grid-template-columns: 90px 1fr 80px;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, .02);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .dt-h {
+            font-size: .58rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--w18)
+        }
+
+        .dt-body {}
+
+        .dt-row {
+            display: grid;
+            grid-template-columns: 90px 1fr 80px;
+            gap: 12px;
+            align-items: center;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--line);
+            transition: background .2s;
+        }
+
+        .dt-row:last-child {
+            border-bottom: none
+        }
+
+        .dt-row:hover {
+            background: rgba(255, 255, 255, .02)
+        }
+
+        .dt-name {
+            font-size: .75rem;
+            font-weight: 700;
+            color: var(--w60);
+            text-align: right
+        }
+
+        .dt-bar-wrap {
+            height: 8px;
+            background: rgba(255, 255, 255, .04);
+            border-radius: 99px;
+            overflow: hidden
+        }
+
+        .dt-bar {
+            height: 100%;
+            border-radius: 99px;
+            width: 0;
+            transition: width 1.4s var(--ease)
+        }
+
+        .db-red {
+            background: linear-gradient(90deg, rgba(248, 113, 113, .6), rgba(248, 113, 113, .4))
+        }
+
+        .db-amb {
+            background: linear-gradient(90deg, rgba(251, 191, 36, .5), rgba(251, 191, 36, .3))
+        }
+
+        .db-grn {
+            background: linear-gradient(90deg, var(--blue), var(--blue3))
+        }
+
+        .dt-verdict {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: .65rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            white-space: nowrap
+        }
+
+        .dv-r {
+            background: rgba(248, 113, 113, .1);
+            color: #f87171
+        }
+
+        .dv-a {
+            background: rgba(251, 191, 36, .08);
+            color: #fbbf24
+        }
+
+        .dv-g {
+            background: rgba(37, 99, 235, .12);
+            color: var(--blue3)
+        }
+
+        /* ─── PERFORMANCE ─────────────────────────── */
+        .perf-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .planet-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-illu {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hiw-illu {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .planet-svg {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            filter: drop-shadow(0 0 48px rgba(37, 99, 235, .28));
+        }
+
+        .perf-stats {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .psi {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 26px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .psi:first-child {
+            border-top: 1px solid var(--line);
+        }
+
+        .psi-num {
+            font-size: clamp(1.9rem, 2.8vw, 2.5rem);
+            font-weight: 900;
+            letter-spacing: -.06em;
+            color: #fff;
+            line-height: 1;
+            flex-shrink: 0;
+            min-width: 108px;
+        }
+
+        .psi-num em {
+            font-style: normal;
+            font-size: .52em;
+            color: var(--blue3);
+            margin-left: 2px;
+        }
+
+        .psi-title {
+            font-size: .88rem;
+            font-weight: 700;
+            color: var(--w90);
+            margin-bottom: 5px;
+            letter-spacing: -.02em;
+        }
+
+        .psi-sub {
+            font-size: .76rem;
+            color: var(--w35);
+            line-height: 1.55;
+        }
+
+        /* ─── STEPS ──────────────────────────────── */
+        .steps-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            position: relative;
+            gap: 0;
+        }
+
+        .steps-row::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: calc(12.5% + 10px);
+            right: calc(12.5% + 10px);
+            height: 1px;
+            background: rgba(255, 255, 255, .22);
+            z-index: 0;
+        }
+
+        .st {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .st-num {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--bg1);
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .88rem;
+            font-weight: 900;
+            color: var(--w35);
+            margin-bottom: 18px;
+            transition: background .25s, border-color .25s, color .25s, box-shadow .3s;
+        }
+
+        .st:hover .st-num {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+            box-shadow: 0 0 0 5px rgba(37, 99, 235, .18);
+        }
+
+        .st-title {
+            font-size: .88rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+            letter-spacing: -.02em
+        }
+
+        .st-desc {
+            font-size: .78rem;
+            color: var(--w35);
+            line-height: 1.65
+        }
+
+        /* ─── CTA ────────────────────────────────── */
+        .cta-sec {
+            padding: 140px 44px;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--line);
+        }
+
+        .cta-sec::before {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1000px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse 60% 55% at 50% 60%,
+                    rgba(37, 99, 235, .2) 0%, rgba(37, 99, 235, .07) 40%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cta-sec::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, .025) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(0, 0, 0, .5) 0%, transparent 75%);
+        }
+
+        .cta-inner {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1
+        }
+
+        .cta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 4px 12px 4px 6px;
+            border-radius: 99px;
+            border: 1px solid rgba(37, 99, 235, .3);
+            background: rgba(37, 99, 235, .07);
+            font-size: .62rem;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--blue3);
+            margin-bottom: 28px;
+        }
+
+        h2.cta-h {
+            font-size: clamp(2.6rem, 4.8vw, 4rem);
+            margin-bottom: 18px
+        }
+
+        .cta-p {
+            font-size: .96rem;
+            color: var(--w35);
+            line-height: 1.76;
+            margin-bottom: 38px
+        }
+
+        .cta-btns {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .cta-note {
+            margin-top: 18px;
+            font-size: .68rem;
+            color: var(--w18)
+        }
+
+        /* ─── FOOTER ─────────────────────────────── */
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 36px 44px
+        }
+
+        .ft-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px
+        }
+
+        .ft-logo {
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: -.05em;
+            color: var(--w90)
+        }
+
+        .ft-logo span {
+            color: var(--blue2)
+        }
+
+        .ft-copy {
+            font-size: .72rem;
+            color: var(--w18)
+        }
+
+        .ft-gh {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .72rem;
+            color: var(--w18);
+            transition: color .15s
+        }
+
+        .ft-gh:hover {
+            color: var(--w90)
+        }
+
+        /* ─── REVEAL ANIM ────────────────────────── */
+        .rv {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .65s var(--ease), transform .65s var(--ease);
+            will-change: opacity, transform
+        }
+
+        .rv.in {
+            opacity: 1;
+            transform: none
+        }
+
+        .dl1 {
+            transition-delay: .06s
+        }
+
+        .dl2 {
+            transition-delay: .12s
+        }
+
+        .dl3 {
+            transition-delay: .18s
+        }
+
+        .dl4 {
+            transition-delay: .24s
+        }
+
+        .dl5 {
+            transition-delay: .30s
+        }
+
+        .dl6 {
+            transition-delay: .36s
+        }
+
+        /* ─── RESPONSIVE ─────────────────────────── */
+        @media(max-width:1024px) {
+            .perf-layout {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .planet-wrap {
+                max-width: 320px;
+                margin: 0 auto;
+            }
+
+            .hero-illu svg {
+                max-width: 420px;
+                margin: 0 auto;
+                display: block;
+            }
+
+            .hiw-illu svg {
+                max-width: 400px;
+                margin: 0 auto;
+                display: block;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 60px
+            }
+
+            .feat-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .fc:nth-child(3n),
+            .fc:nth-child(3n+3) {
+                border-right: 1px solid var(--line)
+            }
+
+            .fc:nth-child(2n),
+            .fc:nth-child(2n+2) {
+                border-right: none
+            }
+
+            .fc:nth-last-child(-n+2) {
+                border-bottom: none
+            }
+
+            .fc:nth-last-child(-n+3):not(:nth-last-child(-n+2)) {
+                border-bottom: 1px solid var(--line)
+            }
+
+            .hiw-grid {
+                grid-template-columns: 1fr;
+                gap: 44px
+            }
+
+            .perf-grid {
+                grid-template-columns: 1fr
+            }
+
+            .gauge-wrap {
+                grid-column: span 1
+            }
+
+            .steps-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 36px
+            }
+
+            .steps-row::before {
+                display: none
+            }
+        }
+
+        @media(max-width:768px) {
+            nav {
+                padding: 0 20px
+            }
+
+            .sec,
+            .cta-sec {
+                padding: 80px 20px
+            }
+
+            .hero {
+                padding: 96px 20px 80px
+            }
+
+            .services {
+                padding: 24px 20px
+            }
+
+            footer {
+                padding: 32px 20px
+            }
+
+            .nav-links,
+            .nav-r {
+                display: none
+            }
+
+            .nav-burger {
+                display: flex;
+                margin-left: auto
+            }
+
+            .feat-grid {
+                grid-template-columns: 1fr
+            }
+
+            .fc:nth-child(n) {
+                border-right: none
+            }
+
+            .fc:nth-last-child(1) {
+                border-bottom: none
+            }
+
+            .path-row {
+                flex-wrap: wrap;
+                gap: 12px;
+                justify-content: center
+            }
+
+            .pc {
+                display: none
+            }
+
+            .steps-row {
+                grid-template-columns: 1fr
+            }
+
+            .h-stats {
+                gap: 20px;
+                flex-wrap: wrap
+            }
+
+            .ft-inner {
+                flex-direction: column;
+                text-align: center
+            }
+
+            .planet-svg {
+                max-width: 260px;
+            }
+
+            .hero-illu svg {
+                max-width: 300px;
+            }
+
+            .hiw-illu svg {
+                max-width: 340px;
+            }
+
+            .psi-num {
+                font-size: 1.75rem;
+                min-width: 88px;
+            }
+
+            .hero-widget {
+                border-radius: 14px
+            }
+
+            .hw-net {
+                padding: 16px 14px 12px
+            }
+
+            .hw-metrics .hm {
+                padding: 12px
+            }
+
+            .hm-v {
+                font-size: 1rem
+            }
+
+            .hw-log {
+                font-size: .6rem
+            }
+        }
+
+        @media(max-width:480px) {
+
+            .h-btns,
+            .cta-btns {
+                flex-direction: column;
+                align-items: stretch
+            }
+
+            .btn-prim,
+            .btn-sec {
+                justify-content: center
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#" class="nav-logo">Arc<span>VPN</span></a>
+        <ul class="nav-links">
+            <li><a href="#features">Возможности</a></li>
+            <li><a href="#hiw">Как работает</a></li>
+            <li><a href="#perf">Скорость</a></li>
+            <li><a href="#start">Начало</a></li>
+        </ul>
+        <div class="nav-r">
+            <a href="#" class="btn-n-ghost">Документация</a>
+            <a href="#" class="btn-n">
+                Скачать
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </a>
+        </div>
+        <button class="nav-burger" id="burgerBtn" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="mob-menu" id="mobMenu">
+        <a href="#features">Возможности</a>
+        <a href="#hiw">Как работает</a>
+        <a href="#perf">Скорость</a>
+        <a href="#">Скачать на GitHub</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-inner">
+            <!-- left -->
+            <div>
+                <div class="h-tag rv"><span class="h-tag-dot"></span>Open Source · MIT · Бесплатно</div>
+                <h1 class="rv dl1">
+                    Интернет<br>
+                    без цензуры<br>
+                    <em class="c1">и слежки</em>
+                </h1>
+                <p class="hero-p rv dl2">
+                    ArcVPN маскирует трафик под обычный TLS — <b>DPI-системы провайдеров</b> не обнаруживают ни одной VPN-сигнатуры. YouTube, Discord, Instagram работают.
+                </p>
+                <div class="h-btns rv dl3">
+                    <a href="#" class="btn-prim">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                        </svg>
+                        Скачать бесплатно
+                    </a>
+                    <a href="#hiw" class="btn-sec">Как это работает</a>
+                </div>
+                <div class="h-stats rv dl4">
+                    <div>
+                        <div class="hs-n">100%</div>
+                        <div class="hs-l">Обход ТСПУ</div>
+                    </div>
+                    <div>
+                        <div class="hs-n">&lt;5 мс</div>
+                        <div class="hs-l">Оверхед</div>
+                    </div>
+                    <div>
+                        <div class="hs-n">No logs</div>
+                        <div class="hs-l">Без логов</div>
+                    </div>
+                </div>
+            </div>
+            <!-- right: illustration -->
+            <div class="hero-illu rv dl3">
+                <svg viewBox="0 0 500 440" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;height:auto">
+                    <defs>
+                        <radialGradient id="sh-fill" cx="38%" cy="22%" r="72%">
+                            <stop offset="0%" stop-color="rgba(147,197,253,.32)" />
+                            <stop offset="42%" stop-color="rgba(37,99,235,.18)" />
+                            <stop offset="100%" stop-color="rgba(30,58,138,.04)" />
+                        </radialGradient>
+                        <linearGradient id="sh-stroke" x1="30%" y1="0%" x2="70%" y2="100%">
+                            <stop offset="0%" stop-color="rgba(96,165,250,.85)" />
+                            <stop offset="100%" stop-color="rgba(37,99,235,.22)" />
+                        </linearGradient>
+                        <clipPath id="sh-clip">
+                            <path d="M250 98 L346 142 L346 216 Q346 294 250 328 Q154 294 154 216 L154 142 Z" />
+                        </clipPath>
+                        <filter id="sh-glow" x="-80%" y="-80%" width="260%" height="260%">
+                            <feGaussianBlur stdDeviation="7" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                        <filter id="sh-sm" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="3.5" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                        <filter id="sh-big" x="-120%" y="-120%" width="340%" height="340%">
+                            <feGaussianBlur stdDeviation="14" result="b" />
+                            <feMerge>
+                                <feMergeNode in="b" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs><!-- outer pulse rings -->
+                    <circle cx="250" cy="213" r="155" fill="none" stroke="rgba(37,99,235,.12)" stroke-width="1">
+                        <animate attributeName="r" values="148;182;148" dur="7s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" />
+                        <animate attributeName="stroke-opacity" values=".12;0;.12" dur="7s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="250" cy="213" r="125" fill="none" stroke="rgba(34,211,238,.08)" stroke-width="1">
+                        <animate attributeName="r" values="115;148;115" dur="5s" begin="-2s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" />
+                        <animate attributeName="stroke-opacity" values=".08;0;.08" dur="5s" begin="-2s" repeatCount="indefinite" />
+                    </circle><!-- rotating dashed rings -->
+                    <circle cx="250" cy="213" r="172" fill="none" stroke="rgba(37,99,235,.16)" stroke-width="1" stroke-dasharray="6 14">
+                        <animateTransform attributeName="transform" type="rotate" from="0 250 213" to="360 250 213" dur="32s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="250" cy="213" r="194" fill="none" stroke="rgba(34,211,238,.09)" stroke-width="1" stroke-dasharray="4 18">
+                        <animateTransform attributeName="transform" type="rotate" from="0 250 213" to="-360 250 213" dur="48s" repeatCount="indefinite" />
+                    </circle><!-- orbit ellipses -->
+                    <ellipse id="sorb1" cx="250" cy="213" rx="168" ry="70" fill="none" stroke="rgba(37,99,235,.2)" stroke-width="1" transform="rotate(-8 250 213)" stroke-dasharray="3 8" />
+                    <ellipse id="sorb2" cx="250" cy="213" rx="205" ry="82" fill="none" stroke="rgba(34,211,238,.12)" stroke-width="1" transform="rotate(32 250 213)" stroke-dasharray="3 10" />
+                    <ellipse id="sorb3" cx="250" cy="213" rx="112" ry="182" fill="none" stroke="rgba(96,165,250,.08)" stroke-width="1" transform="rotate(14 250 213)" stroke-dasharray="3 12" /><!-- shield glow bg -->
+                    <path d="M250 98 L346 142 L346 216 Q346 294 250 328 Q154 294 154 216 L154 142 Z" fill="rgba(37,99,235,.06)" filter="url(#sh-big)" /><!-- shield body -->
+                    <path d="M250 98 L346 142 L346 216 Q346 294 250 328 Q154 294 154 216 L154 142 Z" fill="url(#sh-fill)" stroke="url(#sh-stroke)" stroke-width="2" stroke-linejoin="round" /><!-- hex grid inside shield -->
+                    <g clip-path="url(#sh-clip)" fill="none" stroke="rgba(96,165,250,.065)" stroke-width=".8">
+                        <path d="M250 108 L264 116 L264 132 L250 140 L236 132 L236 116 Z" />
+                        <path d="M278 132 L292 140 L292 156 L278 164 L264 156 L264 140 Z" />
+                        <path d="M222 132 L236 140 L236 156 L222 164 L208 156 L208 140 Z" />
+                        <path d="M250 156 L264 164 L264 180 L250 188 L236 180 L236 164 Z" />
+                        <path d="M278 180 L292 188 L292 204 L278 212 L264 204 L264 188 Z" />
+                        <path d="M222 180 L236 188 L236 204 L222 212 L208 204 L208 188 Z" />
+                        <path d="M250 204 L264 212 L264 228 L250 236 L236 228 L236 212 Z" />
+                        <path d="M278 228 L292 236 L292 252 L278 260 L264 252 L264 236 Z" />
+                        <path d="M222 228 L236 236 L236 252 L222 260 L208 252 L208 236 Z" />
+                        <path d="M250 252 L264 260 L264 276 L250 284 L236 276 L236 260 Z" />
+                    </g><!-- scan beam inside shield -->
+                    <line x1="154" y1="180" x2="346" y2="180" clip-path="url(#sh-clip)" stroke="rgba(96,165,250,.18)" stroke-width="28">
+                        <animate attributeName="y1" values="120;330;120" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1" />
+                        <animate attributeName="y2" values="120;330;120" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1" />
+                        <animate attributeName="stroke-opacity" values=".18;.03;.18" dur="4.5s" repeatCount="indefinite" />
+                    </line>
+                    <line x1="154" y1="180" x2="346" y2="180" clip-path="url(#sh-clip)" stroke="rgba(147,197,253,.7)" stroke-width="1.5">
+                        <animate attributeName="y1" values="120;330;120" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1" />
+                        <animate attributeName="y2" values="120;330;120" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1" />
+                        <animate attributeName="stroke-opacity" values=".7;.1;.7" dur="4.5s" repeatCount="indefinite" />
+                    </line><!-- inner shield highlight -->
+                    <path d="M250 112 L333 152 L333 198" fill="none" stroke="rgba(147,197,253,.14)" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" /><!-- lock body -->
+                    <g transform="translate(250,215)">
+                        <rect x="-24" y="-9" width="48" height="34" rx="7" fill="rgba(37,99,235,.22)" stroke="rgba(96,165,250,.58)" stroke-width="1.8" />
+                        <path d="M-14 -9V-24a14 14 0 0128 0v15" fill="none" stroke="rgba(96,165,250,.55)" stroke-width="1.8" stroke-linecap="round" />
+                        <circle cx="0" cy="9" r="5.5" fill="rgba(96,165,250,.28)" stroke="rgba(147,197,253,.65)" stroke-width="1.5" />
+                        <line x1="0" y1="12" x2="0" y2="20" stroke="rgba(147,197,253,.5)" stroke-width="2.2" stroke-linecap="round" />
+                        <circle cx="0" cy="9" r="5.5" fill="none" stroke="rgba(147,197,253,.5)" stroke-width="2">
+                            <animate attributeName="r" values="5.5;11;5.5" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" />
+                            <animate attributeName="stroke-opacity" values=".5;0;.5" dur="2.8s" repeatCount="indefinite" />
+                        </circle>
+                    </g><!-- laptop node (left) -->
+                    <g transform="translate(76,112)">
+                        <circle r="32" fill="rgba(37,99,235,.09)" stroke="rgba(37,99,235,.28)" stroke-width="1.2" />
+                        <rect x="-14" y="-13" width="28" height="19" rx="2.5" fill="none" stroke="rgba(96,165,250,.7)" stroke-width="1.5" />
+                        <line x1="-8" y1="-7" x2="8" y2="-7" stroke="rgba(96,165,250,.32)" stroke-width="1" />
+                        <line x1="-8" y1="-3" x2="4" y2="-3" stroke="rgba(96,165,250,.2)" stroke-width="1" />
+                        <rect x="-16" y="6" width="32" height="3" rx="1" fill="rgba(96,165,250,.25)" />
+                    </g><!-- server node (right) -->
+                    <g transform="translate(424,112)">
+                        <circle r="32" fill="rgba(52,211,153,.08)" stroke="rgba(52,211,153,.22)" stroke-width="1.2" />
+                        <rect x="-14" y="-12" width="28" height="10" rx="2" fill="none" stroke="rgba(52,211,153,.65)" stroke-width="1.5" />
+                        <rect x="-14" y="2" width="28" height="10" rx="2" fill="none" stroke="rgba(52,211,153,.65)" stroke-width="1.5" />
+                        <circle cx="9" cy="-7" r="2" fill="rgba(52,211,153,.65)" />
+                        <circle cx="9" cy="7" r="2" fill="rgba(52,211,153,.65)" />
+                        <circle cx="9" cy="-7" r="2" fill="none" stroke="rgba(52,211,153,.6)" stroke-width="2">
+                            <animate attributeName="r" values="2;6;2" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" />
+                            <animate attributeName="stroke-opacity" values=".6;0;.6" dur="2.2s" repeatCount="indefinite" />
+                        </circle>
+                    </g><!-- globe node (bottom) -->
+                    <g transform="translate(250,384)">
+                        <circle r="32" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.2)" stroke-width="1.2" />
+                        <circle cx="0" cy="0" r="15" fill="none" stroke="rgba(34,211,238,.62)" stroke-width="1.5" />
+                        <ellipse cx="0" cy="0" rx="6" ry="15" fill="none" stroke="rgba(34,211,238,.45)" stroke-width="1.2" />
+                        <line x1="-15" y1="0" x2="15" y2="0" stroke="rgba(34,211,238,.4)" stroke-width="1.2" />
+                        <line x1="-13" y1="-7" x2="13" y2="-7" stroke="rgba(34,211,238,.25)" stroke-width="1" />
+                        <line x1="-13" y1="7" x2="13" y2="7" stroke="rgba(34,211,238,.25)" stroke-width="1" />
+                    </g>
+                </svg>
+                <!-- remove below old content placeholder -->
+                <div class="net-nodes" style="display:none">
+                    <!-- user -->
+                    <div class="nn">
+                        <div class="nn-box nn-b">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                <rect x="2" y="4" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5" />
+                                <path d="M8 21h8M12 18v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M6 8h12" stroke="currentColor" stroke-width="1" stroke-opacity=".5" />
+                            </svg>
+                        </div>
+                        <div class="nn-lbl">Вы</div>
+                    </div>
+                    <!-- conn 1: user -> TSPU -->
+                    <div class="nconn">
+                        <div class="nline nl-enc">
+                            <div class="ndot nd-g"></div>
+                            <div class="ndot nd-g2"></div>
+                        </div>
+                        <div class="nconn-tag" style="color:rgba(52,211,153,.55)">TLS 1.3</div>
+                    </div>
+                    <!-- TSPU -->
+                    <div class="nn">
+                        <div class="nn-box nn-r" style="position:relative">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L4 6v6c0 5.5 3.6 10.7 8 12 4.4-1.3 8-6.5 8-12V6l-8-4z" stroke="currentColor" stroke-width="1.5" />
+                                <path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                            </svg>
+                            <div class="nn-badge">
+                                <svg width="7" height="7" viewBox="0 0 8 8" fill="none">
+                                    <path d="M2 2l4 4M6 2L2 6" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="nn-lbl">ТСПУ</div>
+                    </div>
+                    <!-- conn 2: TSPU -> ArcVPN (passes through) -->
+                    <div class="nconn">
+                        <div class="nline nl-enc">
+                            <div class="ndot nd-g" style="animation-duration:2s"></div>
+                            <div class="ndot nd-g2" style="animation-duration:2s"></div>
+                        </div>
+                        <div class="nconn-tag" style="color:rgba(52,211,153,.4)">→ проходит</div>
+                    </div>
+                    <!-- ArcVPN server -->
+                    <div class="nn">
+                        <div class="nn-box nn-g" style="position:relative">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5" />
+                                <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                <circle cx="12" cy="15.5" r="1.5" fill="currentColor" />
+                            </svg>
+                            <div class="nn-ok">TLS</div>
+                        </div>
+                        <div class="nn-lbl">ArcVPN</div>
+                    </div>
+                    <!-- conn 3: ArcVPN -> internet -->
+                    <div class="nconn">
+                        <div class="nline nl-plain">
+                            <div class="ndot nd-w"></div>
+                        </div>
+                        <div class="nconn-tag" style="color:var(--w18)">чистый</div>
+                    </div>
+                    <!-- internet -->
+                    <div class="nn">
+                        <div class="nn-box nn-c">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                                <ellipse cx="12" cy="12" rx="4.5" ry="9" stroke="currentColor" stroke-width="1.2" />
+                                <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.2" />
+                                <line x1="5.5" y1="7.5" x2="18.5" y2="7.5" stroke="currentColor" stroke-width="1" />
+                                <line x1="5.5" y1="16.5" x2="18.5" y2="16.5" stroke="currentColor" stroke-width="1" />
+                            </svg>
+                        </div>
+                        <div class="nn-lbl">Сеть</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <div class="services">
+        <div class="svc-inner">
+            <div class="svc-label">Открывает заблокированные в России сервисы</div>
+            <div class="svc-row">
+                <div class="svc-chip">
+                    <div class="svc-ico" style="background:#ff0000">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
+                            <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1C4.5 20.5 12 20.5 12 20.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z" />
+                        </svg>
+                    </div>YouTube
+                </div>
+                <div class="svc-chip">
+                    <div class="svc-ico" style="background:#5865f2">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="white">
+                            <path d="M20.3 4.4A19.7 19.7 0 0015.4 3c-.2.4-.5 1-.7 1.4a18.3 18.3 0 00-5.4 0C9.1 4 8.8 3.4 8.6 3A19.6 19.6 0 003.7 4.4C.5 9.2-.3 13.8.1 18.4A19.8 19.8 0 006 21c.5-.7 1-1.4 1.4-2.2-.8-.3-1.5-.7-2.2-1.1l.5-.4a14.1 14.1 0 0012.2 0c.2.2.4.3.6.4-.7.5-1.5.8-2.2 1.1.4.8.9 1.6 1.4 2.2a19.8 19.8 0 005.9-2.6c.5-5.2-.9-9.8-3.7-13.6zM8 15.5c-1.2 0-2.1-1.1-2.1-2.4 0-1.4.9-2.5 2.1-2.5 1.2 0 2.2 1.1 2.1 2.5 0 1.3-.9 2.4-2.1 2.4zm7.9 0c-1.1 0-2.1-1.1-2.1-2.4 0-1.4.9-2.5 2.1-2.5 1.2 0 2.2 1.1 2.1 2.5 0 1.3-.9 2.4-2.1 2.4z" />
+                        </svg>
+                    </div>Discord
+                </div>
+                <div class="svc-chip">
+                    <div class="svc-ico" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.2 4.8 1.7 5 5 .1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.2 3.3-1.7 4.8-5 5-1.3.1-1.6.1-4.9.1s-3.5 0-4.8-.1c-3.3-.2-4.8-1.7-5-5C2.1 15.6 2 15.3 2 12s0-3.5.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 4a5.8 5.8 0 100 11.6A5.8 5.8 0 0012 6.2zm0 9.6a3.8 3.8 0 110-7.6 3.8 3.8 0 010 7.6zm6.4-11.1a1.4 1.4 0 100 2.8 1.4 1.4 0 000-2.8z" />
+                        </svg>
+                    </div>Instagram
+                </div>
+                <div class="svc-chip">
+                    <div class="svc-ico" style="background:#2ca5e0">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.9 8.2l-2 9.5c-.1.7-.5.8-1 .5l-2.8-2-1.3 1.3c-.2.2-.3.3-.6.3l.2-2.9 5-4.5c.2-.2 0-.3-.3-.1L6.7 14.5l-2.8-.9c-.6-.2-.6-.6.1-.9L17 7.3c.6-.2 1.1.1.9.9z" />
+                        </svg>
+                    </div>Telegram
+                </div>
+                <div class="svc-chip">
+                    <div class="svc-ico" style="background:#1877f2">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
+                            <path d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1c0 6 4.4 11 10.1 12V15.6H7.1v-3.5h3V9.6c0-2.9 1.8-4.6 4.4-4.6 1.3 0 2.6.2 2.6.2v2.9H15.6c-1.4 0-1.9.9-1.9 1.8v2.2h3.2l-.5 3.5h-2.7V24C19.6 23.1 24 18.1 24 12.1z" />
+                        </svg>
+                    </div>Facebook
+                </div>
+                <div class="svc-chip">
+                    <div class="svc-ico" style="background:#25d366">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.09-1.34A9.93 9.93 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.7 0-3.28-.5-4.61-1.37l-.33-.2-3.02.8.81-2.96-.22-.34A7.93 7.93 0 014 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8zm4.4-6.02c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.93-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.1.16 1.52.1.46-.07 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z" />
+                        </svg>
+                    </div>WhatsApp
+                </div>
+                <div class="svc-chip" style="border-style:dashed;cursor:default">
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.2" />
+                        <path d="M8 5.5v5M5.5 8h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                    </svg>
+                    и ещё 30+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="sec" id="features">
+        <div class="sec-glow"></div>
+        <div class="sec-wrap">
+            <div class="sec-head">
+                <div class="sec-kicker rv">Возможности</div>
+                <h2 class="rv dl1">Создан быть <em class="g">неудержимым</em></h2>
+                <p class="sec-sub rv dl2">Ни одна VPN-сигнатура не попадает в поток данных. Провайдер видит обычный HTTPS-трафик к CDN.</p>
+            </div>
+            <div class="feat-grid-wrap">
+                <div class="feat-grid">
+                    <div class="fc rv">
+                        <div class="fc-ico ci-b"><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L4 5v6c0 5.5 3.5 10.7 8 12 4.5-1.3 8-6.5 8-12V5l-8-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg></div>
+                        <div class="fc-name">Обход ТСПУ / DPI</div>
+                        <div class="fc-desc">Аппаратные DPI-комплексы у каждого российского провайдера не обнаруживают ни одной VPN-сигнатуры.</div>
+                    </div>
+                    <div class="fc rv dl1">
+                        <div class="fc-ico ci-c"><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.6" />
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6" />
+                                <path d="M3 3l18 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                            </svg></div>
+                        <div class="fc-name">Невидим для провайдера</div>
+                        <div class="fc-desc">Трафик имитирует TLS-запросы к крупным CDN. Провайдер видит безобидный HTTPS-поток.</div>
+                    </div>
+                    <div class="fc rv dl2">
+                        <div class="fc-ico ci-g"><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                            </svg></div>
+                        <div class="fc-name">Нулевой оверхед</div>
+                        <div class="fc-desc">Протокол на базе QUIC — менее 5 мс задержки. 4K-стриминг без буферизации.</div>
+                    </div>
+                    <div class="fc rv dl1">
+                        <div class="fc-ico ci-p"><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.6" />
+                                <path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                                <circle cx="12" cy="16" r="1.5" fill="currentColor" />
+                            </svg></div>
+                        <div class="fc-name">AES-256-GCM</div>
+                        <div class="fc-desc">Военный стандарт + ChaCha20 для мобильных. Полная прямая секретность — каждая сессия независима.</div>
+                    </div>
+                    <div class="fc rv dl2">
+                        <div class="fc-ico ci-a"><svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                                <rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.6" />
+                                <path d="M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                            </svg></div>
+                        <div class="fc-name">No-logs политика</div>
+                        <div class="fc-desc">Архитектура физически не позволяет хранить логи. Ni IP, ни DNS, ни timestamp.</div>
+                    </div>
+                    <div class="fc rv dl3">
+                        <div class="fc-ico ci-r"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                            </svg></div>
+                        <div class="fc-name">Open Source</div>
+                        <div class="fc-desc">Полностью открытый код на GitHub. Соберите сами, проверьте — никаких бэкдоров и телеметрии.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="sec sec-dark" id="hiw">
+        <div class="sec-wrap">
+            <div class="hiw-grid">
+                <div>
+                    <div class="sec-kicker rv">Архитектура</div>
+                    <h2 class="rv dl1">Обход <em class="g">ТСПУ</em></h2>
+                    <p class="sec-sub rv dl2" style="margin-bottom:22px">ТСПУ — аппаратные DPI-комплексы у каждого провайдера. Блокируют по сигнатурам протоколов в реальном времени.</p>
+                    <p class="sec-sub rv dl3" style="color:var(--w18)">ArcVPN применяет <strong style="color:var(--w35)">стеганографическую маскировку</strong> — ни одна VPN-сигнатура не попадает в поток, ТСПУ пропускает трафик как обычный HTTPS.</p>
+                </div>
+                <div>
+                    <!-- hiw illustration -->
+                    <div class="hiw-illu rv dl2">
+                        <svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+                            <defs>
+                                <filter id="hi-glow" x="-80%" y="-80%" width="260%" height="260%">
+                                    <feGaussianBlur stdDeviation="4" result="b" />
+                                    <feMerge>
+                                        <feMergeNode in="b" />
+                                        <feMergeNode in="SourceGraphic" />
+                                    </feMerge>
+                                </filter>
+                                <path id="p-lv" d="M 98,130 L 206,130" />
+                                <path id="p-vg" d="M 274,130 L 382,130" />
+                            </defs>
+                            <!-- LINE: ВЫ → VPN (blue, encrypted) -->
+                            <line x1="98" y1="130" x2="206" y2="130" stroke="rgba(37,99,235,.32)" stroke-width="1.5" stroke-dasharray="5 7" />
+                            <!-- LINE: VPN → ИНТЕРНЕТ (cyan, open) -->
+                            <line x1="274" y1="130" x2="382" y2="130" stroke="rgba(34,211,238,.32)" stroke-width="1.5" stroke-dasharray="5 7" />
+                            <!-- Labels above lines -->
+                            <text x="152" y="108" text-anchor="middle" fill="rgba(96,165,250,.55)" font-size="7.5" font-family="Inter,sans-serif" font-weight="600" letter-spacing="1.2">ЗАШИФРОВАНО</text>
+                            <text x="328" y="108" text-anchor="middle" fill="rgba(34,211,238,.5)" font-size="7.5" font-family="Inter,sans-serif" font-weight="600" letter-spacing="1.2">ОТКРЫТО</text>
+                            <!-- ТСПУ node above left segment -->
+                            <line x1="152" y1="88" x2="152" y2="125" stroke="rgba(248,113,113,.18)" stroke-width="1" stroke-dasharray="3 4" />
+                            <circle cx="152" cy="68" r="20" fill="rgba(248,113,113,.07)" stroke="rgba(248,113,113,.26)" stroke-width="1.2" />
+                            <path d="M143 68 C146 62 158 62 161 68 C158 74 146 74 143 68Z" fill="none" stroke="rgba(248,113,113,.55)" stroke-width="1.3" stroke-linecap="round" />
+                            <circle cx="152" cy="68" r="3.2" fill="rgba(248,113,113,.45)" />
+                            <circle cx="152" cy="68" r="1.4" fill="rgba(248,113,113,.82)" />
+                            <line x1="145" y1="60" x2="159" y2="76" stroke="rgba(248,113,113,.9)" stroke-width="1.7" stroke-linecap="round">
+                                <animate attributeName="stroke-opacity" values=".9;1;.9" dur="2s" repeatCount="indefinite" />
+                            </line>
+                            <text x="152" y="100" text-anchor="middle" fill="rgba(248,113,113,.42)" font-size="7.5" font-family="Inter,sans-serif" font-weight="700" letter-spacing="1.5">ТСПУ</text>
+                            <circle cx="152" cy="130" r="4" fill="rgba(248,113,113,.18)" stroke="rgba(248,113,113,.55)" stroke-width="1">
+                                <animate attributeName="stroke-opacity" values=".55;1;.55" dur="1.6s" repeatCount="indefinite" />
+                            </circle>
+                            <!-- VPN HUB center -->
+                            <circle cx="240" cy="130" r="46" fill="rgba(37,99,235,.04)" stroke="rgba(37,99,235,.08)" stroke-width="1" />
+                            <circle cx="240" cy="130" r="34" fill="rgba(37,99,235,.07)" stroke="rgba(37,99,235,.18)" stroke-width="1.2">
+                                <animate attributeName="r" values="28;42;28" dur="3s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" />
+                                <animate attributeName="stroke-opacity" values=".18;.03;.18" dur="3s" repeatCount="indefinite" />
+                            </circle>
+                            <path d="M240 114 L253 120 L253 130 Q253 141 240 146 Q227 141 227 130 L227 120 Z" fill="rgba(37,99,235,.22)" stroke="rgba(96,165,250,.62)" stroke-width="1.5" stroke-linejoin="round" />
+                            <rect x="235" y="129" width="10" height="8" rx="1.5" fill="none" stroke="rgba(147,197,253,.65)" stroke-width="1.2" />
+                            <path d="M237 129v-2.5a3 3 0 016 0v2.5" fill="none" stroke="rgba(147,197,253,.55)" stroke-width="1.2" stroke-linecap="round" />
+                            <circle cx="240" cy="133" r="1.6" fill="rgba(147,197,253,.65)">
+                                <animate attributeName="r" values="1.6;3;1.6" dur="2s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" />
+                                <animate attributeName="fill-opacity" values="1;.2;1" dur="2s" repeatCount="indefinite" />
+                            </circle>
+                            <text x="240" y="170" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="8" font-family="Inter,sans-serif" font-weight="700" letter-spacing="1.5">VPN</text>
+                            <!-- LAPTOP node left -->
+                            <circle cx="62" cy="130" r="28" fill="rgba(37,99,235,.08)" stroke="rgba(37,99,235,.28)" stroke-width="1.2" />
+                            <rect x="50" y="120" width="24" height="16" rx="2.5" fill="none" stroke="rgba(96,165,250,.7)" stroke-width="1.5" />
+                            <line x1="55" y1="125" x2="69" y2="125" stroke="rgba(96,165,250,.3)" stroke-width="1" />
+                            <line x1="55" y1="129" x2="63" y2="129" stroke="rgba(96,165,250,.2)" stroke-width="1" />
+                            <rect x="48" y="136" width="28" height="2.5" rx="1" fill="rgba(96,165,250,.22)" />
+                            <text x="62" y="173" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="8" font-family="Inter,sans-serif" font-weight="700" letter-spacing="1.5">ВЫ</text>
+                            <!-- GLOBE node right -->
+                            <circle cx="418" cy="130" r="28" fill="rgba(34,211,238,.06)" stroke="rgba(34,211,238,.22)" stroke-width="1.2" />
+                            <circle cx="418" cy="130" r="13" fill="none" stroke="rgba(34,211,238,.62)" stroke-width="1.5" />
+                            <ellipse cx="418" cy="130" rx="5" ry="13" fill="none" stroke="rgba(34,211,238,.45)" stroke-width="1.2" />
+                            <line x1="405" y1="130" x2="431" y2="130" stroke="rgba(34,211,238,.4)" stroke-width="1.2" />
+                            <line x1="406" y1="123" x2="430" y2="123" stroke="rgba(34,211,238,.22)" stroke-width="1" />
+                            <line x1="406" y1="137" x2="430" y2="137" stroke="rgba(34,211,238,.22)" stroke-width="1" />
+                            <text x="418" y="173" text-anchor="middle" fill="rgba(255,255,255,.18)" font-size="8" font-family="Inter,sans-serif" font-weight="700" letter-spacing="1.5">ИНТЕРНЕТ</text>
+                            <!-- PARTICLES: ВЫ→VPN -->
+                            <circle r="5" fill="#3b82f6" filter="url(#hi-glow)">
+                                <animateMotion dur="1.8s" repeatCount="indefinite">
+                                    <mpath href="#p-lv" />
+                                </animateMotion>
+                                <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.18;0.82;1" dur="1.8s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;0 0 1 0;.4 0 .6 1" />
+                            </circle>
+                            <circle r="3" fill="#60a5fa">
+                                <animateMotion dur="1.8s" begin="-0.85s" repeatCount="indefinite">
+                                    <mpath href="#p-lv" />
+                                </animateMotion>
+                                <animate attributeName="opacity" values="0;0.7;0.7;0" keyTimes="0;0.18;0.82;1" dur="1.8s" begin="-0.85s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;0 0 1 0;.4 0 .6 1" />
+                            </circle>
+                            <!-- PARTICLES: VPN→ИНТЕРНЕТ -->
+                            <circle r="5" fill="#22d3ee" filter="url(#hi-glow)">
+                                <animateMotion dur="1.8s" begin="-0.3s" repeatCount="indefinite">
+                                    <mpath href="#p-vg" />
+                                </animateMotion>
+                                <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.18;0.82;1" dur="1.8s" begin="-0.3s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;0 0 1 0;.4 0 .6 1" />
+                            </circle>
+                            <circle r="3" fill="#a5f3fc">
+                                <animateMotion dur="1.8s" begin="-1.1s" repeatCount="indefinite">
+                                    <mpath href="#p-vg" />
+                                </animateMotion>
+                                <animate attributeName="opacity" values="0;0.65;0.65;0" keyTimes="0;0.18;0.82;1" dur="1.8s" begin="-1.1s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;0 0 1 0;.4 0 .6 1" />
+                            </circle>
+                        </svg>
+                    </div><!-- end hiw-illu -->
+                    <!-- dpi table removed -->
+                    <div style="display:none">
+                        <div class="path-card">
+                            <div class="path-lbl">Путь пакета данных</div>
+                            <div class="path-row">
+                                <div class="pn">
+                                    <div class="pn-b" style="background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.25);color:var(--blue3)">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                            <rect x="2" y="4" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5" />
+                                            <path d="M8 21h8M12 18v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                        </svg>
+                                    </div>
+                                    <div class="pn-l">Вы</div>
+                                </div>
+                                <div class="pc">
+                                    <div class="pl pl-g">
+                                        <div class="pdot pd-g"></div>
+                                        <div class="pdot pd-g2"></div>
+                                    </div>
+                                    <div class="pt pt-g">шифруется</div>
+                                </div>
+                                <div class="pn">
+                                    <div class="pn-b" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.22);color:#f87171;position:relative">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 2L4 6v6c0 5.5 3.6 10.7 8 12 4.4-1.3 8-6.5 8-12V6l-8-4z" stroke="currentColor" stroke-width="1.5" />
+                                            <path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                        </svg>
+                                        <div class="nn-badge" style="border-color:var(--bg1)"><svg width="7" height="7" viewBox="0 0 8 8" fill="none">
+                                                <path d="M2 2l4 4M6 2L2 6" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+                                            </svg></div>
+                                    </div>
+                                    <div class="pn-l">ТСПУ</div>
+                                </div>
+                                <div class="pc">
+                                    <div class="pl pl-g">
+                                        <div class="pdot pd-g"></div>
+                                        <div class="pdot pd-g2"></div>
+                                    </div>
+                                    <div class="pt pt-g">пропускает</div>
+                                </div>
+                                <div class="pn">
+                                    <div class="pn-b" style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.22);color:var(--green);position:relative">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                            <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5" />
+                                            <path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                                            <circle cx="12" cy="15.5" r="1.5" fill="currentColor" />
+                                        </svg>
+                                        <div class="nn-ok" style="border-color:var(--bg)">TLS</div>
+                                    </div>
+                                    <div class="pn-l">ArcVPN</div>
+                                </div>
+                                <div class="pc">
+                                    <div class="pl pl-b">
+                                        <div class="ndot nd-w"></div>
+                                    </div>
+                                    <div class="pt" style="color:var(--w18)">открытый</div>
+                                </div>
+                                <div class="pn">
+                                    <div class="pn-b" style="background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);color:var(--cyan)">
+                                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                                            <ellipse cx="12" cy="12" rx="4.5" ry="9" stroke="currentColor" stroke-width="1.2" />
+                                            <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="1.2" />
+                                        </svg>
+                                    </div>
+                                    <div class="pn-l">Интернет</div>
+                                </div>
+                            </div>
+                            <div class="path-stats">
+                                <div class="ps">
+                                    <div class="ps-v">256<em>bit</em></div>
+                                    <div class="ps-l">AES-GCM</div>
+                                </div>
+                                <div class="ps">
+                                    <div class="ps-v">&lt;5<em>мс</em></div>
+                                    <div class="ps-l">Оверхед</div>
+                                </div>
+                                <div class="ps">
+                                    <div class="ps-v">0<em>log</em></div>
+                                    <div class="ps-l">Логов</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- DPI table -->
+                        <div class="dpi-table rv dl3" id="dpiTable" style="margin-top:16px">
+                            <div class="dt-head">
+                                <div class="dt-h">Протокол</div>
+                                <div class="dt-h">Видимость DPI</div>
+                                <div class="dt-h">Статус</div>
+                            </div>
+                            <div class="dt-body">
+                                <div class="dt-row">
+                                    <div class="dt-name">OpenVPN</div>
+                                    <div class="dt-bar-wrap">
+                                        <div class="dt-bar db-red" data-w="74%"></div>
+                                    </div>
+                                    <div class="dt-verdict dv-r"><svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                            <path d="M1.5 1.5l5 5M6.5 1.5l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                                        </svg>Заблок.</div>
+                                </div>
+                                <div class="dt-row">
+                                    <div class="dt-name">WireGuard</div>
+                                    <div class="dt-bar-wrap">
+                                        <div class="dt-bar db-amb" data-w="52%"></div>
+                                    </div>
+                                    <div class="dt-verdict dv-a"><svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                            <path d="M4 1.5v3M4 6v.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                                        </svg>Дроссель</div>
+                                </div>
+                                <div class="dt-row">
+                                    <div class="dt-name">ArcVPN</div>
+                                    <div class="dt-bar-wrap">
+                                        <div class="dt-bar db-grn" data-w="97%" style="background:linear-gradient(90deg,var(--blue),var(--blue3))"></div>
+                                    </div>
+                                    <div class="dt-verdict dv-g"><svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                                            <path d="M1.5 4.5l2 2 3-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>Проходит</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- close hidden placeholder -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PERFORMANCE -->
+    <section class="sec" id="perf">
+        <div class="sec-glow"></div>
+        <div class="sec-wrap">
+            <div class="sec-head">
+                <div class="sec-kicker rv">Производительность</div>
+                <h2 class="rv dl1">Скорость без <em class="g">компромиссов</em></h2>
+            </div>
+            <div class="perf-layout">
+                <!-- planet animation -->
+                <div class="planet-wrap rv">
+                    <svg class="planet-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="pg" cx="36%" cy="30%" r="70%">
+                                <stop offset="0%" stop-color="#93c5fd" />
+                                <stop offset="28%" stop-color="#2563eb" />
+                                <stop offset="72%" stop-color="#1e3a8a" />
+                                <stop offset="100%" stop-color="#080c14" />
+                            </radialGradient>
+                            <radialGradient id="atmg" cx="50%" cy="50%" r="50%">
+                                <stop offset="62%" stop-color="transparent" />
+                                <stop offset="100%" stop-color="rgba(59,130,246,.08)" />
+                            </radialGradient>
+                            <clipPath id="pclip">
+                                <circle cx="200" cy="200" r="80" />
+                            </clipPath>
+                            <filter id="dg" x="-150%" y="-150%" width="400%" height="400%">
+                                <feGaussianBlur stdDeviation="5" result="b" />
+                                <feMerge>
+                                    <feMergeNode in="b" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                            <filter id="dg2" x="-200%" y="-200%" width="500%" height="500%">
+                                <feGaussianBlur stdDeviation="7" result="b" />
+                                <feMerge>
+                                    <feMergeNode in="b" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                        </defs>
+
+                        <!-- atmosphere pulse -->
+                        <circle cx="200" cy="200" r="92" fill="none" stroke="rgba(37,99,235,.2)" stroke-width="20">
+                            <animate attributeName="r" values="88;108;88" dur="5s" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" repeatCount="indefinite" />
+                            <animate attributeName="stroke-width" values="20;4;20" dur="5s" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1" repeatCount="indefinite" />
+                            <animate attributeName="stroke-opacity" values=".2;.03;.2" dur="5s" repeatCount="indefinite" />
+                        </circle>
+                        <circle cx="200" cy="200" r="84" fill="none" stroke="rgba(96,165,250,.14)" stroke-width="1.5">
+                            <animate attributeName="r" values="82;87;82" dur="3.5s" repeatCount="indefinite" />
+                            <animate attributeName="stroke-opacity" values=".14;.04;.14" dur="3.5s" repeatCount="indefinite" />
+                        </circle>
+
+                        <!-- planet base -->
+                        <circle cx="200" cy="200" r="80" fill="url(#pg)" />
+
+                        <!-- lon/lat grid clipped -->
+                        <g clip-path="url(#pclip)" fill="none" stroke="rgba(255,255,255,.075)" stroke-width=".75">
+                            <ellipse cx="200" cy="200" rx="80" ry="18" />
+                            <ellipse cx="200" cy="200" rx="80" ry="37" />
+                            <ellipse cx="200" cy="200" rx="80" ry="54" />
+                            <ellipse cx="200" cy="200" rx="80" ry="68" />
+                            <line x1="120" y1="200" x2="280" y2="200" />
+                            <line x1="200" y1="120" x2="200" y2="280" />
+                            <line x1="147" y1="128" x2="253" y2="272" />
+                            <line x1="253" y1="128" x2="147" y2="272" />
+                        </g>
+
+                        <!-- night shadow -->
+                        <ellipse cx="228" cy="200" rx="58" ry="80" fill="rgba(0,0,0,.38)" clip-path="url(#pclip)" />
+
+                        <!-- surface highlight -->
+                        <ellipse cx="170" cy="166" rx="26" ry="16" fill="rgba(255,255,255,.055)" clip-path="url(#pclip)" />
+
+                        <!-- atmosphere overlay -->
+                        <circle cx="200" cy="200" r="80" fill="url(#atmg)" />
+
+                        <!-- orbit paths (referenced by animateMotion) -->
+                        <ellipse id="orb1" cx="200" cy="200" rx="148" ry="95" fill="none" stroke="rgba(37,99,235,.28)" stroke-width="1" transform="rotate(-6 200 200)" />
+                        <ellipse id="orb2" cx="200" cy="200" rx="175" ry="108" fill="none" stroke="rgba(34,211,238,.16)" stroke-width="1" transform="rotate(38 200 200)" />
+                        <ellipse id="orb3" cx="200" cy="200" rx="108" ry="180" fill="none" stroke="rgba(96,165,250,.1)" stroke-width="1" transform="rotate(16 200 200)" />
+                    </svg>
+                </div>
+
+                <!-- stats -->
+                <div class="perf-stats rv dl2">
+                    <div class="psi">
+                        <div class="psi-num">940<em>Мбит</em></div>
+                        <div>
+                            <div class="psi-title">Пропускная способность</div>
+                            <div class="psi-sub">На канале 1 Гбит/с — 94% без потерь</div>
+                        </div>
+                    </div>
+                    <div class="psi">
+                        <div class="psi-num">&lt;5<em>мс</em></div>
+                        <div>
+                            <div class="psi-title">Оверхед протокола</div>
+                            <div class="psi-sub">Незаметная задержка даже в онлайн-играх</div>
+                        </div>
+                    </div>
+                    <div class="psi">
+                        <div class="psi-num">30<em>+</em></div>
+                        <div>
+                            <div class="psi-title">Стран покрытия</div>
+                            <div class="psi-sub">Серверы в Европе, Азии и Америке</div>
+                        </div>
+                    </div>
+                    <div class="psi">
+                        <div class="psi-num">99.9<em>%</em></div>
+                        <div>
+                            <div class="psi-title">Аптайм серверов</div>
+                            <div class="psi-sub">Автоматическое переключение при сбое</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEPS -->
+    <section class="sec sec-dark" id="start" style="border-bottom:1px solid var(--line)">
+        <div class="sec-wrap">
+            <div class="sec-head" style="text-align:center">
+                <div class="sec-kicker rv" style="justify-content:center">Начало</div>
+                <h2 class="rv dl1" style="text-align:center">Три шага до <em class="g">свободы</em></h2>
+            </div>
+            <div class="steps-row">
+                <div class="st rv">
+                    <div class="st-num">1</div>
+                    <div class="st-title">Скачайте</div>
+                    <div class="st-desc">GitHub Releases — бинарник для Windows, macOS или Linux. Checksum проверяется автоматически.</div>
+                </div>
+                <div class="st rv dl1">
+                    <div class="st-num">2</div>
+                    <div class="st-title">Установите</div>
+                    <div class="st-desc">Менее минуты. Никакой сложной настройки — параметры подбираются автоматически.</div>
+                </div>
+                <div class="st rv dl2">
+                    <div class="st-num">3</div>
+                    <div class="st-title">Подключитесь</div>
+                    <div class="st-desc">2–3 секунды. Автовыбор ближайшего сервера по пинг-тесту.</div>
+                </div>
+                <div class="st rv dl3">
+                    <div class="st-num">4</div>
+                    <div class="st-title">Пользуйтесь</div>
+                    <div class="st-desc">YouTube, Discord, Instagram работают. Kill-switch встроен, автоподключение при обрыве.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-sec">
+        <div class="cta-inner">
+            <div class="cta-tag rv"><span class="h-tag-dot"></span>Бесплатно · Открытый код</div>
+            <h2 class="cta-h rv dl1">Скачайте ArcVPN<br>и будьте <em class="g">свободны</em></h2>
+            <p class="cta-p rv dl2">Без регистрации. Без подписки. Код открыт — убедитесь сами.</p>
+            <div class="cta-btns rv dl3">
+                <a href="#" class="btn-prim">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                    Скачать на GitHub
+                </a>
+                <a href="#hiw" class="btn-sec">Как это работает</a>
+            </div>
+            <div class="cta-note rv dl4">Windows · macOS · Linux · Android · iOS</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="ft-inner">
+            <div class="ft-logo">Arc<span>VPN</span></div>
+            <div class="ft-copy">© 2026 ArcVPN · MIT License · Открытый код</div>
+            <a href="#" class="ft-gh">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                GitHub →
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        /* NAV */
+        const navEl = document.getElementById('nav');
+        window.addEventListener('scroll', () => navEl.classList.toggle('scrolled', scrollY > 30), { passive: true });
+        const burger = document.getElementById('burgerBtn');
+        const mob = document.getElementById('mobMenu');
+        burger.addEventListener('click', () => mob.classList.toggle('open'));
+        mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mob.classList.remove('open')));
+
+        /* REVEAL */
+        const ro = new IntersectionObserver(es => {
+            es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+
+        /* CURSOR GLOW on cards */
+        function addGlow(sel) {
+            document.querySelectorAll(sel).forEach(c => {
+                c.addEventListener('mousemove', e => {
+                    const r = c.getBoundingClientRect();
+                    c.style.setProperty('--mx', `${e.clientX - r.left}px`);
+                    c.style.setProperty('--my', `${e.clientY - r.top}px`);
+                });
+            });
+        }
+        addGlow('.fc');
+        addGlow('.pc-card');
+
+        /* BINARY CURSOR TRAIL */
+        (function () {
+            const cv = document.createElement('canvas');
+            cv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;mix-blend-mode:screen';
+            document.body.appendChild(cv);
+            const ctx = cv.getContext('2d');
+            ctx.textAlign = 'center';
+            let W = cv.width = window.innerWidth, H = cv.height = window.innerHeight;
+            window.addEventListener('resize', () => {
+                W = cv.width = window.innerWidth;
+                H = cv.height = window.innerHeight;
+                ctx.textAlign = 'center';
+            });
+            const bits = [];
+            document.addEventListener('mousemove', e => {
+                if (Math.random() < 0.62) return;
+                bits.push({
+                    x: e.clientX + (Math.random() - 0.5) * 6,
+                    y: e.clientY + (Math.random() - 0.5) * 6,
+                    char: Math.random() > 0.5 ? '1' : '0',
+                    life: 1,
+                    dy: -(Math.random() * 0.25 + 0.04),
+                    dx: (Math.random() - 0.5) * 0.12,
+                    size: 8 + Math.random() * 4,
+                    col: Math.random() > 0.48 ? '#3b82f6' : '#22d3ee'
+                });
+            });
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                for (let i = bits.length - 1; i >= 0; i--) {
+                    const b = bits[i];
+                    b.life -= 0.016;
+                    b.y += b.dy;
+                    b.x += b.dx;
+                    if (b.life <= 0) { bits.splice(i, 1); continue; }
+                    ctx.globalAlpha = Math.pow(b.life, 2) * 0.46;
+                    ctx.fillStyle = b.col;
+                    ctx.font = b.size + 'px "Courier New",Courier,monospace';
+                    ctx.fillText(b.char, b.x, b.y);
+                }
+                ctx.globalAlpha = 1;
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+
+        /* FEAT-CARD stagger already via dl* classes */
+        /* FEAT FC hover — icon scale handled via CSS */
+    </script>
+</body>
+
+</html>

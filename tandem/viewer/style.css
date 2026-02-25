@@ -1,0 +1,525 @@
+/* ================================================
+   Tandem Portfolio Viewer — Engine v1.0
+   style.css
+   ================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --panel-h: 64px;
+    --accent: #7c6ef5;
+    --accent2: #5b4fd4;
+    --panel-bg: rgba(10, 10, 18, 0.82);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.48);
+    --btn-hover: rgba(124, 110, 245, 0.18);
+    --radius: 10px;
+    --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background: #0b0b14;
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+/* ─── TOP PANEL ─────────────────────────────────── */
+
+#panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    height: var(--panel-h);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 20px;
+    background: var(--panel-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+        0 1px 0 0 rgba(255, 255, 255, 0.04),
+        0 6px 32px rgba(0, 0, 0, 0.5),
+        0 12px 48px rgba(0, 0, 0, 0.28);
+    cursor: default;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#panel::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(124, 110, 245, 0.15) 8%, rgba(124, 110, 245, 0.55) 30%, rgba(124, 110, 245, 0.75) 50%, rgba(124, 110, 245, 0.55) 70%, rgba(124, 110, 245, 0.15) 92%, transparent 100%);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Logo */
+#panel-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+    text-decoration: none;
+    user-select: none;
+}
+
+#panel-logo svg {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+#panel-logo span {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+#panel-logo em {
+    font-style: normal;
+    color: var(--accent);
+}
+
+/* Divider */
+.panel-divider {
+    width: 1px;
+    height: 28px;
+    background: var(--panel-border);
+    flex-shrink: 0;
+}
+
+/* Nav group: Назад + Далее рядом */
+.nav-group {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.nav-group .nav-btn {
+    border: none;
+    border-radius: 0;
+}
+
+.nav-group .nav-btn:first-child {
+    border-right: 1px solid var(--panel-border);
+}
+
+.nav-group .nav-btn:first-child:hover:not(:disabled) {
+    border-right-color: var(--panel-border);
+}
+
+/* Nav buttons */
+.nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 16px;
+    height: 38px;
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: var(--btn-hover);
+    border-color: var(--accent);
+    color: #c4b9ff;
+}
+
+.nav-btn:active:not(:disabled) {
+    transform: scale(0.96);
+}
+
+.nav-btn:disabled {
+    opacity: 0.28;
+    cursor: default;
+}
+
+.nav-btn svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+/* Site info — left-aligned block after nav */
+#site-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+#site-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    line-height: 1.2;
+}
+
+#site-meta {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+#site-description {
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+#site-counter {
+    font-size: 10.5px;
+    color: var(--accent);
+    font-weight: 600;
+    background: rgba(124, 110, 245, 0.12);
+    padding: 1px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    line-height: 1.6;
+}
+
+/* ─── CUSTOM DROPDOWN ───────────────────────────── */
+
+#site-select-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+#select-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px 0 14px;
+    height: 38px;
+    width: 200px; /* фиксированная ширина — кнопки не прыгают */
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 12.5px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        border-color var(--transition),
+        background var(--transition);
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#select-trigger:hover,
+#select-trigger.active {
+    border-color: var(--accent);
+    background: rgba(124, 110, 245, 0.1);
+    outline: none;
+}
+
+#select-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.select-arrow {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: transform var(--transition);
+}
+
+#select-trigger.active .select-arrow {
+    transform: rotate(180deg);
+}
+
+#site-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 260px;
+    background: #13131f;
+    border: 1px solid rgba(124, 110, 245, 0.25);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+    z-index: 9999;
+    overflow: hidden;
+    padding: 4px;
+}
+
+#site-dropdown.open {
+    display: block;
+    animation: dropdownIn 0.18s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background var(--transition);
+}
+
+.dropdown-item:hover {
+    background: rgba(124, 110, 245, 0.12);
+}
+
+.dropdown-item.active {
+    background: rgba(124, 110, 245, 0.18);
+}
+
+.dropdown-item.active .di-title {
+    color: #c4b9ff;
+}
+
+.di-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.di-desc {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Open in new tab btn */
+#open-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin-left: auto;
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+#open-btn:hover {
+    background: var(--btn-hover);
+    border-color: var(--accent);
+    color: #c4b9ff;
+}
+
+#open-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* ─── IFRAME ─────────────────────────────────────── */
+
+#viewer-frame {
+    position: fixed;
+    top: var(--panel-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100vh - var(--panel-h));
+    border: none;
+    background: #fff;
+    transition: opacity 0.28s ease;
+}
+
+#viewer-frame.loading {
+    opacity: 0;
+}
+
+/* ─── LOADER OVERLAY ─────────────────────────────── */
+
+#loader {
+    position: fixed;
+    top: var(--panel-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #0b0b14;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    z-index: 100;
+    transition: opacity 0.3s ease;
+}
+
+#loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader-progress-wrap {
+    width: 260px;
+    height: 3px;
+    background: rgba(124, 110, 245, 0.15);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.loader-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), #a89cf7);
+    border-radius: 99px;
+    box-shadow: 0 0 10px rgba(124, 110, 245, 0.6);
+    transition: width 0.4s ease;
+}
+
+.loader-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    margin-top: 14px;
+}
+
+/* ─── SLIDE TRANSITION ───────────────────────────── */
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.info-animate {
+    animation: fadeSlideIn 0.25s ease forwards;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+
+@media (max-width: 680px) {
+    :root {
+        --panel-h: 56px;
+    }
+
+    #panel {
+        gap: 8px;
+        padding: 0 12px;
+    }
+
+    #panel-logo span {
+        display: none;
+    }
+
+    #site-description {
+        display: none;
+    }
+
+    #select-trigger {
+        width: 140px;
+    } /* фиксированная мобильная ширина */
+
+    .nav-btn span {
+        display: none;
+    }
+
+    .nav-btn {
+        padding: 0 11px;
+    }
+
+    /* Дропдаун — на всю ширину экрана поверх всего */
+    #site-dropdown {
+        position: fixed;
+        top: var(--panel-h);
+        left: 8px;
+        right: 8px;
+        min-width: unset;
+        width: auto;
+        max-height: calc(100vh - var(--panel-h) - 16px);
+        overflow-y: auto;
+    }
+
+    /* Разрешаем перенос текста в пунктах меню */
+    .di-title,
+    .di-desc {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+    }
+}
+
+@media (max-width: 420px) {
+    #select-trigger {
+        width: 110px;
+        font-size: 11px;
+    }
+}

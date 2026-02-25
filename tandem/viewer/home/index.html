@@ -1,0 +1,496 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tandem Portfolio Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --accent: #7c6ef5;
+            --accent2: #a89cf7;
+            --bg: #0b0b14;
+            --text: #ffffff;
+            --muted: rgba(255, 255, 255, 0.45);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.07);
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: rgba(124, 110, 245, 0.38);
+            color: #fff;
+        }
+
+        /* ── BG ── */
+        @keyframes glow-drift {
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            30% {
+                transform: translate(1.8%, 1.2%) scale(1.025);
+            }
+
+            65% {
+                transform: translate(-1.2%, 2%) scale(0.98);
+            }
+        }
+
+        @keyframes grid-drift {
+
+            0%,
+            100% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 6px 4px;
+            }
+        }
+
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 70% 60% at 50% 35%, rgba(124, 110, 245, .17) 0%, transparent 65%),
+                radial-gradient(ellipse 40% 35% at 80% 75%, rgba(100, 80, 220, .08) 0%, transparent 60%);
+            animation: glow-drift 20s ease-in-out infinite;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(124, 110, 245, .045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(124, 110, 245, .045) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 25%, transparent 75%);
+            animation: grid-drift 28s ease-in-out infinite;
+        }
+
+        /* ── ENTRANCE ANIMATIONS ── */
+        @keyframes fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logo-float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
+        }
+
+        .a1 {
+            animation: fade-up .6s ease both;
+        }
+
+        .a2 {
+            animation: fade-up .6s .12s ease both;
+        }
+
+        .a3 {
+            animation: fade-up .6s .22s ease both;
+        }
+
+        .a4 {
+            animation: fade-up .6s .34s ease both;
+        }
+
+        .a5 {
+            animation: fade-up .6s .44s ease both;
+        }
+
+        /* ── LAYOUT ── */
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 56px 24px 64px;
+            position: relative;
+            text-align: center;
+        }
+
+        /* ── HEADING ── */
+        h1 {
+            font-size: clamp(42px, 7vw, 72px);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            margin-bottom: 6px;
+        }
+
+        h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--accent2) 0%, #c4b5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .18em;
+            color: rgba(168, 156, 247, .55);
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .subtitle {
+            font-size: clamp(14px, 2vw, 15.5px);
+            color: var(--muted);
+            max-width: 440px;
+            line-height: 1.75;
+            margin: 16px auto 48px;
+        }
+
+        /* ── STATS STRIP ── */
+        .stats-strip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
+            background: rgba(255, 255, 255, .03);
+            border: 1px solid var(--card-border);
+            border-radius: 99px;
+            overflow: hidden;
+            margin-bottom: 48px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 16px;
+            font-size: 11.5px;
+            color: var(--muted);
+            font-weight: 500;
+            border-right: 1px solid var(--card-border);
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 5px var(--accent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* ── CARDS ── */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            width: 100%;
+            max-width: 780px;
+            margin-bottom: 48px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: left;
+            transition: background .25s, border-color .25s, transform .25s;
+            cursor: default;
+        }
+
+        .card:hover {
+            background: rgba(124, 110, 245, .07);
+            border-color: rgba(124, 110, 245, .22);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(124, 110, 245, .13);
+            border: 1px solid rgba(124, 110, 245, .15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            transition: background .25s, border-color .25s;
+        }
+
+        .card:hover .card-icon {
+            background: rgba(124, 110, 245, .2);
+            border-color: rgba(124, 110, 245, .28);
+        }
+
+        .card-icon svg {
+            width: 16px;
+            height: 16px;
+            color: var(--accent2);
+        }
+
+        .card h3 {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: var(--text);
+        }
+
+        .card p {
+            font-size: 11.5px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ── HINT ── */
+        .hint {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 20px;
+            background: rgba(255, 255, 255, .025);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, .3);
+        }
+
+        .hint kbd {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 9px;
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 11px;
+            color: rgba(255, 255, 255, .6);
+            font-weight: 500;
+        }
+
+        /* ── FOOTER ── */
+        .foot {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255, 255, 255, .15);
+            letter-spacing: .04em;
+        }
+
+        .foot em {
+            font-style: normal;
+            color: rgba(124, 110, 245, .5);
+        }
+
+        /* ── PANEL ARROW ── */
+        .panel-hint {
+            position: fixed;
+            top: 0;
+            left: 22%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .panel-hint-label {
+            font-size: 17px;
+            font-weight: 500;
+            color: rgba(124, 110, 245, .6);
+            white-space: nowrap;
+            margin-top: 4px;
+            font-family: 'Caveat', cursive;
+            line-height: 1;
+        }
+
+        .panel-arrow-svg {
+            width: 44px;
+            display: block;
+        }
+
+        @media (max-width: 900px) {
+            .panel-hint {
+                display: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .cards {
+                grid-template-columns: 1fr;
+                max-width: 100%;
+            }
+
+            .stats-strip {
+                flex-wrap: wrap;
+                border-radius: 14px;
+                justify-content: center;
+            }
+
+            .stat-item {
+                border-right: none;
+                border-bottom: 1px solid var(--card-border);
+            }
+
+            .stat-item:last-child {
+                border-bottom: none;
+            }
+
+            .hint {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .subtitle {
+                margin-bottom: 32px;
+            }
+
+            /* disable scrollbar */
+            body {
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
+
+    <!-- Стрелка на панель управления -->
+    <div class="panel-hint">
+        <svg class="panel-arrow-svg" viewBox="0 0 44 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Тело — одна плавная дуга снизу-справа вверх-влево -->
+            <path d="M28 78 C32 58, 10 44, 18 8" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" fill="none" />
+            <!-- Наконечник -->
+            <path d="M18 8 L10 17" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" />
+            <path d="M18 8 L26 15" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span class="panel-hint-label">панель управления</span>
+    </div>
+
+    <div class="page">
+
+
+
+        <p class="eyebrow a1">Интерактивный просмотрщик портфолио</p>
+        <h1 class="a2">Tandem <em>Portfolio</em></h1>
+
+        <p class="subtitle a3">
+            Листайте проекты кнопками навигации, выбирайте из списка или используйте стрелки клавиатуры. Режим смартфона — вверху справа.
+        </p>
+
+        <!--
+        <div class="stats-strip a4">
+             <div class="stat-item">
+                <span class="stat-dot"></span>
+                1
+            </div>
+            <div class="stat-item">2</div>
+            <div class="stat-item">3</div> 
+        </div>-->
+
+        <div class="cards a4">
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 10h14M10 3l7 7-7 7" />
+                    </svg>
+                </div>
+                <h3>Листайте проекты</h3>
+                <p>Кнопки «Назад» и «Далее», стрелки клавиатуры ← → или выпадающий список в панели управления.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 6h10M5 10h7M5 14h9" />
+                    </svg>
+                </div>
+                <h3>Выбирайте из списка</h3>
+                <p>Выпадающее меню с названием и описанием каждого проекта. Скопируйте ссылку и поделитесь с клиентом.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="6" y="2" width="8" height="16" rx="2" />
+                        <path d="M9 15h2" />
+                    </svg>
+                </div>
+                <h3>Тестируйте на телефоне</h3>
+                <p>Переключитесь в режим смартфона — сайт откроется в макете телефона. Кнопка вверху справа в панели.</p>
+            </div>
+        </div>
+
+        <div class="hint a5">
+            Клавиатура:&nbsp;
+            <kbd>←</kbd> предыдущий &nbsp;·&nbsp; <kbd>→</kbd> следующий
+        </div>
+
+        <div class="foot">
+            © 2026 <em>Tandem Sites</em>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

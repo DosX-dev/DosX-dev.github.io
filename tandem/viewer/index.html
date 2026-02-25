@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tandem Portfolio Viewer — Engine v1.0</title>
+    <link rel="icon" type="image/png" href="app/logo.png" />
+    <link rel="stylesheet" href="app/styles/default.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ── TOP NAVIGATION PANEL ── -->
+    <header id="panel">
+
+        <!-- Logo -->
+        <a id="panel-logo" href="#" onclick="return false;" title="Tandem Sites">
+            <img src="app/logo.png" style="height:26px;width:auto;display:block;object-fit:contain" alt="Tandem Sites" />
+        </a>
+
+        <div class="panel-divider"></div>
+
+        <!-- Custom site selector -->
+        <div id="site-select-wrap">
+            <button id="select-trigger" onclick="toggleDropdown()" title="Выбрать сайт из галереи">
+                <span id="select-label">Выбрать сайт</span>
+                <svg class="select-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 6l4 4 4-4" />
+                </svg>
+            </button>
+            <div id="site-dropdown">
+                <!-- Заполняется через JS из database.js -->
+            </div>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <!-- Nav group: Назад + Далее рядом -->
+        <div class="nav-group">
+            <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" data-tip="Предыдущий сайт">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 12L6 8l4-4" />
+                </svg>
+                <span>Назад</span>
+            </button>
+            <button class="nav-btn" id="btn-next" onclick="navigate(1)" data-tip="Следующий сайт">
+                <span>Далее</span>
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 4l4 4-4 4" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="panel-divider"></div>
+
+        <!-- Site info -->
+        <div id="site-info">
+            <div id="site-title">—</div>
+            <div id="site-meta">
+                <span id="site-counter">1 / 1</span>
+                <span id="site-description">Загрузка...</span>
+            </div>
+        </div>
+
+        <!-- Actions: открыть + скопировать ссылку + телефон -->
+        <div class="panel-actions">
+            <button id="phone-toggle" data-tip="Режим смартфона">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="1" width="8" height="14" rx="2" />
+                    <path d="M7 12.5h2" />
+                </svg>
+            </button>
+            <div class="actions-divider"></div>
+            <a id="open-btn" href="#" target="_blank" rel="noopener" data-tip="Открыть в новой вкладке">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 3H3a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1V9" />
+                    <path d="M10 2h4v4M14 2l-6 6" />
+                </svg>
+            </a>
+            <button id="copy-btn" data-tip="Копировать ссылку на проект">
+                <svg class="icon-copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="5" width="8" height="9" rx="1.5" />
+                    <path d="M3 11V3a1 1 0 0 1 1-1h7" />
+                </svg>
+                <svg class="icon-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 8l4 4 6-6" />
+                </svg>
+            </button>
+        </div>
+
+    </header>
+
+    <!-- ── TOOLTIP ── -->
+    <div id="tip"></div>
+
+    <!-- ── PHONE PREVIEW SHELL ── -->
+    <div id="phone-backdrop"></div>
+    <div id="frame-placeholder">
+        <div class="ph-loader">
+            <div class="ph-loader-wrap">
+                <div class="ph-loader-bar" id="ph-bar"></div>
+            </div>
+            <span class="ph-loader-text" id="ph-label"></span>
+        </div>
+    </div>
+    <div id="phone-shell">
+        <div class="ps-island"></div>
+        <div class="ps-btn ps-mute"></div>
+        <div class="ps-btn ps-vol-up"></div>
+        <div class="ps-btn ps-vol-dn"></div>
+        <div class="ps-btn ps-power"></div>
+        <div class="ps-bar"></div>
+    </div>
+
+    <!-- ── PHONE PREVIEW SIDE PANELS ── -->
+    <div id="pp-left">
+        <div class="pp-header">Устройства</div>
+        <div class="pp-sep"></div>
+        <div id="pp-devices"></div>
+    </div>
+    <div id="pp-right">
+        <div class="pp-header">Формат</div>
+        <div class="pp-sep"></div>
+        <div id="pp-formats"></div>
+        <div class="pp-sep pp-sep--mt"></div>
+        <button class="pp-exit-btn" onclick="togglePhonePreview()">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2H3a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" />
+                <path d="M10 11l3-3-3-3M13 8H6" />
+            </svg>
+            Выйти из режима
+        </button>
+    </div>
+
+    <!-- ── LOADER ── -->
+    <div id="loader">
+        <div class="loader-progress-wrap">
+            <div class="loader-progress-bar" id="progress-bar"></div>
+        </div>
+        <span class="loader-text" id="loader-label">Загрузка ресурсов...</span>
+    </div>
+
+    <!-- ── IFRAME VIEWER ── -->
+    <iframe id="viewer-frame" src="" class="loading" allowfullscreen title="Portfolio Viewer"></iframe>
+
+
+    <!-- ── DATABASE ── -->
+    <script src="index.db.js"></script>
+
+    <!-- ── ENGINE ── -->
+    <script src="app/code/main.js"></script>
+
+</body>
+
+</html>

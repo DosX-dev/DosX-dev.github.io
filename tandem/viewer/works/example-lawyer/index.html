@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Владимир Лебедев — Адвокат</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8CC80;
+            --gold-dark: #9A7830;
+            --white: #FDFCF8;
+            --off-white: #F5F2EA;
+            --text: #1A1814;
+            --text-muted: #6B6358;
+            --border: rgba(201, 168, 76, 0.25);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ─── CURSOR ─── */
+        * {
+            cursor: none !important;
+        }
+
+        .cursor {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width .2s, height .2s, background .2s, opacity .2s;
+        }
+
+        .cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width .15s, height .15s, border-color .2s, opacity .2s;
+            opacity: .5;
+        }
+
+        .cursor.hovered {
+            width: 14px;
+            height: 14px;
+        }
+
+        .cursor-ring.hovered {
+            width: 48px;
+            height: 48px;
+            opacity: .25;
+        }
+
+        /* ─── SCROLL BAR ─── */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--white);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 4px;
+        }
+
+        ::selection {
+            background: rgba(201, 168, 76, .45);
+            color: #1A1814;
+        }
+
+        ::-moz-selection {
+            background: rgba(201, 168, 76, .45);
+            color: #1A1814;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6vw;
+            height: 68px;
+            background: transparent;
+            transition: background .5s, backdrop-filter .5s, box-shadow .5s;
+        }
+
+        nav.scrolled {
+            background: rgba(253, 252, 248, .88);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 1px 0 var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            letter-spacing: .08em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: .9rem;
+            font-weight: 400;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            position: relative;
+            transition: color .3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width .4s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            font-size: .88rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: .6rem 1.6rem;
+            transition: background .35s, color .35s;
+        }
+
+        .nav-cta:hover {
+            background: var(--gold);
+            color: #fff;
+        }
+
+        /* ─── HERO ─── */
+        #hero {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* golden background ornament */
+        #hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 80% at 70% 50%, rgba(201, 168, 76, .07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5rem 4vw 3rem 8vw;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            font-size: .88rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.6rem, 5.5vw, 5.8rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -.01em;
+            color: var(--text);
+            margin-bottom: .5rem;
+        }
+
+        .hero-name em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.3rem, 2vw, 1.7rem);
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: .06em;
+            margin-bottom: 1.6rem;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: var(--text-muted);
+            max-width: 420px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            font-size: .88rem;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            text-decoration: none;
+            background: var(--gold);
+            color: #fff;
+            padding: 1rem 2.4rem;
+            transition: background .35s, transform .25s;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            font-size: .88rem;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: color .3s;
+        }
+
+        .btn-ghost:hover {
+            color: var(--gold);
+        }
+
+        .btn-ghost svg {
+            transition: transform .3s;
+        }
+
+        .btn-ghost:hover svg {
+            transform: translateX(4px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat-val {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 500;
+            color: var(--gold);
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+            min-width: 3.5ch;
+            display: inline-block;
+        }
+
+        .stat-label {
+            font-size: .88rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: .35rem;
+        }
+
+        .hero-right {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-img-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* circular photo */
+        .photo-circle-wrap {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            flex-shrink: 0;
+        }
+
+        .hero-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            border-radius: 50%;
+            position: relative;
+            z-index: 3;
+            display: block;
+            filter: grayscale(5%);
+        }
+
+        /* concentric ornamental rings */
+        .photo-ring {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .photo-ring-1 {
+            width: calc(100% + 20px);
+            height: calc(100% + 20px);
+            border: 1.5px solid rgba(201, 168, 76, .7);
+            z-index: 4;
+        }
+
+        .photo-ring-2 {
+            width: calc(100% + 44px);
+            height: calc(100% + 44px);
+            border: 1px dashed rgba(201, 168, 76, .45);
+            z-index: 2;
+            animation: ring-spin 25s linear infinite;
+        }
+
+        .photo-ring-3 {
+            width: calc(100% + 72px);
+            height: calc(100% + 72px);
+            border: 1px solid rgba(201, 168, 76, .2);
+            z-index: 1;
+        }
+
+        .photo-ring-4 {
+            width: calc(100% + 100px);
+            height: calc(100% + 100px);
+            border: .5px solid rgba(201, 168, 76, .1);
+            z-index: 0;
+        }
+
+        /* corner flourishes */
+        .photo-dot {
+            position: absolute;
+            z-index: 5;
+            width: 7px;
+            height: 7px;
+            background: var(--gold);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 0;
+        }
+
+        @keyframes ring-spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* photo fallback */
+        .photo-fallback {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(160deg, #f5f2ea, #e8e3d5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* SVG ornaments */
+        .ornament {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        /* ─── DIVIDER ─── */
+        .gold-divider {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .gold-divider span {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .gold-divider svg {
+            flex-shrink: 0;
+        }
+
+        /* ─── SECTION BASE ─── */
+        section {
+            padding: 7rem 8vw;
+        }
+
+        .section-label {
+            font-size: .88rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.4rem, 4vw, 3.6rem);
+            font-weight: 300;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title em {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        /* ─── ABOUT ─── */
+        #about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            background: var(--off-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 39px, var(--border) 39px, var(--border) 40px),
+                repeating-linear-gradient(90deg, transparent, transparent 39px, var(--border) 39px, var(--border) 40px);
+            opacity: .35;
+        }
+
+        .about-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-text p {
+            font-size: .92rem;
+            line-height: 1.9;
+            color: var(--text-muted);
+            margin-bottom: 1.3rem;
+        }
+
+        .about-quote {
+            border-left: 2px solid var(--gold);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .about-quote p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-style: italic;
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .about-visual {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .cert-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 1.8rem 2rem;
+            position: relative;
+            transition: transform .35s, box-shadow .35s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(201, 168, 76, .12);
+        }
+
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--gold);
+        }
+
+        .cert-year {
+            font-size: .82rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: .5rem;
+        }
+
+        .cert-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .cert-institution {
+            font-size: .92rem;
+            color: var(--text-muted);
+            margin-top: .3rem;
+        }
+
+        /* ─── PRACTICE ─── */
+        #practice {
+            position: relative;
+        }
+
+        .practice-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: end;
+            margin-bottom: 4rem;
+        }
+
+        .practice-intro {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: var(--text-muted);
+        }
+
+        .practice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5px;
+            background: var(--border);
+            border: 1.5px solid var(--border);
+        }
+
+        .practice-card {
+            background: var(--white);
+            padding: 2.6rem 2.2rem;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            transition: background .4s;
+        }
+
+        .practice-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(201, 168, 76, .0), rgba(201, 168, 76, .08));
+            opacity: 0;
+            transition: opacity .4s;
+        }
+
+        .practice-card:hover {
+            background: var(--off-white);
+        }
+
+        .practice-card:hover::after {
+            opacity: 1;
+        }
+
+        .practice-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .practice-num {
+            position: absolute;
+            top: 1.8rem;
+            right: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: rgba(201, 168, 76, .12);
+            line-height: 1;
+            user-select: none;
+            transition: color .4s;
+        }
+
+        .practice-card:hover .practice-num {
+            color: rgba(201, 168, 76, .2);
+        }
+
+        .practice-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: .8rem;
+            color: var(--text);
+        }
+
+        .practice-desc {
+            font-size: 1rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+        }
+
+        .practice-arrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            font-size: .85rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 1.5rem;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: opacity .35s, transform .35s;
+        }
+
+        .practice-card:hover .practice-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ─── PROCESS ─── */
+        #process {
+            background: var(--text);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #process::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(201, 168, 76, .07) 0%, transparent 70%);
+        }
+
+        #process .section-title {
+            color: white;
+        }
+
+        #process .section-label {
+            color: var(--gold-light);
+        }
+
+        #process .section-label::before {
+            background: var(--gold-light);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-grid::before {
+            content: '';
+            position: absolute;
+            top: 2.2rem;
+            left: 12.5%;
+            right: 12.5%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--gold), transparent);
+            opacity: .4;
+        }
+
+        .process-step {
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .step-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--gold);
+            display: block;
+            line-height: 1;
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .step-num::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+
+        .step-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: .8rem;
+        }
+
+        .step-desc {
+            font-size: .95rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, .5);
+        }
+
+        /* ─── TESTIMONIALS ─── */
+        #testimonials {
+            background: var(--off-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 2.8rem 2.4rem;
+            position: relative;
+            transition: box-shadow .35s, transform .35s;
+        }
+
+        .testimonial-card:hover {
+            box-shadow: 0 20px 60px rgba(201, 168, 76, .1);
+            transform: translateY(-4px);
+        }
+
+        .testimonial-stars {
+            display: flex;
+            gap: .3rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .testimonial-stars svg {
+            color: var(--gold);
+        }
+
+        .testimonial-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-text::before {
+            content: '\201C';
+            font-size: 3.5rem;
+            color: var(--gold);
+            line-height: 0;
+            vertical-align: -.5em;
+            margin-right: .1em;
+            font-style: normal;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.4rem;
+        }
+
+        .author-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .author-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .author-role {
+            font-size: .85rem;
+            color: var(--text-muted);
+            margin-top: .15rem;
+        }
+
+        /* ─── CONTACT ─── */
+        #contact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        .contact-info .section-title {
+            margin-bottom: .8rem;
+        }
+
+        .contact-desc {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .contact-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+        }
+
+        .contact-item-label {
+            font-size: .82rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: .3rem;
+        }
+
+        .contact-item-val {
+            font-size: 1.05rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: color .3s;
+        }
+
+        .contact-item-val:hover {
+            color: var(--gold);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .form-label {
+            font-size: .82rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .form-input,
+        .form-textarea {
+            background: var(--off-white);
+            border: 1px solid var(--border);
+            padding: .9rem 1.1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--text);
+            outline: none;
+            transition: border-color .3s;
+            resize: none;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-color: var(--gold);
+        }
+
+        .form-textarea {
+            min-height: 130px;
+        }
+
+        .form-submit {
+            display: inline-flex;
+            align-items: center;
+            gap: .8rem;
+            align-self: flex-start;
+            background: var(--gold);
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: .88rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: white;
+            padding: 1rem 2.4rem;
+            transition: background .35s, transform .25s;
+        }
+
+        .form-submit:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+        }
+
+        .form-submit svg {
+            transition: transform .3s;
+        }
+
+        .form-submit:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--text);
+            color: rgba(255, 255, 255, .35);
+            padding: 3rem 8vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: .08em;
+            color: rgba(255, 255, 255, .7);
+        }
+
+        .footer-logo span {
+            color: var(--gold);
+        }
+
+        footer p {
+            font-size: .88rem;
+        }
+
+        /* ─── REVEAL ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity .8s cubic-bezier(.4, 0, .2, 1), transform .8s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: .1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: .2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: .3s;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            #hero {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: unset;
+                overflow: visible;
+                padding-top: 68px;
+            }
+
+            .hero-right {
+                display: flex;
+                justify-content: center;
+                padding: 2rem 0 1.5rem;
+                order: -1;
+            }
+
+            /* Упрощённое фото на мобилке — ни колец, ни SVG, ни filter, ни анимаций */
+            .hero-right .hero-img-wrap,
+            .hero-right .photo-circle-wrap {
+                width: 180px;
+                height: 180px;
+                overflow: hidden;
+                border-radius: 50%;
+                will-change: transform;
+                transform: translateZ(0);
+            }
+
+            .hero-right .hero-photo {
+                border-radius: 0;
+                filter: none;
+                position: static;
+                z-index: auto;
+            }
+
+            .hero-right .photo-ring,
+            .hero-right .photo-ring-1,
+            .hero-right .photo-ring-2,
+            .hero-right .photo-ring-3,
+            .hero-right .photo-ring-4 {
+                display: none;
+            }
+
+            /* SVG с точками компаса */
+            .hero-right .hero-img-wrap svg {
+                display: none;
+            }
+
+            .hero-left {
+                justify-content: flex-start;
+                padding: 0 6vw 3rem;
+            }
+
+            #about {
+                grid-template-columns: 1fr;
+            }
+
+            .practice-header {
+                grid-template-columns: 1fr;
+            }
+
+            .practice-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .process-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .process-grid::before {
+                display: none;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #contact {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            nav .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            section {
+                padding: 5rem 6vw;
+            }
+
+            .practice-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <!-- cursor elements stay, JS now moves both in sync -->
+
+    <!-- ─── NAV ─── -->
+    <nav id="navbar">
+        <a href="#hero" class="nav-logo">Ю<span>.</span>Лебедев</a>
+        <ul class="nav-links">
+            <li><a href="#about">Об адвокате</a></li>
+            <li><a href="#practice">Практика</a></li>
+            <li><a href="#process">Процесс</a></li>
+            <li><a href="#testimonials">Отзывы</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">Консультация</a>
+    </nav>
+
+    <!-- ─── HERO ─── -->
+    <section id="hero">
+        <!-- Decorative SVG ornaments -->
+        <svg class="ornament" style="top:8%;left:3%;opacity:.18;width:120px" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 4 L60 116 M4 60 L116 60" stroke="#C9A84C" stroke-width=".8" />
+            <path d="M60 4 L116 60 L60 116 L4 60 Z" stroke="#C9A84C" stroke-width=".8" />
+            <circle cx="60" cy="60" r="28" stroke="#C9A84C" stroke-width=".8" />
+            <circle cx="60" cy="60" r="14" stroke="#C9A84C" stroke-width=".8" stroke-dasharray="3 3" />
+            <path d="M60 32 L68 48 L86 52 L74 64 L76 82 L60 74 L44 82 L46 64 L34 52 L52 48 Z" stroke="#C9A84C" stroke-width=".7" fill="none" />
+        </svg>
+        <svg class="ornament" style="bottom:12%;right:55%;opacity:.12;width:80px;transform:rotate(22deg)" viewBox="0 0 80 80" fill="none">
+            <rect x="4" y="4" width="72" height="72" stroke="#C9A84C" stroke-width=".8" />
+            <rect x="16" y="16" width="48" height="48" stroke="#C9A84C" stroke-width=".8" transform="rotate(45 40 40)" />
+            <circle cx="40" cy="40" r="10" stroke="#C9A84C" stroke-width=".8" />
+        </svg>
+
+        <div class="hero-left">
+            <div class="hero-eyebrow reveal">Адвокат · Москва</div>
+            <h1 class="hero-name reveal reveal-delay-1">
+                Владимир<br><em>Лебедев</em>
+            </h1>
+            <p class="hero-title reveal reveal-delay-1">Защита прав. Результат.</p>
+            <p class="hero-desc reveal reveal-delay-2">
+                Профессиональная юридическая помощь по&nbsp;сложным делам.
+                Индивидуальный подход, глубокая экспертиза и&nbsp;бескомпромиссная
+                защита интересов клиента на&nbsp;каждом этапе.
+            </p>
+            <div class="hero-actions reveal reveal-delay-2">
+                <a href="#contact" class="btn-primary">Записаться на приём</a>
+                <a href="#practice" class="btn-ghost">
+                    Практика
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                    </svg>
+                </a>
+            </div>
+            <div class="hero-stats reveal reveal-delay-3">
+                <div>
+                    <div class="stat-val" data-count="18">0</div>
+                    <div class="stat-label">Лет практики</div>
+                </div>
+                <div>
+                    <div class="stat-val" data-count="430">0</div>
+                    <div class="stat-label">Выигранных дел</div>
+                </div>
+                <div>
+                    <div class="stat-val" data-count="97">0</div>
+                    <div class="stat-label">% успеха</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-right">
+            <div class="hero-img-wrap">
+                <div class="photo-circle-wrap">
+                    <!-- ornamental rings -->
+                    <div class="photo-ring photo-ring-4"></div>
+                    <div class="photo-ring photo-ring-3"></div>
+                    <div class="photo-ring photo-ring-2"></div>
+                    <div class="photo-ring photo-ring-1"></div>
+                    <!-- gold compass dots -->
+                    <svg style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:calc(100% + 22px);height:calc(100% + 22px);z-index:5;border-radius:50%;overflow:visible;pointer-events:none" viewBox="0 0 362 362" fill="none">
+                        <circle cx="181" cy="181" r="180" stroke="none" />
+                        <circle cx="181" cy="1" r="5" fill="#C9A84C" />
+                        <circle cx="181" cy="361" r="5" fill="#C9A84C" />
+                        <circle cx="1" cy="181" r="5" fill="#C9A84C" />
+                        <circle cx="361" cy="181" r="5" fill="#C9A84C" />
+                        <circle cx="52" cy="52" r="3" fill="#C9A84C" opacity=".6" />
+                        <circle cx="310" cy="52" r="3" fill="#C9A84C" opacity=".6" />
+                        <circle cx="52" cy="310" r="3" fill="#C9A84C" opacity=".6" />
+                        <circle cx="310" cy="310" r="3" fill="#C9A84C" opacity=".6" />
+                    </svg>
+                    <!-- photo -->
+                    <img src="me.png" alt="Владимир Лебедев" class="hero-photo" id="heroPhoto" onerror="this.style.display='none';document.getElementById('photoFallback').style.display='flex'">
+                    <div id="photoFallback" class="photo-fallback" style="display:none">
+                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                            <circle cx="32" cy="24" r="12" stroke="#C9A84C" stroke-width="1.2" />
+                            <path d="M8 56c0-13.255 10.745-24 24-24s24 10.745 24 24" stroke="#C9A84C" stroke-width="1.2" />
+                        </svg>
+                        <span style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#9A7830;letter-spacing:.1em">Ю. Лебедев</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── ABOUT ─── -->
+    <section id="about">
+        <div class="about-text">
+            <p class="section-label reveal">Об адвокате</p>
+            <h2 class="section-title reveal">
+                Экспертиза,<br>закалённая<br><em>опытом</em>
+            </h2>
+            <p class="about-text-p reveal" style="font-size:.92rem;line-height:1.9;color:var(--text-muted);margin-bottom:1.3rem">
+                Владимир Лебедев — адвокат с восемнадцатилетним опытом в&nbsp;области
+                гражданского, корпоративного и&nbsp;уголовного права.
+                Член Адвокатской палаты города&nbsp;Москвы.
+            </p>
+            <p class="about-text-p reveal" style="font-size:.92rem;line-height:1.9;color:var(--text-muted);margin-bottom:1.3rem">
+                Специализируется на&nbsp;сложных многоэпизодных делах,
+                защите бизнеса и&nbsp;арбитражных спорах.
+                Работает как с&nbsp;физическими лицами, так и&nbsp;с&nbsp;крупными
+                корпоративными клиентами.
+            </p>
+            <div class="about-quote reveal">
+                <p>«Право — это инструмент. Мастерство адвоката определяет,
+                    в&nbsp;чьих интересах оно будет применено.»</p>
+            </div>
+        </div>
+        <div class="about-visual">
+            <div class="cert-card reveal">
+                <div class="cert-year">2006</div>
+                <div class="cert-name">Московский государственный юридический университет</div>
+                <div class="cert-institution">Диплом с отличием · Гражданское право</div>
+            </div>
+            <div class="cert-card reveal reveal-delay-1">
+                <div class="cert-year">2009</div>
+                <div class="cert-name">Адвокатская палата Москвы</div>
+                <div class="cert-institution">Статус адвоката · Реестровый №77/4821</div>
+            </div>
+            <div class="cert-card reveal reveal-delay-2">
+                <div class="cert-year">2014</div>
+                <div class="cert-name">London School of Economics</div>
+                <div class="cert-institution">International Commercial Arbitration · Certificate</div>
+            </div>
+            <div class="cert-card reveal reveal-delay-3">
+                <div class="cert-year">2020</div>
+                <div class="cert-name">Топ-100 адвокатов России</div>
+                <div class="cert-institution">Рейтинг «Право.ру» · Корпоративные споры</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── PRACTICE AREAS ─── -->
+    <section id="practice">
+        <div class="practice-header">
+            <div>
+                <p class="section-label reveal">Направления</p>
+                <h2 class="section-title reveal">Области <em>практики</em></h2>
+            </div>
+            <p class="practice-intro reveal">
+                Каждое дело требует индивидуальной стратегии.
+                Глубокая специализация позволяет достигать результата
+                там, где другие останавливаются.
+            </p>
+        </div>
+
+        <div class="practice-grid reveal">
+            <div class="practice-card">
+                <div class="practice-num">01</div>
+                <svg class="practice-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 4L44 14V26C44 36.5 34.9 43.8 24 46C13.1 43.8 4 36.5 4 26V14L24 4Z" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M16 24l6 6 10-12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                <div class="practice-name">Уголовная защита</div>
+                <p class="practice-desc">Защита на&nbsp;стадии следствия и&nbsp;в&nbsp;суде. Обжалование приговоров. Дела об&nbsp;экономических преступлениях.</p>
+                <div class="practice-arrow">Подробнее <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                    </svg></div>
+            </div>
+
+            <div class="practice-card">
+                <div class="practice-num">02</div>
+                <svg class="practice-icon" viewBox="0 0 48 48" fill="none">
+                    <rect x="8" y="10" width="32" height="28" rx="1" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M16 20h16M16 26h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M24 4v6M16 4l-4 6M32 4l4 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                </svg>
+                <div class="practice-name">Корпоративное право</div>
+                <p class="practice-desc">Сопровождение сделок M&A, корпоративные конфликты, защита акционеров и&nbsp;участников ООО.</p>
+                <div class="practice-arrow">Подробнее <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                    </svg></div>
+            </div>
+
+            <div class="practice-card">
+                <div class="practice-num">03</div>
+                <svg class="practice-icon" viewBox="0 0 48 48" fill="none">
+                    <path d="M24 6 C14 16 6 20 6 30 C6 38 14 44 24 44 C34 44 42 38 42 30 C42 20 34 16 24 6Z" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M24 18v12M18 30h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                <div class="practice-name">Арбитраж</div>
+                <p class="practice-desc">Международный и&nbsp;внутренний арбитраж, представление интересов в&nbsp;арбитражных судах всех уровней.</p>
+                <div class="practice-arrow">Подробнее <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                    </svg></div>
+            </div>
+
+            <div class="practice-card">
+                <div class="practice-num">04</div>
+                <svg class="practice-icon" viewBox="0 0 48 48" fill="none">
+                    <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M12 24h24M24 12v24" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                    <path d="M16.5 14.5C16.5 14.5 20 20 24 24C28 28 31.5 33.5 31.5 33.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                    <ellipse cx="24" cy="24" rx="18" ry="10" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+                <div class="practice-name">Международное право</div>
+                <p class="practice-desc">Трансграничные споры, защита активов за&nbsp;рубежом, санкционный комплаенс.</p>
+                <div class="practice-arrow">Подробнее <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                    </svg></div>
+            </div>
+
+            <div class="practice-card">
+                <div class="practice-num">05</div>
+                <svg class="practice-icon" viewBox="0 0 48 48" fill="none">
+                    <path d="M10 38L24 8L38 38" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M14 30h20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="24" cy="42" r="2" fill="currentColor" />
+                </svg>
+                <div class="practice-name">Налоговые споры</div>
+                <p class="practice-desc">Обжалование решений налоговых органов, защита при&nbsp;проверках, оптимизация налоговой нагрузки.</p>
+                <div class="practice-arrow">Подробнее <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                    </svg></div>
+            </div>
+
+            <div class="practice-card">
+                <div class="practice-num">06</div>
+                <svg class="practice-icon" viewBox="0 0 48 48" fill="none">
+                    <rect x="6" y="18" width="36" height="24" rx="1" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M16 18V14C16 9.6 19.6 6 24 6C28.4 6 32 9.6 32 14V18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="24" cy="30" r="3" stroke="currentColor" stroke-width="1.4" />
+                    <path d="M24 33v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                </svg>
+                <div class="practice-name">Интеллектуальная собственность</div>
+                <p class="practice-desc">Защита товарных знаков, авторских прав, патентные споры и&nbsp;регистрация IP-активов.</p>
+                <div class="practice-arrow">Подробнее <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                    </svg></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── PROCESS ─── -->
+    <section id="process">
+        <div style="position:relative;z-index:1">
+            <p class="section-label reveal">Как я работаю</p>
+            <h2 class="section-title reveal">Прозрачный <em style="color:var(--gold-light)">процесс</em></h2>
+        </div>
+
+        <div class="process-grid">
+            <div class="process-step reveal">
+                <span class="step-num">01</span>
+                <div class="step-name">Первичная консультация</div>
+                <p class="step-desc">Бесплатная встреча для оценки ситуации, анализа перспектив дела и&nbsp;определения стратегии.</p>
+            </div>
+            <div class="process-step reveal reveal-delay-1">
+                <span class="step-num">02</span>
+                <div class="step-name">Анализ и стратегия</div>
+                <p class="step-desc">Детальное изучение документов, формирование правовой позиции и&nbsp;плана действий.</p>
+            </div>
+            <div class="process-step reveal reveal-delay-2">
+                <span class="step-num">03</span>
+                <div class="step-name">Активная защита</div>
+                <p class="step-desc">Реализация выбранной стратегии: переговоры, судебное представительство, досудебное урегулирование.</p>
+            </div>
+            <div class="process-step reveal reveal-delay-3">
+                <span class="step-num">04</span>
+                <div class="step-name">Результат</div>
+                <p class="step-desc">Достижение цели клиента. Полное сопровождение до&nbsp;исполнения решения.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── TESTIMONIALS ─── -->
+    <section id="testimonials">
+        <p class="section-label reveal">Отзывы клиентов</p>
+        <h2 class="section-title reveal">Говорят те, <em>кому помогли</em></h2>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                </div>
+                <p class="testimonial-text">Владимир Алексеевич выиграл корпоративный спор, который длился три года. Когда другие прогнозировали поражение, он нашёл решение там, где его никто не&nbsp;ожидал.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">АК</div>
+                    <div>
+                        <div class="author-name">Алексей Ковалёв</div>
+                        <div class="author-role">Генеральный директор, «Профтех Групп»</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal reveal-delay-1">
+                <div class="testimonial-stars">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                </div>
+                <p class="testimonial-text">Профессионализм высочайшего уровня. Уголовное дело было прекращено ещё на&nbsp;стадии следствия. Я&nbsp;безмерно благодарна за&nbsp;спокойствие и&nbsp;результат.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">НВ</div>
+                    <div>
+                        <div class="author-name">Наталья Васильева</div>
+                        <div class="author-role">Предприниматель</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal reveal-delay-2">
+                <div class="testimonial-stars">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                        <path d="M7 1l1.5 3.5L12 5l-2.5 2.5.6 3.5L7 9.5 3.9 11l.6-3.5L2 5l3.5-.5z" />
+                    </svg>
+                </div>
+                <p class="testimonial-text">Защитил интересы нашей компании в&nbsp;крупном налоговом споре с&nbsp;суммой претензий более 80&nbsp;млн рублей. Итог — полная победа в&nbsp;апелляции.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">ДМ</div>
+                    <div>
+                        <div class="author-name">Дмитрий Морозов</div>
+                        <div class="author-role">CFO, «Логистик Плюс»</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── CONTACT ─── -->
+    <section id="contact">
+        <div class="contact-info">
+            <p class="section-label reveal">Контакт</p>
+            <h2 class="section-title reveal">Начнём <em>разговор</em></h2>
+            <p class="contact-desc reveal">
+                Первичная консультация — бесплатно.
+                Расскажите о&nbsp;вашей ситуации,
+                и&nbsp;я&nbsp;предложу оптимальный путь её&nbsp;решения.
+            </p>
+            <div class="contact-items reveal">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M3 3h12v12H3zM3 7h12M7 7v8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="contact-item-label">Адрес</div>
+                        <span class="contact-item-val">г. Тандем, ул. Лендинговая, д. 1</span>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M2.5 4.5C2.5 13.5 9 16.5 15.5 14.5L14 9.5l-3 1-2-4 2.5-2L8.5 2 5.5 4l-3-1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="contact-item-label">Телефон</div>
+                        <a href="tel:+7XXXXXXXXXX" class="contact-item-val">+7 (XXX) XXX-XX-XX</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <rect x="2" y="4" width="14" height="10" rx="1" stroke="currentColor" stroke-width="1.2" />
+                            <path d="M2 5l7 5 7-5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="contact-item-label">Email</div>
+                        <a href="mailto:tandemsites@example.com" class="contact-item-val">tandemsites@example.com</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <rect x="2" y="2" width="14" height="14" rx="4" stroke="currentColor" stroke-width="1.2" />
+                            <circle cx="9" cy="9" r="3" stroke="currentColor" stroke-width="1.2" />
+                            <circle cx="13.5" cy="4.5" r="1" fill="currentColor" />
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="contact-item-label">Telegram / Instagram</div>
+                        <span class="contact-item-val">@lebedev_law</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Имя</label>
+                    <input type="text" class="form-input" placeholder="Иван Иванов" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Телефон</label>
+                    <input type="tel" class="form-input" placeholder="+7 (___) ___-__-__">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" placeholder="ivan@mail.ru">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Направление</label>
+                <select class="form-input" style="cursor:pointer;appearance:none;background-image:url(\" data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' %3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.2' stroke-linecap='round' /%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 1rem center">
+                    <option value="">Выберите направление</option>
+                    <option>Уголовная защита</option>
+                    <option>Корпоративное право</option>
+                    <option>Арбитраж</option>
+                    <option>Международное право</option>
+                    <option>Налоговые споры</option>
+                    <option>Интеллектуальная собственность</option>
+                    <option>Другое</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Опишите ситуацию</label>
+                <textarea class="form-textarea" placeholder="Кратко опишите вашу ситуацию и желаемый результат..."></textarea>
+            </div>
+            <button type="submit" class="form-submit" id="submitBtn">
+                <span>Отправить заявку</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                </svg>
+            </button>
+            <p id="formSuccess" style="display:none;font-size:.82rem;color:var(--gold);margin-top:.5rem;letter-spacing:.05em">
+                ✓ Заявка отправлена. Свяжемся с вами в течение часа.
+            </p>
+        </form>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+        <div class="footer-logo">Владимир Лебедев<span> · </span>Адвокат</div>
+        <p>© 2026 · Все права защищены</p>
+    </footer>
+
+    <script>
+        /* ── cursor ── */
+        const cur = document.getElementById('cursor');
+        const ring = document.getElementById('cursorRing');
+        document.addEventListener('mousemove', e => {
+            const x = e.clientX, y = e.clientY;
+            cur.style.left = x + 'px'; cur.style.top = y + 'px';
+            ring.style.left = x + 'px'; ring.style.top = y + 'px';
+        });
+        document.querySelectorAll('a,button,.practice-card,.cert-card,.testimonial-card').forEach(el => {
+            el.addEventListener('mouseenter', () => { cur.classList.add('hovered'); ring.classList.add('hovered'); });
+            el.addEventListener('mouseleave', () => { cur.classList.remove('hovered'); ring.classList.remove('hovered'); });
+        });
+
+        /* ── navbar scroll ── */
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
+
+        /* ── reveal on scroll ── */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+        }, { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        /* ── counter animation ── */
+        function animCount(el, target, suffix = '') {
+            const dur = 1800;
+            const start = performance.now();
+            function step(now) {
+                const t = Math.min((now - start) / dur, 1);
+                const ease = 1 - Math.pow(1 - t, 3);
+                el.textContent = Math.round(ease * target) + suffix;
+                if (t < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+        const statsObs = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    const el = e.target;
+                    const val = parseInt(el.dataset.count);
+                    const isPercent = el.parentElement.querySelector('.stat-label').textContent.includes('%');
+                    animCount(el, val, isPercent ? '%' : '+');
+                    statsObs.unobserve(el);
+                }
+            });
+        }, { threshold: .5 });
+        document.querySelectorAll('[data-count]').forEach(el => statsObs.observe(el));
+
+        /* ── hero parallax ── */
+        const photoWrap = document.querySelector('.photo-circle-wrap');
+        window.addEventListener('scroll', () => {
+            if (!photoWrap) return;
+            if (window.innerWidth < 900) return; /* на мобилке parallax отключён */
+            const y = window.scrollY;
+            photoWrap.style.transform = `translateY(${y * .15}px)`;
+        }, { passive: true });
+
+        /* ── form ── */
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.style.opacity = '.6';
+            setTimeout(() => {
+                btn.textContent = 'Отправлено ✓';
+                document.getElementById('formSuccess').style.display = 'block';
+                btn.style.background = 'var(--gold-dark)';
+            }, 800);
+        }
+
+        /* ── smooth number on hover for stats ── */
+        /* already handled above */
+    </script>
+</body>
+
+</html>
