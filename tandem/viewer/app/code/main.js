@@ -168,7 +168,9 @@ function loadSite(index) {
     triggerInfoAnimation(() => {
         titleEl.textContent = site.title;
         descEl.textContent = site.description;
-        counterEl.textContent = `${index + 1} / ${TANDEM_SITES.length}`;
+        const nonHomePos   = TANDEM_SITES.filter((s, i) => s.id !== 0 && i <= index).length;
+        const nonHomeTotal  = TANDEM_SITES.filter(s => s.id !== 0).length;
+        counterEl.textContent = `${nonHomePos} / ${nonHomeTotal}`;
     });
 
     // Кнопки навигации

@@ -403,19 +403,32 @@
             }
 
             .hint {
-                flex-wrap: wrap;
-                justify-content: center;
-                text-align: center;
+                display: none;
             }
 
             .subtitle {
                 margin-bottom: 32px;
             }
 
-            /* разрешаем скролл на мобильных */
+            /* страница растёт по контенту, не обрезается */
             html, body {
                 height: auto;
                 overflow-y: auto;
+            }
+
+            .page {
+                min-height: auto;
+                justify-content: flex-start;
+                padding-top: 60px;
+                padding-bottom: 40px;
+            }
+
+            .foot {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                right: auto;
+                margin-top: 28px;
             }
         }
     </style>
