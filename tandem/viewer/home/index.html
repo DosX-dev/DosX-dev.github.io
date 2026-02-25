@@ -14,6 +14,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -33,6 +34,14 @@
             color: var(--text);
             font-family: 'Inter', system-ui, sans-serif;
             overflow-x: hidden;
+            /* прячем scrollbar на десктопе */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         ::selection {
@@ -403,9 +412,10 @@
                 margin-bottom: 32px;
             }
 
-            /* disable scrollbar */
-            body {
-                overflow: hidden;
+            /* разрешаем скролл на мобильных */
+            html, body {
+                height: auto;
+                overflow-y: auto;
             }
         }
     </style>
