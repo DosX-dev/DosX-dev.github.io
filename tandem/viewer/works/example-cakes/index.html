@@ -1,0 +1,2461 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сладкий момент — Кондитер Виктория</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Nunito:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet" />
+    <style>
+        /* ── RESET & ROOT ── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --rose: #d4608a;
+            --rose-light: #f4a8c6;
+            --rose-pale: #fce8f0;
+            --rose-ultra: #fff5f9;
+            --cream: #fffaf4;
+            --caramel: #e8a870;
+            --berry: #8b3260;
+            --text: #2d1b2e;
+            --text-muted: #8a7090;
+            --white: #ffffff;
+            --r16: 16px;
+            --r24: 24px;
+            --r32: 32px;
+            --ease: cubic-bezier(0.23, 1, 0.32, 1);
+            --shadow-sm: 0 2px 12px rgba(180, 60, 120, 0.08);
+            --shadow-md: 0 8px 40px rgba(180, 60, 120, 0.14);
+            --shadow-lg: 0 20px 80px rgba(180, 60, 120, 0.18);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--white);
+            color: var(--text);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ::selection {
+            background: var(--rose-light);
+            color: var(--berry);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--white);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--rose-light);
+            border-radius: 99px;
+        }
+
+        /* ── TINY UTILITIES ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5vw;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--rose);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 500;
+            line-height: 1.18;
+            color: var(--text);
+        }
+
+        .section-title em {
+            font-style: italic;
+            font-weight: 300;
+            color: var(--rose);
+        }
+
+        .divider-rose {
+            width: 48px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--rose), var(--rose-light));
+            border-radius: 99px;
+            margin: 1.2rem 0 2rem;
+        }
+
+        /* fade-in on scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+
+        /* ── NAV ── */
+        #nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 700;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5vw;
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+
+        #nav.scrolled {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(200, 80, 130, 0.1), var(--shadow-sm);
+        }
+
+        .nav-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: var(--rose);
+            letter-spacing: 0.02em;
+            position: relative;
+            z-index: 701;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.4rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: var(--rose);
+            border-radius: 99px;
+            transition: width 0.35s var(--ease);
+        }
+
+        .nav-links a:hover {
+            color: var(--rose);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 10px 22px;
+            background: var(--rose);
+            color: #fff;
+            border-radius: var(--r32);
+            transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--berry);
+            box-shadow: 0 4px 20px rgba(212, 96, 138, 0.45);
+            transform: translateY(-1px);
+        }
+
+        .nav-burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            position: relative;
+            z-index: 701;
+        }
+
+        .nav-burger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 99px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .nav-burger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-burger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-burger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        #nav-mobile {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 699;
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+
+        #nav-mobile.open {
+            display: flex;
+        }
+
+        #nav-mobile a {
+            font-size: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            color: var(--text);
+            letter-spacing: 0.04em;
+        }
+
+        #nav-mobile a:hover {
+            color: var(--rose);
+        }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            background: linear-gradient(145deg, var(--rose-ultra) 0%, var(--cream) 55%, #fff5ee 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 4rem;
+            padding: 9rem 5vw 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* floating sugar blobs */
+        #hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(244, 168, 198, 0.25) 0%, transparent 65%);
+            border-radius: 50%;
+            top: -100px;
+            right: -150px;
+            animation: blobPulse 7s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        #hero::after {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(232, 168, 112, 0.18) 0%, transparent 65%);
+            border-radius: 50%;
+            bottom: 40px;
+            left: -80px;
+            animation: blobPulse 9s ease-in-out infinite alternate-reverse;
+            pointer-events: none;
+        }
+
+        @keyframes blobPulse {
+            from {
+                transform: scale(1) translate(0, 0);
+            }
+
+            to {
+                transform: scale(1.12) translate(20px, 15px);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--rose);
+            background: rgba(212, 96, 138, 0.1);
+            padding: 6px 14px;
+            border-radius: var(--r32);
+            margin-bottom: 1.6rem;
+        }
+
+        .hero-badge svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        .hero-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            color: var(--text);
+            margin-bottom: 1.4rem;
+        }
+
+        .hero-heading span {
+            display: block;
+            font-style: italic;
+            font-weight: 300;
+            color: var(--rose);
+        }
+
+        .hero-heading .script {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.1em;
+            font-style: normal;
+            color: var(--caramel);
+        }
+
+        .hero-sub {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+            max-width: 420px;
+            margin-bottom: 2.6rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--rose) 0%, var(--berry) 100%);
+            color: #fff;
+            border-radius: var(--r32);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.25s var(--ease), box-shadow 0.25s;
+            box-shadow: 0 6px 28px rgba(212, 96, 138, 0.38);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 36px rgba(212, 96, 138, 0.52);
+        }
+
+        .btn-primary svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            padding: 14px 28px;
+            background: transparent;
+            color: var(--text);
+            border-radius: var(--r32);
+            border: 1.5px solid rgba(45, 27, 46, 0.15);
+            cursor: pointer;
+            transition: border-color 0.25s, background 0.25s, color 0.25s;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--rose);
+            color: var(--rose);
+            background: var(--rose-pale);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.4rem;
+            margin-top: 2.8rem;
+            padding-top: 2.4rem;
+            border-top: 1px solid rgba(212, 96, 138, 0.12);
+        }
+
+        .hero-stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: var(--rose);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* hero right — image mosaic */
+        .hero-visual {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-img-main {
+            width: 100%;
+            max-width: 440px;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+            box-shadow: var(--shadow-lg);
+            margin-left: auto;
+            animation: morphBlob 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes morphBlob {
+            0% {
+                border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+            }
+
+            33% {
+                border-radius: 60% 40% 50% 50% / 50% 60% 40% 60%;
+            }
+
+            66% {
+                border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%;
+            }
+
+            100% {
+                border-radius: 40% 60% 60% 40% / 40% 40% 60% 60%;
+            }
+        }
+
+        .hero-img-float {
+            position: absolute;
+            border-radius: var(--r24);
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+            border: 3px solid #fff;
+        }
+
+        .hero-img-float.f1 {
+            width: 160px;
+            height: 160px;
+            bottom: -20px;
+            left: -30px;
+            border-radius: 50%;
+            animation: floatY 6s ease-in-out infinite;
+        }
+
+        .hero-img-float.f2 {
+            width: 110px;
+            height: 110px;
+            top: 20px;
+            left: 0;
+            border-radius: var(--r24);
+            animation: floatY 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatY {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-14px);
+            }
+        }
+
+        .hero-badge-float {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            background: #fff;
+            border-radius: var(--r16);
+            padding: 12px 18px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: floatY 5s ease-in-out infinite;
+        }
+
+        .hero-badge-float .hbf-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--rose-pale);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rose);
+        }
+
+        .hero-badge-float .hbf-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-badge-float .hbf-text {
+            font-size: 0.72rem;
+        }
+
+        .hero-badge-float .hbf-text strong {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        /* ── ABOUT ── */
+        #about {
+            padding: 7rem 5vw;
+            background: var(--white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-img-wrap {
+            position: relative;
+        }
+
+        .about-img-main {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 24px 64px 24px 64px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-img-accent {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            bottom: -30px;
+            right: -30px;
+            border: 4px solid #fff;
+            box-shadow: var(--shadow-md);
+        }
+
+        .about-decor {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(212, 96, 138, 0.2);
+            border-radius: 50%;
+        }
+
+        .about-decor::before {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border: 1.5px solid rgba(212, 96, 138, 0.12);
+            border-radius: 50%;
+        }
+
+        .about-text p {
+            font-size: 1.02rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1.1rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            border-radius: var(--r16);
+            background: var(--rose-ultra);
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .about-feature:hover {
+            background: var(--rose-pale);
+            transform: translateY(-3px);
+        }
+
+        .af-icon {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 50%;
+            color: var(--rose);
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .af-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .af-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+
+        .af-desc {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ── GALLERY ── */
+        #gallery {
+            padding: 7rem 5vw;
+            background: linear-gradient(180deg, var(--rose-ultra) 0%, var(--white) 100%);
+        }
+
+        .gallery-header {
+            max-width: 1200px;
+            margin: 0 auto 3.5rem;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .gallery-filter {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            padding: 8px 18px;
+            border-radius: var(--r32);
+            border: 1.5px solid rgba(212, 96, 138, 0.2);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--rose);
+            color: #fff;
+            border-color: var(--rose);
+            box-shadow: 0 4px 16px rgba(212, 96, 138, 0.3);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--r24);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+            background: var(--rose-ultra);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .gallery-item.tall {
+            grid-row: span 2;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.55s var(--ease);
+        }
+
+        .gallery-item.tall .gallery-img {
+            height: 580px;
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.07);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 1.4rem 1.4rem;
+            background: linear-gradient(transparent, rgba(45, 27, 46, 0.75));
+            color: #fff;
+            transform: translateY(100%);
+            transition: transform 0.4s var(--ease);
+            border-radius: 0 0 var(--r24) var(--r24);
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .gallery-caption-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .gallery-caption-sub {
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            opacity: 0.8;
+        }
+
+        .gallery-item-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--rose);
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: var(--r32);
+        }
+
+        /* lightbox */
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 900;
+            background: rgba(20, 5, 15, 0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s;
+        }
+
+        #lightbox.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        #lightbox img {
+            max-width: 88vw;
+            max-height: 85vh;
+            border-radius: var(--r24);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.6);
+            object-fit: contain;
+            scale: 0.9;
+            transition: scale 0.35s var(--ease);
+        }
+
+        #lightbox.open img {
+            scale: 1;
+        }
+
+        #lb-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.25s;
+        }
+
+        #lb-close:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        #lb-close svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        #lb-prev,
+        #lb-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            cursor: pointer;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.25s;
+        }
+
+        #lb-prev:hover,
+        #lb-next:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        #lb-prev svg,
+        #lb-next svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        #lb-prev {
+            left: 24px;
+        }
+
+        #lb-next {
+            right: 24px;
+        }
+
+        /* ── HOW TO ORDER ── */
+        #how {
+            padding: 7rem 5vw;
+            background: var(--white);
+        }
+
+        .how-header {
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            text-align: center;
+        }
+
+        .how-header .divider-rose {
+            margin: 1.2rem auto 0;
+        }
+
+        .how-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .how-steps::before {
+            content: '';
+            position: absolute;
+            top: 52px;
+            left: calc(12.5% + 36px);
+            right: calc(12.5% + 36px);
+            height: 1px;
+            border-top: 2px dashed rgba(212, 96, 138, 0.18);
+            pointer-events: none;
+        }
+
+        .how-step {
+            text-align: center;
+            padding: 2rem 1.5rem 2rem;
+            border-radius: var(--r24);
+            background: var(--white);
+            border: 1.5px solid rgba(212, 96, 138, 0.1);
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+
+        .how-step:hover {
+            border-color: rgba(212, 96, 138, 0.28);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-5px);
+        }
+
+        /* объединённый визуальный элемент */
+        .how-step-visual {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.6rem;
+        }
+
+        .how-step-visual .step-icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--rose-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rose);
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .how-step:hover .step-icon-circle {
+            background: linear-gradient(135deg, var(--rose-light), var(--rose));
+            color: #fff;
+            transform: scale(1.07);
+        }
+
+        .how-step-visual .step-icon-circle svg {
+            width: 34px;
+            height: 34px;
+        }
+
+        .how-step-visual .step-num-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose), var(--berry));
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(212, 96, 138, 0.45);
+            border: 2px solid #fff;
+        }
+
+        .how-step-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .how-step-desc {
+            font-size: 0.82rem;
+            line-height: 1.65;
+            color: var(--text-muted);
+        }
+
+        /* ── REVIEWS ── */
+        #reviews {
+            padding: 7rem 5vw;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--rose-ultra) 100%);
+            overflow: hidden;
+        }
+
+        .reviews-header {
+            max-width: 600px;
+            margin: 0 auto 3.5rem;
+            text-align: center;
+        }
+
+        .reviews-header .divider-rose {
+            margin: 1.2rem auto 0;
+        }
+
+        .reviews-track-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .review-card {
+            background: var(--white);
+            border-radius: var(--r24);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s var(--ease), box-shadow 0.3s;
+            position: relative;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .review-card::before {
+            content: '\201C';
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            line-height: 1;
+            color: rgba(212, 96, 138, 0.1);
+            pointer-events: none;
+        }
+
+        .review-stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 1rem;
+            color: var(--caramel);
+        }
+
+        .review-stars svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .review-text {
+            font-size: 0.9rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+            margin-bottom: 1.4rem;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .review-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rose-light), var(--caramel));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--berry);
+            flex-shrink: 0;
+        }
+
+        .review-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .review-date {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* ── CTA BAND ── */
+        #cta-band {
+            padding: 5rem 5vw;
+            background: linear-gradient(135deg, var(--rose) 0%, var(--berry) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #cta-band::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        #cta-band .script-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        #cta-band p {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.78);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .btn-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            padding: 16px 36px;
+            background: #fff;
+            color: var(--rose);
+            border-radius: var(--r32);
+            transition: transform 0.25s, box-shadow 0.25s;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
+        }
+
+        .btn-white svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* ── CONTACT ── */
+        #contact {
+            padding: 7rem 5vw;
+            background: var(--white);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 22px;
+            border-radius: var(--r16);
+            background: var(--rose-ultra);
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .contact-info-item:hover {
+            background: var(--rose-pale);
+            transform: translateX(6px);
+        }
+
+        .cii-icon {
+            width: 46px;
+            height: 46px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rose);
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cii-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .cii-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+        }
+
+        .cii-value {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .cii-value a {
+            color: var(--rose);
+            transition: opacity 0.2s;
+        }
+
+        .cii-value a:hover {
+            opacity: 0.75;
+        }
+
+        /* order form */
+        .order-form {
+            background: var(--rose-ultra);
+            border-radius: var(--r24);
+            padding: 2.6rem;
+        }
+
+        .order-form-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.4rem;
+        }
+
+        .order-form-sub {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--r16);
+            border: 1.5px solid rgba(212, 96, 138, 0.2);
+            background: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--rose);
+            box-shadow: 0 0 0 3px rgba(212, 96, 138, 0.12);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--r32);
+            border: none;
+            background: linear-gradient(135deg, var(--rose) 0%, var(--berry) 100%);
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            transition: opacity 0.25s, transform 0.25s;
+            margin-top: 0.5rem;
+            box-shadow: 0 6px 24px rgba(212, 96, 138, 0.38);
+        }
+
+        .form-submit:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--text);
+            color: rgba(255, 255, 255, 0.75);
+            padding: 4rem 5vw 2.5rem;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.4rem;
+            color: var(--rose-light);
+            margin-bottom: 1rem;
+        }
+
+        .footer-desc {
+            font-size: 0.85rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .footer-col-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .footer-col ul a {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.25s;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--rose-light);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.6);
+            transition: background 0.25s, color 0.25s, border-color 0.25s;
+        }
+
+        .social-btn svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .social-btn:hover {
+            background: var(--rose);
+            border-color: var(--rose);
+            color: #fff;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ── FLOATING PARTICLES ── */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFly linear infinite;
+        }
+
+        @keyframes particleFly {
+            0% {
+                opacity: 0;
+                transform: translateY(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(720deg);
+            }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-item.tall {
+                grid-row: auto;
+            }
+
+            .gallery-item.tall .gallery-img {
+                height: 280px;
+            }
+
+            .how-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .how-steps::before {
+                display: none;
+            }
+
+            .reviews-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 7rem 5vw 4rem;
+            }
+
+            .hero-sub {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-img-wrap {
+                max-width: 360px;
+                margin: 0 auto;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .nav-links,
+            .nav-cta {
+                display: none;
+            }
+
+            .nav-burger {
+                display: flex;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .how-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-badge-float {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ── NAVIGATION ── -->
+    <nav id="nav">
+        <a class="nav-logo" href="#">Сладкий момент</a>
+
+        <ul class="nav-links">
+            <li><a href="#about">О мастере</a></li>
+            <li><a href="#gallery">Портфолио</a></li>
+            <li><a href="#how">Как заказать</a></li>
+            <li><a href="#reviews">Отзывы</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+
+        <a class="nav-cta" href="#contact">Заказать торт</a>
+
+        <button class="nav-burger" id="nav-burger" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- mobile menu -->
+    <div id="nav-mobile">
+        <a href="#about" onclick="closeMobile()">О мастере</a>
+        <a href="#gallery" onclick="closeMobile()">Портфолио</a>
+        <a href="#how" onclick="closeMobile()">Как заказать</a>
+        <a href="#reviews" onclick="closeMobile()">Отзывы</a>
+        <a href="#contact" onclick="closeMobile()">Контакты</a>
+        <a href="#contact" onclick="closeMobile()" style="color:var(--rose);font-weight:700;">+7 (XXX) XXX-XX-XX</a>
+    </div>
+
+    <!-- ── HERO ── -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-badge reveal">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                </svg>
+                Кондитер г. Тандем
+            </div>
+            <h1 class="hero-heading reveal reveal-delay-1">
+                Торты, которые<br>
+                <span>делают день</span>
+                <span class="script">незабываемым</span>
+            </h1>
+            <p class="hero-sub reveal reveal-delay-2">
+                Авторские торты ручной работы — от нежных муссовых до многоярусных свадебных шедевров. Каждый торт создаётся специально для вас с любовью и вниманием к деталям.
+            </p>
+            <div class="hero-actions reveal reveal-delay-3">
+                <a class="btn-primary" href="#contact">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 11.5c0 .3-.07.6-.2.87a1.5 1.5 0 01-.55.63c-.37.23-.77.35-1.25.35-.66 0-1.37-.17-2.1-.5a11.2 11.2 0 01-2.1-1.37 11 11 0 01-1.36-2.08 5.33 5.33 0 01-.5-2.08c0-.46.1-.9.32-1.26a1.5 1.5 0 011.32-.78c.16 0 .32.03.47.1.15.07.29.17.4.32l1.35 1.9c.1.15.18.28.23.42a.9.9 0 01.08.36c0 .14-.04.28-.11.42a1.8 1.8 0 01-.3.4l-.4.43a.28.28 0 00-.08.2c0 .04 0 .08.02.12.05.1.13.23.25.4.13.16.26.32.4.48.17.17.34.33.53.48.17.14.33.27.48.37a.3.3 0 00.34-.02l.4-.4c.14-.13.28-.24.41-.3a.9.9 0 01.42-.11.96.96 0 01.36.07c.13.05.27.13.41.24l1.93 1.37c.15.1.25.24.32.4.06.14.1.3.1.49z" />
+                    </svg>
+                    Заказать торт
+                </a>
+                <a class="btn-ghost" href="#gallery">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="2" width="14" height="12" rx="2" />
+                        <path d="M1 8l4-3 4 4 2-2 4 3" />
+                    </svg>
+                    Смотреть работы
+                </a>
+            </div>
+            <div class="hero-stats reveal reveal-delay-4">
+                <div>
+                    <div class="hero-stat-num">200+</div>
+                    <div class="hero-stat-label">Тортов создано</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">5★</div>
+                    <div class="hero-stat-label">Средняя оценка</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num">3+</div>
+                    <div class="hero-stat-label">Года опыта</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual reveal reveal-delay-2">
+            <div style="position:relative; display:inline-block; width:100%;">
+                <img class="hero-img-main" src="1.png" alt="Авторский торт" />
+                <img class="hero-img-float f1" src="3.jpg" alt="Торт" />
+                <img class="hero-img-float f2" src="5.png" alt="Торт" />
+                <div class="hero-badge-float">
+                    <span class="hbf-icon">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" fill="currentColor" stroke="none" />
+                        </svg>
+                    </span>
+                    <div class="hbf-text">
+                        <strong>Только натуральные</strong>
+                        ингредиенты
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── ABOUT ── -->
+    <section id="about">
+        <div class="about-grid">
+            <div class="about-img-wrap reveal">
+                <div class="about-decor"></div>
+                <img class="about-img-main" src="2.png" alt="Виктория — кондитер" />
+                <img class="about-img-accent" src="4.png" alt="Украшение торта" />
+            </div>
+            <div class="about-text">
+                <span class="section-label reveal">О мастере</span>
+                <h2 class="section-title reveal reveal-delay-1">Привет! Я <em>Виктория</em>, ваш кондитер</h2>
+                <div class="divider-rose reveal reveal-delay-1"></div>
+                <p class="reveal reveal-delay-2">
+                    Я создаю авторские торты и десерты с душой — каждое изделие это маленький шедевр, в который вложены тепло, внимание и профессионализм. Работаю в г. Тандем уже более 3 лет.
+                </p>
+                <p class="reveal reveal-delay-2">
+                    Специализируюсь на свадебных тортах, тематических тортах для детей, муссовых десертах и кэнди-барах. Использую только свежие продукты — никаких искусственных красителей и добавок.
+                </p>
+                <div class="about-features reveal reveal-delay-3">
+                    <div class="about-feature">
+                        <div class="af-icon">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 14s-6-3.5-6-8a6 6 0 0112 0c0 4.5-6 8-6 8z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="af-label">С любовью</div>
+                            <div class="af-desc">Каждый торт создаётся с заботой для вас</div>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <div class="af-icon">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 1H5L3 5h10L11 1H9z" />
+                                <path d="M3 5c0 4 2 8 5 10 3-2 5-6 5-10" />
+                                <path d="M7 5l1 6 1-6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="af-label">Натуральный состав</div>
+                            <div class="af-desc">Только свежие и качественные ингредиенты</div>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <div class="af-icon">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="8" cy="8" r="7" />
+                                <path d="M8 5v3l2 2" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="af-label">Точно в срок</div>
+                            <div class="af-desc">Всегда выполняю заказы вовремя</div>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <div class="af-icon">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 6l7-5 7 5v8a1 1 0 01-1 1H2a1 1 0 01-1-1V6z" />
+                                <path d="M6 15V9h4v6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="af-label">г. Тандем</div>
+                            <div class="af-desc">Самовывоз и доставка по городу</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── GALLERY ── -->
+    <section id="gallery">
+        <div class="gallery-header">
+            <div>
+                <span class="section-label reveal">Портфолио</span>
+                <h2 class="section-title reveal reveal-delay-1">Мои <em>сладкие</em> работы</h2>
+                <div class="divider-rose reveal reveal-delay-1"></div>
+            </div>
+            <div class="gallery-filter reveal reveal-delay-2">
+                <button class="filter-btn active" data-filter="all">Все работы</button>
+                <button class="filter-btn" data-filter="author">Авторские</button>
+                <button class="filter-btn" data-filter="berry">Ягодные</button>
+                <button class="filter-btn" data-filter="kids">Детские</button>
+                <button class="filter-btn" data-filter="wedding">Свадебные</button>
+            </div>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item tall reveal" data-category="author" onclick="openLightbox(0)">
+                <img class="gallery-img" src="1.png" alt="Банановый drip-торт" loading="lazy" />
+                <div class="gallery-item-badge">Авторский</div>
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">Банановый drip-торт</div>
+                    <div class="gallery-caption-sub">Розовые подтёки · Кремовые завитки</div>
+                </div>
+            </div>
+            <div class="gallery-item reveal reveal-delay-1" data-category="author" onclick="openLightbox(1)">
+                <img class="gallery-img" src="2.png" alt="Торт с малиной и сухоцветами" loading="lazy" />
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">Торт «Прованс»</div>
+                    <div class="gallery-caption-sub">Малина · Сухоцветы · Розмарин</div>
+                </div>
+            </div>
+            <div class="gallery-item reveal reveal-delay-2" data-category="author" onclick="openLightbox(2)">
+                <img class="gallery-img" src="3.jpg" alt="Шоколадный торт с осколками" loading="lazy" />
+                <div class="gallery-item-badge">Новинка</div>
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">Торт «Звёздная ночь»</div>
+                    <div class="gallery-caption-sub">Шоколадные осколки · Серебристый жемчуг</div>
+                </div>
+            </div>
+            <div class="gallery-item reveal reveal-delay-1" data-category="berry" onclick="openLightbox(3)">
+                <img class="gallery-img" src="4.png" alt="Малиновый торт" loading="lazy" />
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">Малиновый торт</div>
+                    <div class="gallery-caption-sub">Свежая малина · Белый крем</div>
+                </div>
+            </div>
+            <div class="gallery-item reveal reveal-delay-2" data-category="author" onclick="openLightbox(4)">
+                <img class="gallery-img" src="5.png" alt="Фисташковый торт" loading="lazy" />
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">Фисташковый «Изумруд»</div>
+                    <div class="gallery-caption-sub">Фисташковый крем · Зелёный декор</div>
+                </div>
+            </div>
+            <div class="gallery-item tall reveal reveal-delay-1" data-category="berry" onclick="openLightbox(5)">
+                <img class="gallery-img" src="6.png" alt="Торт с ягодами" loading="lazy" />
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">Ягодный торт</div>
+                    <div class="gallery-caption-sub">Клубника · Черника · Голубика</div>
+                </div>
+            </div>
+            <div class="gallery-item reveal reveal-delay-2" data-category="kids" onclick="openLightbox(6)">
+                <img class="gallery-img" src="7.png" alt="Детский торт с аниме" loading="lazy" />
+                <div class="gallery-item-badge">Детский</div>
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">Торт «Аниме-принцесса»</div>
+                    <div class="gallery-caption-sub">Сахарная фигурка · Макаронс · Леденцы</div>
+                </div>
+            </div>
+            <div class="gallery-item reveal reveal-delay-3" data-category="author" onclick="openLightbox(7)">
+                <img class="gallery-img" src="8.png" alt="Лавандовый торт" loading="lazy" />
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">Лавандовый торт</div>
+                    <div class="gallery-caption-sub">Венок из сухоцветов · Нежная лаванда</div>
+                </div>
+            </div>
+            <div class="gallery-item reveal reveal-delay-4" data-category="wedding" onclick="openLightbox(8)">
+                <img class="gallery-img" src="9.png" alt="Свадебный двухъярусный торт" loading="lazy" />
+                <div class="gallery-item-badge">Свадебный</div>
+                <div class="gallery-caption">
+                    <div class="gallery-caption-title">«Ромашковое поле»</div>
+                    <div class="gallery-caption-sub">2 яруса · Ромашки · Капкейки</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── LIGHTBOX ── -->
+    <div id="lightbox">
+        <button id="lb-close" onclick="closeLightbox()">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M12 4L4 12M4 4l8 8" />
+            </svg>
+        </button>
+        <button id="lb-prev" onclick="lbNav(-1)">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 12L6 8l4-4" />
+            </svg>
+        </button>
+        <img id="lb-img" src="" alt="Торт" />
+        <button id="lb-next" onclick="lbNav(1)">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 4l4 4-4 4" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- ── HOW TO ORDER ── -->
+    <section id="how">
+        <div class="how-header">
+            <span class="section-label reveal">Процесс</span>
+            <h2 class="section-title reveal reveal-delay-1">Как <em>заказать</em> свой торт?</h2>
+            <div class="divider-rose reveal reveal-delay-1"></div>
+        </div>
+        <div class="how-steps">
+            <div class="how-step reveal">
+                <div class="how-step-visual">
+                    <div class="step-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+                        </svg>
+                    </div>
+                    <div class="step-num-badge">1</div>
+                </div>
+                <div class="how-step-title">Оставьте заявку</div>
+                <div class="how-step-desc">Напишите мне в мессенджер или заполните форму на сайте — расскажите о своей идее</div>
+            </div>
+            <div class="how-step reveal reveal-delay-1">
+                <div class="how-step-visual">
+                    <div class="step-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                    </div>
+                    <div class="step-num-badge">2</div>
+                </div>
+                <div class="how-step-title">Обсудим детали</div>
+                <div class="how-step-desc">Обговорим дизайн, вкус, размер и дату — я подберу идеальный вариант именно для вас</div>
+            </div>
+            <div class="how-step reveal reveal-delay-2">
+                <div class="how-step-visual">
+                    <div class="step-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                        </svg>
+                    </div>
+                    <div class="step-num-badge">3</div>
+                </div>
+                <div class="how-step-title">Я приступаю к работе</div>
+                <div class="how-step-desc">С любовью создаю ваш торт из свежих натуральных ингредиентов по вашим пожеланиям</div>
+            </div>
+            <div class="how-step reveal reveal-delay-3">
+                <div class="how-step-visual">
+                    <div class="step-icon-circle">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 12V22H4V12" />
+                            <path d="M22 7H2v5h20V7z" />
+                            <path d="M12 22V7" />
+                            <path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z" />
+                            <path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z" />
+                        </svg>
+                    </div>
+                    <div class="step-num-badge">4</div>
+                </div>
+                <div class="how-step-title">Получите шедевр!</div>
+                <div class="how-step-desc">Самовывоз или доставка по г. Тандем — ваш идеальный торт готов украсить праздник</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── REVIEWS ── -->
+    <section id="reviews">
+        <div class="reviews-header">
+            <span class="section-label reveal">Отзывы</span>
+            <h2 class="section-title reveal reveal-delay-1">Что говорят <em>клиенты</em></h2>
+            <div class="divider-rose reveal reveal-delay-1"></div>
+        </div>
+        <div class="reviews-track-wrap">
+            <div class="reviews-grid">
+
+                <div class="review-card reveal">
+                    <div class="review-stars">
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                    </div>
+                    <p class="review-text">
+                        Заказывала свадебный торт — Виктория сделала настоящий шедевр! Он был не только красивым, но и невероятно вкусным. Все гости были в восторге, просили рецепт. Обязательно закажу ещё!
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">А</div>
+                        <div>
+                            <div class="review-name">Анастасия К.</div>
+                            <div class="review-date">Свадебный торт · Октябрь 2024</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card reveal reveal-delay-1">
+                    <div class="review-stars">
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                    </div>
+                    <p class="review-text">
+                        Брала детский торт для сына на день рождения. Виктория воплотила все наши идеи — фигурки из мастики вышли просто волшебными! Ребёнок был счастлив, а торт вкусный до безобразия. 10/10!
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">М</div>
+                        <div>
+                            <div class="review-name">Мария Д.</div>
+                            <div class="review-date">Детский торт · Ноябрь 2024</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card reveal reveal-delay-2">
+                    <div class="review-stars">
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                    </div>
+                    <p class="review-text">
+                        Уже третий раз заказываю муссовые торты у Вики. Каждый раз — новый дизайн, новая вкусовая комбинация. Зеркальная глазурь выходит просто идеальной! Рекомендую всем без исключения.
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">Е</div>
+                        <div>
+                            <div class="review-name">Елена П.</div>
+                            <div class="review-date">Муссовый торт · Декабрь 2024</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card reveal">
+                    <div class="review-stars">
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                    </div>
+                    <p class="review-text">
+                        Заказал корпоративный торт на юбилей компании. Логотип из сахарной мастики выглядел безупречно. Коллеги были удивлены и восхищены. Спасибо за профессионализм!
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">С</div>
+                        <div>
+                            <div class="review-name">Сергей В.</div>
+                            <div class="review-date">Корпоративный торт · Январь 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card reveal reveal-delay-1">
+                    <div class="review-stars">
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                    </div>
+                    <p class="review-text">
+                        Торт на годовщину свадьбы получился невероятным — нежный, красивый и очень вкусный! Роза из крема была как настоящая. Муж был в восторге. Виктория — настоящий художник!
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">О</div>
+                        <div>
+                            <div class="review-name">Ольга Н.</div>
+                            <div class="review-date">Юбилейный торт · Февраль 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card reveal reveal-delay-2">
+                    <div class="review-stars">
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                        <svg viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 1l1.8 3.6L14 5.5l-3 2.9.7 4.1L8 10.4l-3.7 2.1.7-4.1L2 5.5l4.2-.9z" />
+                        </svg>
+                    </div>
+                    <p class="review-text">
+                        Кэнди-бар от Виктории стал украшением нашего праздника! Всё выдержано в единой цветовой гамме, вкусно, красиво и оригинально. Гости всё спрашивали, кто делал. Буду рекомендовать!
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">Т</div>
+                        <div>
+                            <div class="review-name">Татьяна Л.</div>
+                            <div class="review-date">Кэнди-бар · Март 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CTA BAND ── -->
+    <section id="cta-band">
+        <div class="script-title">Готовы создать что-то особенное?</div>
+        <p>Свяжитесь со мной сегодня — обсудим вашу идею и создадим торт вашей мечты. Работаю в г. Тандем.</p>
+        <a class="btn-white" href="#contact">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 11.5c0 .3-.07.6-.2.87a1.5 1.5 0 01-.55.63c-.37.23-.77.35-1.25.35-.66 0-1.37-.17-2.1-.5a11.2 11.2 0 01-2.1-1.37 11 11 0 01-1.36-2.08 5.33 5.33 0 01-.5-2.08c0-.46.1-.9.32-1.26a1.5 1.5 0 011.32-.78c.16 0 .32.03.47.1.15.07.29.17.4.32l1.35 1.9c.1.15.18.28.23.42a.9.9 0 01.08.36c0 .14-.04.28-.11.42a1.8 1.8 0 01-.3.4l-.4.43a.28.28 0 00-.08.2c0 .04 0 .08.02.12.05.1.13.23.25.4.13.16.26.32.4.48.17.17.34.33.53.48.17.14.33.27.48.37a.3.3 0 00.34-.02l.4-.4c.14-.13.28-.24.41-.3a.9.9 0 01.42-.11.96.96 0 01.36.07c.13.05.27.13.41.24l1.93 1.37c.15.1.25.24.32.4.06.14.1.3.1.49z" />
+            </svg>
+            Позвонить: +7 (XXX) XXX-XX-XX
+        </a>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <section id="contact">
+        <div class="contact-grid">
+            <div>
+                <span class="section-label reveal">Контакты</span>
+                <h2 class="section-title reveal reveal-delay-1">Давайте <em>создадим</em><br>ваш торт мечты</h2>
+                <div class="divider-rose reveal reveal-delay-1"></div>
+                <div class="contact-info-items">
+                    <div class="contact-info-item reveal reveal-delay-2">
+                        <div class="cii-icon">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M13 11.5c0 .3-.07.6-.2.87a1.5 1.5 0 01-.55.63c-.37.23-.77.35-1.25.35-.66 0-1.37-.17-2.1-.5a11.2 11.2 0 01-2.1-1.37 11 11 0 01-1.36-2.08 5.33 5.33 0 01-.5-2.08c0-.46.1-.9.32-1.26a1.5 1.5 0 011.32-.78c.16 0 .32.03.47.1.15.07.29.17.4.32l1.35 1.9c.1.15.18.28.23.42a.9.9 0 01.08.36c0 .14-.04.28-.11.42a1.8 1.8 0 01-.3.4l-.4.43a.28.28 0 00-.08.2c0 .04 0 .08.02.12.05.1.13.23.25.4.13.16.26.32.4.48.17.17.34.33.53.48.17.14.33.27.48.37a.3.3 0 00.34-.02l.4-.4c.14-.13.28-.24.41-.3a.9.9 0 01.42-.11.96.96 0 01.36.07c.13.05.27.13.41.24l1.93 1.37c.15.1.25.24.32.4.06.14.1.3.1.49z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="cii-label">Телефон / WhatsApp</div>
+                            <div class="cii-value"><a href="tel:+7XXXXXXXXXX">+7 (XXX) XXX-XX-XX</a></div>
+                        </div>
+                    </div>
+                    <div class="contact-info-item reveal reveal-delay-2">
+                        <div class="cii-icon">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H2l5.5 6.5V13l1 1 1-1V8.5L14 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="cii-label">Telegram / Instagram</div>
+                            <div class="cii-value" style="color:var(--rose);">@sladkiy_moment</div>
+                        </div>
+                    </div>
+                    <div class="contact-info-item reveal reveal-delay-3">
+                        <div class="cii-icon">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 1.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11z" />
+                                <path d="M8 4v4l2.5 2.5" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="cii-label">Время работы</div>
+                            <div class="cii-value">Пн – Вс: 9:00 – 21:00</div>
+                        </div>
+                    </div>
+                    <div class="contact-info-item reveal reveal-delay-3">
+                        <div class="cii-icon">
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M8 1a5 5 0 00-5 5c0 3.5 5 9 5 9s5-5.5 5-9a5 5 0 00-5-5z" />
+                                <circle cx="8" cy="6" r="1.5" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="cii-label">Локация</div>
+                            <div class="cii-value">г. Тандем — самовывоз и доставка</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-2">
+                <form class="order-form" onsubmit="handleForm(event)">
+                    <div class="order-form-title">Оставить заявку</div>
+                    <div class="order-form-sub">Заполните форму и я свяжусь с вами в течение 1 часа</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ваше имя</label>
+                            <input type="text" placeholder="Мария" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон</label>
+                            <input type="tel" placeholder="+7 (XXX) XXX-XX-XX" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Дата праздника</label>
+                        <input type="date" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Тип торта</label>
+                        <select>
+                            <option value="">Выберите тип...</option>
+                            <option>Свадебный торт</option>
+                            <option>Детский торт</option>
+                            <option>Муссовый торт</option>
+                            <option>Юбилейный торт</option>
+                            <option>Корпоративный торт</option>
+                            <option>Кэнди-бар</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ваши пожелания</label>
+                        <textarea placeholder="Расскажите о вашей идее, тематике, любимых вкусах..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Отправить заявку 🎂</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ── -->
+    <footer>
+        <div class="footer-top">
+            <div>
+                <div class="footer-logo">Сладкий момент</div>
+                <p class="footer-desc">Авторские торты ручной работы в г. Тандем. Создаю сладкие моменты для ваших самых важных праздников с любовью и душой.</p>
+                <div class="footer-social">
+                    <a class="social-btn" href="#" aria-label="WhatsApp">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.271-.099-.467-.148-.663.15-.196.297-.763.966-.936 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.663-1.599-.908-2.19-.24-.579-.487-.5-.663-.51-.173-.01-.371-.012-.57-.012s-.52.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                            <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.528 5.848L0 24l6.335-1.509A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.81 9.81 0 01-5.017-1.375l-.36-.214-3.726.887.917-3.635-.234-.374A9.781 9.781 0 012.182 12C2.182 6.583 6.583 2.182 12 2.182S21.818 6.583 21.818 12 17.417 21.818 12 21.818z" />
+                        </svg>
+                    </a>
+                    <a class="social-btn" href="#" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" />
+                            <circle cx="12" cy="12" r="4" />
+                            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                        </svg>
+                    </a>
+                    <a class="social-btn" href="#" aria-label="VK">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1.01-1.49-1.148-1.744-1.148-.355 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.12-5.335-3.202C4.624 10.857 4 8.453 4 7.997c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.678.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.405 2.151-3.574 2.151-3.574.119-.254.322-.491.762-.491h1.744c.525 0 .644.271.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.78 1.203 1.253.745.847 1.32 1.558 1.473 2.049.17.491-.085.745-.576.745z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Навигация</div>
+                <ul>
+                    <li><a href="#about">О мастере</a></li>
+                    <li><a href="#gallery">Портфолио</a></li>
+                    <li><a href="#how">Как заказать</a></li>
+                    <li><a href="#reviews">Отзывы</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Услуги</div>
+                <ul>
+                    <li><a href="#gallery">Свадебные торты</a></li>
+                    <li><a href="#gallery">Детские торты</a></li>
+                    <li><a href="#gallery">Муссовые торты</a></li>
+                    <li><a href="#gallery">Юбилейные торты</a></li>
+                    <li><a href="#gallery">Кэнди-бары</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Сладкий момент · Кондитер Виктория · г. Тандем</span>
+            <span style="display:flex;align-items:center;gap:6px;">
+                ❤️ Сделано с любовью
+            </span>
+        </div>
+    </footer>
+
+    <!-- ── SCRIPTS ── -->
+    <script>
+        /* NAV SCROLL */
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
+        /* MOBILE NAV */
+        const burger = document.getElementById('nav-burger');
+        const mobileMenu = document.getElementById('nav-mobile');
+        burger.addEventListener('click', () => {
+            const isOpen = burger.classList.toggle('open');
+            mobileMenu.classList.toggle('open', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        function closeMobile() {
+            burger.classList.remove('open');
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        /* REVEAL ON SCROLL */
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    revealObserver.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        reveals.forEach(el => revealObserver.observe(el));
+
+        /* GALLERY FILTER */
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                galleryItems.forEach(item => {
+                    const show = filter === 'all' || item.dataset.category === filter;
+                    item.style.display = show ? '' : 'none';
+                });
+            });
+        });
+
+        /* LIGHTBOX */
+        const galleryImages = ['1.png', '2.png', '3.jpg', '4.png', '5.png', '6.png', '7.png', '8.png', '9.png'];
+        let currentLbIndex = 0;
+
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-img');
+
+        function openLightbox(index) {
+            currentLbIndex = index;
+            lbImg.src = galleryImages[index];
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function lbNav(dir) {
+            currentLbIndex = (currentLbIndex + dir + galleryImages.length) % galleryImages.length;
+            lbImg.style.opacity = '0';
+            setTimeout(() => {
+                lbImg.src = galleryImages[currentLbIndex];
+                lbImg.style.opacity = '1';
+            }, 150);
+        }
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('open')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') lbNav(-1);
+            if (e.key === 'ArrowRight') lbNav(1);
+        });
+
+        /* FORM SUBMIT */
+        function handleForm(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.form-submit');
+            btn.textContent = '✓ Заявка отправлена! Жду вашего звонка...';
+            btn.style.background = 'linear-gradient(135deg, #5cb85c, #3e8e41)';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.textContent = 'Отправить заявку 🎂';
+                btn.style.background = '';
+                btn.disabled = false;
+                e.target.reset();
+            }, 4000);
+        }
+
+        /* FLOATING SUGAR PARTICLES */
+        const particleColors = ['#f4a8c6', '#e8a870', '#d4608a', '#fce8f0', '#e8c8a0'];
+        const particleShapes = ['♥', '✿', '❋', '✦', '•'];
+
+        function createParticle() {
+            const el = document.createElement('div');
+            el.style.cssText = `
+                position: fixed;
+                font-size: ${6 + Math.random() * 12}px;
+                color: ${particleColors[Math.floor(Math.random() * particleColors.length)]};
+                left: ${Math.random() * 100}vw;
+                bottom: -30px;
+                pointer-events: none;
+                z-index: 0;
+                opacity: 0;
+                animation: particleFly ${8 + Math.random() * 10}s linear forwards;
+                user-select: none;
+            `;
+            el.textContent = particleShapes[Math.floor(Math.random() * particleShapes.length)];
+            document.body.appendChild(el);
+            el.addEventListener('animationend', () => el.remove());
+        }
+
+        setInterval(createParticle, 2200);
+
+        /* LOTTIE-LIKE SMOOTH IMAGE TRANSITION IN LIGHTBOX */
+        lbImg.style.transition = 'opacity 0.15s ease';
+    </script>
+</body>
+
+</html>

@@ -53,4 +53,10 @@ const TANDEM_SITES = [
         description: "VPN-клиент с обходом ТСПУ — YouTube, Discord, Instagram из РФ",
         path: "works/example-vpn/index.html"
     },
+    {
+        id: 7,
+        title: "Кондитер Виктория — Сладкий момент",
+        description: "Авторские торты ручной работы — свадебные, детские и муссовые десерты в г. Тандем",
+        path: "works/example-cakes/index.html"
+    },
 ];
