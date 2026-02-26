@@ -352,7 +352,8 @@
         .panel-hint {
             position: fixed;
             top: 0;
-            left: 22%;
+            left: 563px;
+            transform: translateX(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -442,13 +443,13 @@
     <!-- Стрелка на панель управления -->
     <div class="panel-hint">
         <svg class="panel-arrow-svg" viewBox="0 0 44 82" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Тело — одна плавная дуга снизу-справа вверх-влево -->
-            <path d="M28 78 C32 58, 10 44, 18 8" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" fill="none" />
-            <!-- Наконечник -->
-            <path d="M18 8 L10 17" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" />
-            <path d="M18 8 L26 15" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" />
+            <!-- Тело — дуга с арроухедом по центру (x=22) -->
+            <path d="M30 78 C34 58, 12 44, 22 8" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" fill="none" />
+            <!-- Наконечник — симметричный ротносительно x=22 -->
+            <path d="M22 8 L14 17" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" />
+            <path d="M22 8 L30 17" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" />
         </svg>
-        <span class="panel-hint-label">панель управления</span>
+        <span class="panel-hint-label">нажми «Далее»</span>
     </div>
 
     <div class="page">
