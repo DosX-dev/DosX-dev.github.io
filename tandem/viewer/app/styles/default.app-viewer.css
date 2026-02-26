@@ -41,6 +41,28 @@
     z-index: 1000;
 }
 
+/* ── Panel entrance animation ── */
+:root {
+    --panel-enter-y: -10px;
+}
+
+@keyframes panel-entry {
+    from {
+        opacity: 0;
+        transform: translateY(var(--panel-enter-y));
+        filter: blur(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+    }
+}
+
+#panel.panel--ready {
+    animation: panel-entry 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 /* Logo */
 #panel-logo {
     display: flex;
@@ -615,6 +637,7 @@
 @media (max-width: 680px) {
     :root {
         --panel-h: 56px;
+        --panel-enter-y: 10px;
     }
 
     #panel {
