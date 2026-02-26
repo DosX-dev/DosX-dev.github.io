@@ -171,8 +171,8 @@ function loadSite(index) {
     triggerInfoAnimation(() => {
         titleEl.textContent = site.title;
         descEl.textContent = site.description;
-        const nonHomePos   = TANDEM_SITES.filter((s, i) => s.id !== 0 && i <= index).length;
-        const nonHomeTotal  = TANDEM_SITES.filter(s => s.id !== 0).length;
+        const nonHomePos = TANDEM_SITES.filter((s, i) => s.id !== 0 && i <= index).length;
+        const nonHomeTotal = TANDEM_SITES.filter(s => s.id !== 0).length;
         counterEl.textContent = `${nonHomePos} / ${nonHomeTotal}`;
     });
 
@@ -185,7 +185,17 @@ function loadSite(index) {
     copyBtn.classList.toggle('disabled', isHome);
     phoneToggle.classList.toggle('disabled', isHome);
     counterEl.style.display = isHome ? 'none' : '';
-    openBtn.href = site.path;
+
+    // Внешние ссылки открываем напрямую, локальные — через лоадер (iframe-защита)
+    // Если есть id — передаём только его, название папки не раскрываем
+    if (/^https?:\/\//i.test(site.path)) {
+        openBtn.href = site.path;
+    } else if (site.id !== undefined && site.id > 0) {
+        openBtn.href = 'works/?project-id=' + site.id;
+    } else {
+        var m = site.path.match(/works\/([^\/]+)\//); 
+        openBtn.href = m ? 'works/?project-name=' + m[1] : site.path;
+    }
 
     // Phone-режим: отключаем на главной, восстанавливаем при уходе с неё
     if (isHome) {
