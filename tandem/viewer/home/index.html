@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tandem Portfolio Viewer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
     <style>
         *,
         *::before,
@@ -304,6 +304,11 @@
             line-height: 1.6;
         }
 
+        /* Варианты текста и карточек — скрыты по умолчанию (ПК) */
+        .card--mobile-only { display: none; }
+        .subtitle--mobile  { display: none; }
+        .text--mobile      { display: none; }
+
         /* ── HINT ── */
         .hint {
             display: flex;
@@ -361,13 +366,18 @@
             z-index: 10;
         }
 
+        /* Мобильная стрелка — скрыта по умолчанию */
+        .panel-hint--mobile {
+            display: none;
+        }
+
         .panel-hint-label {
-            font-size: 17px;
-            font-weight: 500;
-            color: rgba(124, 110, 245, .6);
+            font-size: 19px;
+            font-weight: 400;
+            color: rgba(124, 110, 245, .65);
             white-space: nowrap;
             margin-top: 4px;
-            font-family: 'Caveat', cursive;
+            font-family: 'Patrick Hand', cursive;
             line-height: 1;
         }
 
@@ -376,31 +386,18 @@
             display: block;
         }
 
+        /* ── Скрываем верхнюю стрелку на узких экранах ── */
         @media (max-width: 900px) {
-            .panel-hint {
+            .panel-hint:not(.panel-hint--mobile) {
                 display: none;
             }
         }
 
-        @media (max-width: 700px) {
+        /* ── Мобайл (панель снизу) ── */
+        @media (max-width: 680px) {
             .cards {
                 grid-template-columns: 1fr;
                 max-width: 100%;
-            }
-
-            .stats-strip {
-                flex-wrap: wrap;
-                border-radius: 14px;
-                justify-content: center;
-            }
-
-            .stat-item {
-                border-right: none;
-                border-bottom: 1px solid var(--card-border);
-            }
-
-            .stat-item:last-child {
-                border-bottom: none;
             }
 
             .hint {
@@ -411,7 +408,15 @@
                 margin-bottom: 32px;
             }
 
-            /* страница растёт по контенту, не обрезается */
+            /* Переключаем ПК ↔ мобильные варианты */
+            .card--pc-only     { display: none; }
+            .card--mobile-only { display: block; }
+            .subtitle--pc      { display: none; }
+            .subtitle--mobile  { display: block; }
+            .text--pc          { display: none; }
+            .text--mobile      { display: block; }
+
+            /* Страница растёт по контенту */
             html, body {
                 height: auto;
                 overflow-y: auto;
@@ -420,8 +425,9 @@
             .page {
                 min-height: auto;
                 justify-content: flex-start;
-                padding-top: 60px;
-                padding-bottom: 40px;
+                padding-top: 48px;
+                /* нижний паддинг = высота панели (56px) + отступ */
+                padding-bottom: calc(56px + 32px);
             }
 
             .foot {
@@ -431,6 +437,9 @@
                 right: auto;
                 margin-top: 28px;
             }
+
+            /* Нижняя стрелка — скрыта */
+            .panel-hint--mobile { display: none; }
         }
     </style>
 </head>
@@ -440,7 +449,7 @@
     <div class="bg-glow"></div>
     <div class="bg-grid"></div>
 
-    <!-- Стрелка на панель управления -->
+    <!-- Стрелка ↑ на «Далее» (десктоп) -->
     <div class="panel-hint">
         <svg class="panel-arrow-svg" viewBox="0 0 44 82" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Тело — дуга с арроухедом по центру (x=22) -->
@@ -452,6 +461,16 @@
         <span class="panel-hint-label">нажми «Далее»</span>
     </div>
 
+    <!-- Стрелка ↓ на «Далее» (мобайл, панель снизу) -->
+    <div class="panel-hint panel-hint--mobile">
+        <svg class="panel-arrow-svg" viewBox="0 0 44 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 4 C10 24, 32 38, 22 74" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" fill="none" />
+            <path d="M22 74 L14 65" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" />
+            <path d="M22 74 L30 65" stroke="rgba(124,110,245,0.6)" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span class="panel-hint-label">нажми «Далее»</span>
+    </div>
+
     <div class="page">
 
 
@@ -459,8 +478,11 @@
         <p class="eyebrow a1">Интерактивный просмотрщик портфолио</p>
         <h1 class="a2">Tandem <em>Portfolio</em></h1>
 
-        <p class="subtitle a3">
+        <p class="subtitle subtitle--pc a3">
             Листайте проекты кнопками навигации, выбирайте из списка или используйте стрелки клавиатуры. Режим смартфона — вверху справа.
+        </p>
+        <p class="subtitle subtitle--mobile a3">
+            Листайте проекты кнопками навигации внизу экрана или выбирайте из выпадающего списка.
         </p>
 
         <!--
@@ -481,7 +503,8 @@
                     </svg>
                 </div>
                 <h3>Листайте проекты</h3>
-                <p>Кнопки «Назад» и «Далее», стрелки клавиатуры ← → или выпадающий список в панели управления.</p>
+                <p class="text--pc">Кнопки «Назад» и «Далее», стрелки клавиатуры ← → или выпадающий список в панели управления.</p>
+                <p class="text--mobile">Кнопки «Назад» и «Далее» находятся в панели управления внизу экрана.</p>
             </div>
             <div class="card">
                 <div class="card-icon">
@@ -492,7 +515,8 @@
                 <h3>Выбирайте из списка</h3>
                 <p>Выпадающее меню с названием и описанием каждого проекта. Скопируйте ссылку и поделитесь с клиентом.</p>
             </div>
-            <div class="card">
+            <!-- ПК: приглашение включить режим смартфона -->
+            <div class="card card--pc-only">
                 <div class="card-icon">
                     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="6" y="2" width="8" height="16" rx="2" />
@@ -501,6 +525,17 @@
                 </div>
                 <h3>Тестируйте на телефоне</h3>
                 <p>Переключитесь в режим смартфона — сайт откроется в макете телефона. Кнопка вверху справа в панели.</p>
+            </div>
+            <!-- Мобайл: объяснение, что режим смартфона — фича ПК -->
+            <div class="card card--mobile-only">
+                <div class="card-icon" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1)">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color:rgba(255,255,255,.25)">
+                        <rect x="2" y="4" width="16" height="12" rx="2" />
+                        <path d="M8 16h4M10 16v2" />
+                    </svg>
+                </div>
+                <h3 style="color:rgba(255,255,255,.5)">Режим смартфона</h3>
+                <p>Эта функция доступна в компьютерной версии — позволяет тестировать сайты в макете телефона прямо в браузере.</p>
             </div>
         </div>
 
@@ -514,6 +549,8 @@
         </div>
 
     </div>
+
+
 
 </body>
 

@@ -41,6 +41,12 @@
     #mobile-actions-btn {
         display: flex;
     }
+
+    /* Модал не перекрывает нижнюю панель */
+    #actions-modal {
+        bottom: var(--panel-h);
+        top: 0;
+    }
 }
 
 /* ─── MODAL OVERLAY ──────────────────────────────── */

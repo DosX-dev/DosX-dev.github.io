@@ -676,6 +676,43 @@
     .panel-actions {
         display: none;
     }
+
+    /* ── ПАНЕЛЬ ПЕРЕМЕЩАЕТСЯ ВНИЗ ── */
+
+    #panel {
+        top: auto;
+        bottom: 0;
+        /* Тень направлена вверх */
+        box-shadow:
+            0 -1px 0 0 rgba(255, 255, 255, 0.04),
+            0 -6px 32px rgba(0, 0, 0, 0.5),
+            0 -12px 48px rgba(0, 0, 0, 0.28);
+    }
+
+    /* Градиентная линия — теперь над панелью */
+    #panel::after {
+        bottom: auto;
+        top: -2px;
+    }
+
+    /* Фрейм: полностью от 0 до нижней панели */
+    #viewer-frame {
+        top: 0;
+        bottom: var(--panel-h);
+        height: calc(100dvh - var(--panel-h));
+    }
+
+    /* Оверлей загрузки: тоже занимает свободное пространство над фреймом */
+    #loader {
+        top: 0;
+        bottom: var(--panel-h);
+    }
+
+    /* Дропдаун открывается вверх */
+    #site-dropdown {
+        top: auto;
+        bottom: calc(var(--panel-h) + 6px);
+    }
 }
 
 @media (max-width: 420px) {

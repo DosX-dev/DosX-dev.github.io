@@ -44,6 +44,12 @@
             cursor: none !important;
         }
 
+        /* На touch-устройствах курсор возвращаем стандартный */
+        @media (pointer: coarse) {
+            * { cursor: auto !important; }
+            .cursor, .cursor-ring { display: none !important; }
+        }
+
         .cursor {
             width: 8px;
             height: 8px;
@@ -2027,15 +2033,17 @@
         /* ── cursor ── */
         const cur = document.getElementById('cursor');
         const ring = document.getElementById('cursorRing');
-        document.addEventListener('mousemove', e => {
-            const x = e.clientX, y = e.clientY;
-            cur.style.left = x + 'px'; cur.style.top = y + 'px';
-            ring.style.left = x + 'px'; ring.style.top = y + 'px';
-        });
-        document.querySelectorAll('a,button,.practice-card,.cert-card,.testimonial-card').forEach(el => {
-            el.addEventListener('mouseenter', () => { cur.classList.add('hovered'); ring.classList.add('hovered'); });
-            el.addEventListener('mouseleave', () => { cur.classList.remove('hovered'); ring.classList.remove('hovered'); });
-        });
+        if (window.matchMedia('(pointer: fine)').matches) {
+            document.addEventListener('mousemove', e => {
+                const x = e.clientX, y = e.clientY;
+                cur.style.left = x + 'px'; cur.style.top = y + 'px';
+                ring.style.left = x + 'px'; ring.style.top = y + 'px';
+            });
+            document.querySelectorAll('a,button,.practice-card,.cert-card,.testimonial-card').forEach(el => {
+                el.addEventListener('mouseenter', () => { cur.classList.add('hovered'); ring.classList.add('hovered'); });
+                el.addEventListener('mouseleave', () => { cur.classList.remove('hovered'); ring.classList.remove('hovered'); });
+            });
+        }
 
         /* ── navbar scroll ── */
         const nav = document.getElementById('navbar');
