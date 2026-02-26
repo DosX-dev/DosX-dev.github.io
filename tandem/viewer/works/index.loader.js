@@ -1,7 +1,17 @@
 (function () {
     var params = new URLSearchParams(window.location.search),
+        renderMode = params.get('render-mode'),
         projectId = params.get('project-id'),
         projectName = (params.get('project-name') || '').trim();
+
+    if (renderMode !== 'fullscreen') {
+        var redir = new URLSearchParams();
+        redir.set('render-mode', 'fullscreen');
+        if (projectId !== null) redir.set('project-id', projectId);
+        else if (projectName) redir.set('project-name', projectName);
+        window.location.replace('../?' + redir.toString());
+        return;
+    }
 
     function showError() {
         document.getElementById('error-screen').classList.add('visible');
@@ -33,8 +43,6 @@
         };
         script.onerror = showError;
         document.head.appendChild(script);
-
-        // ── Режим 2: project-name — запасной, напрямую
     } else if (projectName && /^[a-zA-Z0-9_-]+$/.test(projectName)) {
         loadFrame(projectName);
 

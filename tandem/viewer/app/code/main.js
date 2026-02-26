@@ -191,10 +191,10 @@ function loadSite(index) {
     if (/^https?:\/\//i.test(site.path)) {
         openBtn.href = site.path;
     } else if (site.id !== undefined && site.id > 0) {
-        openBtn.href = 'works/?project-id=' + site.id;
+        openBtn.href = 'works/?render-mode=fullscreen&project-id=' + site.id;
     } else {
         var m = site.path.match(/works\/([^\/]+)\//); 
-        openBtn.href = m ? 'works/?project-name=' + m[1] : site.path;
+        openBtn.href = m ? 'works/?render-mode=fullscreen&project-name=' + m[1] : site.path;
     }
 
     // Phone-режим: отключаем на главной, восстанавливаем при уходе с неё
