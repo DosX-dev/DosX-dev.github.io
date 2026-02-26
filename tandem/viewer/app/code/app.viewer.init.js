@@ -12,9 +12,19 @@ function init() {
         return;
     }
 
+    // Функция экранирования
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
     // Строим кастомный дропдаун
     TANDEM_SITES.forEach((site, idx) => {
-        const item = document.createElement('div');
+        const item = document.createElement('div'), escapedTitle = escapeHtml(site.title), escapedDesc = escapeHtml(site.description);
         item.className = 'dropdown-item';
         item.dataset.idx = idx;
         item.innerHTML = `
@@ -22,8 +32,8 @@ function init() {
                 ? `<span class="di-num">${site.id}</span>`
                 : '<span class="di-num di-num--home"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>'}
       <div class="di-text">
-        <span class="di-title">${site.title}</span>
-        <span class="di-desc">${site.description}</span>
+        <span class="di-title">${escapedTitle}</span>
+        <span class="di-desc">${escapedDesc}</span>
       </div>
     `;
         item.addEventListener('click', () => {
