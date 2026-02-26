@@ -6,12 +6,12 @@
 
 function copyLink() {
     navigator.clipboard.writeText(location.href).then(() => {
-        clearTimeout(copyTimer);
-        copyBtn.classList.add('copied');
-        amCopyBtn.classList.add('copied');
-        copyTimer = setTimeout(() => {
-            copyBtn.classList.remove('copied');
-            amCopyBtn.classList.remove('copied');
+        clearTimeout(App.state.copyTimer);
+        App.UI.copyBtn.classList.add('copied');
+        App.UI.amCopyBtn.classList.add('copied');
+        App.state.copyTimer = setTimeout(() => {
+            App.UI.copyBtn.classList.remove('copied');
+            App.UI.amCopyBtn.classList.remove('copied');
             closeActionsModal();
         }, 1600);
     });

@@ -6,7 +6,7 @@
 
 /* ── Закрытие дропдауна при переходе фокуса в iframe ── */
 window.addEventListener('blur', () => {
-    if (dropdownEl.classList.contains('open')) closeDropdown();
+    if (App.UI.dropdownEl.classList.contains('open')) closeDropdown();
 });
 
 /* ── Клавиатурная навигация (← →) ── */
@@ -21,7 +21,7 @@ window.addEventListener('resize', () => {
     if (!document.body.classList.contains('phone-preview')) return;
     if (window.innerWidth < 900) {
         document.body.classList.remove('phone-preview');
-        phoneToggle.classList.remove('active');
+        App.UI.phoneToggle.classList.remove('active');
         localStorage.setItem('app.viewer.mobileMode', 'false');
         clearFramePhoneStyles();
     } else {

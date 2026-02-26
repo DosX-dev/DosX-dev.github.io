@@ -4,40 +4,46 @@
    — Глобальное состояние, DOM-ссылки, утилиты
    ──────────────────────────────────────────────── */
 
-/* ── Состояние ── */
-let currentIndex = 0;
-let currentProgress = 0;
-let progressTimer = null;
-let isRealLoad = false;
-let phonePrevWasActive = false;
-let onFrameLoadCallback = null; // вызывается один раз после следующей реальной загрузки
-let currentFormatId = 'std';
-let copyTimer = null;
+/* ── Пространство имён приложения ── */
+const App = {
+    /* Мутабельное состояние */
+    state: {
+        currentIndex: 0,
+        currentProgress: 0,
+        progressTimer: null,
+        isRealLoad: false,
+        phonePrevWasActive: false,
+        onFrameLoadCallback: null, // вызывается один раз после следующей реальной загрузки
+        currentFormatId: 'std',
+        copyTimer: null,
+    },
 
-/* ── DOM-элементы ── */
-const
-    frame = document.getElementById('viewer-frame'),
-    loader = document.getElementById('loader'),
-    progressBar = document.getElementById('progress-bar'),
-    loaderLabel = document.getElementById('loader-label'),
-    titleEl = document.getElementById('site-title'),
-    descEl = document.getElementById('site-description'),
-    counterEl = document.getElementById('site-counter'),
-    openBtn = document.getElementById('open-btn'),
-    copyBtn = document.getElementById('copy-btn'),
-    phoneToggle = document.getElementById('phone-toggle'),
-    btnPrev = document.getElementById('btn-prev'),
-    btnNext = document.getElementById('btn-next'),
-    infoBlock = document.getElementById('site-info'),
-    dropdownEl = document.getElementById('site-dropdown'),
-    selectLabel = document.getElementById('select-label'),
-    selectWrap = document.getElementById('site-select-wrap'),
-    ppLeft = document.getElementById('pp-left'),
-    ppRight = document.getElementById('pp-right'),
-    mobileActionsBtn = document.getElementById('mobile-actions-btn'),
-    amOpenBtn = document.getElementById('am-open-btn'),
-    amCopyBtn = document.getElementById('am-copy-btn'),
-    amSiteName = document.getElementById('am-site-name');
+    /* DOM-элементы */
+    UI: {
+        frame: document.getElementById('viewer-frame'),
+        loader: document.getElementById('loader'),
+        progressBar: document.getElementById('progress-bar'),
+        loaderLabel: document.getElementById('loader-label'),
+        titleEl: document.getElementById('site-title'),
+        descEl: document.getElementById('site-description'),
+        counterEl: document.getElementById('site-counter'),
+        openBtn: document.getElementById('open-btn'),
+        copyBtn: document.getElementById('copy-btn'),
+        phoneToggle: document.getElementById('phone-toggle'),
+        btnPrev: document.getElementById('btn-prev'),
+        btnNext: document.getElementById('btn-next'),
+        infoBlock: document.getElementById('site-info'),
+        dropdownEl: document.getElementById('site-dropdown'),
+        selectLabel: document.getElementById('select-label'),
+        selectWrap: document.getElementById('site-select-wrap'),
+        ppLeft: document.getElementById('pp-left'),
+        ppRight: document.getElementById('pp-right'),
+        mobileActionsBtn: document.getElementById('mobile-actions-btn'),
+        amOpenBtn: document.getElementById('am-open-btn'),
+        amCopyBtn: document.getElementById('am-copy-btn'),
+        amSiteName: document.getElementById('am-site-name'),
+    },
+};
 
 /* ── Утилиты ── */
 
@@ -49,13 +55,13 @@ function getPanelH() {
 
 /** Сброс инлайн-стилей геометрии iframe (выход из phone-режима) */
 function clearFramePhoneStyles() {
-    frame.style.width = '';
-    frame.style.height = '';
-    frame.style.transform = '';
-    frame.style.transformOrigin = '';
-    frame.style.left = '';
-    frame.style.top = '';
-    frame.style.bottom = '';
+    App.UI.frame.style.width = '';
+    App.UI.frame.style.height = '';
+    App.UI.frame.style.transform = '';
+    App.UI.frame.style.transformOrigin = '';
+    App.UI.frame.style.left = '';
+    App.UI.frame.style.top = '';
+    App.UI.frame.style.bottom = '';
 }
 
 /**
@@ -63,16 +69,16 @@ function clearFramePhoneStyles() {
  * затем через двойной rAF сменить src и начать реальную загрузку.
  */
 function reloadFrame(src) {
-    frame.style.transition = 'none';
-    frame.classList.add('loading');
-    void frame.offsetWidth;
-    frame.style.transition = '';
-    isRealLoad = false;
-    frame.src = '';
+    App.UI.frame.style.transition = 'none';
+    App.UI.frame.classList.add('loading');
+    void App.UI.frame.offsetWidth;
+    App.UI.frame.style.transition = '';
+    App.state.isRealLoad = false;
+    App.UI.frame.src = '';
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-            isRealLoad = true;
-            frame.src = src;
+            App.state.isRealLoad = true;
+            App.UI.frame.src = src;
         });
     });
 }

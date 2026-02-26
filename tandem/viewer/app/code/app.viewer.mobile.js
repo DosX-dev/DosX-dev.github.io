@@ -56,49 +56,49 @@ const PHONE_FORMATS = [
 /* ── Переключение phone-режима ── */
 function togglePhonePreview() {
     const enabling = !document.body.classList.contains('phone-preview');
-    phoneToggle.classList.toggle('active', enabling);
+    App.UI.phoneToggle.classList.toggle('active', enabling);
     localStorage.setItem('app.viewer.mobileMode', enabling);
-    phoneToggle.classList.add('disabled');
+    App.UI.phoneToggle.classList.add('disabled');
 
     document.body.classList.toggle('phone-preview', enabling);
-    frame.style.transition = 'none';
+    App.UI.frame.style.transition = 'none';
     enabling ? applyPhoneFormat() : clearFramePhoneStyles();
-    void frame.offsetWidth;
-    frame.style.transition = '';
+    void App.UI.frame.offsetWidth;
+    App.UI.frame.style.transition = '';
 
-    loader.classList.remove('hidden');
+    App.UI.loader.classList.remove('hidden');
     startProgress();
-    loaderLabel.textContent = enabling
+    App.UI.loaderLabel.textContent = enabling
         ? 'Переход в режим смартфона...'
         : 'Выход из режима смартфона...';
 
-    onFrameLoadCallback = () => phoneToggle.classList.remove('disabled');
-    reloadFrame(TANDEM_SITES[currentIndex].path);
+    App.state.onFrameLoadCallback = () => App.UI.phoneToggle.classList.remove('disabled');
+    reloadFrame(TANDEM_SITES[App.state.currentIndex].path);
 }
 
 /* ── Применить текущий формат к iframe ── */
 function applyPhoneFormat() {
-    const fmt = PHONE_FORMATS.find(f => f.id === currentFormatId);
+    const fmt = PHONE_FORMATS.find(f => f.id === App.state.currentFormatId);
     if (!fmt) return;
     const scale = calcPhoneScale();
     const displayW = Math.round(fmt.w * scale);
     const panelH = getPanelH();
-    frame.style.width = fmt.w + 'px';
-    frame.style.height = fmt.h + 'px';
-    frame.style.transform = `scale(${scale})`;
-    frame.style.transformOrigin = 'top left';
-    frame.style.left = `calc(50% - ${displayW / 2}px)`;
-    frame.style.top = (panelH + 24) + 'px';
-    frame.style.bottom = 'auto';
+    App.UI.frame.style.width = fmt.w + 'px';
+    App.UI.frame.style.height = fmt.h + 'px';
+    App.UI.frame.style.transform = `scale(${scale})`;
+    App.UI.frame.style.transformOrigin = 'top left';
+    App.UI.frame.style.left = `calc(50% - ${displayW / 2}px)`;
+    App.UI.frame.style.top = (panelH + 24) + 'px';
+    App.UI.frame.style.bottom = 'auto';
     positionPanels(displayW);
 }
 
 /* ── Позиционирование боковых панелей ── */
 function positionPanels(w) {
-    const fmt = PHONE_FORMATS.find(f => f.id === currentFormatId);
+    const fmt = PHONE_FORMATS.find(f => f.id === App.state.currentFormatId);
     const half = (w ?? (fmt ? fmt.w : 390)) / 2;
-    ppLeft.style.right = `calc(50% + ${half + 12}px)`;
-    ppRight.style.left = `calc(50% + ${half + 12}px)`;
+    App.UI.ppLeft.style.right = `calc(50% + ${half + 12}px)`;
+    App.UI.ppRight.style.left = `calc(50% + ${half + 12}px)`;
 }
 
 /* ── Инициализация боковых панелей ── */
@@ -106,7 +106,7 @@ function initPhonePanels() {
     const fmtList = document.getElementById('pp-formats');
     PHONE_FORMATS.forEach(fmt => {
         const el = document.createElement('div');
-        el.className = 'pp-fmt' + (fmt.id === currentFormatId ? ' active' : '');
+        el.className = 'pp-fmt' + (fmt.id === App.state.currentFormatId ? ' active' : '');
         el.dataset.id = fmt.id;
         el.innerHTML = `<span class="pp-fmt-label">${fmt.label}</span><span class="pp-fmt-sub">${fmt.sub}</span>`;
         el.addEventListener('click', () => selectFormat(fmt.id));
@@ -118,7 +118,7 @@ function initPhonePanels() {
 
 /* ── Переключение формата экрана ── */
 function selectFormat(id) {
-    currentFormatId = id;
+    App.state.currentFormatId = id;
     localStorage.setItem('app.viewer.format', id);
     document.querySelectorAll('.pp-fmt').forEach(el =>
         el.classList.toggle('active', el.dataset.id === id));
@@ -128,7 +128,7 @@ function selectFormat(id) {
 
 /* ── Список устройств в правой панели ── */
 function renderDevices() {
-    const fmt = PHONE_FORMATS.find(f => f.id === currentFormatId);
+    const fmt = PHONE_FORMATS.find(f => f.id === App.state.currentFormatId);
     const list = document.getElementById('pp-devices');
     list.innerHTML = '';
     if (!fmt) return;

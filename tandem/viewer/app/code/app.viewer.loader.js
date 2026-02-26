@@ -5,45 +5,45 @@
    ──────────────────────────────────────────────── */
 
 function startProgress() {
-    currentProgress = 0;
-    clearInterval(progressTimer);
-    progressBar.style.transition = 'none';
-    progressBar.style.width = '0%';
-    loaderLabel.textContent = 'Загрузка ресурсов...';
-    void progressBar.offsetWidth;
+    App.state.currentProgress = 0;
+    clearInterval(App.state.progressTimer);
+    App.UI.progressBar.style.transition = 'none';
+    App.UI.progressBar.style.width = '0%';
+    App.UI.loaderLabel.textContent = 'Загрузка ресурсов...';
+    void App.UI.progressBar.offsetWidth;
 
-    progressTimer = setInterval(() => {
-        const rem = 88 - currentProgress;
-        currentProgress = Math.min(88, currentProgress + Math.max(0.4, rem * 0.09));
-        progressBar.style.transition = 'width 0.35s ease';
-        progressBar.style.width = currentProgress + '%';
-        if (currentProgress >= 88) clearInterval(progressTimer);
+    App.state.progressTimer = setInterval(() => {
+        const rem = 88 - App.state.currentProgress;
+        App.state.currentProgress = Math.min(88, App.state.currentProgress + Math.max(0.4, rem * 0.09));
+        App.UI.progressBar.style.transition = 'width 0.35s ease';
+        App.UI.progressBar.style.width = App.state.currentProgress + '%';
+        if (App.state.currentProgress >= 88) clearInterval(App.state.progressTimer);
     }, 280);
 }
 
 function finishProgress() {
-    clearInterval(progressTimer);
-    progressBar.style.transition = 'width 0.22s ease';
-    progressBar.style.width = '100%';
-    loaderLabel.textContent = 'Подготовка контента...';
+    clearInterval(App.state.progressTimer);
+    App.UI.progressBar.style.transition = 'width 0.22s ease';
+    App.UI.progressBar.style.width = '100%';
+    App.UI.loaderLabel.textContent = 'Подготовка контента...';
     setTimeout(() => {
-        loader.classList.add('hidden');
-        frame.classList.remove('loading');
+        App.UI.loader.classList.add('hidden');
+        App.UI.frame.classList.remove('loading');
         setTimeout(() => {
-            progressBar.style.transition = 'none';
-            progressBar.style.width = '0%';
+            App.UI.progressBar.style.transition = 'none';
+            App.UI.progressBar.style.width = '0%';
         }, 350);
     }, 220);
 }
 
 /* ── Событие загрузки iframe ── */
-frame.addEventListener('load', () => {
-    if (!isRealLoad) return;
-    isRealLoad = false;
+App.UI.frame.addEventListener('load', () => {
+    if (!App.state.isRealLoad) return;
+    App.state.isRealLoad = false;
     finishProgress();
-    if (onFrameLoadCallback) {
-        const cb = onFrameLoadCallback;
-        onFrameLoadCallback = null;
+    if (App.state.onFrameLoadCallback) {
+        const cb = App.state.onFrameLoadCallback;
+        App.state.onFrameLoadCallback = null;
         cb();
     }
 });

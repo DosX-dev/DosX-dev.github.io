@@ -6,9 +6,9 @@
 
 function init() {
     if (!TANDEM_SITES || TANDEM_SITES.length === 0) {
-        titleEl.textContent = 'Нет добавленных проектов';
-        descEl.textContent = 'База данных пуста.';
-        loader.classList.add('hidden');
+        App.UI.titleEl.textContent = 'Нет добавленных проектов';
+        App.UI.descEl.textContent = 'База данных пуста.';
+        App.UI.loader.classList.add('hidden');
         return;
     }
 
@@ -40,37 +40,37 @@ function init() {
             closeDropdown();
             selectSite(idx);
         });
-        dropdownEl.appendChild(item);
+        App.UI.dropdownEl.appendChild(item);
     });
 
     // Закрываем дропдаун при клике вне него
     document.addEventListener('click', e => {
-        if (!selectWrap.contains(e.target)) closeDropdown();
+        if (!App.UI.selectWrap.contains(e.target)) closeDropdown();
     });
 
     // Блокируем действия на неактивных кнопках
-    openBtn.addEventListener('click', e => { if (openBtn.classList.contains('disabled')) e.preventDefault(); });
-    copyBtn.addEventListener('click', () => { if (!copyBtn.classList.contains('disabled')) copyLink(); });
-    phoneToggle.addEventListener('click', () => { if (!phoneToggle.classList.contains('disabled')) togglePhonePreview(); });
+    App.UI.openBtn.addEventListener('click', e => { if (App.UI.openBtn.classList.contains('disabled')) e.preventDefault(); });
+    App.UI.copyBtn.addEventListener('click', () => { if (!App.UI.copyBtn.classList.contains('disabled')) copyLink(); });
+    App.UI.phoneToggle.addEventListener('click', () => { if (!App.UI.phoneToggle.classList.contains('disabled')) togglePhonePreview(); });
 
     // Мобильное модальное окно действий
-    mobileActionsBtn.addEventListener('click', openActionsModal);
-    amCopyBtn.addEventListener('click', () => { if (!amCopyBtn.classList.contains('am-action--disabled')) copyLink(); });
-    amOpenBtn.addEventListener('click', e => {
-        if (amOpenBtn.classList.contains('am-action--disabled')) e.preventDefault();
+    App.UI.mobileActionsBtn.addEventListener('click', openActionsModal);
+    App.UI.amCopyBtn.addEventListener('click', () => { if (!App.UI.amCopyBtn.classList.contains('am-action--disabled')) copyLink(); });
+    App.UI.amOpenBtn.addEventListener('click', e => {
+        if (App.UI.amOpenBtn.classList.contains('am-action--disabled')) e.preventDefault();
         else closeActionsModal();
     });
 
     // Восстанавливаем формат и инициализируем боковые панели
     const savedFormat = localStorage.getItem('app.viewer.format');
-    if (savedFormat && PHONE_FORMATS.some(f => f.id === savedFormat)) currentFormatId = savedFormat;
+    if (savedFormat && PHONE_FORMATS.some(f => f.id === savedFormat)) App.state.currentFormatId = savedFormat;
     initPhonePanels();
 
     // Восстанавливаем phone-режим из localStorage
     if (localStorage.getItem('app.viewer.mobileMode') === 'true') {
         if (window.innerWidth >= 900) {
             document.body.classList.add('phone-preview');
-            phoneToggle.classList.add('active');
+            App.UI.phoneToggle.classList.add('active');
             applyPhoneFormat();
         } else {
             localStorage.setItem('app.viewer.mobileMode', 'false');
@@ -79,9 +79,8 @@ function init() {
 
     // Читаем project-id из URL и открываем нужный сайт
     const urlId = new URLSearchParams(location.search).get('project-id');
-    const startIdx = urlId !== null
-        ? (TANDEM_SITES.findIndex(s => s.id === parseInt(urlId, 10)) || 0)
-        : 0;
+    const foundIdx = urlId !== null ? TANDEM_SITES.findIndex(s => s.id === parseInt(urlId, 10)) : -1;
+    const startIdx = foundIdx !== -1 ? foundIdx : 0;
     loadSite(Math.max(0, startIdx));
 }
 
