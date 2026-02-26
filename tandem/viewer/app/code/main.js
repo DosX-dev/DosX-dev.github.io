@@ -186,15 +186,13 @@ function loadSite(index) {
     phoneToggle.classList.toggle('disabled', isHome);
     counterEl.style.display = isHome ? 'none' : '';
 
-    // Внешние ссылки открываем напрямую, локальные — через лоадер (iframe-защита)
-    // Если есть id — передаём только его, название папки не раскрываем
     if (/^https?:\/\//i.test(site.path)) {
         openBtn.href = site.path;
     } else if (site.id !== undefined && site.id > 0) {
-        openBtn.href = 'works/?render-mode=fullscreen&project-id=' + site.id;
+        openBtn.href = 'no-toolbox-viewer/?render-mode=fullscreen&project-id=' + site.id;
     } else {
         var m = site.path.match(/works\/([^\/]+)\//); 
-        openBtn.href = m ? 'works/?render-mode=fullscreen&project-name=' + m[1] : site.path;
+        openBtn.href = m ? 'no-toolbox-viewer/?render-mode=fullscreen&project-name=' + m[1] : site.path;
     }
 
     // Phone-режим: отключаем на главной, восстанавливаем при уходе с неё
