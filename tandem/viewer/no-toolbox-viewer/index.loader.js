@@ -1,49 +1,52 @@
-(function () {
-    var params = new URLSearchParams(window.location.search),
-        renderMode = params.get('render-mode'),
-        projectId = params.get('project-id'),
-        projectName = (params.get('project-name') || '').trim();
+/* Файл устарел — перенесён в app/code/no-toolbox-viewer/ (index.state.js, index.loader.js, index.init.js) */
 
-    if (renderMode !== 'fullscreen') {
-        var redir = new URLSearchParams();
-        if (projectId !== null) redir.set('project-id', projectId);
-        window.location.replace('../?' + redir.toString());
-        return;
-    }
+const params = new URLSearchParams(location.search);
+const renderMode = params.get('render-mode');
+const projectId = params.get('project-id');
+const projectName = (params.get('project-name') ?? '').trim();
 
-    function showError() {
-        document.getElementById('error-screen').classList.add('visible');
-        var f = document.getElementById('project-frame');
-        if (f) f.remove();
-    }
+/* ── Если режим не fullscreen — редиректим на главный вьювер ── */
+if (renderMode !== 'fullscreen') {
+    const redir = new URLSearchParams();
+    if (projectId !== null) redir.set('project-id', projectId);
+    location.replace('../?' + redir.toString());
+}
 
-    function loadFrame(src) {
-        var frame = document.getElementById('project-frame');
-        if (!frame) return;
-        frame.src = src;
-        frame.addEventListener('error', showError);
-    }
+/* ── Показать экран ошибки и убрать iframe ── */
+function showError() {
+    document.getElementById('error-screen').classList.add('visible');
+    document.getElementById('project-frame')?.remove();
+}
 
-    if (projectId !== null) {
-        var id = parseInt(projectId, 10);
-        if (isNaN(id) || id <= 0) { showError(); return; }
+/* ── Подставить src в iframe ── */
+function loadFrame(src) {
+    const frame = document.getElementById('project-frame');
+    if (!frame) return;
+    frame.src = src;
+    frame.addEventListener('error', showError, { once: true });
+}
 
-        var script = document.createElement('script');
-        script.src = '../index.db.js';
-        script.onload = function () {
-            if (typeof TANDEM_SITES === 'undefined') { showError(); return; }
-            var site = null;
-            for (var i = 0; i < TANDEM_SITES.length; i++) {
-                if (TANDEM_SITES[i].id === id) { site = TANDEM_SITES[i]; break; }
-            }
-            if (!site) { showError(); return; }
-            loadFrame('../' + site.path);
-        };
-        script.onerror = showError;
-        document.head.appendChild(script);
-    } else if (projectName && /^[a-zA-Z0-9_-]+$/.test(projectName)) {
-        loadFrame('../works/' + projectName);
-    } else {
-        showError();
-    }
-}());
+/* ── Загрузка по project-id: нужна БД ── */
+function loadById(id) {
+    if (isNaN(id) || id <= 0) { showError(); return; }
+
+    const script = document.createElement('script');
+    script.src = '../index.db.js';
+    script.onload = () => {
+        if (typeof TANDEM_SITES === 'undefined') { showError(); return; }
+        const site = TANDEM_SITES.find(s => s.id === id) ?? null;
+        if (!site) { showError(); return; }
+        loadFrame('../' + site.path);
+    };
+    script.onerror = showError;
+    document.head.appendChild(script);
+}
+
+/* ── Точка входа ── */
+if (projectId !== null) {
+    loadById(parseInt(projectId, 10));
+} else if (projectName && /^[a-zA-Z0-9_-]+$/.test(projectName)) {
+    loadFrame('../works/' + projectName + '/');
+} else {
+    showError();
+}

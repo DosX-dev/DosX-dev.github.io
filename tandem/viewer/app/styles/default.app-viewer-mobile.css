@@ -4,7 +4,7 @@
    — Phone preview: backdrop, side panels, mobile iframe
    ================================================ */
 
-/* в”Ђв”Ђв”Ђ PHONE PREVIEW в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ─── PHONE PREVIEW ───────────────────────────────────── */
 
 #phone-backdrop {
     display: none;
@@ -311,4 +311,5 @@ body.phone-preview #viewer-frame {
         display: none;
     }
 }
+
 

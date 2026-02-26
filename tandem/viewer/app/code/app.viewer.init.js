@@ -7,7 +7,7 @@
 function init() {
     if (!TANDEM_SITES || TANDEM_SITES.length === 0) {
         titleEl.textContent = 'Нет добавленных проектов';
-        descEl.textContent  = 'База данных пуста.';
+        descEl.textContent = 'База данных пуста.';
         loader.classList.add('hidden');
         return;
     }
@@ -15,12 +15,12 @@ function init() {
     // Строим кастомный дропдаун
     TANDEM_SITES.forEach((site, idx) => {
         const item = document.createElement('div');
-        item.className  = 'dropdown-item';
+        item.className = 'dropdown-item';
         item.dataset.idx = idx;
-        item.innerHTML  = `
+        item.innerHTML = `
       ${site.id > 0
-          ? `<span class="di-num">${site.id}</span>`
-          : '<span class="di-num di-num--home"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>'}
+                ? `<span class="di-num">${site.id}</span>`
+                : '<span class="di-num di-num--home"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></span>'}
       <div class="di-text">
         <span class="di-title">${site.title}</span>
         <span class="di-desc">${site.description}</span>
@@ -39,8 +39,8 @@ function init() {
     });
 
     // Блокируем действия на неактивных кнопках
-    openBtn.addEventListener('click',    e  => { if (openBtn.classList.contains('disabled')) e.preventDefault(); });
-    copyBtn.addEventListener('click',    ()  => { if (!copyBtn.classList.contains('disabled')) copyLink(); });
+    openBtn.addEventListener('click', e => { if (openBtn.classList.contains('disabled')) e.preventDefault(); });
+    copyBtn.addEventListener('click', () => { if (!copyBtn.classList.contains('disabled')) copyLink(); });
     phoneToggle.addEventListener('click', () => { if (!phoneToggle.classList.contains('disabled')) togglePhonePreview(); });
 
     // Мобильное модальное окно действий
@@ -68,7 +68,7 @@ function init() {
     }
 
     // Читаем project-id из URL и открываем нужный сайт
-    const urlId    = new URLSearchParams(location.search).get('project-id');
+    const urlId = new URLSearchParams(location.search).get('project-id');
     const startIdx = urlId !== null
         ? (TANDEM_SITES.findIndex(s => s.id === parseInt(urlId, 10)) || 0)
         : 0;

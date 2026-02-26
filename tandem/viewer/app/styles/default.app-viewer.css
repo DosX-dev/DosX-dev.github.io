@@ -4,7 +4,7 @@
    — Top panel, dropdown, actions, tooltip; viewer iframe, loader, animations, responsive
    ================================================ */
 
-/* в”Ђв”Ђв”Ђ TOP PANEL в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ─── TOP PANEL ──────────────────────────────────────── */
 
 #panel {
     position: fixed;
@@ -100,7 +100,7 @@
     flex-shrink: 0;
 }
 
-/* Nav group: РќР°Р·Р°Рґ + Р”Р°Р»РµРµ СЂСЏРґРѕРј */
+/* Nav group: Назад + Далее рядом */
 .nav-group {
     display: flex;
     align-items: center;
@@ -215,7 +215,7 @@
     line-height: 1.6;
 }
 
-/* в”Ђв”Ђв”Ђ CUSTOM DROPDOWN в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ─── CUSTOM DROPDOWN ─────────────────────────────────── */
 
 #site-select-wrap {
     position: relative;
@@ -286,7 +286,7 @@
     z-index: 9999;
     overflow-x: hidden;
     overflow-y: auto;
-    max-height: 308px;  /* ~6 СЌР»РµРјРµРЅС‚РѕРІ; 7+ в†’ СЃРєСЂРѕР»Р» */
+    max-height: 308px;  /* ~6 элементов; 7+ → скролл */
     padding: 4px;
     scrollbar-width: thin;
     scrollbar-color: rgba(124, 110, 245, 0.35) transparent;
@@ -403,7 +403,7 @@
     text-overflow: ellipsis;
 }
 
-/* Actions group: РѕС‚РєСЂС‹С‚СЊ + СЃРєРѕРїРёСЂРѕРІР°С‚СЊ */
+/* Actions group: открыть + скопировать */
 .panel-actions {
     display: flex;
     align-items: center;
@@ -450,7 +450,7 @@
     height: 15px;
 }
 
-/* РќРµРґРѕСЃС‚СѓРїРЅС‹Рµ РєРЅРѕРїРєРё РЅР° РіР»Р°РІРЅРѕР№ */
+/* Недоступные кнопки на главной */
 #phone-toggle.disabled,
 #open-btn.disabled,
 #copy-btn.disabled {
@@ -466,7 +466,7 @@
     color: var(--text-muted);
 }
 
-/* РЎРѕСЃС‚РѕСЏРЅРёРµ "РЎРєРѕРїРёСЂРѕРІР°РЅРѕ" */
+/* Состояние "Скопировано" */
 #copy-btn .icon-check {
     display: none;
 }
@@ -492,7 +492,7 @@
     margin: 0 2px;
 }
 
-/* в”Ђв”Ђв”Ђ CUSTOM TOOLTIP в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ─── CUSTOM TOOLTIP ──────────────────────────────────── */
 
 #tip {
     position: fixed;
@@ -526,13 +526,13 @@
 }
 
 
-/* в”Ђв”Ђв”Ђ FRAME PLACEHOLDER в”Ђв”Ђ */
+/* ─── FRAME PLACEHOLDER ───────────────────────────────── */
 
 #frame-placeholder {
     display: none;
 }
 
-/* в”Ђв”Ђв”Ђ IFRAME в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ─── IFRAME ──────────────────────────────────────────── */
 
 #viewer-frame {
     position: fixed;
@@ -568,7 +568,7 @@
     outline: none;
 }
 
-/* в”Ђв”Ђв”Ђ LOADER OVERLAY в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ─── LOADER OVERLAY ──────────────────────────────────── */
 
 #loader {
     position: fixed;
@@ -615,7 +615,7 @@
     margin-top: 14px;
 }
 
-/* в”Ђв”Ђв”Ђ SLIDE TRANSITION в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ─── SLIDE TRANSITION ────────────────────────────────── */
 
 @keyframes fadeSlideIn {
     from {
@@ -632,7 +632,7 @@
     animation: fadeSlideIn 0.25s ease forwards;
 }
 
-/* в”Ђв”Ђв”Ђ RESPONSIVE в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* ─── RESPONSIVE ──────────────────────────────────────── */
 
 @media (max-width: 680px) {
     :root {

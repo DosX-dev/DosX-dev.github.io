@@ -7,9 +7,9 @@
 function loadSite(index) {
     if (index < 0 || index >= TANDEM_SITES.length) return;
 
-    currentIndex    = index;
-    const site      = TANDEM_SITES[index];
-    const isHome    = site.id === 0;
+    currentIndex = index;
+    const site = TANDEM_SITES[index];
+    const isHome = site.id === 0;
 
     syncUrl(site.id);
 
@@ -20,8 +20,8 @@ function loadSite(index) {
     // Анимация смены заголовка
     triggerInfoAnimation(() => {
         titleEl.textContent = site.title;
-        descEl.textContent  = site.description;
-        const nonHomePos   = TANDEM_SITES.filter((s, i) => s.id !== 0 && i <= index).length;
+        descEl.textContent = site.description;
+        const nonHomePos = TANDEM_SITES.filter((s, i) => s.id !== 0 && i <= index).length;
         const nonHomeTotal = TANDEM_SITES.filter(s => s.id !== 0).length;
         counterEl.textContent = `${nonHomePos} / ${nonHomeTotal}`;
     });

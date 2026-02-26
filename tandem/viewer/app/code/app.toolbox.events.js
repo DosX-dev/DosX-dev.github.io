@@ -12,7 +12,7 @@ window.addEventListener('blur', () => {
 /* ── Клавиатурная навигация (← →) ── */
 document.addEventListener('keydown', e => {
     if (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT') return;
-    if (e.key === 'ArrowLeft')  navigate(-1);
+    if (e.key === 'ArrowLeft') navigate(-1);
     if (e.key === 'ArrowRight') navigate(1);
 });
 
@@ -31,15 +31,15 @@ window.addEventListener('resize', () => {
 
 /* ── Кастомные тултипы ── */
 (function () {
-    const tip    = document.getElementById('tip');
+    const tip = document.getElementById('tip');
     const margin = 8;
 
     function show(el) {
         tip.textContent = el.dataset.tip;
         tip.classList.add('visible');
         const rect = el.getBoundingClientRect();
-        const cx   = rect.left + rect.width / 2;
-        tip.style.top  = (rect.bottom + 10) + 'px';
+        const cx = rect.left + rect.width / 2;
+        tip.style.top = (rect.bottom + 10) + 'px';
         tip.style.left = cx + 'px';
         const tw = tip.offsetWidth;
         tip.style.left = Math.min(
@@ -53,6 +53,6 @@ window.addEventListener('resize', () => {
     document.querySelectorAll('[data-tip]').forEach(el => {
         el.addEventListener('mouseenter', () => show(el));
         el.addEventListener('mouseleave', hide);
-        el.addEventListener('mousedown',  hide);
+        el.addEventListener('mousedown', hide);
     });
 })();

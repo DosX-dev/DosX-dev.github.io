@@ -31,16 +31,16 @@ function closeActionsModal() {
     if (!sheet) return;
 
     const THRESHOLD = 80;  // px — минимум для закрытия
-    const VELOCITY  = 0.4; // px/ms — закрыть по скорости даже при малом сдвиге
+    const VELOCITY = 0.4; // px/ms — закрыть по скорости даже при малом сдвиге
 
     let startY = 0, lastY = 0, lastT = 0, dragging = false;
 
     sheet.addEventListener('touchstart', e => {
         // Разрешаем свайп только если контент шторки в самом верху
         if (sheet.scrollTop > 0) return;
-        startY   = e.touches[0].clientY;
-        lastY    = startY;
-        lastT    = Date.now();
+        startY = e.touches[0].clientY;
+        lastY = startY;
+        lastT = Date.now();
         dragging = true;
         sheet.style.transition = 'none';
     }, { passive: true });
@@ -59,7 +59,7 @@ function closeActionsModal() {
         dragging = false;
         sheet.style.transition = '';
 
-        const dy       = lastY - startY;
+        const dy = lastY - startY;
         const velocity = dy / Math.max(Date.now() - lastT, 1);
 
         if (dy >= THRESHOLD || velocity >= VELOCITY) {
