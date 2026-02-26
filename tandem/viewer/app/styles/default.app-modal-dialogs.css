@@ -248,11 +248,19 @@
 
 /* ─── COPY BUTTON STATES ─────────────────────────── */
 
-#am-copy-btn .am-icon-copy  { display: block; }
-#am-copy-btn .am-icon-check { display: none;  }
+#am-copy-btn .am-icon-copy {
+    display: block;
+}
+#am-copy-btn .am-icon-check {
+    display: none;
+}
 
-#am-copy-btn.copied .am-icon-copy  { display: none;  }
-#am-copy-btn.copied .am-icon-check { display: block; }
+#am-copy-btn.copied .am-icon-copy {
+    display: none;
+}
+#am-copy-btn.copied .am-icon-check {
+    display: block;
+}
 
 #am-copy-btn.copied .am-action-icon {
     background: rgba(74, 222, 128, 0.12);

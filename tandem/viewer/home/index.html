@@ -305,9 +305,17 @@
         }
 
         /* Варианты текста и карточек — скрыты по умолчанию (ПК) */
-        .card--mobile-only { display: none; }
-        .subtitle--mobile  { display: none; }
-        .text--mobile      { display: none; }
+        .card--mobile-only {
+            display: none;
+        }
+
+        .subtitle--mobile {
+            display: none;
+        }
+
+        .text--mobile {
+            display: none;
+        }
 
         /* ── HINT ── */
         .hint {
@@ -409,15 +417,33 @@
             }
 
             /* Переключаем ПК ↔ мобильные варианты */
-            .card--pc-only     { display: none; }
-            .card--mobile-only { display: block; }
-            .subtitle--pc      { display: none; }
-            .subtitle--mobile  { display: block; }
-            .text--pc          { display: none; }
-            .text--mobile      { display: block; }
+            .card--pc-only {
+                display: none;
+            }
+
+            .card--mobile-only {
+                display: block;
+            }
+
+            .subtitle--pc {
+                display: none;
+            }
+
+            .subtitle--mobile {
+                display: block;
+            }
+
+            .text--pc {
+                display: none;
+            }
+
+            .text--mobile {
+                display: block;
+            }
 
             /* Страница растёт по контенту */
-            html, body {
+            html,
+            body {
                 height: auto;
                 overflow-y: auto;
             }
@@ -439,7 +465,9 @@
             }
 
             /* Нижняя стрелка — скрыта */
-            .panel-hint--mobile { display: none; }
+            .panel-hint--mobile {
+                display: none;
+            }
         }
     </style>
 </head>

@@ -46,8 +46,14 @@
 
         /* На touch-устройствах курсор возвращаем стандартный */
         @media (pointer: coarse) {
-            * { cursor: auto !important; }
-            .cursor, .cursor-ring { display: none !important; }
+            * {
+                cursor: auto !important;
+            }
+
+            .cursor,
+            .cursor-ring {
+                display: none !important;
+            }
         }
 
         .cursor {
@@ -1115,38 +1121,67 @@
 
         /* 1280px: широкий ноутбук */
         @media (max-width: 1280px) {
-            .hero-left { padding: 5rem 3vw 3rem 6vw; }
-            .photo-circle-wrap { width: 300px; height: 300px; }
-            #about    { gap: 4rem; }
-            #contact  { gap: 4rem; }
-            .testimonials-grid { gap: 1.5rem; }
+            .hero-left {
+                padding: 5rem 3vw 3rem 6vw;
+            }
+
+            .photo-circle-wrap {
+                width: 300px;
+                height: 300px;
+            }
+
+            #about {
+                gap: 4rem;
+            }
+
+            #contact {
+                gap: 4rem;
+            }
+
+            .testimonials-grid {
+                gap: 1.5rem;
+            }
         }
 
         /* 1024px: iPad landscape / маленький ноутбук */
         @media (max-width: 1024px) {
-            section { padding: 6rem 7vw; }
+            section {
+                padding: 6rem 7vw;
+            }
 
             .hero-name {
                 font-size: clamp(3rem, 5vw, 4.6rem);
             }
 
-            .photo-circle-wrap { width: 260px; height: 260px; }
+            .photo-circle-wrap {
+                width: 260px;
+                height: 260px;
+            }
 
-            .practice-header { gap: 2.5rem; }
+            .practice-header {
+                gap: 2.5rem;
+            }
 
             .process-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 3rem;
             }
 
-            .process-grid::before { display: none; }
+            .process-grid::before {
+                display: none;
+            }
 
             .testimonials-grid {
                 grid-template-columns: 1fr 1fr;
             }
 
-            #about   { gap: 3.5rem; }
-            #contact { gap: 3.5rem; }
+            #about {
+                gap: 3.5rem;
+            }
+
+            #contact {
+                gap: 3.5rem;
+            }
 
             footer {
                 flex-direction: column;
@@ -1157,7 +1192,9 @@
 
         /* 900px: iPad portrait / большой телефон */
         @media (max-width: 900px) {
-            section { padding: 5.5rem 7vw; }
+            section {
+                padding: 5.5rem 7vw;
+            }
 
             #hero {
                 grid-template-columns: 1fr;
@@ -1195,16 +1232,23 @@
             .hero-right .photo-ring-1,
             .hero-right .photo-ring-2,
             .hero-right .photo-ring-3,
-            .hero-right .photo-ring-4 { display: none; }
+            .hero-right .photo-ring-4 {
+                display: none;
+            }
 
-            .hero-right .hero-img-wrap svg { display: none; }
+            .hero-right .hero-img-wrap svg {
+                display: none;
+            }
 
             .hero-left {
                 justify-content: flex-start;
                 padding: 0 6vw 3rem;
             }
 
-            #about { grid-template-columns: 1fr; gap: 3rem; }
+            #about {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
 
             .practice-header {
                 grid-template-columns: 1fr;
@@ -1212,23 +1256,39 @@
                 margin-bottom: 2.5rem;
             }
 
-            .practice-grid { grid-template-columns: 1fr 1fr; }
+            .practice-grid {
+                grid-template-columns: 1fr 1fr;
+            }
 
             .process-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 2.5rem;
             }
 
-            .process-grid::before { display: none; }
+            .process-grid::before {
+                display: none;
+            }
 
-            .testimonials-grid { grid-template-columns: 1fr; }
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
 
-            #contact { grid-template-columns: 1fr; gap: 3rem; }
+            #contact {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
 
-            .form-row { grid-template-columns: 1fr; }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
 
-            nav .nav-links { display: none; }
-            nav .nav-cta   { display: none; }
+            nav .nav-links {
+                display: none;
+            }
+
+            nav .nav-cta {
+                display: none;
+            }
 
             footer {
                 flex-direction: column;
@@ -1240,40 +1300,74 @@
 
         /* 768px: средний телефон landscape */
         @media (max-width: 768px) {
-            section { padding: 5rem 6vw; }
+            section {
+                padding: 5rem 6vw;
+            }
 
-            .hero-name { font-size: clamp(2.8rem, 8.5vw, 3.8rem); }
-            .hero-title { font-size: 1.1rem; }
-            .hero-stats { gap: 2rem; }
-            .testimonial-card { padding: 2rem 1.8rem; }
-            .process-step { padding: 0 1rem; }
-            .step-num { font-size: 2.4rem; }
-            .cert-card { padding: 1.4rem 1.6rem; }
+            .hero-name {
+                font-size: clamp(2.8rem, 8.5vw, 3.8rem);
+            }
+
+            .hero-title {
+                font-size: 1.1rem;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .testimonial-card {
+                padding: 2rem 1.8rem;
+            }
+
+            .process-step {
+                padding: 0 1rem;
+            }
+
+            .step-num {
+                font-size: 2.4rem;
+            }
+
+            .cert-card {
+                padding: 1.4rem 1.6rem;
+            }
         }
 
         /* 600px: телефон portrait */
         @media (max-width: 600px) {
-            section { padding: 4.5rem 5.5vw; }
+            section {
+                padding: 4.5rem 5.5vw;
+            }
 
-            .hero-name { font-size: clamp(2.4rem, 8vw, 3.2rem); }
+            .hero-name {
+                font-size: clamp(2.4rem, 8vw, 3.2rem);
+            }
 
             .hero-stats {
                 gap: 1.6rem;
                 flex-wrap: wrap;
             }
 
-            .stat-val { font-size: 2.4rem; }
+            .stat-val {
+                font-size: 2.4rem;
+            }
 
-            .practice-grid { grid-template-columns: 1fr; }
+            .practice-grid {
+                grid-template-columns: 1fr;
+            }
 
             .process-grid {
                 grid-template-columns: 1fr;
                 gap: 2.5rem;
             }
 
-            .testimonials-grid { gap: 1.2rem; }
+            .testimonials-grid {
+                gap: 1.2rem;
+            }
 
-            .section-title { font-size: clamp(2.2rem, 7vw, 3rem); }
+            .section-title {
+                font-size: clamp(2.2rem, 7vw, 3rem);
+            }
 
             footer {
                 padding: 2rem 5.5vw;
@@ -1283,11 +1377,21 @@
 
         /* 480px: маленький телефон */
         @media (max-width: 480px) {
-            section { padding: 4rem 5vw; }
-            nav { padding: 0 5vw; }
+            section {
+                padding: 4rem 5vw;
+            }
 
-            .hero-name { font-size: clamp(2.2rem, 8vw, 2.8rem); }
-            .hero-desc { font-size: .95rem; }
+            nav {
+                padding: 0 5vw;
+            }
+
+            .hero-name {
+                font-size: clamp(2.2rem, 8vw, 2.8rem);
+            }
+
+            .hero-desc {
+                font-size: .95rem;
+            }
 
             .hero-actions {
                 flex-direction: column;
@@ -1295,10 +1399,21 @@
                 gap: .85rem;
             }
 
-            .hero-stats { gap: 1.2rem; }
-            .stat-val { font-size: 2.1rem; }
-            .about-quote p { font-size: 1.1rem; }
-            .testimonial-text { font-size: 1.05rem; }
+            .hero-stats {
+                gap: 1.2rem;
+            }
+
+            .stat-val {
+                font-size: 2.1rem;
+            }
+
+            .about-quote p {
+                font-size: 1.1rem;
+            }
+
+            .testimonial-text {
+                font-size: 1.05rem;
+            }
 
             .process-step {
                 padding: 0;
@@ -1315,22 +1430,49 @@
                 transform: none;
             }
 
-            .contact-icon { width: 38px; height: 38px; }
+            .contact-icon {
+                width: 38px;
+                height: 38px;
+            }
         }
 
         /* 375px: iPhone 12 mini / SE */
         @media (max-width: 375px) {
-            section { padding: 3.5rem 5vw; }
+            section {
+                padding: 3.5rem 5vw;
+            }
 
             .hero-right .hero-img-wrap,
-            .hero-right .photo-circle-wrap { width: 140px; height: 140px; }
+            .hero-right .photo-circle-wrap {
+                width: 140px;
+                height: 140px;
+            }
 
-            .hero-name { font-size: clamp(2rem, 9vw, 2.6rem); }
-            .hero-title { font-size: .95rem; letter-spacing: .04em; }
-            .hero-desc  { font-size: .88rem; line-height: 1.7; }
-            .hero-stats { gap: 1rem; }
-            .stat-val   { font-size: 1.9rem; }
-            .stat-label { font-size: .72rem; }
+            .hero-name {
+                font-size: clamp(2rem, 9vw, 2.6rem);
+            }
+
+            .hero-title {
+                font-size: .95rem;
+                letter-spacing: .04em;
+            }
+
+            .hero-desc {
+                font-size: .88rem;
+                line-height: 1.7;
+            }
+
+            .hero-stats {
+                gap: 1rem;
+            }
+
+            .stat-val {
+                font-size: 1.9rem;
+            }
+
+            .stat-label {
+                font-size: .72rem;
+            }
 
             .btn-primary {
                 padding: .85rem 1.5rem;
@@ -1340,48 +1482,96 @@
                 justify-content: center;
             }
 
-            .btn-ghost { font-size: .8rem; }
+            .btn-ghost {
+                font-size: .8rem;
+            }
 
-            .section-title { font-size: clamp(1.9rem, 9vw, 2.4rem); }
+            .section-title {
+                font-size: clamp(1.9rem, 9vw, 2.4rem);
+            }
 
-            .about-quote { padding: 1rem 1rem 1rem 1.4rem; }
-            .about-quote p { font-size: 1rem; }
+            .about-quote {
+                padding: 1rem 1rem 1rem 1.4rem;
+            }
 
-            .testimonial-card { padding: 1.6rem 1.4rem; }
-            .testimonial-text { font-size: 1rem; }
+            .about-quote p {
+                font-size: 1rem;
+            }
+
+            .testimonial-card {
+                padding: 1.6rem 1.4rem;
+            }
+
+            .testimonial-text {
+                font-size: 1rem;
+            }
 
             .form-submit {
                 width: 100%;
                 justify-content: center;
             }
 
-            footer { padding: 1.8rem 5vw; }
+            footer {
+                padding: 1.8rem 5vw;
+            }
         }
 
         /* 320px: iPhone 4/5, очень узкие экраны */
         @media (max-width: 320px) {
-            section { padding: 3rem 4.5vw; }
+            section {
+                padding: 3rem 4.5vw;
+            }
 
             .hero-right .hero-img-wrap,
-            .hero-right .photo-circle-wrap { width: 110px; height: 110px; }
+            .hero-right .photo-circle-wrap {
+                width: 110px;
+                height: 110px;
+            }
 
-            .hero-name  { font-size: 1.9rem; }
-            .hero-title { font-size: .88rem; }
+            .hero-name {
+                font-size: 1.9rem;
+            }
+
+            .hero-title {
+                font-size: .88rem;
+            }
 
             .hero-stats {
                 flex-direction: column;
                 gap: .8rem;
             }
 
-            .stat-val      { font-size: 1.7rem; }
-            .section-title { font-size: 1.8rem; }
-            .nav-logo      { font-size: 1.1rem; }
+            .stat-val {
+                font-size: 1.7rem;
+            }
 
-            .cert-card      { padding: 1.2rem; }
-            .cert-name      { font-size: 1.05rem; }
-            .practice-card  { padding: 1.8rem 1.4rem; }
-            .practice-num   { font-size: 2.2rem; }
-            .contact-item-val { font-size: .95rem; }
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .nav-logo {
+                font-size: 1.1rem;
+            }
+
+            .cert-card {
+                padding: 1.2rem;
+            }
+
+            .cert-name {
+                font-size: 1.05rem;
+            }
+
+            .practice-card {
+                padding: 1.8rem 1.4rem;
+            }
+
+            .practice-num {
+                font-size: 2.2rem;
+            }
+
+            .contact-item-val {
+                font-size: .95rem;
+            }
         }
 
         /* ─── PRACTICE MODAL ─── */
@@ -1400,10 +1590,12 @@
             pointer-events: none;
             transition: opacity .4s ease;
         }
+
         .pmodal-overlay.active {
             opacity: 1;
             pointer-events: all;
         }
+
         .pmodal-box {
             background: var(--white);
             max-width: 600px;
@@ -1419,9 +1611,10 @@
                 inset 3px 0 24px -16px rgba(201, 168, 76, 0.18);
             padding: 3.5rem 3.2rem 3rem 3.5rem;
             transform: translateY(28px) scale(.98);
-            transition: transform .4s cubic-bezier(.22,.68,0,1.1);
+            transition: transform .4s cubic-bezier(.22, .68, 0, 1.1);
             scrollbar-width: none;
         }
+
         .pmodal-box::before {
             /* декоративный золотой уголок вправо-снизу */
             content: '';
@@ -1434,9 +1627,11 @@
             border-bottom: 1.5px solid rgba(201, 168, 76, .22);
             pointer-events: none;
         }
+
         .pmodal-overlay.active .pmodal-box {
             transform: translateY(0) scale(1);
         }
+
         .pmodal-close {
             position: absolute;
             top: 1.5rem;
@@ -1453,8 +1648,15 @@
             color: rgba(201, 168, 76, .45);
             transition: color .2s;
         }
-        .pmodal-close:hover { color: var(--gold); }
-        .pmodal-close svg { display: block; }
+
+        .pmodal-close:hover {
+            color: var(--gold);
+        }
+
+        .pmodal-close svg {
+            display: block;
+        }
+
         .pmodal-num {
             font-family: 'Cormorant Garamond', serif;
             font-size: 3.8rem;
@@ -1465,6 +1667,7 @@
             margin-bottom: .4rem;
             letter-spacing: -.02em;
         }
+
         .pmodal-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2.15rem;
@@ -1474,12 +1677,14 @@
             line-height: 1.15;
             letter-spacing: -.01em;
         }
+
         .pmodal-line {
             width: 40px;
             height: 1px;
             background: linear-gradient(90deg, var(--gold), transparent);
             margin-bottom: 1.2rem;
         }
+
         .pmodal-intro {
             font-size: .93rem;
             line-height: 1.75;
@@ -1488,6 +1693,7 @@
             padding-bottom: 1.2rem;
             border-bottom: 1px solid var(--border);
         }
+
         .pmodal-list {
             list-style: none;
             display: flex;
@@ -1495,6 +1701,7 @@
             gap: 0;
             margin-bottom: 2rem;
         }
+
         .pmodal-list li {
             font-size: .875rem;
             line-height: 1.55;
@@ -1503,7 +1710,11 @@
             border-bottom: 1px solid var(--border);
             position: relative;
         }
-        .pmodal-list li:first-child { border-top: none; }
+
+        .pmodal-list li:first-child {
+            border-top: none;
+        }
+
         .pmodal-list li::before {
             content: '';
             position: absolute;
@@ -1514,14 +1725,28 @@
             height: 1px;
             background: var(--gold);
         }
-        .pmodal-box::-webkit-scrollbar { display: none; }
-        .pmodal-cta { display: inline-flex; }
-        @media (max-width: 600px) {
-            .pmodal-box { padding: 2.4rem 1.8rem 2.4rem 2rem; }
-            .pmodal-num { font-size: 3.5rem; }
-            .pmodal-title { font-size: 1.7rem; }
+
+        .pmodal-box::-webkit-scrollbar {
+            display: none;
         }
 
+        .pmodal-cta {
+            display: inline-flex;
+        }
+
+        @media (max-width: 600px) {
+            .pmodal-box {
+                padding: 2.4rem 1.8rem 2.4rem 2rem;
+            }
+
+            .pmodal-num {
+                font-size: 3.5rem;
+            }
+
+            .pmodal-title {
+                font-size: 1.7rem;
+            }
+        }
     </style>
 </head>
 
@@ -2012,7 +2237,7 @@
         <div class="pmodal-box">
             <button class="pmodal-close" id="pmodalClose" aria-label="Закрыть">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                    <path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                    <path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
                 </svg>
             </button>
             <div class="pmodal-num" id="pmodalNum"></div>
@@ -2179,12 +2404,12 @@
         };
 
         const pOverlay = document.getElementById('practiceModal');
-        const pClose   = document.getElementById('pmodalClose');
+        const pClose = document.getElementById('pmodalClose');
 
         function openModal(id) {
             const d = MODAL_DATA[id];
             if (!d) return;
-            document.getElementById('pmodalNum').textContent   = d.num;
+            document.getElementById('pmodalNum').textContent = d.num;
             document.getElementById('pmodalTitle').textContent = d.title;
             document.getElementById('pmodalIntro').textContent = d.intro;
             const ul = document.getElementById('pmodalList');

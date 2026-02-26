@@ -97,8 +97,14 @@ body.cursor-hidden #cursor {
     border-radius: 3px;
 }
 
-::selection { background: rgba(229, 0, 0, .38); color: #fff; }
-::-moz-selection { background: rgba(229, 0, 0, .38); color: #fff; }
+::selection {
+    background: rgba(229, 0, 0, 0.38);
+    color: #fff;
+}
+::-moz-selection {
+    background: rgba(229, 0, 0, 0.38);
+    color: #fff;
+}
 
 /* в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ NAV в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
 nav {
@@ -1541,12 +1547,18 @@ footer {
         border-bottom: 1px solid var(--line);
         padding: 1.5rem 5vw;
         gap: 1rem;
-        animation: navSlideDown .28s ease forwards;
+        animation: navSlideDown 0.28s ease forwards;
     }
 
     @keyframes navSlideDown {
-        from { opacity: 0; transform: translateY(-10px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     /* Бургер: анимация в X при открытии */
@@ -1609,7 +1621,15 @@ footer {
 
 /* Отключаем кастомный курсор на тач-устройствах */
 @media (pointer: coarse) {
-    body { cursor: auto; }
-    *, *::before, *::after { cursor: auto !important; }
-    #cursor { display: none !important; }
+    body {
+        cursor: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        cursor: auto !important;
+    }
+    #cursor {
+        display: none !important;
+    }
 }

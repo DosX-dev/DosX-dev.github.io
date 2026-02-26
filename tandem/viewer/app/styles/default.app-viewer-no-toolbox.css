@@ -20,14 +20,9 @@
     position: fixed;
     inset: 0;
     background-color: #08080f;
-    background-image:
-        radial-gradient(ellipse 55% 50% at 15% 60%, rgba(100, 60, 255, 0.18) 0%, transparent 70%),
-        radial-gradient(ellipse 45% 40% at 85% 30%, rgba(40, 80, 200, 0.16) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 60% at 50% 50%, rgba(60, 40, 120, 0.14) 0%, transparent 70%),
-        repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255, 255, 255, 0.018) 39px, rgba(255, 255, 255, 0.018) 40px),
-        repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255, 255, 255, 0.018) 39px, rgba(255, 255, 255, 0.018) 40px);
+    background-image: radial-gradient(ellipse 55% 50% at 15% 60%, rgba(100, 60, 255, 0.18) 0%, transparent 70%), radial-gradient(ellipse 45% 40% at 85% 30%, rgba(40, 80, 200, 0.16) 0%, transparent 65%), radial-gradient(ellipse 60% 60% at 50% 50%, rgba(60, 40, 120, 0.14) 0%, transparent 70%), repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255, 255, 255, 0.018) 39px, rgba(255, 255, 255, 0.018) 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255, 255, 255, 0.018) 39px, rgba(255, 255, 255, 0.018) 40px);
     color: #e8e8f0;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -75,7 +70,7 @@
 }
 
 .err-badge code {
-    font-family: 'Inter', monospace;
+    font-family: "Inter", monospace;
     color: #a78bfa;
     background: rgba(167, 139, 250, 0.1);
     padding: 0.15rem 0.45rem;

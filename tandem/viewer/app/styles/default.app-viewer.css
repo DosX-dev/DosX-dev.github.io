@@ -286,7 +286,7 @@
     z-index: 9999;
     overflow-x: hidden;
     overflow-y: auto;
-    max-height: 308px;  /* ~6 элементов; 7+ → скролл */
+    max-height: 308px; /* ~6 элементов; 7+ → скролл */
     padding: 4px;
     scrollbar-width: thin;
     scrollbar-color: rgba(124, 110, 245, 0.35) transparent;
@@ -525,7 +525,6 @@
     translate: 0 0;
 }
 
-
 /* ─── FRAME PLACEHOLDER ───────────────────────────────── */
 
 #frame-placeholder {
@@ -743,4 +742,3 @@
         font-size: 11px;
     }
 }
-
