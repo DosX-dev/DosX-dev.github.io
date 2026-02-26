@@ -1,384 +1,382 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#040408" />
-  <meta name="color-scheme" content="dark" />
-  <meta name="description" content="CyberPredator — онлайн-конструктор ПК с актуальными комплектующими 2026 года. Соберите конфигурацию мечты, проверьте совместимость и скачайте готовый список для сервиса." />
-  <meta name="robots" content="index, follow" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#040408" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="CyberPredator — онлайн-конструктор ПК с актуальными комплектующими 2026 года. Соберите конфигурацию мечты, проверьте совместимость и скачайте готовый список для сервиса." />
+    <meta name="robots" content="index, follow" />
 
-  <!-- Open Graph -->
-  <meta property="og:title"       content="CyberPredator — Сборщик ПК" />
-  <meta property="og:description" content="Конструктор ПК с актуальными комплектующими 2026. Мгновенная проверка совместимости." />
-  <meta property="og:type"        content="website" />
-  <meta property="og:locale"      content="ru_RU" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="CyberPredator — Сборщик ПК" />
+    <meta property="og:description" content="Конструктор ПК с актуальными комплектующими 2026. Мгновенная проверка совместимости." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
 
-  <title>CyberPredator — Конструктор ПК 2026</title>
+    <title>CyberPredator — Конструктор ПК 2026</title>
 
-  <!-- Preconnect для Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect для Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-  <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
 
-  <!-- No-JS hook: добавляем класс через JS, если он доступен -->
-  <script>document.documentElement.classList.add('js-enabled');</script>
+    <!-- No-JS hook: добавляем класс через JS, если он доступен -->
+    <script>document.documentElement.classList.add('js-enabled');</script>
 </head>
+
 <body>
 
-  <!-- ─── No-Script предупреждение ─────────────────────────────────── -->
-  <noscript>
-    <div class="noscript-warning" role="alert">
-      <strong>JavaScript отключён.</strong><br />
-      Конструктор ПК требует JavaScript для работы. Пожалуйста, включите его в настройках браузера, чтобы воспользоваться всеми функциями сайта.
-    </div>
-  </noscript>
+    <!-- ─── No-Script предупреждение ─────────────────────────────────── -->
+    <noscript>
+        <div class="noscript-warning" role="alert">
+            <strong>JavaScript отключён.</strong><br />
+            Конструктор ПК требует JavaScript для работы. Пожалуйста, включите его в настройках браузера, чтобы воспользоваться всеми функциями сайта.
+        </div>
+    </noscript>
 
-  <!-- ─── Навигация ────────────────────────────────────────────────── -->
-  <header role="banner">
-    <nav class="site-nav" aria-label="Основная навигация">
+    <!-- ─── Навигация ────────────────────────────────────────────────── -->
+    <header role="banner">
+        <nav class="site-nav" aria-label="Основная навигация">
 
-      <a href="#hero" class="nav-logo" aria-label="CyberPredator — на главную">
-        <span>Cyber</span>Predator
-      </a>
+            <a href="#hero" class="nav-logo" aria-label="CyberPredator — на главную">
+                <span>Cyber</span>Predator
+            </a>
 
-      <!-- Desktop links -->
-      <ul class="nav-links" role="list">
-        <li><a href="#builder" aria-label="Перейти к конструктору">Конструктор</a></li>
-        <li><a href="#contacts" aria-label="Перейти к контактам">Контакты</a></li>
-      </ul>
+            <!-- Desktop links -->
+            <ul class="nav-links" role="list">
+                <li><a href="#builder" aria-label="Перейти к конструктору">Конструктор</a></li>
+                <li><a href="#contacts" aria-label="Перейти к контактам">Контакты</a></li>
+            </ul>
 
-      <!-- Burger -->
-      <button
-        id="burger-btn"
-        class="burger-btn"
-        aria-label="Открыть меню"
-        aria-expanded="false"
-        aria-controls="mobile-nav"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </button>
+            <!-- Burger -->
+            <button id="burger-btn" class="burger-btn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-nav">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </button>
 
+        </nav>
+    </header>
+
+    <!-- Мобильное меню -->
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Мобильная навигация" aria-hidden="true">
+        <a href="#builder">Конструктор</a>
+        <a href="#contacts">Контакты</a>
     </nav>
-  </header>
+    <div id="nav-overlay" class="nav-overlay" aria-hidden="true"></div>
 
-  <!-- Мобильное меню -->
-  <nav id="mobile-nav" class="mobile-nav" aria-label="Мобильная навигация" aria-hidden="true">
-    <a href="#builder">Конструктор</a>
-    <a href="#contacts">Контакты</a>
-  </nav>
-  <div id="nav-overlay" class="nav-overlay" aria-hidden="true"></div>
+    <main id="main" role="main">
 
-  <main id="main" role="main">
+        <!-- ─── Hero ───────────────────────────────────────────────────── -->
+        <section id="hero" class="hero" aria-labelledby="hero-heading">
+            <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
-    <!-- ─── Hero ───────────────────────────────────────────────────── -->
-    <section id="hero" class="hero" aria-labelledby="hero-heading">
-      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+            <div class="hero-content">
 
-      <div class="hero-content">
+                <div class="hero-eyebrow" aria-label="Статус: актуально на 2026 год">
+                    Актуально на&nbsp;&nbsp;Февраль 2026
+                </div>
 
-        <div class="hero-eyebrow" aria-label="Статус: актуально на 2026 год">
-          Актуально на&nbsp;&nbsp;Февраль 2026
+                <h1 id="hero-heading" class="hero-title">
+                    <span class="glitch" data-text="CyberPredator" aria-label="CyberPredator">CyberPredator</span><br />
+                    <span class="accent-word">Конструктор&nbsp;ПК</span>
+                </h1>
+
+                <p class="hero-sub">
+                    Собери свою машину мечты из актуальных комплектующих 2026&nbsp;года.
+                    Автоматическая проверка совместимости, живой расчёт стоимости
+                    и&nbsp;готовый файл конфигурации для передачи в&nbsp;сервис.
+                </p>
+
+                <div class="hero-cta-group">
+                    <a href="#builder" class="btn btn-primary" aria-label="Начать сборку ПК">
+                        <!-- SVG: bolt -->
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                        Начать сборку
+                    </a>
+                    <a href="#contacts" class="btn btn-secondary">
+                        <!-- SVG: info -->
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>
+                        О&nbsp;сервисе
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ─── Конструктор ────────────────────────────────────────────── -->
+        <section id="builder" class="builder-section" aria-labelledby="builder-heading">
+
+            <div style="max-width: var(--max-w); margin: 0 auto;">
+                <p class="section-label" aria-hidden="true">// PC Builder v2.0</p>
+                <h2 id="builder-heading" class="section-title">Собери свою конфигурацию</h2>
+            </div>
+
+            <div class="builder-layout">
+
+                <!-- ── Шаги ────────────────────────────────────────────────── -->
+                <div class="builder-steps" role="form" aria-label="Конструктор ПК">
+
+                    <!-- 1. Процессор -->
+                    <article class="builder-step anim-fade" data-step="cpu" aria-labelledby="step-cpu-title">
+                        <div class="step-header">
+                            <div class="step-num" aria-hidden="true">01</div>
+                            <h3 class="step-title" id="step-cpu-title">Процессор (CPU)</h3>
+                            <span class="step-hint">AM5 · LGA1851</span>
+                        </div>
+
+                        <!-- Табы брендов -->
+                        <div class="brand-tabs" data-category="cpu" role="tablist" aria-label="Фильтр по производителю CPU">
+                            <button class="brand-tab is-active" data-brand="all" role="tab" aria-selected="true">Все</button>
+                            <button class="brand-tab" data-brand="AMD" role="tab" aria-selected="false">AMD</button>
+                            <button class="brand-tab" data-brand="Intel" role="tab" aria-selected="false">Intel</button>
+                        </div>
+
+                        <div id="section-cpu" class="component-grid" role="radiogroup" aria-label="Выбор процессора"></div>
+                    </article>
+
+                    <!-- 2. Материнская плата -->
+                    <article class="builder-step anim-fade" data-step="motherboard" aria-labelledby="step-mb-title">
+                        <div class="step-header">
+                            <div class="step-num" aria-hidden="true">02</div>
+                            <h3 class="step-title" id="step-mb-title">Материнская плата</h3>
+                            <span class="step-hint">автофильтр по сокету</span>
+                        </div>
+                        <div id="section-motherboard" class="component-grid" role="radiogroup" aria-label="Выбор материнской платы"></div>
+                    </article>
+
+                    <!-- 3. Оперативная память -->
+                    <article class="builder-step anim-fade" data-step="ram" aria-labelledby="step-ram-title">
+                        <div class="step-header">
+                            <div class="step-num" aria-hidden="true">03</div>
+                            <h3 class="step-title" id="step-ram-title">Оперативная память</h3>
+                            <span class="step-hint">DDR5</span>
+                        </div>
+                        <div id="section-ram" class="component-grid" role="radiogroup" aria-label="Выбор оперативной памяти"></div>
+                    </article>
+
+                    <!-- 4. Видеокарта -->
+                    <article class="builder-step anim-fade" data-step="gpu" aria-labelledby="step-gpu-title">
+                        <div class="step-header">
+                            <div class="step-num" aria-hidden="true">04</div>
+                            <h3 class="step-title" id="step-gpu-title">Видеокарта (GPU)</h3>
+                            <span class="step-hint">RTX 50 · RX 9000</span>
+                        </div>
+
+                        <div class="brand-tabs" data-category="gpu" role="tablist" aria-label="Фильтр по производителю GPU">
+                            <button class="brand-tab is-active" data-brand="all" role="tab" aria-selected="true">Все</button>
+                            <button class="brand-tab" data-brand="NVIDIA" role="tab" aria-selected="false">NVIDIA</button>
+                            <button class="brand-tab" data-brand="AMD" role="tab" aria-selected="false">AMD</button>
+                        </div>
+
+                        <div id="section-gpu" class="component-grid" role="radiogroup" aria-label="Выбор видеокарты"></div>
+                    </article>
+
+                    <!-- 5. Накопитель -->
+                    <article class="builder-step anim-fade" data-step="storage" aria-labelledby="step-storage-title">
+                        <div class="step-header">
+                            <div class="step-num" aria-hidden="true">05</div>
+                            <h3 class="step-title" id="step-storage-title">Накопитель (NVMe SSD)</h3>
+                            <span class="step-hint">PCIe 4.0 · 5.0</span>
+                        </div>
+                        <div id="section-storage" class="component-grid" role="radiogroup" aria-label="Выбор накопителя"></div>
+                    </article>
+
+                    <!-- 6. Охлаждение -->
+                    <article class="builder-step anim-fade" data-step="cooling" aria-labelledby="step-cooling-title">
+                        <div class="step-header">
+                            <div class="step-num" aria-hidden="true">06</div>
+                            <h3 class="step-title" id="step-cooling-title">Охлаждение CPU</h3>
+                            <span class="step-hint">Air · AIO</span>
+                        </div>
+                        <div id="section-cooling" class="component-grid" role="radiogroup" aria-label="Выбор системы охлаждения"></div>
+                    </article>
+
+                    <!-- 7. Блок питания -->
+                    <article class="builder-step anim-fade" data-step="psu" aria-labelledby="step-psu-title">
+                        <div class="step-header">
+                            <div class="step-num" aria-hidden="true">07</div>
+                            <h3 class="step-title" id="step-psu-title">Блок питания (PSU)</h3>
+                            <span class="step-hint">авторекомендация по TDP</span>
+                        </div>
+                        <div id="section-psu" class="component-grid" role="radiogroup" aria-label="Выбор блока питания"></div>
+                    </article>
+
+                    <!-- 8. Корпус -->
+                    <article class="builder-step anim-fade" data-step="case" aria-labelledby="step-case-title">
+                        <div class="step-header">
+                            <div class="step-num" aria-hidden="true">08</div>
+                            <h3 class="step-title" id="step-case-title">Корпус</h3>
+                            <span class="step-hint">Mid Tower · Full Tower</span>
+                        </div>
+                        <div id="section-case" class="component-grid" role="radiogroup" aria-label="Выбор корпуса"></div>
+                    </article>
+
+                </div><!-- /builder-steps -->
+
+                <!-- ── Sidebar / Summary ──────────────────────────────────── -->
+                <aside class="summary-sidebar" aria-label="Итог сборки" aria-live="polite">
+
+                    <div class="summary-header">
+                        <span class="summary-title">Моя сборка</span>
+                        <button id="reset-btn" class="btn btn-ghost btn-danger" aria-label="Сбросить всю сборку" title="Начать заново">
+                            <!-- SVG: trash -->
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polyline points="3 6 5 6 21 6" />
+                                <path d="M19 6l-1 14H6L5 6" />
+                                <path d="M10 11v6" />
+                                <path d="M14 11v6" />
+                                <path d="M9 6V4h6v2" />
+                            </svg>
+                            Сбросить
+                        </button>
+                    </div>
+
+                    <!-- Итоговая стоимость -->
+                    <div class="summary-total-row">
+                        <span class="summary-total-label">Итого (USD)</span>
+                        <span id="summary-total" class="summary-total" aria-live="polite">$0</span>
+                    </div>
+
+                    <!-- Список компонентов -->
+                    <ul id="summary-list" class="summary-list" aria-label="Список выбранных компонентов"></ul>
+
+                    <!-- Совместимость -->
+                    <div id="compat-box" class="compat-box" role="status" aria-live="polite" aria-label="Статус совместимости"></div>
+
+                    <!-- Действия -->
+                    <div class="summary-actions">
+                        <button id="download-btn" class="btn btn-primary" disabled aria-disabled="true" aria-label="Скачать конфигурацию в формате .txt">
+                            <!-- SVG: download -->
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            Скачать конфиг (.txt)
+                        </button>
+
+                        <p style="font-size:0.7rem; color: var(--text-3); line-height: 1.5; text-align:center;">
+                            Файл передаётся в сервис CyberPredator для оформления заказа. Выберите CPU и GPU — кнопка активируется.
+                        </p>
+                    </div>
+
+                </aside>
+
+            </div><!-- /builder-layout -->
+        </section>
+
+    </main>
+
+    <!-- ─── Контакты / Footer ──────────────────────────────────────── -->
+    <footer id="contacts" class="contacts-section" role="contentinfo" aria-labelledby="contacts-heading">
+
+        <div class="contacts-inner anim-fade">
+
+            <div>
+                <p class="section-label" aria-hidden="true">// Сервисный центр</p>
+                <h2 id="contacts-heading" class="contacts-heading">
+                    Готовы принять<br />
+                    <span class="accent-word">вашу конфигурацию</span>
+                </h2>
+                <p class="contacts-desc">
+                    Скачайте .txt-файл со своей сборкой и передайте нам&nbsp;— мы закупим
+                    и&nbsp;соберём ПК в&nbsp;кратчайшие сроки. Профессиональный монтаж,
+                    диагностика и&nbsp;гарантия на&nbsp;сборку.
+                </p>
+            </div>
+
+            <div>
+                <ul class="contact-list" role="list">
+
+                    <li class="contact-item">
+                        <div class="contact-icon" aria-hidden="true">
+                            <!-- SVG: map-pin -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-type">Адрес</span>
+                            <span class="contact-value">г.&nbsp;Тандем, ул.&nbsp;Лендинговая, д.&nbsp;1</span>
+                        </div>
+                    </li>
+
+                    <li class="contact-item">
+                        <div class="contact-icon" aria-hidden="true">
+                            <!-- SVG: phone -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z" />
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-type">Телефон</span>
+                            <span class="contact-value">
+                                <a href="tel:+7XXXXXXXXXX" aria-label="Позвонить в CyberPredator">+7 (XXX) XXX-XX-XX</a>
+                            </span>
+                        </div>
+                    </li>
+
+                    <li class="contact-item">
+                        <div class="contact-icon" aria-hidden="true">
+                            <!-- SVG: mail -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-type">Почта</span>
+                            <span class="contact-value">
+                                <a href="mailto:tandemsites@example.com">tandemsites@example.com</a>
+                            </span>
+                        </div>
+                    </li>
+
+                    <li class="contact-item">
+                        <div class="contact-icon" aria-hidden="true">
+                            <!-- SVG: at-sign -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="4" />
+                                <path d="M16 8v5a3 3 0 006 0v-1a10 10 0 10-3.92 7.94" />
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-type">Соцсети</span>
+                            <span class="contact-value">
+                                <a href="#" aria-label="Страница CyberPredator в соцсетях">@example</a>
+                            </span>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
         </div>
 
-        <h1 id="hero-heading" class="hero-title">
-          <span
-            class="glitch"
-            data-text="CyberPredator"
-            aria-label="CyberPredator"
-          >CyberPredator</span><br />
-          <span class="accent-word">Конструктор&nbsp;ПК</span>
-        </h1>
-
-        <p class="hero-sub">
-          Собери свою машину мечты из актуальных комплектующих 2026&nbsp;года.
-          Автоматическая проверка совместимости, живой расчёт стоимости
-          и&nbsp;готовый файл конфигурации для передачи в&nbsp;сервис.
-        </p>
-
-        <div class="hero-cta-group">
-          <a href="#builder" class="btn btn-primary" aria-label="Начать сборку ПК">
-            <!-- SVG: bolt -->
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-            Начать сборку
-          </a>
-          <a href="#contacts" class="btn btn-secondary">
-            <!-- SVG: info -->
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-            </svg>
-            О&nbsp;сервисе
-          </a>
+        <div class="footer-bottom">
+            <span>© 2026 <strong>CyberPredator</strong>. Все права защищены.</span>
+            <span class="footer-mono">г. Тандем · tandemsites@example.com</span>
+            <span style="color: var(--text-3)">Цены актуальны на&nbsp;февраль 2026</span>
         </div>
 
-      </div>
-    </section>
+    </footer>
 
-    <!-- ─── Конструктор ────────────────────────────────────────────── -->
-    <section id="builder" class="builder-section" aria-labelledby="builder-heading">
-
-      <div style="max-width: var(--max-w); margin: 0 auto;">
-        <p class="section-label" aria-hidden="true">// PC Builder v2.0</p>
-        <h2 id="builder-heading" class="section-title">Собери свою конфигурацию</h2>
-      </div>
-
-      <div class="builder-layout">
-
-        <!-- ── Шаги ────────────────────────────────────────────────── -->
-        <div class="builder-steps" role="form" aria-label="Конструктор ПК">
-
-          <!-- 1. Процессор -->
-          <article class="builder-step anim-fade" data-step="cpu" aria-labelledby="step-cpu-title">
-            <div class="step-header">
-              <div class="step-num" aria-hidden="true">01</div>
-              <h3 class="step-title" id="step-cpu-title">Процессор (CPU)</h3>
-              <span class="step-hint">AM5 · LGA1851</span>
-            </div>
-
-            <!-- Табы брендов -->
-            <div class="brand-tabs" data-category="cpu" role="tablist" aria-label="Фильтр по производителю CPU">
-              <button class="brand-tab is-active" data-brand="all" role="tab" aria-selected="true">Все</button>
-              <button class="brand-tab" data-brand="AMD"   role="tab" aria-selected="false">AMD</button>
-              <button class="brand-tab" data-brand="Intel" role="tab" aria-selected="false">Intel</button>
-            </div>
-
-            <div id="section-cpu" class="component-grid" role="radiogroup" aria-label="Выбор процессора"></div>
-          </article>
-
-          <!-- 2. Материнская плата -->
-          <article class="builder-step anim-fade" data-step="motherboard" aria-labelledby="step-mb-title">
-            <div class="step-header">
-              <div class="step-num" aria-hidden="true">02</div>
-              <h3 class="step-title" id="step-mb-title">Материнская плата</h3>
-              <span class="step-hint">автофильтр по сокету</span>
-            </div>
-            <div id="section-motherboard" class="component-grid" role="radiogroup" aria-label="Выбор материнской платы"></div>
-          </article>
-
-          <!-- 3. Оперативная память -->
-          <article class="builder-step anim-fade" data-step="ram" aria-labelledby="step-ram-title">
-            <div class="step-header">
-              <div class="step-num" aria-hidden="true">03</div>
-              <h3 class="step-title" id="step-ram-title">Оперативная память</h3>
-              <span class="step-hint">DDR5</span>
-            </div>
-            <div id="section-ram" class="component-grid" role="radiogroup" aria-label="Выбор оперативной памяти"></div>
-          </article>
-
-          <!-- 4. Видеокарта -->
-          <article class="builder-step anim-fade" data-step="gpu" aria-labelledby="step-gpu-title">
-            <div class="step-header">
-              <div class="step-num" aria-hidden="true">04</div>
-              <h3 class="step-title" id="step-gpu-title">Видеокарта (GPU)</h3>
-              <span class="step-hint">RTX 50 · RX 9000</span>
-            </div>
-
-            <div class="brand-tabs" data-category="gpu" role="tablist" aria-label="Фильтр по производителю GPU">
-              <button class="brand-tab is-active" data-brand="all"    role="tab" aria-selected="true">Все</button>
-              <button class="brand-tab" data-brand="NVIDIA" role="tab" aria-selected="false">NVIDIA</button>
-              <button class="brand-tab" data-brand="AMD"   role="tab" aria-selected="false">AMD</button>
-            </div>
-
-            <div id="section-gpu" class="component-grid" role="radiogroup" aria-label="Выбор видеокарты"></div>
-          </article>
-
-          <!-- 5. Накопитель -->
-          <article class="builder-step anim-fade" data-step="storage" aria-labelledby="step-storage-title">
-            <div class="step-header">
-              <div class="step-num" aria-hidden="true">05</div>
-              <h3 class="step-title" id="step-storage-title">Накопитель (NVMe SSD)</h3>
-              <span class="step-hint">PCIe 4.0 · 5.0</span>
-            </div>
-            <div id="section-storage" class="component-grid" role="radiogroup" aria-label="Выбор накопителя"></div>
-          </article>
-
-          <!-- 6. Охлаждение -->
-          <article class="builder-step anim-fade" data-step="cooling" aria-labelledby="step-cooling-title">
-            <div class="step-header">
-              <div class="step-num" aria-hidden="true">06</div>
-              <h3 class="step-title" id="step-cooling-title">Охлаждение CPU</h3>
-              <span class="step-hint">Air · AIO</span>
-            </div>
-            <div id="section-cooling" class="component-grid" role="radiogroup" aria-label="Выбор системы охлаждения"></div>
-          </article>
-
-          <!-- 7. Блок питания -->
-          <article class="builder-step anim-fade" data-step="psu" aria-labelledby="step-psu-title">
-            <div class="step-header">
-              <div class="step-num" aria-hidden="true">07</div>
-              <h3 class="step-title" id="step-psu-title">Блок питания (PSU)</h3>
-              <span class="step-hint">авторекомендация по TDP</span>
-            </div>
-            <div id="section-psu" class="component-grid" role="radiogroup" aria-label="Выбор блока питания"></div>
-          </article>
-
-          <!-- 8. Корпус -->
-          <article class="builder-step anim-fade" data-step="case" aria-labelledby="step-case-title">
-            <div class="step-header">
-              <div class="step-num" aria-hidden="true">08</div>
-              <h3 class="step-title" id="step-case-title">Корпус</h3>
-              <span class="step-hint">Mid Tower · Full Tower</span>
-            </div>
-            <div id="section-case" class="component-grid" role="radiogroup" aria-label="Выбор корпуса"></div>
-          </article>
-
-        </div><!-- /builder-steps -->
-
-        <!-- ── Sidebar / Summary ──────────────────────────────────── -->
-        <aside class="summary-sidebar" aria-label="Итог сборки" aria-live="polite">
-
-          <div class="summary-header">
-            <span class="summary-title">Моя сборка</span>
-            <button id="reset-btn" class="btn btn-ghost btn-danger" aria-label="Сбросить всю сборку" title="Начать заново">
-              <!-- SVG: trash -->
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
-              </svg>
-              Сбросить
-            </button>
-          </div>
-
-          <!-- Итоговая стоимость -->
-          <div class="summary-total-row">
-            <span class="summary-total-label">Итого (USD)</span>
-            <span id="summary-total" class="summary-total" aria-live="polite">$0</span>
-          </div>
-
-          <!-- Список компонентов -->
-          <ul id="summary-list" class="summary-list" aria-label="Список выбранных компонентов"></ul>
-
-          <!-- Совместимость -->
-          <div id="compat-box" class="compat-box" role="status" aria-live="polite" aria-label="Статус совместимости"></div>
-
-          <!-- Действия -->
-          <div class="summary-actions">
-            <button
-              id="download-btn"
-              class="btn btn-primary"
-              disabled
-              aria-disabled="true"
-              aria-label="Скачать конфигурацию в формате .txt"
-            >
-              <!-- SVG: download -->
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-              </svg>
-              Скачать конфиг (.txt)
-            </button>
-
-            <p style="font-size:0.7rem; color: var(--text-3); line-height: 1.5; text-align:center;">
-              Файл передаётся в сервис CyberPredator для оформления заказа. Выберите CPU и GPU — кнопка активируется.
-            </p>
-          </div>
-
-        </aside>
-
-      </div><!-- /builder-layout -->
-    </section>
-
-  </main>
-
-  <!-- ─── Контакты / Footer ──────────────────────────────────────── -->
-  <footer id="contacts" class="contacts-section" role="contentinfo" aria-labelledby="contacts-heading">
-
-    <div class="contacts-inner anim-fade">
-
-      <div>
-        <p class="section-label" aria-hidden="true">// Сервисный центр</p>
-        <h2 id="contacts-heading" class="contacts-heading">
-          Готовы принять<br />
-          <span class="accent-word">вашу конфигурацию</span>
-        </h2>
-        <p class="contacts-desc">
-          Скачайте .txt-файл со своей сборкой и передайте нам&nbsp;— мы закупим
-          и&nbsp;соберём ПК в&nbsp;кратчайшие сроки. Профессиональный монтаж,
-          диагностика и&nbsp;гарантия на&nbsp;сборку.
-        </p>
-      </div>
-
-      <div>
-        <ul class="contact-list" role="list">
-
-          <li class="contact-item">
-            <div class="contact-icon" aria-hidden="true">
-              <!-- SVG: map-pin -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-              </svg>
-            </div>
-            <div class="contact-details">
-              <span class="contact-type">Адрес</span>
-              <span class="contact-value">г.&nbsp;Тандем, ул.&nbsp;Лендинговая, д.&nbsp;1</span>
-            </div>
-          </li>
-
-          <li class="contact-item">
-            <div class="contact-icon" aria-hidden="true">
-              <!-- SVG: phone -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/>
-              </svg>
-            </div>
-            <div class="contact-details">
-              <span class="contact-type">Телефон</span>
-              <span class="contact-value">
-                <a href="tel:+7XXXXXXXXXX" aria-label="Позвонить в CyberPredator">+7 (XXX) XXX-XX-XX</a>
-              </span>
-            </div>
-          </li>
-
-          <li class="contact-item">
-            <div class="contact-icon" aria-hidden="true">
-              <!-- SVG: mail -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-              </svg>
-            </div>
-            <div class="contact-details">
-              <span class="contact-type">Почта</span>
-              <span class="contact-value">
-                <a href="mailto:tandemsites@example.com">tandemsites@example.com</a>
-              </span>
-            </div>
-          </li>
-
-          <li class="contact-item">
-            <div class="contact-icon" aria-hidden="true">
-              <!-- SVG: at-sign -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 006 0v-1a10 10 0 10-3.92 7.94"/>
-              </svg>
-            </div>
-            <div class="contact-details">
-              <span class="contact-type">Соцсети</span>
-              <span class="contact-value">
-                <a href="#" aria-label="Страница CyberPredator в соцсетях">@example</a>
-              </span>
-            </div>
-          </li>
-
-        </ul>
-      </div>
-
-    </div>
-
-    <div class="footer-bottom">
-      <span>© 2026 <strong>CyberPredator</strong>. Все права защищены.</span>
-      <span class="footer-mono">г. Тандем · tandemsites@example.com</span>
-      <span style="color: var(--text-3)">Цены актуальны на&nbsp;февраль 2026</span>
-    </div>
-
-  </footer>
-
-  <!-- ─── Scripts ─────────────────────────────────────────────────── -->
-  <!-- components.js должен быть загружен первым — main.js зависит от COMPONENTS -->
-  <script src="js/components.js"></script>
-  <script src="js/main.js"></script>
+    <!-- ─── Scripts ─────────────────────────────────────────────────── -->
+    <!-- components.js должен быть загружен первым — main.js зависит от COMPONENTS -->
+    <script src="js/components.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
+
 </html>

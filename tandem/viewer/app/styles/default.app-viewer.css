@@ -206,7 +206,7 @@
     gap: 8px;
     padding: 0 12px 0 14px;
     height: 38px;
-    width: 200px;
+    width: 300px;
     flex-shrink: 0;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--panel-border);
@@ -634,8 +634,14 @@
         display: none;
     }
 
+    #site-select-wrap {
+        flex: 1;
+        min-width: 0;
+    }
+
     #select-trigger {
-        width: 140px;
+        width: 100%;
+        min-width: 0;
     }
 
     .nav-btn span {
@@ -665,11 +671,15 @@
         overflow: visible;
         text-overflow: unset;
     }
+
+    /* Скрываем panel-actions — на мобиле их заменяет #mobile-actions-btn */
+    .panel-actions {
+        display: none;
+    }
 }
 
 @media (max-width: 420px) {
     #select-trigger {
-        width: 110px;
         font-size: 11px;
     }
 }

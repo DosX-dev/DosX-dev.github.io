@@ -1,0 +1,259 @@
+/* ================================================
+   Tandem Portfolio Viewer — Engine v1.0
+   app/styles/default.app-modal-dialogs.css
+   — Mobile action sheet & modal dialogs
+   ================================================ */
+
+/* ─── MOBILE TRIGGER BUTTON IN PANEL ─────────────── */
+
+#mobile-actions-btn {
+    display: none; /* показывается только через media query */
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+    flex-shrink: 0;
+    margin-left: auto; /* прижимаем вправо, как .panel-actions */
+    padding: 0;
+}
+
+#mobile-actions-btn:hover {
+    background: var(--btn-hover);
+    border-color: var(--accent);
+    color: #c4b9ff;
+}
+
+#mobile-actions-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+@media (max-width: 680px) {
+    #mobile-actions-btn {
+        display: flex;
+    }
+}
+
+/* ─── MODAL OVERLAY ──────────────────────────────── */
+
+#actions-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: flex-end;
+    /* opacity здесь не используем — backdrop-filter плохо анимируется через родительский слой */
+    pointer-events: none;
+}
+
+#actions-modal.open {
+    pointer-events: auto;
+}
+
+/* Затемнённый фон — анимируется самостоятельно, чтобы блюр не ждал создания GPU-слоя */
+.am-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.24s ease;
+}
+
+#actions-modal.open .am-backdrop {
+    opacity: 1;
+}
+
+/* ─── BOTTOM SHEET ───────────────────────────────── */
+
+.am-sheet {
+    position: relative;
+    width: 100%;
+    background: #13131f;
+    border-top: 1px solid rgba(124, 110, 245, 0.25);
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px 20px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow:
+        0 -16px 56px rgba(0, 0, 0, 0.7),
+        0 -1px 0 rgba(124, 110, 245, 0.12);
+    transform: translateY(100%);
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+#actions-modal.open .am-sheet {
+    transform: translateY(0);
+}
+
+/* Полоска-ручка для свайпа */
+.am-drag-handle {
+    width: 36px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 99px;
+    margin: 12px auto 0;
+}
+
+/* ─── HEADER ─────────────────────────────────────── */
+
+.am-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.am-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.am-site-name {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+/* ─── BODY ───────────────────────────────────────── */
+
+.am-body {
+    padding: 8px 0 14px;
+}
+
+/* ─── ACTION ROW ─────────────────────────────────── */
+
+.am-action {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background var(--transition);
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: left;
+}
+
+.am-action:not(.am-action--disabled):hover,
+.am-action:not(.am-action--disabled):active {
+    background: rgba(124, 110, 245, 0.1);
+}
+
+.am-action--disabled {
+    cursor: default;
+    opacity: 0.42;
+}
+
+/* Иконка */
+.am-action-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        color var(--transition);
+}
+
+.am-action:not(.am-action--disabled):hover .am-action-icon,
+.am-action:not(.am-action--disabled):active .am-action-icon {
+    background: rgba(124, 110, 245, 0.15);
+    border-color: rgba(124, 110, 245, 0.35);
+    color: #c4b9ff;
+}
+
+.am-action-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Текст */
+.am-action-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+}
+
+.am-action-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.am-action-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.45;
+    white-space: normal;
+}
+
+/* Стрелка-шеврон справа */
+.am-action-arrow {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: var(--text-muted);
+    opacity: 0.45;
+}
+
+/* ─── SEPARATOR ──────────────────────────────────── */
+
+.am-sep {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 6px 20px;
+}
+
+/* ─── COPY BUTTON STATES ─────────────────────────── */
+
+#am-copy-btn .am-icon-copy  { display: block; }
+#am-copy-btn .am-icon-check { display: none;  }
+
+#am-copy-btn.copied .am-icon-copy  { display: none;  }
+#am-copy-btn.copied .am-icon-check { display: block; }
+
+#am-copy-btn.copied .am-action-icon {
+    background: rgba(74, 222, 128, 0.12);
+    border-color: rgba(74, 222, 128, 0.35);
+    color: #4ade80;
+}
+
+#am-copy-btn.copied .am-action-label {
+    color: #4ade80;
+}

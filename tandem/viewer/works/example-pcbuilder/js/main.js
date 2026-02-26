@@ -126,10 +126,10 @@ function initBurgerMenu() {
     if (!btn || !nav) return;
 
     function toggleMenu(open) {
-    btn.setAttribute('aria-expanded', String(open));
-    btn.classList.toggle('is-open', open);
-    nav.classList.toggle('is-visible', open);
-    nav.setAttribute('aria-hidden', String(!open));
+        btn.setAttribute('aria-expanded', String(open));
+        btn.classList.toggle('is-open', open);
+        nav.classList.toggle('is-visible', open);
+        nav.setAttribute('aria-hidden', String(!open));
         document.body.style.overflow = open ? 'hidden' : '';
     }
 

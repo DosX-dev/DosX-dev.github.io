@@ -32,7 +32,11 @@ const
     selectLabel = document.getElementById('select-label'),
     selectWrap = document.getElementById('site-select-wrap'),
     ppLeft = document.getElementById('pp-left'),
-    ppRight = document.getElementById('pp-right');
+    ppRight = document.getElementById('pp-right'),
+    mobileActionsBtn = document.getElementById('mobile-actions-btn'),
+    amOpenBtn = document.getElementById('am-open-btn'),
+    amCopyBtn = document.getElementById('am-copy-btn'),
+    amSiteName = document.getElementById('am-site-name');
 
 /* ════════════════════════════════════════════════
    ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
@@ -126,6 +130,14 @@ function init() {
     copyBtn.addEventListener('click', () => { if (!copyBtn.classList.contains('disabled')) copyLink(); });
     phoneToggle.addEventListener('click', () => { if (!phoneToggle.classList.contains('disabled')) togglePhonePreview(); });
 
+    // Мобильное модальное окно действий
+    mobileActionsBtn.addEventListener('click', openActionsModal);
+    amCopyBtn.addEventListener('click', () => { if (!amCopyBtn.classList.contains('am-action--disabled')) copyLink(); });
+    amOpenBtn.addEventListener('click', e => {
+        if (amOpenBtn.classList.contains('am-action--disabled')) e.preventDefault();
+        else closeActionsModal();
+    });
+
     // Восстанавливаем формат и инициализируем боковые панели
     const savedFormat = localStorage.getItem('app.viewer.format');
     if (savedFormat && PHONE_FORMATS.some(f => f.id === savedFormat)) currentFormatId = savedFormat;
@@ -191,9 +203,15 @@ function loadSite(index) {
     } else if (site.id !== undefined && site.id > 0) {
         openBtn.href = 'no-toolbox-viewer/?render-mode=fullscreen&project-id=' + site.id;
     } else {
-        var m = site.path.match(/works\/([^\/]+)\//); 
+        var m = site.path.match(/works\/([^\/]+)\//);
         openBtn.href = m ? 'no-toolbox-viewer/?render-mode=fullscreen&project-name=' + m[1] : site.path;
     }
+
+    // Синхронизация мобильного модального окна действий
+    amOpenBtn.href = openBtn.href;
+    amOpenBtn.classList.toggle('am-action--disabled', isHome);
+    amCopyBtn.classList.toggle('am-action--disabled', isHome);
+    amSiteName.textContent = site.title;
 
     // Phone-режим: отключаем на главной, восстанавливаем при уходе с неё
     if (isHome) {
@@ -373,8 +391,21 @@ function copyLink() {
     navigator.clipboard.writeText(location.href).then(() => {
         clearTimeout(copyTimer);
         copyBtn.classList.add('copied');
-        copyTimer = setTimeout(() => copyBtn.classList.remove('copied'), 2000);
+        amCopyBtn.classList.add('copied');
+        copyTimer = setTimeout(() => {
+            copyBtn.classList.remove('copied');
+            amCopyBtn.classList.remove('copied');
+            closeActionsModal();
+        }, 1600);
     });
+}
+
+function openActionsModal() {
+    document.getElementById('actions-modal').classList.add('open');
+}
+
+function closeActionsModal() {
+    document.getElementById('actions-modal').classList.remove('open');
 }
 
 function syncUrl(siteId) {
