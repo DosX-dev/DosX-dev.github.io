@@ -1,0 +1,45 @@
+/* ================================================
+   Tandem Portfolio Viewer — Engine v1.0
+   app/styles/default.app-base.css
+   — Базовый reset, CSS-переменные, html/body
+   ================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Убираем системные outline при Tab-навигации */
+*:focus {
+    outline: none;
+}
+*:focus-visible {
+    outline: none;
+}
+
+:root {
+    --panel-h: 64px;
+    --accent: #7c6ef5;
+    --accent2: #5b4fd4;
+    --panel-bg: rgba(10, 10, 18, 0.82);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.48);
+    --btn-hover: rgba(124, 110, 245, 0.18);
+    --radius: 10px;
+    --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background: #0b0b14;
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+}

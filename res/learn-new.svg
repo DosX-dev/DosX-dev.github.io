@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Learning</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="learnGradient">
+            <stop stop-color="#FACC15" offset="0%"></stop>
+            <stop stop-color="#EAB308" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M10,2 L19,6 L19,8 L18,8 L18,15 C16.8954,15 16,15.8954 16,17 L4,17 C4,15.8954 3.10457,15 2,15 L2,8 L1,8 L1,6 L10,2 Z M12,9 L12,11 L16,11 L16,9 L12,9 Z M4,9 L4,11 L8,11 L8,9 L4,9 Z M10,4 L4.09346,7 L15.9065,7 L10,4 Z M12,12 L12,14 L16,14 L16,12 L12,12 Z M4,12 L4,14 L8,14 L8,12 L4,12 Z" fill="url(#learnGradient)" fill-rule="nonzero"></path>
+    </g>
+</svg>

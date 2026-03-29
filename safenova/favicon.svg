@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="sg" x1="16" y1="1" x2="16" y2="31" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1565c0"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </linearGradient>
+  </defs>
+  <!-- Shield -->
+  <path d="M16 2L3.5 7v9c0 9 5 13.4 12.5 14.5C19.5 29.4 28.5 25 28.5 16V7z" fill="url(#sg)"/>
+  <!-- Shield edge highlight -->
+  <path d="M16 3.5L5 8v8.5c0 7.5 4 11.5 11 12.5" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+  <!-- Lightning bolt -->
+  <path d="M19.5 6L11 18.5h6.5L13.5 27 24 14h-6.5z" fill="#4ec9b0" stroke="rgba(255,255,255,.3)" stroke-width=".6" stroke-linejoin="round"/>
+</svg>

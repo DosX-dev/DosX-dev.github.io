@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru" translate="no">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+        ! function () {
+            var l = localStorage.getItem('jstd_lang') || (navigator.language || '').slice(0, 2);
+            if (l !== 'ru') document.documentElement.classList.add('lang-loading');
+        }();
+    </script>
+    <meta http-equiv="refresh" content="3; url=./jstd-ai.zip" />
+    <title>Загрузка — JSTD.AI</title>
+    <meta name="google" content="notranslate" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="../favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="../favicon.png" />
+    <meta name="description" content="Скачайте JSTD.AI — нейросетевой анализатор JavaScript угроз. Работает локально, без GPU и облака." />
+    <link rel="canonical" href="https://jstd.su/download/" />
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ░░ CANVAS STARFIELD ░░ -->
+    <canvas id="starfield"></canvas>
+
+    <!-- ░░ NAV ░░ -->
+    <nav class="nav">
+        <div class="nav__inner">
+            <a href="/" class="nav__logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M16 2L4 7.5V16C4 22.627 9.373 28 16 28C22.627 28 28 22.627 28 16V7.5L16 2Z" stroke="#00d4ff" stroke-width="1.5" fill="none" />
+                    <path d="M16 7L9 10.25V16C9 19.866 12.134 23 16 23C19.866 23 23 19.866 23 16V10.25L16 7Z" fill="#00d4ff" fill-opacity="0.12" stroke="#00d4ff" stroke-width="1" />
+                    <path d="M13 16L15.5 18.5L20 13" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="square" />
+                    <circle cx="16" cy="16" r="1.5" fill="#00d4ff" />
+                </svg>
+                <span class="nav__logo-text">JSTD<span class="brand-accent">.AI</span></span>
+            </a>
+            <ul class="nav__links">
+                <li><a href="/#how-it-works" data-i18n="nav.how">Принцип работы</a></li>
+                <li><a href="/#algorithms" data-i18n="nav.algorithms">Алгоритмы</a></li>
+                <li><a href="/#docs" data-i18n="nav.docs">Документация</a></li>
+                <li><a href="/#testimonials" data-i18n="nav.testimonials">Отзывы</a></li>
+                <li><a href="/" class="nav__cta-link" data-i18n="nav.home">На главную</a></li>
+                <li class="nav__lang-switch"><button class="lang-btn" data-lang-switch="ru">RU</button><span class="lang-sep">/</span><button class="lang-btn" data-lang-switch="en">EN</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ░░ DOWNLOAD MAIN ░░ -->
+    <main class="page-dl">
+        <div class="page-dl__grid"></div>
+
+        <!-- icon -->
+        <div class="dl-icon">
+            <div class="dl-icon__ring"></div>
+            <div class="dl-icon__ring"></div>
+            <div class="dl-icon__ring"></div>
+            <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M48 6L10 23V46C10 68.09 26.862 87.5 48 90C69.138 87.5 86 68.09 86 46V23L48 6Z" stroke="#00d4ff" stroke-width="2" fill="rgba(0,212,255,.05)" />
+                <path d="M48 28V52M48 52L36 40M48 52L60 40" stroke="#00ff88" stroke-width="3" stroke-linecap="square" />
+                <path d="M32 62H64" stroke="#00ff88" stroke-width="3" stroke-linecap="square" />
+            </svg>
+        </div>
+
+        <!-- label -->
+        <div class="dl-label">
+            <span class="dl-label__dot"></span> <span data-i18n="dl.label">ИНИЦИАЛИЗАЦИЯ ЗАГРУЗКИ</span>
+        </div>
+
+        <!-- title -->
+        <h1 class="dl-title" data-i18n-html="dl.title_html">Спасибо за&nbsp;загрузку<em>!</em></h1>
+
+        <!-- sub -->
+        <p class="dl-sub" data-i18n-html="dl.sub">
+            Файл <strong>jstd-ai.zip</strong> автоматически скачается на ваш компьютер через несколько секунд. Если ничего не происходит — воспользуйтесь прямой ссылкой ниже.
+        </p>
+
+        <!-- progress -->
+        <div class="dl-progress">
+            <div class="dl-progress__track">
+                <div class="dl-progress__fill"></div>
+            </div>
+            <div class="dl-progress__label">
+                <span>jstd-ai.zip</span>
+                <span>&lt;1 MB</span>
+            </div>
+        </div>
+
+        <!-- countdown -->
+        <p class="dl-countdown"><span data-i18n="dl.cd_before">Загрузка начнётся через</span> <span id="cdNum">3</span> <span data-i18n="dl.cd_after">сек…</span></p>
+
+        <!-- terminal -->
+        <div class="dl-terminal">
+            <div class="dl-terminal__bar">
+                <div class="dl-terminal__dot"></div>
+                <div class="dl-terminal__dot"></div>
+                <div class="dl-terminal__dot"></div>
+            </div>
+            <div class="dl-terminal__body">
+                <div class="t-dim">$ jstd download --version latest</div>
+                <div id="tLine1" style="display:none"><span class="t-dim" data-i18n="dl.tl1"> ↓ проверка подписи…</span></div>
+                <div id="tLine2" style="display:none"><span class="t-ok" data-i18n="dl.tl2"> ✓ подпись верна · SHA-256 совпадает</span></div>
+                <div id="tLine3" style="display:none"><span class="t-dim" data-i18n="dl.tl3"> ↓ передача файла браузеру…</span></div>
+                <div id="tLine4" style="display:none"><span class="t-ok" data-i18n="dl.tl4"> ✓ загрузка началась</span></div>
+                <div><span class="t-dim">$ <span class="t-cur"></span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- manual link -->
+        <p class="dl-manual">
+            <span data-i18n="dl.manual_q">Скачивание не началось?</span>
+            <a href="./jstd-ai.zip" id="manualLink" data-i18n="dl.manual_lnk">Нажмите здесь</a>
+        </p>
+
+        <!-- specs -->
+        <div class="dl-specs">
+            <div class="spec">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M7 1L1 3.5V7C1 10.314 3.686 13 7 13C10.314 13 13 10.314 13 7V3.5L7 1Z" stroke="#00ff88" stroke-width="1" />
+                </svg> Windows 7+
+            </div>
+            <div class="spec">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="7" cy="7" r="5.5" stroke="#00d4ff" stroke-width="1" />
+                    <path d="M4.5 7L6.5 9L9.5 5" stroke="#00d4ff" stroke-width="1.2" stroke-linecap="square" />
+                </svg> .NET Framework 4.7.2
+            </div>
+            <div class="spec">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <rect x="1.5" y="1.5" width="11" height="11" stroke="#a78bfa" stroke-width="1" />
+                    <path d="M4.5 7H9.5M7 4.5V9.5" stroke="#a78bfa" stroke-width="1" stroke-linecap="square" />
+                </svg> <span data-i18n="dl.spec3">~4 MB установщик</span>
+            </div>
+            <div class="spec">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2.5 7L5.5 10L11.5 4" stroke="#00ff88" stroke-width="1.4" stroke-linecap="square" />
+                </svg> <span data-i18n="dl.spec4">Без интернета</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- ░░ FOOTER ░░ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__brand">
+                    <a href="/" class="nav__logo">
+                        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2L4 7.5V16C4 22.627 9.373 28 16 28C22.627 28 28 22.627 28 16V7.5L16 2Z" stroke="#00d4ff" stroke-width="1.5" fill="none" />
+                            <path d="M16 7L9 10.25V16C9 19.866 12.134 23 16 23C19.866 23 23 19.866 23 16V10.25L16 7Z" fill="#00d4ff" fill-opacity="0.12" stroke="#00d4ff" stroke-width="1" />
+                            <path d="M13 16L15.5 18.5L20 13" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="square" />
+                        </svg>
+                        <span class="nav__logo-text">JSTD<span class="brand-accent">.AI</span></span>
+                    </a>
+                    <p data-i18n-html="footer.brand_p">Проприетарная нейросетевая система<br />детекции угроз в JavaScript-коде.</p>
+                    <p class="footer__copy" data-i18n="footer.copy_short">© 2026 JSTD.AI. Все права защищены.</p>
+                </div>
+                <div class="footer__cols">
+                    <div class="footer__col">
+                        <div class="footer__col-title" data-i18n="footer.col1_title">Продукт</div>
+                        <a href="/#cta" data-i18n="footer.col1_1">Скачать</a>
+                        <a href="/#docs" data-i18n="footer.col1_2">Документация</a>
+                        <a href="/#testimonials" data-i18n="nav.testimonials">Отзывы</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Built with neural precision. Zero telemetry. Zero cloud.</span>
+                <div class="footer__badges">
+                    <span class="footer__badge">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 1L1 3.5V6C1 8.761 3.239 11 6 11C8.761 11 11 8.761 11 6V3.5L6 1Z" stroke="#00ff88" stroke-width="1" />
+                        </svg>
+                        Offline-first
+                    </span>
+                    <span class="footer__badge">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6L5 9L10 3" stroke="#00d4ff" stroke-width="1.2" stroke-linecap="square" />
+                        </svg>
+                        No telemetry
+                    </span>
+                </div>
+            </div>
+        </div>
+        <img class="footer-cat" src="../flexing-cat.gif" alt="" aria-hidden="true">
+    </footer>
+
+    <script src="../app/i18n.js"></script>
+    <script src="../app/main.js"></script>
+    <script>
+        /* ── countdown ── */
+        let n = 3;
+        const cdNum = document.getElementById('cdNum');
+        const lines = ['tLine1', 'tLine2', 'tLine3', 'tLine4'];
+        let lineIdx = 0;
+
+        function showNextLine() {
+            if (lineIdx < lines.length) {
+                document.getElementById(lines[lineIdx]).style.display = '';
+                lineIdx++;
+            }
+        }
+
+        showNextLine();
+
+        const timer = setInterval(() => {
+            n--;
+            cdNum.textContent = n;
+            showNextLine();
+            if (n <= 0) {
+                clearInterval(timer);
+                cdNum.textContent = '0';
+                showNextLine();
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

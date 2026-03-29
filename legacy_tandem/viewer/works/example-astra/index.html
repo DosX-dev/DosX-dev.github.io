@@ -1,0 +1,821 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ЗАО ЧОО «АСТРА» — Ваша безопасность за горизонтом событий</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <!-- CURSOR -->
+    <div id="cursor">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="14" fill="none" stroke="#e50000" stroke-width="1.2" />
+            <line x1="20" y1="2" x2="20" y2="12" stroke="#e50000" stroke-width="1.2" stroke-linecap="round" />
+            <line x1="20" y1="28" x2="20" y2="38" stroke="#e50000" stroke-width="1.2" stroke-linecap="round" />
+            <line x1="2" y1="20" x2="12" y2="20" stroke="#e50000" stroke-width="1.2" stroke-linecap="round" />
+            <line x1="28" y1="20" x2="38" y2="20" stroke="#e50000" stroke-width="1.2" stroke-linecap="round" />
+        </svg>
+    </div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="#" class="nav-logo">
+            <!-- Star/Shield logo -->
+            <svg class="logo-icon" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 2L24.5 13.5H37L27 21.5L31 33L20 25.5L9 33L13 21.5L3 13.5H15.5L20 2Z" />
+            </svg>
+            <span>ЧОО <em>«Астра»</em></span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#undercover">Прикрытие</a></li>
+            <li><a href="#advantages">О нас</a></li>
+            <li><a href="#pricing">Тарифы</a></li>
+            <li><a href="#contact" class="nav-cta">Связаться</a></li>
+        </ul>
+        <button class="burger" id="burger" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-scan"></div>
+
+        <!-- SPLIT: left text + right visual -->
+        <div class="hero-inner">
+            <!-- LEFT -->
+            <div class="hero-left">
+                <div class="hero-badge">ЗАО ЧОО · Лицензированная охранная деятельность</div>
+                <h1 class="hero-title">
+                    Ваша<br />
+                    <span class="red">безопасность</span><br />
+                    в надёжных руках
+                </h1>
+                <div class="hero-accent-line"></div>
+                <p class="hero-sub">Комплексная защита · Скрытая охрана<br />Разведка · Эскорт объектов любой сложности</p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn-primary">Получить защиту</a>
+                    <a href="#services" class="btn-outline">Наши услуги</a>
+                </div>
+            </div>
+
+            <!-- RIGHT: tactical target -->
+            <div class="hero-right">
+                <div class="hero-target-wrap">
+                    <!-- Corner brackets -->
+                    <div class="hero-corner tl"></div>
+                    <div class="hero-corner tr"></div>
+                    <div class="hero-corner bl"></div>
+                    <div class="hero-corner br"></div>
+
+                    <svg class="target-svg" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Pulse rings -->
+                        <circle class="t-pulse" cx="150" cy="150" r="130" stroke="#e50000" stroke-width="1" opacity="0" />
+                        <circle class="t-pulse t-pulse2" cx="150" cy="150" r="110" stroke="#e50000" stroke-width="1" opacity="0" />
+                        <circle class="t-pulse t-pulse3" cx="150" cy="150" r="90" stroke="#e50000" stroke-width="1" opacity="0" />
+
+                        <!-- Outer dashed rotating ring -->
+                        <g class="t-ring-outer">
+                            <circle cx="150" cy="150" r="128" stroke="rgba(229,0,0,0.3)" stroke-width="1" stroke-dasharray="6 8" />
+                        </g>
+
+                        <!-- Mid ring with ticks -->
+                        <g class="t-ring-mid">
+                            <circle cx="150" cy="150" r="98" stroke="rgba(229,0,0,0.5)" stroke-width="1" stroke-dasharray="3 14" />
+                        </g>
+
+                        <!-- Static rings -->
+                        <circle cx="150" cy="150" r="75" stroke="rgba(229,0,0,0.55)" stroke-width="1.5" />
+                        <circle cx="150" cy="150" r="50" stroke="rgba(229,0,0,0.7)" stroke-width="1.5" />
+                        <circle cx="150" cy="150" r="25" stroke="rgba(229,0,0,0.8)" stroke-width="1.5" />
+
+                        <!-- Crosshair lines -->
+                        <line x1="150" y1="0" x2="150" y2="118" stroke="rgba(229,0,0,0.5)" stroke-width="1" />
+                        <line x1="150" y1="182" x2="150" y2="300" stroke="rgba(229,0,0,0.5)" stroke-width="1" />
+                        <line x1="0" y1="150" x2="118" y2="150" stroke="rgba(229,0,0,0.5)" stroke-width="1" />
+                        <line x1="182" y1="150" x2="300" y2="150" stroke="rgba(229,0,0,0.5)" stroke-width="1" />
+
+                        <!-- Small gap ticks -->
+                        <line x1="150" y1="122" x2="150" y2="130" stroke="rgba(229,0,0,0.7)" stroke-width="1.5" />
+                        <line x1="150" y1="170" x2="150" y2="178" stroke="rgba(229,0,0,0.7)" stroke-width="1.5" />
+                        <line x1="122" y1="150" x2="130" y2="150" stroke="rgba(229,0,0,0.7)" stroke-width="1.5" />
+                        <line x1="170" y1="150" x2="178" y2="150" stroke="rgba(229,0,0,0.7)" stroke-width="1.5" />
+
+                        <!-- Center dot -->
+                        <circle class="t-dot" cx="150" cy="150" r="5" fill="#e50000" />
+                        <circle cx="150" cy="150" r="2.5" fill="#fff" />
+
+                        <!-- Degree labels -->
+                        <text x="150" y="18" text-anchor="middle" fill="rgba(229,0,0,0.5)" font-size="9" font-family="monospace" letter-spacing="1">000°</text>
+                        <text x="283" y="155" text-anchor="start" fill="rgba(229,0,0,0.5)" font-size="9" font-family="monospace" letter-spacing="1">090°</text>
+                        <text x="150" y="294" text-anchor="middle" fill="rgba(229,0,0,0.5)" font-size="9" font-family="monospace" letter-spacing="1">180°</text>
+                        <text x="8" y="155" text-anchor="start" fill="rgba(229,0,0,0.5)" font-size="9" font-family="monospace" letter-spacing="1">270°</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM STATS BAR -->
+        <div class="hero-stats-bar">
+            <div class="hero-stat">
+                <div class="num" data-count="12">0</div>
+                <div class="lbl">Лет на рынке</div>
+            </div>
+            <div class="hero-stat">
+                <div class="num" data-count="340">0</div>
+                <div class="lbl">Сотрудников</div>
+            </div>
+            <div class="hero-stat">
+                <div class="num" data-count="9">0</div>
+                <div class="lbl">Направлений</div>
+            </div>
+            <div class="hero-stat">
+                <div class="num" data-count="100">0</div>
+                <div class="lbl">% Конфиденциальность</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TICKER -->
+    <div class="ticker-wrap" aria-hidden="true">
+        <div class="ticker-track">
+            <span class="ticker-item">Личная охрана VIP</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Инкассация и бронирование</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Охрана мероприятий</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Работа под прикрытием</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Техническая безопасность</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Бизнес-разведка</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Кибербезопасность</span>
+            <span class="ticker-sep">◆</span>
+            <!-- duplicate for seamless loop -->
+            <span class="ticker-item">Личная охрана VIP</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Инкассация и бронирование</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Охрана мероприятий</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Работа под прикрытием</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Техническая безопасность</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Бизнес-разведка</span>
+            <span class="ticker-sep">◆</span>
+            <span class="ticker-item">Кибербезопасность</span>
+            <span class="ticker-sep">◆</span>
+        </div>
+    </div>
+    <div class="divider"></div>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="bg-lines"></div>
+        <div class="section-inner" style="position:relative;z-index:1">
+            <div class="services-header">
+                <div>
+                    <div class="section-label reveal">Направления</div>
+                    <h2 class="section-title reveal delay-1">Наши <span>услуги</span></h2>
+                    <p class="section-desc reveal delay-2">Десять профессиональных направлений с командой из ветеранов спецподразделений и сертифицированных специалистов.</p>
+                </div>
+            </div>
+            <div class="services-grid">
+
+                <!-- 1 -->
+                <div class="service-card reveal delay-1">
+                    <div class="service-num">01</div>
+                    <div class="service-icon">
+                        <!-- Shield person icon -->
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4a3 3 0 110 6 3 3 0 010-6zm0 8c2.67 0 8 1.34 8 4v1H4v-1c0-2.66 5.33-4 8-4z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Личная безопасность (Executive Protection)</div>
+                    <p class="service-desc">Двухуровневая система охраны: «ближний периметр» в штатском и скрытая группа прикрытия. Контр-аварийное вождение, оружие скрытого ношения.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Level A/B</span>
+                        <span class="service-tag">VIP</span>
+                        <span class="service-tag">Эскорт детей</span>
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="service-card reveal delay-2">
+                    <div class="service-num">02</div>
+                    <div class="service-icon">
+                        <!-- Armored car icon -->
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5S5.17 15.5 6 15.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Вооружённое сопровождение грузов (Cash-in-Transit)</div>
+                    <p class="service-desc">Мобильный отряд СБР на бронированных автомобилях УАЗ «Патриот» BR4/BR5. Инкассация, перевозка ценностей и предметов искусства скрытыми маршрутами.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Бронирование BR5</span>
+                        <span class="service-tag">СБР</span>
+                        <span class="service-tag">Искусство</span>
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="service-card reveal delay-3">
+                    <div class="service-num">03</div>
+                    <div class="service-icon">
+                        <!-- People crowd icon -->
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Охрана массовых мероприятий (Event Security)</div>
+                    <p class="service-desc">Профессиональные распорядители с навыками психологии толпы. Кинологическая служба с немецкими овчарками и малинуа для досмотра помещений на ВВ.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Кинологи</span>
+                        <span class="service-tag">Эвакуация VIP</span>
+                        <span class="service-tag">Металлодетектор</span>
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="service-card reveal delay-4">
+                    <div class="service-num">04</div>
+                    <div class="service-icon">
+                        <!-- Spy/undercover icon -->
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Работа под прикрытием (Covert Security)</div>
+                    <p class="service-desc">Внедрение в окружение клиента. «Официант-телохранитель» с курсом швейцарского этикета, Krav Maga и джиу-джитсу. «Водитель» и «Айтишник» в вашем офисе.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Krav Maga</span>
+                        <span class="service-tag">Легенда</span>
+                        <span class="service-tag">Контрразведка</span>
+                    </div>
+                </div>
+
+                <!-- 5 -->
+                <div class="service-card reveal delay-5">
+                    <div class="service-num">05</div>
+                    <div class="service-icon">
+                        <!-- Tech/camera icon -->
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Техническая безопасность (Physical-Cyber)</div>
+                    <p class="service-desc">Видеонаблюдение с распознаванием лиц, биометрические СКУД. Услуга «Чистый воздух» — проверка помещений на жучки и скрытые камеры анализаторами спектра.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Видеоаналитика</span>
+                        <span class="service-tag">СКУД</span>
+                        <span class="service-tag">Чистый воздух</span>
+                    </div>
+                </div>
+
+                <!-- 6 -->
+                <div class="service-card reveal delay-6">
+                    <div class="service-num">06</div>
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Бизнес-разведка (Detective & Analytics)</div>
+                    <p class="service-desc">Сбор информации о контрагентах без нарушения законодательства. Поиск активов и пропавших. Психолог на переговорах. Скрытая запись. Юридическое сопровождение.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Анализ рисков</span>
+                        <span class="service-tag">Поиск активов</span>
+                        <span class="service-tag">Психолог</span>
+                    </div>
+                </div>
+
+                <!-- 7 -->
+                <div class="service-card reveal delay-1">
+                    <div class="service-num">07</div>
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Охрана стационарных объектов (Static Guard)</div>
+                    <p class="service-desc">Посты при входе, патрулирование периметра, контроль СКУД. Охрана офисных зданий, складов, производств и жилых комплексов. Вооружение по согласованию.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">24/7</span>
+                        <span class="service-tag">Периметр</span>
+                        <span class="service-tag">КПП</span>
+                    </div>
+                </div>
+
+                <!-- 8 -->
+                <div class="service-card reveal delay-2">
+                    <div class="service-num">08</div>
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Психологическое сопровождение (Threat Analysis)</div>
+                    <p class="service-desc">Штатные психологи и профайлеры оценивают угрозы среди персонала и посетителей. Анализ поведенческих паттернов, выявление манипуляций и нестандартных ситуаций.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Профайлинг</span>
+                        <span class="service-tag">Поведенческий анализ</span>
+                        <span class="service-tag">HR-риски</span>
+                    </div>
+                </div>
+
+                <!-- 9 -->
+                <div class="service-card reveal delay-3">
+                    <div class="service-num">09</div>
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Аудит и консалтинг безопасности (Security Audit)</div>
+                    <p class="service-desc">Комплексная проверка уязвимостей объекта: физические точки входа, цифровые угрозы, процедуры персонала. Итоговый отчёт с дорожной картой устранения рисков.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">Аудит</span>
+                        <span class="service-tag">Пентест физический</span>
+                        <span class="service-tag">Отчёт</span>
+                    </div>
+                </div>
+
+                <!-- 10 -->
+                <div class="service-card reveal delay-4">
+                    <div class="service-num">10</div>
+                    <div class="service-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
+                        </svg>
+                    </div>
+                    <div class="service-title">Антидроновая защита (Counter-UAS)</div>
+                    <p class="service-desc">Обнаружение, классификация и нейтрализация беспилотников в охраняемом воздушном пространстве. РЭБ-комплексы, сети-перехватчики и круглосуточный мониторинг радиочастот.</p>
+                    <div class="service-tags">
+                        <span class="service-tag">РЭБ</span>
+                        <span class="service-tag">Обнаружение БПЛА</span>
+                        <span class="service-tag">Мониторинг 24/7</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- UNDERCOVER FEATURE -->
+    <section class="undercover" id="undercover">
+        <div class="section-inner">
+            <div class="uc-grid">
+                <div class="uc-visual" id="ucShuffle">
+                    <div class="uc-card">
+                        <div class="uc-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M18.6 6.62c-1.44 0-2.8.56-3.77 1.53L12 10.66 10.48 12h.01L7.8 14.39c-.64.64-1.49.99-2.4.99-1.87 0-3.39-1.51-3.39-3.38S3.53 8.62 5.4 8.62c.91 0 1.76.35 2.44 1.03l1.13 1 1.51-1.34L9.22 8.2C8.2 7.18 6.84 6.62 5.4 6.62 2.42 6.62 0 9.04 0 12s2.42 5.38 5.4 5.38c1.44 0 2.8-.56 3.77-1.53l2.83-2.5.01.01L13.52 12h-.01l2.69-2.39c.64-.64 1.49-.99 2.4-.99 1.87 0 3.39 1.51 3.39 3.38s-1.52 3.38-3.39 3.38c-.9 0-1.76-.35-2.44-1.03l-1.14-1.01-1.51 1.34 1.27 1.12c1.02 1.01 2.37 1.57 3.82 1.57 2.98 0 5.4-2.41 5.4-5.38s-2.42-5.38-5.4-5.38z" />
+                            </svg>
+                        </div>
+                        <h4>Официант-телохранитель</h4>
+                        <p>Швейцарский этикет + Krav Maga. Кевлар под фраком. Поднос как щит.</p>
+                    </div>
+                    <div class="uc-card">
+                        <div class="uc-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z" />
+                            </svg>
+                        </div>
+                        <h4>Водитель-охранник</h4>
+                        <p>Контр-аварийные маршруты, «слепые зоны» города. Салон как укрытие за 10 сек.</p>
+                    </div>
+                    <div class="uc-card">
+                        <div class="uc-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z" />
+                            </svg>
+                        </div>
+                        <h4>Технический специалист</h4>
+                        <p>Настройка сети как легенда. Поиск жучков, оценка лояльности персонала, OSINT.</p>
+                    </div>
+                    <div class="uc-card">
+                        <div class="uc-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z" />
+                            </svg>
+                        </div>
+                        <h4>Личный тренер</h4>
+                        <p>Внедрение под видом спортивного тренера или партнёра. Постоянный физический контакт с клиентом.</p>
+                    </div>
+                </div>
+
+                <div class="uc-content reveal-r">
+                    <div class="section-label">Элитная услуга</div>
+                    <h2 class="section-title">Охрана <span>под прикрытием</span></h2>
+                    <p class="section-desc" style="max-width:100%;margin-top:1rem">
+                        Визитная карточка «Астры» — внедрение сотрудников в окружение клиента или в коллектив его предприятия под безукоризненной легендой. Никто не догадается. Угроза нейтрализуется до её возникновения.
+                    </p>
+                    <p class="section-desc" style="max-width:100%;margin-top:0.8rem">
+                        Каждый сотрудник отдела прошёл курсы актёрского мастерства, знает протокол поведения в VIP-среде и владеет двумя-тремя боевыми системами. Разработка легенды входит в стоимость услуги.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">Zero Trust</span>
+                        <span class="tag">Разработка легенды</span>
+                        <span class="tag">Зашифрованная связь</span>
+                        <span class="tag">Krav Maga · BJJ · Самбо</span>
+                        <span class="tag">Актёрское мастерство</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ADVANTAGES -->
+    <section class="advantages" id="advantages">
+        <div class="section-inner">
+            <div class="adv-header reveal">
+                <div>
+                    <div class="section-label">Почему мы</div>
+                    <h2 class="section-title">Наши <span>преимущества</span></h2>
+                </div>
+                <p class="adv-intro">12 лет на рынке, 340 сотрудников, 0 провалов по вине оператора. Цифры говорят сами за себя — мы не обещаем, мы делаем.</p>
+            </div>
+            <div class="adv-list">
+                <div class="adv-row reveal delay-1">
+                    <span class="adv-num">01</span>
+                    <div class="adv-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+                        </svg>
+                    </div>
+                    <div class="adv-body">
+                        <h4>Лицензированная деятельность</h4>
+                        <p>Все виды лицензий МВД на охранную и детективную деятельность. Полная юридическая чистота любой операции.</p>
+                    </div>
+                    <div class="adv-tag">МВД · Лицензия</div>
+                </div>
+                <div class="adv-row reveal delay-2">
+                    <span class="adv-num">02</span>
+                    <div class="adv-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M7 2v11h3v9l7-12h-4l4-8z" />
+                        </svg>
+                    </div>
+                    <div class="adv-body">
+                        <h4>Ветераны спецподразделений</h4>
+                        <p>ФСО, МВД, ГРУ, ВДВ и морская пехота в составе команды. Только проверенный опыт реальных операций.</p>
+                    </div>
+                    <div class="adv-tag">ФСО · ГРУ · ВДВ</div>
+                </div>
+                <div class="adv-row reveal delay-3">
+                    <span class="adv-num">03</span>
+                    <div class="adv-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+                        </svg>
+                    </div>
+                    <div class="adv-body">
+                        <h4>Шифрованная связь</h4>
+                        <p>Закрытые каналы Motorola DP4800 со scrambl-шифрованием. Ежедневные рапорты по защищённым каналам Signal.</p>
+                    </div>
+                    <div class="adv-tag">AES-256 · Motorola</div>
+                </div>
+                <div class="adv-row reveal delay-4">
+                    <span class="adv-num">04</span>
+                    <div class="adv-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
+                        </svg>
+                    </div>
+                    <div class="adv-body">
+                        <h4>Zero-Trust протокол</h4>
+                        <p>Индивидуальный план безопасности под грифом «Конфиденциально». Аудит объекта выездным аналитиком до старта работы.</p>
+                    </div>
+                    <div class="adv-tag">Zero-Trust · OSINT</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CREDS -->
+    <section class="creds" id="creds">
+        <div class="section-inner">
+            <div class="section-label reveal">Оснащение</div>
+            <h2 class="section-title reveal delay-1">Тактика и <span>снаряжение</span></h2>
+            <div class="creds-grid">
+                <div class="cred-item reveal delay-1">
+                    <div class="cred-icon"><svg viewBox="0 0 24 24">
+                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                        </svg></div>
+                    <div>
+                        <h4>Вооружение</h4>
+                        <p>От травматического оружия до нарезного карабина «Сайга» и пистолета Ярыгина (ПЯ). Оружейная комната с усиленной охраной.</p>
+                    </div>
+                </div>
+                <div class="cred-item reveal delay-2">
+                    <div class="cred-icon"><svg viewBox="0 0 24 24">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
+                        </svg></div>
+                    <div>
+                        <h4>Бронежилеты «Невидимка»</h4>
+                        <p>Скрытое ношение класса Бр2–Бр3 незаметны под пиджаком. Для работы под прикрытием — неотличимы от обычной одежды.</p>
+                    </div>
+                </div>
+                <div class="cred-item reveal delay-3">
+                    <div class="cred-icon"><svg viewBox="0 0 24 24">
+                            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
+                        </svg></div>
+                    <div>
+                        <h4>Закрытая связь</h4>
+                        <p>Motorola DP4800 со scrambl-шифрованием. Тревожная кнопка на каждом посту с дублем на пульте централизованного наблюдения.</p>
+                    </div>
+                </div>
+                <div class="cred-item reveal delay-4">
+                    <div class="cred-icon"><svg viewBox="0 0 24 24">
+                            <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z" />
+                        </svg></div>
+                    <div>
+                        <h4>Автопарк BR4/BR5</h4>
+                        <p>Бронированные УАЗ «Патриот» и иномарки с классом бронирования BR4–BR5. Тонировка, системы GPS-мониторинга и экстренной связи.</p>
+                    </div>
+                </div>
+                <div class="cred-item reveal delay-5">
+                    <div class="cred-icon"><svg viewBox="0 0 24 24">
+                            <path d="M12 2a5 5 0 100 10A5 5 0 0012 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
+                        </svg></div>
+                    <div>
+                        <h4>Отбор и квалификация</h4>
+                        <p>Рост 175+, категория А, опыт ВДВ/спецназ. Ежеквартальные стрельбы, рукопашный бой, сертификат МЧС по ПМП.</p>
+                    </div>
+                </div>
+                <div class="cred-item reveal delay-6">
+                    <div class="cred-icon"><svg viewBox="0 0 24 24">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5C23 14.17 18.33 13 16 13z" />
+                        </svg></div>
+                    <div>
+                        <h4>Кинологическая служба</h4>
+                        <p>Немецкие овчарки и малинуа для обследования помещений. Поиск взрывчатых веществ и наркотиков на любых объектах.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="bg-lines"></div>
+        <div class="section-inner" style="position:relative;z-index:1">
+            <div class="section-label reveal">Прейскурант</div>
+            <h2 class="section-title reveal delay-1">Стоимость <span>услуг</span></h2>
+            <p class="section-desc reveal delay-2">Имиджевые тарифы. Окончательная стоимость рассчитывается индивидуально после аудита объекта.</p>
+            <div class="pricing-grid">
+
+                <div class="price-card reveal delay-1">
+                    <div class="price-badge">Базовый</div>
+                    <div class="price-name">Вооружённое сопровождение</div>
+                    <p class="price-desc">1 экипаж, 2 сотрудника, 8 часов. Бронированный автомобиль, форма, рация.</p>
+                    <div class="price-amount">от 25 000 <span>₽ / смена</span></div>
+                    <ul class="price-features">
+                        <li>2 сотрудника СБР</li>
+                        <li>Бронированный автомобиль BR4</li>
+                        <li>Форма и снаряжение</li>
+                        <li>Закрытый канал связи</li>
+                    </ul>
+                </div>
+
+                <div class="price-card featured reveal delay-2">
+                    <div class="price-badge">Популярный</div>
+                    <div class="price-name">Личный телохранитель VIP</div>
+                    <p class="price-desc">Сопровождение 12 часов, двухуровневая система охраны Level A+B.</p>
+                    <div class="price-amount">от 40 000 <span>₽ / 12 ч</span></div>
+                    <ul class="price-features">
+                        <li>Телохранитель Level A (штатский)</li>
+                        <li>Группа прикрытия Level B</li>
+                        <li>Контр-аварийное вождение</li>
+                        <li>Оружие скрытого ношения</li>
+                        <li>Ежедневный рапорт в Signal</li>
+                    </ul>
+                </div>
+
+                <div class="price-card reveal delay-3">
+                    <div class="price-badge">Элитный</div>
+                    <div class="price-name">Официант-телохранитель</div>
+                    <p class="price-desc">Работа под прикрытием; курс швейцарского этикета включён в стоимость.</p>
+                    <div class="price-amount">от 70 000 <span>₽ / сутки</span></div>
+                    <ul class="price-features">
+                        <li>Легенда и костюм включены</li>
+                        <li>Знание этикета и винных карт</li>
+                        <li>Krav Maga · Джиу-джитсу</li>
+                        <li>Кевларовая вставка под фраком</li>
+                        <li>Скрытая рация</li>
+                    </ul>
+                </div>
+
+                <div class="price-card reveal delay-4">
+                    <div class="price-badge">Индивидуально</div>
+                    <div class="price-name">Пулестойкое остекление</div>
+                    <p class="price-desc">Монтаж бронированного остекления класса BR3–BR7. Офисы, резиденции, автомобили.</p>
+                    <div class="price-amount">Расчёт <span>после аудита</span></div>
+                    <ul class="price-features">
+                        <li>Выезд аналитика на объект</li>
+                        <li>Оценка рисков и класса защиты</li>
+                        <li>Монтаж под ключ</li>
+                        <li>Гарантийное обслуживание</li>
+                    </ul>
+                </div>
+
+                <div class="price-card reveal delay-1">
+                    <div class="price-badge">Корпоративный</div>
+                    <div class="price-name">Охрана объекта 24/7</div>
+                    <p class="price-desc">Аутсорсинг охраны офиса, склада или производства. Посты, обходы, видеоконтроль.</p>
+                    <div class="price-amount">от 180 000 <span>₽ / месяц</span></div>
+                    <ul class="price-features">
+                        <li>Минимум 2 поста круглосуточно</li>
+                        <li>Система видеонаблюдения</li>
+                        <li>Тревожная кнопка + ГБР</li>
+                        <li>Ежемесячный отчёт о безопасности</li>
+                        <li>Подмена охраны за 2 часа</li>
+                    </ul>
+                </div>
+
+                <div class="price-card reveal delay-2">
+                    <div class="price-badge">Разовый</div>
+                    <div class="price-name">Аудит безопасности</div>
+                    <p class="price-desc">Выездная проверка объекта: уязвимости периметра, оценка персонала, OSINT по угрозам.</p>
+                    <div class="price-amount">от 35 000 <span>₽ / объект</span></div>
+                    <ul class="price-features">
+                        <li>Выезд аналитика + технолога</li>
+                        <li>Пентест физического периметра</li>
+                        <li>OSINT-проверка окружения</li>
+                        <li>Отчёт под грифом «Конфиденциально»</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+        <div class="section-inner">
+            <div class="contact-grid">
+                <div>
+                    <div class="section-label reveal">Контакты</div>
+                    <h2 class="section-title reveal delay-1">Связаться<br /><span>с нами</span></h2>
+                    <p class="section-desc reveal delay-2">Оставьте заявку — наш аналитик выедет на объект и разработает индивидуальный план безопасности в течение 24 часов.</p>
+                    <div class="contact-info reveal delay-3">
+                        <div class="contact-row">
+                            <div class="ci">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                                </svg>
+                            </div>
+                            <div class="ct">
+                                <h5>Телефон (круглосуточно)</h5>
+                                <p>+7 (XXX) XXX-XX-XX</p>
+                            </div>
+                        </div>
+                        <div class="contact-row">
+                            <div class="ci">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                                </svg>
+                            </div>
+                            <div class="ct">
+                                <h5>Защищённая почта</h5>
+                                <p>tandemsites@example.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-row">
+                            <div class="ci">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                                </svg>
+                            </div>
+                            <div class="ct">
+                                <h5>Офис</h5>
+                                <p>г. Тандем, ул. Лендинговая, д. 1</p>
+                            </div>
+                        </div>
+                        <div class="contact-row">
+                            <div class="ci">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm4.24 16L12 15.45 7.77 18l1.12-4.81-3.73-3.23 4.92-.42L12 5l1.92 4.53 4.92.42-3.73 3.23L16.23 18z" />
+                                </svg>
+                            </div>
+                            <div class="ct">
+                                <h5>Режим работы</h5>
+                                <p>24/7 · 365 дней в году</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form reveal-r">
+                    <div class="form-title">Оставить заявку</div>
+                    <form id="contactForm" onsubmit="handleSubmit(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Имя *</label>
+                                <input type="text" placeholder="Александр" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Телефон *</label>
+                                <input type="tel" placeholder="+7 (___) ___-__-__" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="example@mail.ru" />
+                        </div>
+                        <div class="form-group">
+                            <label>Тип услуги</label>
+                            <select>
+                                <option value="">— Выберите услугу —</option>
+                                <option>Личная охрана (Executive Protection)</option>
+                                <option>Вооружённое сопровождение грузов</option>
+                                <option>Охрана мероприятия</option>
+                                <option>Работа под прикрытием (Covert Security)</option>
+                                <option>Техническая безопасность / «Чистый воздух»</option>
+                                <option>Бизнес-разведка</option>
+                                <option>Пулестойкое остекление</option>
+                                <option>Другое</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Описание задачи</label>
+                            <textarea placeholder="Опишите вашу ситуацию и задачу..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">Отправить заявку — конфиденциально</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="nav-logo">
+                    <svg class="logo-icon" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 2L24.5 13.5H37L27 21.5L31 33L20 25.5L9 33L13 21.5L3 13.5H15.5L20 2Z" />
+                    </svg>
+                    <span>ЧОО <em>«Астра»</em></span>
+                </a>
+                <p>Закрытое акционерное общество. Лицензированная охранная и детективная деятельность. Ваша безопасность — наша миссия.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Услуги</h5>
+                <ul>
+                    <li><a href="#services">Личная охрана</a></li>
+                    <li><a href="#services">Сопровождение грузов</a></li>
+                    <li><a href="#services">Охрана мероприятий</a></li>
+                    <li><a href="#undercover">Работа под прикрытием</a></li>
+                    <li><a href="#services">Техбезопасность</a></li>
+                    <li><a href="#services">Бизнес-разведка</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Компания</h5>
+                <ul>
+                    <li><a href="#advantages">О нас</a></li>
+                    <li><a href="#creds">Оснащение</a></li>
+                    <li><a href="#pricing">Тарифы</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Документы</h5>
+                <ul>
+                    <li><a href="#">Лицензии</a></li>
+                    <li><a href="#">Политика конфиденциальности</a></li>
+                    <li><a href="#">Оферта</a></li>
+                    <li><a href="#">Реквизиты</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 ЗАО ЧОО «Астра». Все права защищены.</span>
+            <span class="license">Лицензия МВД № ЧО-000000 · Детективная деятельность № Д-000000</span>
+        </div>
+    </footer>
+    <script src="js/main.js" defer></script>
+</body>
+
+</html>

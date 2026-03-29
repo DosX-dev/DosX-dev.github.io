@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>DosX Repositories</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .welcome-block {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .welcome-block h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        
+        .welcome-block p {
+            font-size: 18px;
+            margin: 10px 0 0;
+        }
+        
+        .block {
+            margin: 10px 0;
+        }
+        
+        .block-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-left: 1px solid #000;
+            transition: background-color 0.3s, border-color 0.3s, opacity 0.3s ease-in-out;
+            cursor: pointer;
+            opacity: 0;
+        }
+        
+        .block-container.visible {
+            opacity: 1;
+        }
+        
+        .block-container:hover {
+            background-color: #f0f0f0;
+            border-color: #888;
+        }
+        
+        .block-caption {
+            margin-top: -20px;
+        }
+        
+        .loading {
+            font-size: 24px;
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+            animation: fadeInOut 1s infinite;
+        }
+        
+        .repo-info {
+            font-size: 14px;
+            color: #333;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .repo-info img {
+            margin-right: 5px;
+        }
+        
+        .repo-info .star-count,
+        .repo-info .fork-count {
+            margin-right: 5px;
+        }
+        
+        .ava {
+            border-radius: 50%;
+        }
+        
+        @keyframes fadeInOut {
+            0%,
+            100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        img {
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        
+         ::selection {
+            background: black;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="welcome-block">
+        <img src="ava.png" class="ava" width="200" height="200" />
+        <h1>DosX<img src="verified.svg" width="26" height="26" /></h1>
+        <p>If bugs are the engine of progress, then I'm a very progressive programmer.</p>
+    </div>
+    <hr>
+
+    <div id="loading" class="loading">Please wait... Loading...</div>
+    <div id="repositories"></div>
+
+    <script>
+        const API_URL = 'https://api.github.com/users/DosX-dev/repos';
+        const STORAGE_KEY = 'dosx_repos';
+        const LAST_FETCH_KEY = 'dosx_last_fetch';
+        const ONE_DAY = 24 * 60 * 60 * 1000;
+
+        async function fetchRepositories() {
+            try {
+                const response = await fetch(API_URL);
+                const repos = await response.json();
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(repos));
+                localStorage.setItem(LAST_FETCH_KEY, Date.now().toString());
+                return repos;
+            } catch (error) {
+                console.error('Error fetching repositories:', error);
+                const loadingLabel = document.getElementById('loading');
+                if (loadingLabel) {
+                    loadingLabel.innerText = 'Error loading repositories.';
+                }
+                return null;
+            }
+        }
+
+
+        function displayRepositories(repos) {
+            const reposContainer = document.getElementById('repositories');
+
+            const nonForkRepos = repos.filter(repo => !repo.fork &&
+                repo.topics && repo.topics.length > 0 &&
+                repo.description && repo.description.length > 0);
+
+            nonForkRepos.sort((a, b) => b.stargazers_count - a.stargazers_count); // sort by stars
+
+            let reposCounter = 0;
+            nonForkRepos.forEach((repo, index) => {
+                reposCounter++;
+
+                const block = document.createElement('div');
+                block.className = 'block';
+
+                const blockContainer = document.createElement('div');
+                blockContainer.className = 'block-container';
+                blockContainer.onclick = () => handleClick(repo.html_url);
+
+                const title = document.createElement('h2');
+                title.innerHTML = repo.name + (reposCounter === 1 ? '<img src="crown.svg" width="30" height="20" />' : '');
+
+                const caption = document.createElement('p');
+                caption.className = 'block-caption';
+                caption.innerText = repo.description; // || 'No description available';
+
+                const repoInfo = document.createElement('p');
+                repoInfo.className = 'repo-info';
+                repoInfo.innerHTML = `<img src="star.svg" width="15" height="15" /> <span class="star-count">${repo.stargazers_count}</span> <img src="fork.svg" width="15" height="15" /> <span class="fork-count">${repo.forks_count}</span>`;
+
+                blockContainer.appendChild(title);
+                blockContainer.appendChild(caption);
+                blockContainer.appendChild(repoInfo);
+                block.appendChild(blockContainer);
+                reposContainer.appendChild(block);
+
+                setTimeout(() => {
+                    blockContainer.classList.add('visible');
+                }, index * 70);
+
+                var loadingLabel = document.getElementById('loading');
+
+                if (loadingLabel) {
+                    loadingLabel.style.display = 'none';
+                }
+            });
+        }
+
+        function handleClick(url) {
+            window.open(url, '_blank');
+        }
+
+        async function loadRepositories() {
+            const lastFetch = localStorage.getItem(LAST_FETCH_KEY);
+            const now = Date.now();
+
+            if (lastFetch && now - parseInt(lastFetch, 10) < ONE_DAY) {
+                const cachedRepos = localStorage.getItem(STORAGE_KEY);
+                if (cachedRepos) {
+                    displayRepositories(JSON.parse(cachedRepos));
+                    return;
+                }
+            }
+
+            const repos = await fetchRepositories();
+            if (repos) {
+                displayRepositories(repos);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadRepositories);
+    </script>
+</body>
+
+</html>

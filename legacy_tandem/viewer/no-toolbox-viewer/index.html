@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tandem Portfolio Viewer</title>
+    <link rel="icon" type="image/png" href="../app/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../app/styles/default.css" />
+</head>
+
+<body>
+
+    <iframe id="project-frame" title="Просмотр проекта" allowfullscreen allow="fullscreen"></iframe>
+
+    <div id="error-screen" role="alert" aria-live="assertive">
+        <img src="../app/logo.png" alt="Tandem" class="err-logo" />
+        <h1>Сформирован некорректный запрос</h1>
+        <p>Невозможно обратиться к базе данных или указаны неверные параметры запроса.</p>
+        <div class="err-divider"></div>
+        <div class="err-badge">
+            Код ошибки:&nbsp;<code>BAD_LOADER_PARAMETERS</code>
+        </div>
+        <span class="err-footer">Tandem Portfolio Viewer</span>
+    </div>
+
+    <!-- ── ENGINE (порядок важен!) ── -->
+    <script src="../app/code/no-toolbox-viewer/index.state.js"></script>
+    <script src="../app/code/no-toolbox-viewer/index.loader.js"></script>
+    <script src="../app/code/no-toolbox-viewer/index.init.js"></script>
+
+</body>
+
+</html>

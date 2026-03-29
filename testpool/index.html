@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <pre>
+Coded by DosX-dev [<a href="https://github.com/DosX-dev" target="_blank">https://github.com/DosX-dev</a>]
+OPEN THE DEVELOPER CONSOLE
+</pre>
+    <text id="import">Loading... <noscript>Error!</noscript></text>
+    <script src="Import.js"></script>
+    <script>
+        try {
+            if (Import("isAvailable")) {
+                document.getElementById("import").innerHTML = "Function \"<span style=\"color: darkorange;\">Import( ... )\</span>\" loaded!";
+            }
+        } catch (exc) {
+            document.getElementById("import").innerHTML = `<span style=\"color: red;\">${exc}</span>`;
+        }
+    </script>
+</body>
+
+</html>
