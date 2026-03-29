@@ -380,6 +380,7 @@ html {
     padding: 0;
     -webkit-tap-highlight-color: transparent;
     width: 100%;
+    overflow-x: hidden;
 }
 
 body,
@@ -2015,6 +2016,7 @@ footer p {
     pointer-events: none;
     animation: nebulaPulse 8s ease-in-out infinite alternate;
     z-index: -1;
+    overflow: hidden;
 }
 
 #left-side::after {
@@ -2029,6 +2031,7 @@ footer p {
     pointer-events: none;
     animation: nebulaPulse 10s ease-in-out infinite alternate-reverse;
     z-index: -1;
+    overflow: hidden;
 }
 
 @keyframes nebulaPulse {
@@ -2235,6 +2238,15 @@ h2.text-intro {
     }
     .mCSB_scrollTools-left {
         right: 0 !important;
+    }
+
+    #left-side::before,
+    #left-side::after {
+        display: none;
+    }
+
+    #left-side {
+        overflow: hidden;
     }
 }
 
