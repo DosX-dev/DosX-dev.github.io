@@ -69,10 +69,56 @@ $(window).load(function() {
 
     }, 1600);
 
+    // Logo appears after text — offset matches last text-intro animation
+    setTimeout(function() {
+        var logo = document.querySelector('.brand-logo');
+        if (logo) logo.classList.add('brand-logo--visible');
+    }, 3500);
+
 })
 
 $(document).ready(function() {
     "use strict";
+
+    /* ------------------------------------- */
+    /* Logo cursor tilt (desktop only) ....... */
+    /* ------------------------------------- */
+
+    (function() {
+        var logo = document.querySelector('.brand-logo');
+        if (!logo) return;
+        if (window.matchMedia('(max-width: 1024px)').matches) return;
+
+        var targetX = 0, targetY = 0;
+        var currentX = 0, currentY = 0;
+
+        document.addEventListener('mousemove', function(e) {
+            var cx = window.innerWidth / 2;
+            var cy = window.innerHeight / 2;
+            targetX = (e.clientX - cx) / cx;
+            targetY = (e.clientY - cy) / cy;
+        });
+
+        (function tick() {
+            currentX += (targetX - currentX) * 0.06;
+            currentY += (targetY - currentY) * 0.06;
+
+            var moveX  = currentX * 18;
+            var moveY  = currentY * 12;
+            var rotY   = currentX * 14;
+            var rotX   = -currentY * 9;
+
+            logo.style.transform =
+                'translateY(-50%)' +
+                ' translateX(' + moveX + 'px)' +
+                ' translateY(' + moveY + 'px)' +
+                ' perspective(700px)' +
+                ' rotateX(' + rotX + 'deg)' +
+                ' rotateY(' + rotY + 'deg)';
+
+            requestAnimationFrame(tick);
+        })();
+    })();
 
     /* ------------------------------------- */
     /* 2. Action Buttons ................... */
