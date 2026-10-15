@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    
+    <!-- Главная страница -->
+    <url>
+        <loc>https://antropove.ru/</loc>
+        <lastmod>2025-12-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- Секция "Обо мне" -->
+    <url>
+        <loc>https://antropove.ru/#about</loc>
+        <lastmod>2025-12-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Секция "Портфолио" -->
+    <url>
+        <loc>https://antropove.ru/#portfolio</loc>
+        <lastmod>2025-12-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Секция "Услуги" -->
+    <url>
+        <loc>https://antropove.ru/#services</loc>
+        <lastmod>2025-12-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Секция "Контакты" -->
+    <url>
+        <loc>https://antropove.ru/#contacts</loc>
+        <lastmod>2025-12-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+</urlset>

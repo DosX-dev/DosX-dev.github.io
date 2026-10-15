@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ezmath</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .problem {
+            font-size: 24px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .timer {
+            font-size: 36px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .input-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .input-container input {
+            width: 200px;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .stats {
+            margin-top: 50px;
+        }
+
+        .stats table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stats table th,
+        .stats table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .reset-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .reset-button button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .game-control {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .game-control button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>ezmath</h1>
+        <div class="game-control">
+            <button id="start-button">Start Game</button>
+            <button id="stop-button" disabled>Stop Game</button>
+        </div>
+        <div class="problem"></div>
+        <div class="timer"></div>
+        <div class="input-container">
+            <input type="text" id="answer-input" placeholder="Enter your answer" autofocus>
+        </div>
+        <div class="stats">
+            <h2>Statistics</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Correct</th>
+                        <th>Incorrect</th>
+                        <th>Time Exceeded</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-body">
+                </tbody>
+            </table>
+        </div>
+        <div class="reset-button">
+            <button id="reset-button">Reset Statistics</button>
+        </div>
+    </div>
+
+    <script>
+        // Generate a random integer between min (inclusive) and max (inclusive)
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Generate a random math problem with 2 or 3 operations (+ and -)
+        function generateProblem() {
+            var numOperations = getRandomInt(2, 3);
+            var problemString = '';
+            var answer = 0;
+
+            for (var i = 0; i < numOperations; i++) {
+                var operand1 = getRandomInt(1, 10);
+                var operand2 = getRandomInt(1, 10);
+                var operator = (i === 0) ? '+' : '-';
+
+                problemString += operand1 + ' ' + operator + ' ' + operand2 + ' ';
+
+                if (operator === '+') {
+                    answer += operand1 + operand2;
+                } else {
+                    if (operand1 < operand2) {
+                        // Swap operands to avoid negative result
+                        var temp = operand1;
+                        operand1 = operand2;
+                        operand2 = temp;
+                    }
+
+                    answer += operand1 - operand2;
+                }
+            }
+
+            problemString += '=';
+
+            return {
+                problemString: problemString,
+                answer: answer
+            };
+        }
+
+        var problemElement = document.querySelector('.problem');
+        var timerElement = document.querySelector('.timer');
+        var answerInputElement = document.getElementById('answer-input');
+        var statsBodyElement = document.getElementById('stats-body');
+        var resetButtonElement = document.getElementById('reset-button');
+        var startButtonElement = document.getElementById('start-button');
+        var stopButtonElement = document.getElementById('stop-button');
+
+        var statistics = JSON.parse(localStorage.getItem('ezmath_statistics')) || [];
+        var timerInterval;
+        var startTime;
+
+        function updateStats() {
+            var correctCount = 0;
+            var incorrectCount = 0;
+            var timeExceededCount = 0;
+
+            statistics.forEach(function (stat) {
+                if (stat.result === 'Correct') {
+                    correctCount++;
+                } else if (stat.result === 'Incorrect') {
+                    incorrectCount++;
+                } else if (stat.result === 'Time Exceeded') {
+                    timeExceededCount++;
+                }
+            });
+
+            statsBodyElement.innerHTML = '';
+
+            var row = document.createElement('tr');
+
+            var correctCell = document.createElement('td');
+            correctCell.textContent = correctCount;
+            row.appendChild(correctCell);
+
+            var incorrectCell = document.createElement('td');
+            incorrectCell.textContent = incorrectCount;
+            row.appendChild(incorrectCell);
+
+            var timeExceededCell = document.createElement('td');
+            timeExceededCell.textContent = timeExceededCount;
+            row.appendChild(timeExceededCell);
+
+            statsBodyElement.appendChild(row);
+        }
+
+        function resetStats() {
+            statistics = [];
+            localStorage.setItem('ezmath_statistics', JSON.stringify(statistics));
+            updateStats();
+        }
+
+        resetButtonElement.addEventListener('click', resetStats);
+
+        function displayNextProblem() {
+            var problem = generateProblem();
+            problemElement.textContent = problem.problemString;
+            answerInputElement.value = '';
+
+            startTime = new Date().getTime();
+
+            timerInterval = setInterval(function () {
+                var currentTime = new Date().getTime();
+                var elapsedTime = (currentTime - startTime) / 1000;
+                var remainingTime = 30 - elapsedTime;
+
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+
+                    var stat = {
+                        problemString: problem.problemString,
+                        result: 'Time Exceeded'
+                    };
+
+                    statistics.push(stat);
+                    localStorage.setItem('ezmath_statistics', JSON.stringify(statistics));
+                    updateStats();
+
+                    displayNextProblem();
+                }
+
+                timerElement.textContent = 'Time: ' + remainingTime.toFixed(1) + 's';
+            }, 100);
+
+            answerInputElement.addEventListener('input', function () {
+                var userAnswer = parseInt(answerInputElement.value);
+
+                if (!isNaN(userAnswer) && userAnswer === problem.answer) {
+                    clearInterval(timerInterval);
+
+                    var stat = {
+                        problemString: problem.problemString,
+                        result: 'Correct'
+                    };
+
+                    statistics.push(stat);
+                    localStorage.setItem('ezmath_statistics', JSON.stringify(statistics));
+                    updateStats();
+
+                    displayNextProblem();
+                }
+            });
+        }
+
+        startButtonElement.addEventListener('click', function () {
+            startButtonElement.disabled = true;
+            stopButtonElement.disabled = false;
+
+            displayNextProblem();
+        });
+
+        stopButtonElement.addEventListener('click', function () {
+            clearInterval(timerInterval);
+            startButtonElement.disabled = false;
+            stopButtonElement.disabled = true;
+            timerElement.textContent = 'Time: 0.0s';
+        });
+
+        updateStats();
+    </script>
+</body>
+
+</html>

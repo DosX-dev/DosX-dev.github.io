@@ -1,0 +1,3 @@
+start /wait cmd.exe /c javascript-obfuscator -- src_mov.js  --string-array-rotate --split-strings 1 --split-strings-chunk-length 2 --string-array-calls-transform 1 --rename-globals 1 --identifier-names-generator dictionary --control-flow-flattening 1 --control-flow-flattening-threshold 6 --dead-code-injection 1 --dead-code-injection-threshold 5 --numbers-to-expressions 1 --seed %random%random% --simplify 1 --rename-properties 1 --identifiers-prefix "drv_"
+start /wait cmd.exe /c uglifyjs src_mov-obfuscated.js --mangle --compress -o mov.js
+del src_mov-obfuscated.js /q

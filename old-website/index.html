@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
+    <meta name="title" content="dosx.su">
+    <meta name="description" content="DosX -> Attack, Defend, Anticipate">
+    <meta name="keywords" content="DosX, programmer, software development, windows, web, protection, github, dosx-dev">
+    <meta name="author" content="DosX">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+
+    <title>~DosX</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.light-theme {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        
+        body.light-theme .theme-toggle {
+            background-color: #ffffff;
+            border: 1px solid #000000;
+            color: #000000;
+        }
+        
+        body.light-theme .block-container:hover {
+            background-color: #f0f0f0;
+            border-color: #888;
+        }
+        
+        body.dark-theme {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        
+        body.dark-theme .theme-toggle {
+            background-color: #333333;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+        }
+        
+        body.dark-theme .block-container:hover {
+            background-color: #333333;
+            border-color: #ffffff;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 20px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .welcome-block {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .welcome-block h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        
+        .welcome-block p {
+            font-size: 18px;
+            margin: 10px 0 0;
+        }
+        
+        .block {
+            box-sizing: border-box;
+        }
+        
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+        
+        .block-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-left: 1px solid #000;
+            transition: background-color 0.3s, border-color 0.3s, opacity 0.3s ease-in-out;
+            cursor: pointer;
+            opacity: 0;
+        }
+        
+        .block-container.visible {
+            opacity: 1;
+        }
+        
+        .block-caption {
+            margin-top: -20px;
+        }
+        
+        .loading {
+            font-size: 24px;
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            animation: fadeInOut 1s infinite;
+        }
+        
+        .repo-info {
+            font-size: 14px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .repo-info img {
+            margin-right: 5px;
+        }
+        
+        .repo-info .star-count,
+        .repo-info .fork-count {
+            margin-right: 5px;
+        }
+        
+        .ava {
+            border-radius: 50%;
+            border: 1px solid #444444;
+        }
+        
+        @keyframes fadeInOut {
+            0%,
+            100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        
+        img {
+            user-select: none;
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+         ::selection {
+            background: #585858;
+            color: white;
+        }
+        
+        .text {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            font-size: 18px;
+        }
+        
+        a {
+            color: #0084ff;
+            text-decoration: none;
+            font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid #9c9c9c;
+            margin: 10px 0;
+        }
+        
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body.light-theme svg,
+        body.light-theme img[src$=".svg"] {
+            filter: invert(0%);
+            transition: filter 0.3s, color 0.3s;
+        }
+        
+        body.dark-theme svg,
+        body.dark-theme img[src$=".svg"] {
+            filter: invert(100%);
+            transition: filter 0.3s, color 0.3s;
+        }
+        
+        body.light-theme hr,
+        body.light-theme .block-container {
+            border-color: #9c9c9c;
+        }
+        
+        body.dark-theme hr,
+        body.dark-theme .block-container {
+            border-color: white;
+        }
+        
+        body.light-theme {
+            background-color: white;
+            color: #000000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body.dark-theme {
+            background-color: #121212;
+            color: white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .no-animation.light-theme,
+        .no-animation.dark-theme {
+            transition: none;
+        }
+        
+        .footer {
+            font-size: 12px;
+            text-align: center;
+            padding: 3px 0;
+            margin-top: 30px;
+            background-color: #f0f0f0;
+            border-top: 1px solid #e4e3e3;
+            color: #363636;
+        }
+        
+        body.dark-theme .footer {
+            background-color: #1f1f1f;
+            border-top: 1px solid #646464;
+            color: #b6b6b6;
+        }
+        /* Добавляем Flexbox */
+        
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .content {
+            flex: 1;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .banner {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: rgb(119, 1, 1);
+            color: rgb(255, 241, 162);
+            text-align: center;
+            padding: 5px;
+            font-size: 14px;
+            margin: 10px auto;
+            border: 2px solid rgb(255, 241, 162);
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+        
+        @media (max-width: 600px) {
+            .banner {
+                margin-top: 50px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body class="light-theme">
+    <div class="banner hidden">
+        В связи с абсурдной политикой Роскомнадзора <b>доступ к этому сайту для россиян может стать невозможным</b>. Сохраните мои контактные данные на этот случай.
+    </div>
+    <div class="wrapper">
+        <div class="content">
+            <div class="theme-toggle" onclick="toggleTheme()"><img src="res/lamp.svg" width="16" height="16"></div>
+
+            <div class="welcome-block">
+                <img src="res/ava.gif" class="ava" width="200" height="200">
+                <h1>DosX<img src="res/verified.svg" width="26" height="26"></h1>
+                <p id="random-slogan" class="slogan"></p>
+            </div>
+            <hr>
+            <div class="text">
+                <h3>About me</h3>
+                <p>For a long time I was engaged in the development of conventional software for Windows. At the moment, I've expanded my skills and am already developing websites, desktop programs, server software and various protections for them. <b>I love my job! <img src="res/heart.svg" width="16" height="16"></b>                    You can view my portfolio below and take a first-hand look at each of the publicly released projects.</p>
+                <div>
+                    <img src="res/mail.svg" width="16" height="16"> Email:
+                    <a href="" id="mail"></a>
+                    <br>
+                    <img src="res/telegram.svg" width="16" height="16"> Telegram:
+                    <a href="https://t.me/DosX_dev">@DosX_dev</a>
+                    <br>
+                    <img src="res/github.svg" width="16" height="16"> GitHub:
+                    <a href="https://github.com/DosX-dev">@DosX-dev</a>
+                </div>
+
+                <h3>My respositories and projects</h3>
+            </div>
+            <div id="loading" class="loading">Please wait... Loading...</div>
+            <div id="repositories"></div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; DosX, <span id="year"></span>. All rights reserved. The information on this site is provided «as is» and is for informational purposes only.</p>
+        </footer>
+    </div>
+    </div>
+
+    <script>
+        if (navigator.language === "ru") {
+            document.querySelector(".banner").classList.remove("hidden");
+        }
+    </script>
+
+    <script>
+        console.log("Hello! :)");
+
+        let mailLabel = document.getElementById('mail');
+        if (mailLabel) {
+            mailLabel.innerHTML = "collab" + "@" + "kay-software.ru";
+            mailLabel.href = "mailto:" + mailLabel.innerText;
+        }
+
+        let randomSloganLabel = document.getElementById('random-slogan');
+        if (randomSloganLabel) {
+            const slogans = [
+                "Hard work will help pass the time.",
+                "I'm #404 and distant like Jupiter.",
+                "Syntax errors build character.",
+                "Attack, Defend, Anticipate!",
+                "There is no spoon.",
+                "The cake is a lie.",
+            ];
+
+            const printEffect = (text, index) => {
+                if (index < text.length) {
+                    randomSloganLabel.innerText = text.substring(0, index + 1);
+                    setTimeout(() => {
+                        printEffect(text, index + 1);
+                    }, 30);
+                }
+            };
+
+            printEffect(slogans[Math.floor(Math.random() * slogans.length)], 0);
+        }
+
+        let yearLabel = document.getElementById('year');
+        if (yearLabel) {
+            yearLabel.innerText = new Date().getFullYear();
+        }
+
+        const API_URL = "https://api.github.com/users/DosX-dev/repos";
+        const STORAGE_KEY = "dosx_repos";
+        const LAST_FETCH_KEY = "dosx_last_fetch";
+        const PER_PAGE = 100;
+        const CACHE_ACTUAL_TIME = 60 * 60 * 1000;
+
+        async function fetchRepositories() {
+            let allRepos = [];
+            let page = 1;
+            let loadingLabel = document.getElementById("loading");
+
+            try {
+                while (true) {
+                    const response = await fetch(`${API_URL}?per_page=${PER_PAGE}&page=${page}`);
+                    const repos = await response.json();
+
+                    if (repos.length === 0) break;
+
+                    allRepos = allRepos.concat(repos);
+                    page += 1;
+                }
+
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(allRepos));
+                localStorage.setItem(LAST_FETCH_KEY, Date.now().toString());
+
+                if (loadingLabel) {
+                    loadingLabel.innerText = "Repositories loaded.";
+                }
+
+                return allRepos;
+            } catch (error) {
+                console.error("Error fetching repositories:", error);
+                if (loadingLabel) {
+                    loadingLabel.innerText = "Error loading repositories.";
+                }
+                return null;
+            }
+        }
+
+        function displayRepositories(repos) {
+            const reposContainer = document.getElementById("repositories");
+
+            const nonForkRepos = repos.filter(repo => !repo.fork &&
+                repo.topics && repo.topics.length > 0 &&
+                repo.description && repo.description.length > 0);
+
+            nonForkRepos.sort((a, b) => b.stargazers_count - a.stargazers_count); // sort by stars
+
+            let reposCounter = 0;
+            nonForkRepos.forEach((repo, index) => {
+                reposCounter++;
+
+                console.log(`Repo #${reposCounter}: ${repo.name}`);
+
+                const block = document.createElement("div");
+                block.className = "block";
+
+                const blockContainer = document.createElement("div");
+                blockContainer.className = "block-container";
+                blockContainer.onclick = () => handleClick(repo.html_url);
+
+                const title = document.createElement('h2');
+
+                const repoDescLower = repo.description.toLowerCase();
+                title.innerHTML = repo.name +
+                    getCategoryIcon(repo.topics.includes("game") || repo.name.includes("game"),
+                        "game") +
+                    getCategoryIcon(repo.topics.includes("malware") || repo.topics.includes("stub") || repoDescLower.includes("malware") || repoDescLower.includes("bypass") || repoDescLower.includes("virus") || repoDescLower.includes("spyware") || repoDescLower.includes("ransomware") || repoDescLower.includes("rootkit") || repoDescLower.includes("keylogger") || repoDescLower.includes("clipper") || repoDescLower.includes("crack") || repoDescLower.includes("backdoor"),
+                        "virus") +
+                    getCategoryIcon(repo.topics.includes("example") || repo.topics.includes("learning") || repoDescLower.includes("example of") || repoDescLower.includes("learn") || repoDescLower.includes("study") || repoDescLower.includes("tutorial"),
+                        "learn") +
+                    getCategoryIcon(repo.topics.includes("web") || repoDescLower.includes("web-") || repoDescLower.includes("html") || repoDescLower.includes("css"),
+                        "web") +
+                    getCategoryIcon(repo.topics.includes("optimizer") || repoDescLower.includes("cleanup") || repoDescLower.includes("clean up") || repoDescLower.includes("optimization") || repoDescLower.includes("optimize "),
+                        "leaf") +
+                    getCategoryIcon(repo.topics.includes("sorter") || repo.topics.includes("detector") || repo.topics.includes("scanner") || repoDescLower.includes("sort") || repoDescLower.includes(" collection") || repoDescLower.includes("database"),
+                        "database") +
+                    getCategoryIcon(repo.topics.includes("protection") || repoDescLower.includes("protect") || repoDescLower.includes("obfuscat"),
+                        "shield") +
+                    getCategoryIcon(repo.topics.includes("library"),
+                        "sdk") +
+                    getCategoryIcon(reposCounter === 1, "crown");
+
+                const caption = document.createElement("p");
+                caption.className = "block-caption";
+                caption.innerText = repo.description; // || 'No description available';
+
+                const repoInfo = document.createElement("p");
+                repoInfo.className = "repo-info";
+                repoInfo.innerHTML = `<img src="res/star.svg" width="15" height="15"> <span class="star-count">${repo.stargazers_count}</span> <img src="res/fork.svg" width="15" height="15"> <span class="fork-count">${repo.forks_count}</span>`;
+
+                blockContainer.appendChild(title);
+                blockContainer.appendChild(caption);
+                blockContainer.appendChild(repoInfo);
+                block.appendChild(blockContainer);
+                reposContainer.appendChild(block);
+
+                setTimeout(() => {
+                    blockContainer.classList.add("visible");
+                }, index * 70);
+
+                var loadingLabel = document.getElementById("loading");
+
+                if (loadingLabel) {
+                    loadingLabel.style.display = "none";
+                }
+            });
+        }
+
+        function getCategoryIcon(condition, iconName) {
+            return condition ? `<img src="res/${iconName}.svg" width="30" height="20">` : "";
+        }
+
+        function handleClick(url) {
+            window.open(url, "_blank");
+        }
+
+        async function loadRepositories() {
+            const lastFetch = localStorage.getItem(LAST_FETCH_KEY);
+            const now = Date.now();
+
+            if (lastFetch && now - parseInt(lastFetch, 10) < CACHE_ACTUAL_TIME) {
+                const cachedRepos = localStorage.getItem(STORAGE_KEY);
+                if (cachedRepos) {
+                    displayRepositories(JSON.parse(cachedRepos));
+                    return;
+                }
+            }
+
+            const repos = await fetchRepositories();
+            if (repos) {
+                displayRepositories(repos);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadRepositories);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add("no-animation");
+
+            const savedTheme = localStorage.getItem("theme");
+            const initialTheme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light");
+
+            document.body.classList.add(`${initialTheme}-theme`);
+            if (!savedTheme) {
+                localStorage.setItem("theme", initialTheme);
+            }
+
+            setTimeout(() => { // removes animation class after 100ms
+                document.body.classList.remove("no-animation");
+            }, 100);
+        });
+
+        function toggleTheme() {
+            const currentTheme = document.body.classList.contains('dark-theme') ? "dark" : "light";
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+            document.body.classList.replace(`${currentTheme}-theme`, `${newTheme}-theme`);
+            localStorage.setItem("theme", newTheme);
+        }
+    </script>
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m, e, t, r, i, k, a) {
+            m[i] = m[i] || function() {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return;
+                }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(99004160, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true,
+            trackHash: true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/99004160" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+</body>
+
+</html>

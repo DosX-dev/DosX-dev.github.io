@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Tor detected: <span id="result"><noscript>ENABLE JAVASCRIPT</noscript></span></p>
+</body>
+<script>
+    var out = document.getElementById("result");
+    var _isTorDetected = isTorDetected();
+    out.innerHTML = _isTorDetected;
+    out.style = _isTorDetected ? "color: green;" : "color: red;"
+
+    function isTorDetected() {
+        return (!window.matchMedia('(prefers-color-scheme:dark)').matches &&
+            typeof chrome !== "object" && !navigator.requestMIDIAccess);
+    }
+</script>
+
+</html>

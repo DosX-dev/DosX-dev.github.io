@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ru" translate="no">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+        ! function () {
+            var l = localStorage.getItem('jstd_lang') || (navigator.language || '').slice(0, 2);
+            if (l !== 'ru') document.documentElement.classList.add('lang-loading');
+        }();
+    </script>
+    <title>404 — JSTD.AI</title>
+    <meta name="google" content="notranslate" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <link id="maincss" rel="stylesheet" href="/styles/main.css" />
+    <script>!function () { var h = location.hostname; if (h === 'localhost' || h === '127.0.0.1' || h === '' || location.protocol === 'file:') document.getElementById('maincss').href = 'styles/main.css'; }();</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ── 404 PAGE ─────────────────────────────── */
+
+        .page-404 {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 32px 80px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .page-404__grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 51, 102, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 51, 102, .035) 1px, transparent 1px);
+            background-size: 56px 56px;
+            pointer-events: none;
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+        }
+
+        /* ── Big 404 glyph ───────────────────────── */
+
+        .error-code {
+            position: relative;
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: clamp(100px, 22vw, 220px);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -8px;
+            color: transparent;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            margin-bottom: 8px;
+        }
+
+        .error-code__front,
+        .error-code__back {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-code__back {
+            color: rgba(255, 51, 102, .12);
+            filter: blur(1px);
+            transform: translate(4px, 4px);
+        }
+
+        .error-code__front {
+            color: var(--red);
+            text-shadow: 0 0 60px rgba(255, 51, 102, .35), 0 0 120px rgba(255, 51, 102, .15);
+        }
+
+        /* clip glitch on hover */
+
+        .error-code:hover .error-code__front {
+            animation: glitchHover .25s steps(2) infinite;
+        }
+
+        @keyframes glitchHover {
+            0% {
+                clip-path: polygon(0 0, 100% 0, 100% 42%, 0 42%);
+                transform: translateX(-3px);
+            }
+
+            25% {
+                clip-path: polygon(0 44%, 100% 44%, 100% 100%, 0 100%);
+                transform: translateX(3px);
+            }
+
+            50% {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                transform: none;
+            }
+
+            100% {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                transform: none;
+            }
+        }
+
+        /* placeholder for real text height */
+
+        .error-code__text {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* scan line sweeping over the number */
+
+        .error-code__scan {
+            position: absolute;
+            left: -6%;
+            right: -6%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255, 51, 102, .7) 40%, rgba(255, 255, 255, .9) 50%, rgba(255, 51, 102, .7) 60%, transparent);
+            box-shadow: 0 0 12px var(--red);
+            animation: scanLine 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanLine {
+            0% {
+                top: -2%;
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 102%;
+                opacity: 0;
+            }
+        }
+
+        /* click ripple hint */
+
+        .error-code__hint {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            white-space: nowrap;
+            animation: hintPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes hintPulse {
+
+            0%,
+            100% {
+                opacity: .4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* ── Counter ring ────────────────────────── */
+
+        .click-ring {
+            position: absolute;
+            inset: -12px;
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .click-ring__arc {
+            position: absolute;
+            inset: 0;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            transition: border-color .3s, box-shadow .3s;
+        }
+
+        .click-ring__arc--1 {
+            border-top-color: var(--red);
+        }
+
+        .click-ring__arc--2 {
+            border-top-color: var(--red);
+            border-right-color: var(--red);
+        }
+
+        .click-ring__arc--3 {
+            border-top-color: var(--red);
+            border-right-color: var(--red);
+            border-bottom-color: var(--red);
+        }
+
+        .click-ring__arc--4 {
+            border-color: var(--red);
+            box-shadow: 0 0 20px rgba(255, 51, 102, .4);
+        }
+
+        .click-ring__arc--inactive {
+            border-color: transparent !important;
+            box-shadow: none !important;
+        }
+
+        /* ── Subtitle / body ─────────────────────── */
+
+        .error-label {
+            margin-top: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            border: 1px solid rgba(255, 51, 102, .3);
+            background: rgba(255, 51, 102, .05);
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+        }
+
+        .error-title {
+            font-size: clamp(22px, 3vw, 36px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.25;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .error-desc {
+            color: var(--text-2);
+            font-size: 15px;
+            max-width: 480px;
+            line-height: 1.7;
+            margin: 0 auto 36px;
+        }
+
+        .error-desc code {
+            font-family: var(--mono);
+            color: var(--cyan);
+            font-size: 13px;
+            background: rgba(0, 212, 255, .07);
+            padding: 1px 6px;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 56px;
+        }
+
+        /* ── Terminal block ──────────────────────── */
+
+        .error-terminal {
+            background: rgba(0, 0, 0, .45);
+            border: 1px solid var(--border);
+            padding: 20px 24px;
+            max-width: 480px;
+            width: 100%;
+            text-align: left;
+            font-family: var(--mono);
+            font-size: 12px;
+            line-height: 2;
+            color: var(--text-3);
+            position: relative;
+        }
+
+        .error-terminal__bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: rgba(255, 255, 255, .03);
+            border-bottom: 1px solid var(--border-2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 12px;
+        }
+
+        .error-terminal__dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .error-terminal__dot:nth-child(1) {
+            background: #ff5f57;
+        }
+
+        .error-terminal__dot:nth-child(2) {
+            background: #febc2e;
+        }
+
+        .error-terminal__dot:nth-child(3) {
+            background: #28c840;
+        }
+
+        .error-terminal__body {
+            margin-top: 28px;
+        }
+
+        .t-line {
+            display: block;
+        }
+
+        .t-cmd {
+            color: var(--cyan);
+        }
+
+        .t-ok {
+            color: var(--green);
+        }
+
+        .t-err {
+            color: var(--red);
+        }
+
+        .t-dim {
+            color: var(--text-3);
+        }
+
+        .t-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: var(--cyan);
+            vertical-align: middle;
+            animation: blink .9s step-start infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* ── Easter egg overlay ──────────────────── */
+
+        .easter-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(6, 9, 17, .82);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .35s;
+        }
+
+        .easter-overlay.is-visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .easter-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(167, 139, 250, .4);
+            box-shadow: 0 0 60px rgba(167, 139, 250, .12), 0 0 0 1px rgba(167, 139, 250, .08) inset;
+            padding: 36px 40px;
+            max-width: 460px;
+            width: 90%;
+            text-align: left;
+            position: relative;
+            animation: easterIn .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            transform: scale(.85);
+            opacity: 0;
+        }
+
+        .easter-overlay.is-visible .easter-card {
+            animation: easterIn .4s cubic-bezier(.34, 1.56, .64, 1) .05s forwards;
+        }
+
+        @keyframes easterIn {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .easter-card__tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--purple);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(167, 139, 250, .25);
+            padding: 4px 10px;
+            background: rgba(167, 139, 250, .06);
+        }
+
+        .easter-card__tag-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--purple);
+            box-shadow: 0 0 6px var(--purple);
+            border-radius: 50%;
+            animation: dotPulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.6);
+                opacity: .6;
+            }
+        }
+
+        .easter-card__title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            line-height: 1.2;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        .easter-card__title em {
+            font-style: normal;
+            color: var(--purple);
+            text-shadow: 0 0 24px rgba(167, 139, 250, .5);
+        }
+
+        .easter-card__rows {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 24px;
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .easter-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, .3);
+            border-left: 2px solid;
+        }
+
+        .easter-row--purple {
+            border-color: var(--purple);
+        }
+
+        .easter-row--cyan {
+            border-color: var(--cyan);
+        }
+
+        .easter-row--amber {
+            border-color: var(--amber);
+        }
+
+        .easter-row__label {
+            color: var(--text-3);
+        }
+
+        .easter-row--purple .easter-row__val {
+            color: var(--purple);
+        }
+
+        .easter-row--cyan .easter-row__val {
+            color: var(--cyan);
+        }
+
+        .easter-row--amber .easter-row__val {
+            color: var(--amber);
+        }
+
+        .easter-card__bar {
+            height: 3px;
+            background: rgba(167, 139, 250, .15);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .easter-card__bar-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--purple), var(--cyan));
+            transition: width 1.2s cubic-bezier(.4, 0, .2, 1) .3s;
+            box-shadow: 0 0 10px var(--purple);
+        }
+
+        .easter-overlay.is-visible .easter-card__bar-fill {
+            width: 100%;
+        }
+
+        .easter-card__close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: 1px solid var(--border-2);
+            color: var(--text-3);
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color var(--trans), color var(--trans);
+        }
+
+        .easter-card__close:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        .easter-card__footer {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text-3);
+            border-top: 1px solid var(--border-2);
+            padding-top: 16px;
+        }
+
+        .easter-card__footer span {
+            color: var(--green);
+        }
+
+        /* ── Click ripple burst ───────────────────── */
+
+        .ripple-burst {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 51, 102, .35) 0%, transparent 70%);
+            pointer-events: none;
+            transform: scale(0);
+            animation: burstAnim .5s ease-out forwards;
+            z-index: 10;
+        }
+
+        @keyframes burstAnim {
+            to {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* ── Floating noise particles ────────────── */
+
+        .particle {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: var(--red);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ░░ CANVAS STARFIELD ░░ -->
+    <canvas id="starfield"></canvas>
+
+    <!-- ░░ NAV ░░ -->
+    <nav class="nav">
+        <div class="nav__inner">
+            <a href="/" class="nav__logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M16 2L4 7.5V16C4 22.627 9.373 28 16 28C22.627 28 28 22.627 28 16V7.5L16 2Z" stroke="#00d4ff" stroke-width="1.5" fill="none" />
+                    <path d="M16 7L9 10.25V16C9 19.866 12.134 23 16 23C19.866 23 23 19.866 23 16V10.25L16 7Z" fill="#00d4ff" fill-opacity="0.12" stroke="#00d4ff" stroke-width="1" />
+                    <path d="M13 16L15.5 18.5L20 13" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="square" />
+                    <circle cx="16" cy="16" r="1.5" fill="#00d4ff" />
+                </svg>
+                <span class="nav__logo-text">JSTD<span class="brand-accent">.AI</span></span>
+            </a>
+            <ul class="nav__links">
+                <li><a href="/#how-it-works" data-i18n="nav.how">Принцип работы</a></li>
+                <li><a href="/#algorithms" data-i18n="nav.algorithms">Алгоритмы</a></li>
+                <li><a href="/#docs" data-i18n="nav.docs">Документация</a></li>
+                <li><a href="/#testimonials" data-i18n="nav.testimonials">Отзывы</a></li>
+                <li><a href="/" class="nav__cta-link" data-i18n="nav.home">На главную</a></li>
+                <li class="nav__lang-switch"><button class="lang-btn" data-lang-switch="ru">RU</button><span class="lang-sep">/</span><button class="lang-btn" data-lang-switch="en">EN</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ░░ 404 MAIN ░░ -->
+    <main class="page-404">
+        <div class="page-404__grid"></div>
+
+        <!-- big number -->
+        <div class="error-code" id="errorCode">
+            <div class="click-ring" id="clickRing">
+                <div class="click-ring__arc click-ring__arc--inactive" id="arc1"></div>
+                <div class="click-ring__arc click-ring__arc--inactive" id="arc2"></div>
+                <div class="click-ring__arc click-ring__arc--inactive" id="arc3"></div>
+                <div class="click-ring__arc click-ring__arc--inactive" id="arc4"></div>
+            </div>
+            <span class="error-code__text">404</span>
+            <div class="error-code__back">404</div>
+            <div class="error-code__front">404</div>
+            <div class="error-code__scan"></div>
+            <div class="error-code__hint" data-i18n="e404.hint">кликни 4 раза</div>
+        </div>
+
+        <!-- label + title -->
+        <div class="error-label">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M6 1L1 3.5V6C1 8.761 3.239 11 6 11C8.761 11 11 8.761 11 6V3.5L6 1Z" stroke="#ff3366" stroke-width="1" />
+                <path d="M6 4.5V6.5M6 7.5V8" stroke="#ff3366" stroke-width="1.2" stroke-linecap="square" />
+            </svg> РЕСУРС НЕ ОБНАРУЖЕН — СТАТУС 404
+        </div>
+
+        <h1 class="error-title" data-i18n-html="e404.title_html">
+            Нейросеть не нашла<br />запрошенный ресурс
+        </h1>
+
+        <p class="error-desc" data-i18n-html="e404.desc_html">
+            Наш сканер обработал запрос за <code>&lt;&thinsp;1ms</code>, но указанный URL отсутствует в индексе. Возможно, страница была перемещена или никогда не существовала.
+        </p>
+
+        <div class="error-actions">
+            <a href="/" class="btn btn--primary">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M14 8H2M7 3L2 8L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg> <span data-i18n="e404.btn_home">На главную</span>
+            </a>
+            <a href="/#docs" class="btn btn--ghost">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <rect x="3" y="1" width="10" height="14" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M6 5H10M6 8H10M6 11H8" stroke="currentColor" stroke-width="1.2" stroke-linecap="square" />
+                </svg> <span data-i18n="e404.btn_docs">Документация</span>
+            </a>
+        </div>
+
+        <!-- terminal block -->
+        <div class="error-terminal">
+            <div class="error-terminal__bar">
+                <div class="error-terminal__dot"></div>
+                <div class="error-terminal__dot"></div>
+                <div class="error-terminal__dot"></div>
+            </div>
+            <div class="error-terminal__body">
+                <span class="t-line"><span class="t-dim">$</span> <span class="t-cmd">jstd analyze --url <span id="badUrl"></span></span>
+                </span>
+                <span class="t-line t-dim"> ↳ extracting features…</span>
+                <span class="t-line t-ok" data-i18n="e404.term_ok"> ✓ threat_score: 0.00 (чисто)</span>
+                <span class="t-line t-dim"> ↓ routing to resource…</span>
+                <span class="t-line t-err" data-i18n="e404.term_err1"> ✗ HTTP 404 — ресурс не найден</span>
+                <span class="t-line t-dim"> ↓ scanning alternative paths…</span>
+                <span class="t-line t-err" data-i18n="e404.term_err2"> ✗ альтернатив не найдено</span>
+                <span class="t-line">&nbsp;</span>
+                <span class="t-line t-dim">$ <span class="t-cursor"></span></span>
+            </div>
+        </div>
+    </main>
+
+    <!-- ░░ FOOTER ░░ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__brand">
+                    <a href="/" class="nav__logo">
+                        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 2L4 7.5V16C4 22.627 9.373 28 16 28C22.627 28 28 22.627 28 16V7.5L16 2Z" stroke="#00d4ff" stroke-width="1.5" fill="none" />
+                            <path d="M16 7L9 10.25V16C9 19.866 12.134 23 16 23C19.866 23 23 19.866 23 16V10.25L16 7Z" fill="#00d4ff" fill-opacity="0.12" stroke="#00d4ff" stroke-width="1" />
+                            <path d="M13 16L15.5 18.5L20 13" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="square" />
+                        </svg>
+                        <span class="nav__logo-text">JSTD<span class="brand-accent">.AI</span></span>
+                    </a>
+                    <p data-i18n-html="footer.brand_p">Проприетарная нейросетевая система<br />детекции угроз в JavaScript-коде.</p>
+                    <p class="footer__copy" data-i18n="footer.copy_short">© 2026 JSTD.AI. Все права защищены.</p>
+                </div>
+                <div class="footer__cols">
+                    <div class="footer__col">
+                        <div class="footer__col-title" data-i18n="footer.col1_title">Продукт</div>
+                        <a href="/#cta" data-i18n="footer.col1_1">Скачать</a>
+                        <a href="/#docs" data-i18n="footer.col1_2">Документация</a>
+                        <a href="/#testimonials" data-i18n="nav.testimonials">Отзывы</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <span>Built with neural precision. Zero telemetry. Zero cloud.</span>
+                <div class="footer__badges">
+                    <span class="footer__badge">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 1L1 3.5V6C1 8.761 3.239 11 6 11C8.761 11 11 8.761 11 6V3.5L6 1Z" stroke="#00ff88" stroke-width="1" />
+                        </svg>
+                        Offline-first
+                    </span>
+                    <span class="footer__badge">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6L5 9L10 3" stroke="#00d4ff" stroke-width="1.2" stroke-linecap="square" />
+                        </svg>
+                        No telemetry
+                    </span>
+                </div>
+            </div>
+        </div>
+        <img class="footer-cat" src="./flexing-cat.gif" alt="" aria-hidden="true">
+    </footer>
+
+    <!-- ░░ EASTER EGG OVERLAY ░░ -->
+    <div class="easter-overlay" id="easterOverlay">
+        <div class="easter-card">
+            <button class="easter-card__close" id="easterClose" aria-label="Закрыть" data-i18n-label="e404.ee_close">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 2L10 10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg>
+            </button>
+
+            <div class="easter-card__tag">
+                <span class="easter-card__tag-dot"></span> CURIOSITY_CLASS · THREAT DETECTED
+            </div>
+
+            <div class="easter-card__title" data-i18n-html="e404.ee_title_html">
+                Ой, а что это<br />мы <em>ищем?</em>
+            </div>
+
+            <div class="easter-card__rows">
+                <div class="easter-row easter-row--purple">
+                    <span class="easter-row__label" data-i18n="e404.ee_r1_lbl">Тип угрозы</span>
+                    <span class="easter-row__val" data-i18n="e404.ee_r1_val">Безудержное любопытство</span>
+                </div>
+                <div class="easter-row easter-row--cyan">
+                    <span class="easter-row__label" data-i18n="e404.ee_r2_lbl">Вектор атаки</span>
+                    <span class="easter-row__val">URL enumeration</span>
+                </div>
+                <div class="easter-row easter-row--amber">
+                    <span class="easter-row__label" data-i18n="e404.ee_r3_lbl">Уровень риска</span>
+                    <span class="easter-row__val">🫣 Критически высокий</span>
+                </div>
+            </div>
+
+            <div class="easter-card__bar">
+                <div class="easter-card__bar-fill" id="easterBar"></div>
+            </div>
+
+            <div class="easter-card__footer">
+                <span data-i18n="e404.ee_foot">Рекомендация: </span><span data-i18n="e404.ee_foot_sp">вернитесь на главную и не трогайте 404.</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="app/i18n.js"></script>
+    <script src="app/main.js"></script>
+    <script>
+        /* ── display current bad URL in terminal ── */
+        document.getElementById('badUrl').textContent =
+            window.location.pathname || '/unknown';
+
+        /* ── Easter egg: 4 clicks on the 404 ───── */
+        const code = document.getElementById('errorCode');
+        const overlay = document.getElementById('easterOverlay');
+        const closeBtn = document.getElementById('easterClose');
+        const arcs = [
+            document.getElementById('arc1'),
+            document.getElementById('arc2'),
+            document.getElementById('arc3'),
+            document.getElementById('arc4'),
+        ];
+
+        let clickCount = 0;
+        let resetTimer = null;
+
+        function spawnBurst(x, y) {
+            const size = 120 + Math.random() * 80;
+            const el = document.createElement('div');
+            el.className = 'ripple-burst';
+            el.style.cssText = `
+                width:${size}px;height:${size}px;
+                left:${x - size / 2}px;top:${y - size / 2}px;
+            `;
+            document.body.appendChild(el);
+            el.addEventListener('animationend', () => el.remove());
+        }
+
+        code.addEventListener('click', (e) => {
+            clearTimeout(resetTimer);
+            clickCount = Math.min(clickCount + 1, 4);
+
+            spawnBurst(e.clientX, e.clientY);
+
+            /* update ring arcs */
+            arcs.forEach((arc, i) => {
+                const cls = `click-ring__arc--${i + 1}`;
+                if (i < clickCount) {
+                    arc.classList.remove('click-ring__arc--inactive');
+                    arc.classList.add(cls);
+                } else {
+                    arc.classList.add('click-ring__arc--inactive');
+                    arc.classList.remove(cls);
+                }
+            });
+
+            if (clickCount === 4) {
+                /* show easter egg */
+                setTimeout(() => {
+                    overlay.classList.add('is-visible');
+                    clickCount = 0;
+                    arcs.forEach((arc, i) => {
+                        arc.classList.add('click-ring__arc--inactive');
+                        arc.classList.remove(`click-ring__arc--${i + 1}`);
+                    });
+                }, 300);
+            } else {
+                resetTimer = setTimeout(() => {
+                    clickCount = 0;
+                    arcs.forEach((arc, i) => {
+                        arc.classList.add('click-ring__arc--inactive');
+                        arc.classList.remove(`click-ring__arc--${i + 1}`);
+                    });
+                }, 3000);
+            }
+        });
+
+        function closeEaster() {
+            overlay.classList.remove('is-visible');
+        }
+        closeBtn.addEventListener('click', closeEaster);
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeEaster();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeEaster();
+        });
+    </script>
+</body>
+
+</html>

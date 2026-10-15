@@ -1,0 +1,48 @@
+{
+  "name": "ANTROPOVE - Графический дизайнер",
+  "short_name": "ANTROPOVE",
+  "description": "Графический дизайнер с опытом более 3 лет. Web-дизайн, логотипы, баннеры, оформление соц. сетей. Качественно и в срок!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0E1A",
+  "theme_color": "#00A8FF",
+  "orientation": "portrait-primary",
+  "lang": "ru-RU",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/media/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/media/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["design", "business", "portfolio"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Портфолио",
+      "short_name": "Портфолио",
+      "url": "/#portfolio",
+      "icons": []
+    },
+    {
+      "name": "Услуги",
+      "short_name": "Услуги", 
+      "url": "/#services",
+      "icons": []
+    },
+    {
+      "name": "Контакты",
+      "short_name": "Контакты",
+      "url": "/#contacts",
+      "icons": []
+    }
+  ]
+}

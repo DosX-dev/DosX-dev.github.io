@@ -1,0 +1,65 @@
+# ============================================
+# ANTROPOVE - Robots.txt
+# Графический дизайнер | Web-дизайн, логотипы
+# ============================================
+
+# Основные поисковые системы
+User-agent: Googlebot
+Allow: /
+Disallow: /media/*.png$
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /
+Disallow: /media/*.png$
+Crawl-delay: 1
+
+User-agent: Mail.Ru
+Allow: /
+Crawl-delay: 2
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Все остальные боты
+User-agent: *
+Allow: /
+Disallow: /media/*.png$
+
+# Запрещаем индексацию служебных файлов
+User-agent: *
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /script.resources.js
+
+# Разрешаем CSS и JS для правильного рендеринга (Google)
+User-agent: Googlebot
+Allow: /*.js$
+Allow: /*.css$
+
+User-agent: Yandex
+Allow: /*.js$
+Allow: /*.css$
+
+# Блокируем плохих ботов
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# Карта сайта
+Sitemap: https://antropove.ru/sitemap.xml
+
+# Основной хост
+Host: https://antropove.ru

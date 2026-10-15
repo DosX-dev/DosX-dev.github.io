@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Пример капчи</title>
+    <style>
+        body {
+            background: radial-gradient(50% 100% at 50% 100%, #395673 0%, #001926 100%);
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #captchaContainer {
+            text-align: center;
+            animation: slide-up 0.5s ease-out;
+        }
+
+        #captchaCanvas {
+            border: 1px solid #fff;
+        }
+
+        #captchaInput {
+            padding: 10px;
+            margin-top: 10px;
+            width: fit-content;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            animation: fade-in 0.5s ease-out;
+        }
+
+        #checkButton {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #444;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            animation: fade-in 0.5s ease-out;
+        }
+
+        #resultMessage {
+            margin-top: 10px;
+            animation: fade-in 0.5s ease-out;
+        }
+
+        @keyframes slide-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="captchaContainer">
+        <canvas id="captchaCanvas" width="200" height="100"></canvas>
+        <br>
+        <input type="text" id="captchaInput" placeholder="Введите текст с картинки">
+        <br>
+        <button id="checkButton" onclick="checkCaptcha()">Подтвердить</button>
+        <p id="resultMessage"></p>
+    </div>
+
+    <script>
+        function generateCaptcha() {
+            var canvas = document.getElementById('captchaCanvas'),
+                ctx = canvas.getContext('2d');
+
+            // Очищаем холст
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Генерируем случайный текст
+            var captchaText = generateRandomText();
+
+            // Рисуем искаженный текст на холсте
+            ctx.font = '40px Arial';
+
+            var x = 35,
+                y = 70,
+                rotation = randomRotation();
+
+            for (var i = 0; i < captchaText.length; i++) {
+                ctx.save();
+
+                // Разные цвета для некоторых символов
+                if (i % 2 === 0) {
+                    ctx.fillStyle = randomColor();
+                } else {
+                    ctx.fillStyle = randomColor();
+                }
+
+                ctx.rotate(rotation);
+                ctx.fillText(captchaText[i], x + i * 30, y);
+                ctx.rotate(-rotation);
+
+                ctx.restore();
+            }
+
+            // Добавляем шум на холсте
+            for (var i = 0; i < 20; i++) {
+                ctx.fillStyle = randomColor();
+                ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 1, 1);
+            }
+
+            // Сохраняем текст капчи в атрибуте data
+            canvas.dataset.captchaText = captchaText;
+        }
+
+        function generateRandomText() {
+            var characters = 'уХй',
+                captchaText = '';
+            for (var i = 0; i < 5; i++) {
+                captchaText += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return captchaText;
+        }
+
+        function randomColor() {
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += Math.floor(Math.random() * 16).toString(16);
+            }
+            return color;
+        }
+
+        function randomRotation() {
+            var minAngle = -0.2,
+                maxAngle = 0.2;
+            return Math.random() * (maxAngle - minAngle) + minAngle;
+        }
+
+        function checkCaptcha() {
+            var captchaInput = document.getElementById('captchaInput'),
+                captchaCanvas = document.getElementById('captchaCanvas'),
+                captchaText = captchaCanvas.dataset.captchaText,
+                resultMessage = document.getElementById('resultMessage');
+
+            if (captchaInput.value.toLowerCase() === captchaText.toLowerCase()) {
+                resultMessage.innerHTML = 'Капча пройдена!';
+                resultMessage.style.color = 'green';
+                captchaInput.value = '';
+                setTimeout(() => {
+                    location = "https://tankionline.com/play?x=" + (new Date());
+                }, 700);
+            } else {
+                resultMessage.innerHTML = 'Неправильный текст с картинки. Попробуйте ещё раз.';
+                resultMessage.style.color = 'red';
+                captchaInput.value = '';
+                generateCaptcha();
+            }
+        }
+
+        // Генерируем капчу при загрузке страницы
+        window.addEventListener('load', generateCaptcha);
+    </script>
+</body>
+
+</html>

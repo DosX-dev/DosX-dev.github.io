@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob: data:">
+    <title>SafeNova</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="css/app.css">
+    <script>if(localStorage.getItem('snv-doc-hide')==='1')document.documentElement.classList.add('snv-doc-hidden');</script>
+</head>
+
+<body>
+
+    <!-- ==================== LOADING OVERLAY ==================== -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-msg" id="loading-msg">Processing...</div>
+    </div>
+
+    <!-- ==================== HOME VIEW ==================== -->
+    <div id="view-home" class="view">
+        <header class="app-header">
+            <div class="header-logo">
+                <svg class="header-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="hdr-sg" x1="16" y1="1" x2="16" y2="31" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#1565c0" />
+                            <stop offset="100%" stop-color="#0d47a1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M16 2L3.5 7v9c0 9 5 13.4 12.5 14.5C19.5 29.4 28.5 25 28.5 16V7z" fill="url(#hdr-sg)" />
+                    <path d="M16 3.5L5 8v8.5c0 7.5 4 11.5 11 12.5" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1" />
+                    <path d="M19.5 6L11 18.5h6.5L13.5 27 24 14h-6.5z" fill="#4ec9b0" stroke="rgba(255,255,255,.25)" stroke-width=".7" stroke-linejoin="round" />
+                </svg>
+                <span class="header-brand">SafeNova</span><span class="tier-badge">Enterprise</span>
+            </div>
+            <span class="header-spacer"></span>
+            <div class="header-actions">
+                <button class="btn btn-ghost btn-sm" id="btn-import-container">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 9V1M3 6l4 4 4-4M2 11h10v2H2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                    Import
+                </button>
+                <button class="btn btn-primary" id="btn-new-container">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                    </svg>
+                    New Container
+                </button>
+            </div>
+        </header>
+
+        <div class="home-body">
+            <div class="home-warning-box hidden" id="home-warning-box">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;margin-top:2px">
+                    <path d="M8 1.5L1 14.5h14z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                    <line x1="8" y1="6.5" x2="8" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="8" cy="12.5" r="0.85" fill="currentColor"/>
+                </svg>
+                <div style="flex:1">
+                    <strong>All files are stored directly in your browser</strong> and are never sent to any server.
+                    Clearing site data, reinstalling the browser, or using a different browser/device will
+                    <strong>permanently erase all containers and files</strong>. Use the Export function to back up your data.
+                </div>
+                <button class="warning-dismiss" id="warning-dismiss" title="Don't show again">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2L2 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <div>
+                <div class="home-section-title">SafeNova Containers</div>
+                <div class="container-grid" id="container-grid">
+                    <div class="container-empty" id="container-empty">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="18" width="32" height="22" rx="1" stroke="currentColor" stroke-width="2" />
+                            <path d="M16 18V13a8 8 0 0116 0v5" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                            <circle cx="24" cy="29" r="3" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                        <p>No containers yet. Create your first one.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-doc-wrap">
+            <div class="home-doc" id="home-doc">
+                <button class="home-doc-collapse" id="home-doc-collapse" title="Hide">
+                    <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 2l7 7M9 2L2 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <span class="home-doc-badge">Enterprise Security Platform</span>
+                <div class="home-doc-title">SafeNova &mdash; Zero-Trust</div>
+                <p class="home-doc-p">Each container is a fully encrypted virtual desktop backed by <strong>SafeNova&nbsp;EFS</strong>. Every file gets its own AES-256-GCM key and a unique IV &mdash; data at rest is indistinguishable from random bytes. Passwords are never stored: Argon2id derives a 256-bit key in memory, resistant to GPU and ASIC brute-force by design. Nothing leaves the browser &mdash; keys live only in volatile session memory and vanish on inactivity or tab close.</p>
+                <div class="home-doc-stack">
+                    <span>AES-256-GCM</span>
+                    <span>Argon2id</span>
+                    <span>Web Crypto API</span>
+                    <span>WebAuthn</span>
+                    <span>IndexedDB</span>
+                    <span>WASM</span>
+                </div>
+            </div>
+            <button class="home-doc-tab" id="home-doc-tab" title="Security info">
+                <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1L1 3.5v4c0 2.5 2 4 5 4.5 3-.5 5-2 5-4.5v-4z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Security Info</span>
+            </button>
+            </div>
+        </div>
+
+        <div class="storage-warning-banner" id="storage-warning-banner">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 2L1 14h14z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+                <path d="M8 6v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                <circle cx="8" cy="12" r="0.8" fill="currentColor" />
+            </svg>
+            <span>Low storage</span>
+        </div>
+
+        <div class="storage-footer">
+            <div class="storage-row">
+                <span class="storage-label">Device Storage</span>
+                <div class="storage-bar-wrap">
+                    <div class="storage-bar-fill" id="storage-bar-fill" style="width:0%"></div>
+                </div>
+                <span class="storage-text" id="storage-text">-</span>
+            </div>
+            <div class="storage-row">
+                <span class="storage-label">SafeNova</span>
+                <div class="storage-bar-wrap">
+                    <div class="storage-bar-fill" id="twc-bar-fill" style="width:0%;background:var(--purple)"></div>
+                </div>
+                <span class="storage-text" id="twc-text">-</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== UNLOCK VIEW ==================== -->
+    <div id="view-unlock" class="view">
+        <div class="unlock-box">
+            <button class="btn btn-ghost btn-sm unlock-back" id="btn-back">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg>
+                Back
+            </button>
+            <div class="unlock-icon">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="7" y="18" width="26" height="18" rx="2" fill="var(--bg3)" stroke="var(--border2)" stroke-width="1.5"/>
+                    <path d="M13 18v-5a7 7 0 0114 0v5" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="square"/>
+                    <circle cx="20" cy="27" r="3" fill="var(--accent)"/>
+                </svg>
+            </div>
+            <div class="unlock-title">SafeNova Container</div>
+            <div class="unlock-name-badge" id="unlock-name">-</div>
+            <div class="form-group">
+                <label class="form-label">Master Password</label>
+                <div class="input-wrap">
+                    <input type="password" class="input" id="unlock-pw" placeholder="Enter container password" autocomplete="current-password">
+                    <button class="input-eye" id="unlock-pw-eye" tabindex="-1">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" />
+                            <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="unlock-spinner" id="unlock-spinner">
+                <div class="spinner"></div>
+                <span>Deriving key (AES-256 / Argon2id)...</span>
+            </div>
+            <div class="unlock-error" id="unlock-error"></div>
+            <div class="remember-section">
+                <label class="remember-row">
+                    <input type="checkbox" id="unlock-remember">
+                    <span>Remember password</span>
+                </label>
+                <div class="remember-opts" id="remember-opts" style="display:flex">
+                    <label class="remember-opt disabled">
+                        <input type="radio" name="remember-scope" id="remember-tab" value="tab" checked disabled>
+                        <span>Current tab session</span>
+                    </label>
+                    <label class="remember-opt disabled">
+                        <input type="radio" name="remember-scope" id="remember-browser" value="browser" disabled>
+                        <span>Current browser session</span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn-primary btn-lg" id="btn-unlock">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="6" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M4 6V4a3 3 0 015.8-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg>
+                Unlock Container
+            </button>
+            <div style="text-align:center;font-size:11px;color:var(--text-dim);margin-top:4px">
+                AES-256-GCM &middot; Argon2id
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DESKTOP VIEW ==================== -->
+    <div id="view-desktop" class="view">
+        <div class="desktop-topbar">
+            <button class="btn btn-ghost btn-icon btn-sm" id="btn-lock" title="Back to menu">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2L4 8l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg>
+            </button>
+            <div class="breadcrumb" id="breadcrumb"></div>
+
+            <button class="btn btn-ghost btn-sm" id="btn-settings">
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.5 9.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.4"/>
+                    <path d="M6.1 1.5 5.7 3.1a5.2 5.2 0 0 0-1.4.8L2.7 3.5 1.2 6l1.4 1.1a5 5 0 0 0 0 1.8L1.2 10l1.5 2.5 1.6-.4c.4.3.9.6 1.4.8l.4 1.6h3l.4-1.6c.5-.2 1-.5 1.4-.8l1.6.4L13.8 10l-1.4-1.1a5 5 0 0 0 0-1.8L13.8 6 12.3 3.5l-1.6.4a5.2 5.2 0 0 0-1.4-.8l-.4-1.6H6.1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                </svg>
+                Environment
+            </button>
+            <div class="separator"></div>
+            <button class="btn btn-ghost btn-sm" id="btn-upload-toolbar">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7 9V1M3 5l4-4 4 4M2 11h10v2H2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg>
+                Import
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btn-new-file-toolbar">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 1h7l3 3v9H2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    <path d="M9 1v3h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    <path d="M7 7v4M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg>
+                New File
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btn-new-folder-toolbar">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 3h5l1.5 2H13v7H1z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    <path d="M7 7v3M5.5 8.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                </svg>
+                New Folder
+            </button>
+
+            <!-- Mobile burger button — hidden on desktop via CSS -->
+            <button class="btn btn-ghost btn-icon btn-sm topbar-burger" id="topbar-burger" title="Menu" aria-label="Menu">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3.5" width="12" height="1.5" rx=".75" fill="currentColor"/><rect x="2" y="7.25" width="12" height="1.5" rx=".75" fill="currentColor"/><rect x="2" y="11" width="12" height="1.5" rx=".75" fill="currentColor"/></svg>
+            </button>
+        </div>
+
+        <!-- Mobile topbar dropdown — hidden on desktop -->
+        <div class="topbar-dropdown" id="topbar-dropdown">
+            <button class="topbar-dd-item" id="topbar-dd-settings">
+                <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M7.5 9.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor" stroke-width="1.4"/><path d="M6.1 1.5 5.7 3.1a5.2 5.2 0 0 0-1.4.8L2.7 3.5 1.2 6l1.4 1.1a5 5 0 0 0 0 1.8L1.2 10l1.5 2.5 1.6-.4c.4.3.9.6 1.4.8l.4 1.6h3l.4-1.6c.5-.2 1-.5 1.4-.8l1.6.4L13.8 10l-1.4-1.1a5 5 0 0 0 0-1.8L13.8 6 12.3 3.5l-1.6.4a5.2 5.2 0 0 0-1.4-.8l-.4-1.6H6.1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+                Environment
+            </button>
+            <div class="topbar-dd-sep"></div>
+            <button class="topbar-dd-item" id="topbar-dd-upload">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 9V1M3 5l4-4 4 4M2 11h10v2H2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                Import File
+            </button>
+            <button class="topbar-dd-item" id="topbar-dd-newfile">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 1h7l3 3v9H2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><path d="M9 1v3h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><path d="M7 7v4M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                New File
+            </button>
+            <button class="topbar-dd-item" id="topbar-dd-newfolder">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3h5l1.5 2H13v7H1z" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/><path d="M7 7v3M5.5 8.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+                New Folder
+            </button>
+        </div>
+
+        <div class="desktop-area" id="desktop-area" tabindex="0">
+            <div class="drop-overlay" id="drop-overlay">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 8v24M12 20l12-12 12 12M8 36h32v4H8z" stroke="currentColor" stroke-width="2.5" stroke-linecap="square" />
+                </svg>
+                Drop files to upload and encrypt
+            </div>
+            <div class="selection-bar" id="selection-bar"></div>
+        </div>
+
+        <div class="taskbar">
+            <svg class="taskbar-logo-icon" width="16" height="16" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="tb-sg" x1="16" y1="1" x2="16" y2="31" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#1565c0" />
+                        <stop offset="100%" stop-color="#0d47a1" />
+                    </linearGradient>
+                </defs>
+                <path d="M16 2L3.5 7v9c0 9 5 13.4 12.5 14.5C19.5 29.4 28.5 25 28.5 16V7z" fill="url(#tb-sg)" />
+                <path d="M16 3.5L5 8v8.5c0 7.5 4 11.5 11 12.5" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1" />
+                <path d="M19.5 6L11 18.5h6.5L13.5 27 24 14h-6.5z" fill="#4ec9b0" stroke="rgba(255,255,255,.25)" stroke-width=".7" stroke-linejoin="round" />
+            </svg>
+            <span class="taskbar-container-name" id="taskbar-name">-</span>
+            <span class="taskbar-sep"></span>
+            <div class="taskbar-storage">
+                <span id="taskbar-size-text">-</span>
+                <div class="taskbar-bar-wrap">
+                    <div class="taskbar-bar-fill" id="taskbar-bar-fill" style="width:0%"></div>
+                </div>
+                <span id="taskbar-size-pct">0%</span>
+            </div>
+            <button class="btn btn-danger btn-sm" id="btn-lock-taskbar" style="margin-left:8px">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="5" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.4" />
+                    <path d="M3 5V4a3 3 0 016 0v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+                </svg>
+                Exit &amp; Kill Session
+            </button>
+        </div>
+    </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="file-input" multiple style="display:none">
+    <input type="file" id="import-container-input" accept=".safenova,.zip,.twc" style="display:none">
+
+    <!-- ==================== CONTEXT MENU ==================== -->
+    <div class="ctx-menu" id="ctx-menu"></div>
+
+    <!-- ==================== MODAL OVERLAY ==================== -->
+    <div class="modal-overlay" id="modal-overlay">
+
+        <!-- New Container Modal -->
+        <div class="modal" id="modal-new-container" style="display:none;min-width:420px">
+            <div class="modal-header">
+                <span class="modal-title">Create New Container</span>
+                <button class="modal-close" id="modal-nc-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Container Name</label>
+                    <input type="text" class="input" id="nc-name" placeholder="e.g. Personal, Work, Archive">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrap">
+                        <input type="password" class="input" id="nc-pw" placeholder="Choose a strong password">
+                        <button class="input-eye" id="nc-pw-eye" tabindex="-1">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.5" />
+                                <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="pw-strength" id="nc-pw-strength" style="width:0%"></div>
+                    <div class="pw-strength-row" id="nc-pw-strength-label"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="input" id="nc-pw2" placeholder="Repeat password">
+                </div>
+                <div class="notice-box warn">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;margin-top:1px">
+                        <path d="M7 1L1 13h12z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+                        <path d="M7 5v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                        <circle cx="7" cy="10.5" r="0.7" fill="currentColor" />
+                    </svg>
+                    <span>The password <strong>cannot be recovered</strong>. If lost, all data in this container will be permanently inaccessible.</span>
+                </div>
+                <div class="notice-box danger" style="margin-top:10px">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;margin-top:1px">
+                        <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3" />
+                        <path d="M7 4v3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                        <circle cx="7" cy="10" r="0.7" fill="currentColor" />
+                    </svg>
+                    <span><strong>SafeNova has no access to your data and takes no responsibility for data loss.</strong> All containers are stored exclusively in your browser.<br>Clearing browser data or switching devices will permanently destroy all files without the ability to recover them.</span>
+                </div>
+                <label style="display:flex;align-items:center;gap:9px;margin-top:10px;cursor:pointer;user-select:none">
+                    <input type="checkbox" id="nc-agree" style="width:15px;height:15px;accent-color:var(--accent);cursor:pointer;flex-shrink:0">
+                    <span style="font-size:12px;color:var(--text-dim);line-height:1.4">I understand that I am solely responsible for my data</span>
+                </label>
+            </div>
+            <div class="modal-footer">
+                <button id="nc-hwkey-btn" title="Mix passkey entropy into salt">
+                    <svg width="13" height="13" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="6" width="9" height="7" rx="1.2" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 6V4a2.5 2.5 0 015 0v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="square"/><circle cx="11.5" cy="5.5" r="1.8" stroke="currentColor" stroke-width="1.2"/><path d="M11.5 7.3V9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+                    <span>Use passkey for salt</span>
+                </button>
+                <button class="btn" id="nc-cancel">Cancel</button>
+                <button class="btn btn-primary" id="nc-create" disabled>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
+                    </svg>
+                    Create Container
+                </button>
+            </div>
+        </div>
+
+        <!-- Text Editor Modal -->
+        <div class="modal modal-editor" id="modal-editor" style="display:none">
+            <div class="modal-header">
+                <span class="modal-title" id="editor-title">Text Editor</span>
+                <div style="display:flex;gap:6px;align-items:center">
+                    <span class="badge encrypted">AES-256</span>
+                    <button class="btn btn-ghost btn-sm" id="btn-wordwrap" title="Toggle Word Wrap">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 3h12M1 7h9a2 2 0 010 4H7" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/>
+                            <path d="M8 9.5L6 11l2 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter"/>
+                        </svg>
+                        Wrap
+                    </button>
+                    <button class="btn btn-primary btn-sm" id="btn-save-editor">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.3" />
+                            <rect x="3" y="1" width="6" height="4" stroke="currentColor" stroke-width="1.3" />
+                            <rect x="3" y="6" width="5" height="4" stroke="currentColor" stroke-width="1.2" />
+                        </svg>
+                        Save
+                    </button>
+                    <button class="modal-close" id="editor-close">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="editor-area">
+                <textarea class="code-editor" id="editor-textarea" spellcheck="false"></textarea>
+            </div>
+            <div class="editor-meta">
+                <span id="editor-meta-chars">0 chars</span>
+                <span id="editor-meta-lines">0 lines</span>
+                <span id="editor-meta-modified" style="color:var(--orange);display:none">Modified</span>
+            </div>
+            <!-- Unsaved changes inline confirmation -->
+            <div id="editor-unsaved-dialog" style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.58);z-index:20;align-items:center;justify-content:center">
+                <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:24px;min-width:300px;max-width:90%;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)">
+                    <div style="font-size:14px;font-weight:600;color:var(--text-bright)">Unsaved Changes</div>
+                    <div style="font-size:13px;color:var(--text-dim);line-height:1.5">You have unsaved changes. What would you like to do?</div>
+                    <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+                        <button class="btn" id="editor-unsaved-cancel">Cancel</button>
+                        <button class="btn btn-danger" id="editor-unsaved-discard">Don't Save</button>
+                        <button class="btn btn-primary" id="editor-unsaved-save">Save &amp; Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Viewer Modal -->
+        <div class="modal modal-viewer" id="modal-viewer" style="display:none">
+            <div class="modal-header">
+                <span class="modal-title" id="viewer-title">File Viewer</span>
+                <div style="display:flex;gap:6px;align-items:center">
+                    <button class="btn btn-ghost btn-sm" id="btn-download-viewer">
+                        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6.5 1v8M3 6l3.5 4 3.5-4M1 12h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+                        </svg>
+                        Export
+                    </button>
+                    <button class="modal-close" id="viewer-close">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="viewer-content" id="viewer-content"></div>
+        </div>
+
+        <!-- Properties Modal -->
+        <div class="modal modal-props" id="modal-props" style="display:none">
+            <div class="modal-header">
+                <span class="modal-title">Properties</span>
+                <button class="modal-close" id="props-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="props-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="props-ok">OK</button>
+            </div>
+        </div>
+
+        <!-- Rename Modal -->
+        <div class="modal" id="modal-rename" style="display:none;min-width:340px">
+            <div class="modal-header">
+                <span class="modal-title">Rename</span>
+                <button class="modal-close" id="rename-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">New name</label>
+                    <input type="text" class="input" id="rename-input">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="rename-cancel">Cancel</button>
+                <button class="btn btn-primary" id="rename-ok">Rename</button>
+            </div>
+        </div>
+
+        <!-- Delete Confirm Modal -->
+        <div class="modal" id="modal-delete" style="display:none;min-width:340px">
+            <div class="modal-header">
+                <span class="modal-title" style="color:var(--red)">Confirm Delete</span>
+                <button class="modal-close" id="delete-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="delete-msg" style="font-size:13px;line-height:1.6"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="delete-cancel">Cancel</button>
+                <button class="btn btn-danger" id="delete-ok">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.5 3.5h10M4 3.5V2H9v1.5M2.5 3.5L3.5 11h6l1-7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="square" />
+                    </svg>
+                    Delete
+                </button>
+            </div>
+        </div>
+
+        <!-- New Text File Modal -->
+        <div class="modal" id="modal-new-text" style="display:none;min-width:340px">
+            <div class="modal-header">
+                <span class="modal-title">New Text File</span>
+                <button class="modal-close" id="nf-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">File name</label>
+                    <input type="text" class="input" id="nf-name" placeholder="e.g. notes.txt">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="nf-cancel">Cancel</button>
+                <button class="btn btn-primary" id="nf-ok">Create</button>
+            </div>
+        </div>
+
+        <!-- New Folder Modal -->
+        <div class="modal" id="modal-new-folder" style="display:none;min-width:340px">
+            <div class="modal-header">
+                <span class="modal-title">New Folder</span>
+                <button class="modal-close" id="nd-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Folder name</label>
+                    <input type="text" class="input" id="nd-name" placeholder="e.g. Documents">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="nd-cancel">Cancel</button>
+                <button class="btn btn-primary" id="nd-ok">Create Folder</button>
+            </div>
+        </div>
+
+        <!-- Delete Container Confirm -->
+        <div class="modal" id="modal-del-container" style="display:none;min-width:420px">
+            <div class="modal-header">
+                <span class="modal-title" style="color:var(--red)">Delete Container</span>
+                <button class="modal-close" id="dc-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="del-container-warning">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 3L2 24h24L14 3z" fill="var(--red)" opacity=".18" stroke="var(--red)" stroke-width="1.5" stroke-linejoin="round" />
+                        <path d="M14 11v6" stroke="var(--red)" stroke-width="2" stroke-linecap="square" />
+                        <circle cx="14" cy="20.5" r="1.2" fill="var(--red)" />
+                    </svg>
+                    <div>
+                        <div style="font-weight:700;font-size:14px;color:var(--red);margin-bottom:4px">This action is irreversible!</div>
+                        <div style="font-size:12px;color:var(--text-dim);line-height:1.5">All files inside container <strong id="dc-name" style="color:var(--text)"></strong> will be permanently erased. There is no recovery.</div>
+                    </div>
+                </div>
+                <p style="font-size:13px;line-height:1.6;margin-top:8px" id="dc-msg"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="dc-cancel">Cancel</button>
+                <button class="btn btn-danger" id="dc-ok" disabled>
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1.5 3.5h10M4 3.5V2H9v1.5M2.5 3.5L3.5 11h6l1-7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="square" />
+                    </svg>
+                    <span id="dc-ok-label">Wait… 8</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== CHANGE PASSWORD MODAL ==================== -->
+        <div class="modal" id="modal-change-pw" style="display:none;min-width:420px">
+            <div class="modal-header">
+                <span class="modal-title">Change Password</span>
+                <button class="modal-close" id="cp-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Current Password</label>
+                    <input type="password" class="input" id="cp-old" placeholder="Enter current password" autocomplete="current-password">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">New Password</label>
+                    <input type="password" class="input" id="cp-new" placeholder="Enter new password" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm New Password</label>
+                    <input type="password" class="input" id="cp-new2" placeholder="Repeat new password" autocomplete="new-password">
+                </div>
+                <div class="notice-box warn">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;margin-top:1px">
+                        <path d="M7 1L1 13h12z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+                        <path d="M7 5v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                        <circle cx="7" cy="10.5" r="0.7" fill="currentColor" />
+                    </svg>
+                    <span>All files will be re-encrypted with the new password. <strong>Do not close the browser</strong> during this process.</span>
+                </div>
+                <div class="unlock-error" id="cp-error"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cp-cancel">Cancel</button>
+                <button class="btn btn-primary" id="cp-ok">Change Password</button>
+            </div>
+        </div>
+
+        <!-- ==================== RENAME CONTAINER MODAL ==================== -->
+        <div class="modal" id="modal-rename-container" style="display:none;min-width:420px">
+            <div class="modal-header">
+                <span class="modal-title">Rename Container</span>
+                <button class="modal-close" id="rc-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Container Name</label>
+                    <input type="text" class="input" id="rc-name" placeholder="Container name">
+                </div>
+                <div class="unlock-error" id="rc-error"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="rc-cancel">Cancel</button>
+                <button class="btn btn-primary" id="rc-ok">Rename</button>
+            </div>
+        </div>
+
+        <!-- ==================== EXPORT CONFIRM MODAL ==================== -->
+        <div class="modal" id="modal-export-confirm" style="display:none;min-width:340px">
+            <div class="modal-header">
+                <span class="modal-title">Cannot Preview File</span>
+                <button class="modal-close" id="ec-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:13px;line-height:1.6">This file type cannot be opened in the browser.</p>
+                <div class="notice-box" style="margin-top:8px">
+                    <span id="ec-filename" style="font-weight:600"></span> — export this file to your computer?
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="ec-cancel">Cancel</button>
+                <button class="btn btn-primary" id="ec-ok">
+                    <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.5 1v8M3 6l3.5 3.5L10 6M1 11h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+                    </svg>
+                    Export File
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== EXPORT PASSWORD MODAL ==================== -->
+        <div class="modal modal-export-pw" id="modal-export-pw" style="display:none;width:400px;min-width:360px;max-width:400px">
+            <div class="modal-header">
+                <div style="display:flex;align-items:center;gap:10px">
+                    <div style="width:32px;height:32px;border-radius:8px;background:rgba(0,120,212,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="color:var(--accent)">
+                            <path d="M8 10V2M4 5l4-4 4 4M2 13h12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="modal-title">Export Container</div>
+                        <div style="font-size:11px;color:var(--text-dim);margin-top:1px">Confirm your identity to export</div>
+                    </div>
+                </div>
+                <button class="modal-close" id="exp-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" style="gap:12px">
+                <div class="notice-box" style="border-left-color:var(--accent)">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="color:var(--accent);flex-shrink:0;margin-top:1px"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM7.25 5h1.5v4h-1.5V5zm0 5h1.5v1.5h-1.5V10z" fill="currentColor"/></svg>
+                    <span>Container <strong id="exp-cont-name"></strong> will be exported as a <code style="background:var(--bg4);padding:1px 4px;border-radius:3px;font-size:11px">.safenova</code> file. Enter the password to authorize the export.</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Container Password</label>
+                    <div class="input-wrap" style="position:relative">
+                        <input type="password" class="input" id="exp-pw" placeholder="Enter password…" autocomplete="current-password" style="padding-right:38px">
+                        <button class="input-eye" type="button" id="exp-eye" aria-label="Show password" tabindex="-1">
+                            <svg class="eye-open" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 3C4.5 3 2 7.5 2 7.5S4.5 12 7.5 12 13 7.5 13 7.5 10.5 3 7.5 3z" stroke="currentColor" stroke-width="1.3"/><circle cx="7.5" cy="7.5" r="1.8" stroke="currentColor" stroke-width="1.3"/></svg>
+                            <svg class="eye-closed" width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:none"><path d="M2 2l11 11M6.5 5.5A3 3 0 0112 7.5M3 7.5C4 9.5 5.6 11 7.5 11" stroke="currentColor" stroke-width="1.3" stroke-linecap="square"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="unlock-error" id="exp-error"></div>
+            </div>
+            <div class="modal-footer" style="justify-content:space-between;align-items:center">
+                <span style="font-size:11px;color:var(--text-dim);display:flex;align-items:center;gap:5px">
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="5" width="10" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M3.5 5V3.5a2.5 2.5 0 015 0V5" stroke="currentColor" stroke-width="1.2" stroke-linecap="square"/></svg>
+                    AES-256-GCM encrypted
+                </span>
+                <div style="display:flex;gap:8px">
+                    <button class="btn" id="exp-cancel">Cancel</button>
+                    <button class="btn btn-primary" id="exp-ok">
+                        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v8M3 6l3.5 3.5L10 6M1 11h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg>
+                        Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== IMPORT PASSWORD MODAL ==================== -->
+        <div class="modal" id="modal-import-pw" style="display:none;min-width:380px">
+            <div class="modal-header">
+                <span class="modal-title">Import Container</span>
+                <button class="modal-close" id="imp-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:13px;line-height:1.6;margin-bottom:8px">Container <strong id="imp-name"></strong> has an encrypted file manifest. Enter the password to complete the import.</p>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="input" id="imp-pw" placeholder="Container password">
+                </div>
+                <div class="unlock-error" id="imp-error"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="imp-cancel">Cancel</button>
+                <button class="btn btn-primary" id="imp-ok">Import</button>
+            </div>
+        </div>
+
+        <!-- ==================== SETTINGS MODAL ==================== -->
+        <div class="modal modal-settings" id="modal-settings" style="display:none;min-width:520px;max-width:620px">
+            <div class="modal-header">
+                <span class="modal-title">Environment</span>
+                <button class="modal-close" id="settings-close">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" />
+                    </svg>
+                </button>
+            </div>
+            <div class="settings-tabs">
+                <button class="settings-tab active" data-tab="personalization">Settings</button>
+                <button class="settings-tab" data-tab="statistics">Statistics</button>
+            </div>
+            <div class="modal-body" style="padding:0">
+                <!-- Personalization Tab -->
+                <div class="settings-panel" id="settings-personalization">
+                    <div class="settings-section">
+                        <div class="settings-section-title">Security</div>
+                        <div class="settings-row">
+                            <span class="settings-label">Auto-lock (inactivity)</span>
+                            <div class="custom-dd" id="settings-autolock-dd">
+                                <div class="custom-dd-head">
+                                    <span class="custom-dd-val">1 hour</span>
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+                                </div>
+                                <div class="custom-dd-menu">
+                                    <div class="custom-dd-opt" data-value="0">Never</div>
+                                    <div class="custom-dd-opt" data-value="5">5 minutes</div>
+                                    <div class="custom-dd-opt" data-value="10">10 minutes</div>
+                                    <div class="custom-dd-opt" data-value="15">15 minutes</div>
+                                    <div class="custom-dd-opt" data-value="20">20 minutes</div>
+                                    <div class="custom-dd-opt" data-value="30">30 minutes</div>
+                                    <div class="custom-dd-opt" data-value="60">1 hour</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section" style="margin-top:4px;">
+                        <div class="settings-section-title">Personalization</div>
+                        <div class="settings-row">
+                            <span class="settings-label">Icon Size</span>
+                            <div class="settings-toggle-group" id="settings-icon-size">
+                                <button class="settings-toggle-btn active" data-value="small">Small</button>
+                                <button class="settings-toggle-btn" data-value="normal">Normal</button>
+                                <button class="settings-toggle-btn" data-value="large">Large</button>
+                            </div>
+                        </div>
+                        <div class="settings-row">
+                            <span class="settings-label">Show Grid Dots</span>
+                            <label class="switch" id="settings-grid-dots">
+                                <input type="checkbox" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-row">
+                            <span class="settings-label">Disable Animations</span>
+                            <label class="switch" id="settings-animations">
+                                <input type="checkbox">
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Statistics Tab -->
+                <div class="settings-panel" id="settings-statistics" style="display:none">
+                    <div class="settings-section">
+                        <div class="stats-grid" id="stats-grid"></div>
+                        <div class="stats-chart-wrap">
+                            <span class="settings-label" style="margin-bottom:8px;display:block">File Types</span>
+                            <div class="stats-bar-chart" id="stats-bar-chart"></div>
+                        </div>
+                        <div class="stats-chart-wrap">
+                            <span class="settings-label" style="margin-bottom:8px;display:block">Storage Usage</span>
+                            <div class="stats-storage-bar" id="stats-storage-bar"></div>
+                          </div>
+                      </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="settings-ok">Done</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ==================== TOAST CONTAINER ==================== -->
+    <div id="toast-container"></div>
+
+    <!-- ==================== SCRIPTS (dependency order) ==================== -->
+    <script src="js/argon2.umd.min.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/crypto.js"></script>
+    <script src="js/vfs.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/desktop.js"></script>
+    <script src="js/fileops.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
+
